@@ -1,0 +1,154 @@
+package utils.resultsProcessing;
+
+import java.util.Arrays;
+
+import jsc.distributions.Normal;
+
+
+public class TableHolmBonferroni extends TableStatistics
+{	
+	public TableHolmBonferroni(Experiment experiment)
+	{
+		this.setExperiment(experiment);
+	}
+	
+	public void execute() throws Exception
+	{
+		this.experiment.computeAVG();
+		AlgorithmInfo[] A = this.experiment.getAlgorithms();
+		int algorithms = A.length;
+		this.setTables(1); this.Tables[0] = "holm-bon";
+		if (algorithms >= 2)
+		{
+			int problems = A[0].getProblems();
+			double[][] AVGs = new double[algorithms][problems];
+			for (int i=0; i < algorithms; i++)
+				AVGs[i] = getAVGArray(A[i]);
+			double[] averageRank = averageRank(AVGs);
+
+			double[] z = new double[algorithms - 1];
+			int ii = 0; 
+			for (int i=0; i < algorithms; i++)
+			{
+				if (i != this.referenceAlgorithm)
+				{	
+					z[ii] = (averageRank[i] - averageRank[this.referenceAlgorithm])/Math.sqrt((double)(algorithms*(algorithms -1))/(6*problems) );
+					ii++;
+				}
+			}
+
+			Normal N = new Normal(); 		
+			double[] p = new double[algorithms - 1]; 
+			for (int i=0; i < p.length; i++)
+				p[i] = N.cdf(z[i]);
+
+			String[] table = new String[6 + algorithms -1 +3];
+			table[0] = "\\begin{table}"; 
+			table[1] = "\\caption{Holm-Bonferroni procedure (reference: "+A[this.referenceAlgorithm].getName()+", Rank = "+D2S(averageRank[this.referenceAlgorithm])+")}\\label{holm-test}";
+			table[2] = "\\begin{tabular}{c|c|c|c|c|c|c}";
+			table[3] = "\\hline\\hline";
+			table[4] = "$j$ & Optimizer & Rank & $z_j$ & $p_j$ & $\\delta/j$ & Hypothesis\\\\";
+			table[5] = "\\hline";
+			A = this.removeReference(A, this.referenceAlgorithm);
+			averageRank = removeReference(averageRank, this.referenceAlgorithm);
+			int[] order = this.order(averageRank);
+			String hypothesis = new String();
+
+			for (int i=0; i < algorithms -1; i++)
+				System.out.println(z[i]); 
+
+			int j = 1; double mem = Double.NaN;
+			for (int i=0; i < algorithms -1; i++)
+			{
+				int index = order[i];
+
+				if (i != 0)
+					if (averageRank[index] != mem)
+						j++;
+
+				if (p[index] < this.SP/j)
+					hypothesis = "Rejected\\\\";
+				else
+					hypothesis = "Accepted\\\\";
+
+				table[6 + i] = j  + " & " + A[index].getName() + " & " + D2S(averageRank[index]) + " & " + D2S(z[index]) + " & " + D2S(p[index]) + " & "+ D2S(this.SP/j) + " & " + hypothesis;
+				mem = averageRank[index];
+			}
+			table[table.length -3] = "\\hline\\hline";
+			table[table.length -2] = "\\end{tabular}";
+			table[table.length -1] = "\\end{table}";
+
+			this.table(table, "",this.Tables[0]);
+			this.mainLatex(this.getTables(), "", "HOLM-BONFERRONI");
+		}
+		else
+			System.out.println("At least 2 algorithms are needed fot this test");
+	}
+
+	public double[] rank(double[] avg)
+	{
+		int Na = avg.length;
+		double[] out = new double[Na];
+		double[] sorted = new double[Na];
+		for (int i=0; i < Na; i++)
+			sorted[i] = avg[i];
+		Arrays.sort(sorted);
+		int R = Na;
+		for (int n=0; n < Na; n++)
+		{
+			for (int i=0; i < Na; i++)
+				if (avg[i] == sorted[n])
+					out[i] = R;
+			R--;
+		}
+		return out;	
+	}
+
+	public double[] averageRank(double[][] avg)
+	{
+		int algorithms = avg.length;
+		int problems = avg[0].length;
+		double[][] ranks = new double[problems][algorithms];
+		double[] temp = new double[algorithms];
+		double[] out = new double[algorithms];
+		for (int i=0; i < problems; i++)
+		{
+			for (int n=0; n < algorithms; n++)
+				temp[n] = avg[n][i];
+			ranks[i] = rank(temp);
+		}
+
+		for (int i=0; i < algorithms; i++)
+			for (int n=0; n < problems; n++)
+				out[i] += (ranks[n][i]/problems);
+		return out;
+	}
+
+	public int[] order(double[] ranks)
+	{
+		int[] out = new int[ranks.length];
+		double[] copy = new double[ranks.length];
+		double[] sorted = new double[ranks.length];
+		for (int i=0; i < ranks.length; i++)
+		{
+			sorted[i] = ranks[i];
+			copy[i] = ranks[i];
+		}
+		Arrays.sort(sorted);;
+		for (int i=0; i < ranks.length; i++)
+		{
+			boolean found = false;
+			double temp = sorted[i];
+			for (int n=0; n < ranks.length && !found; n++)
+			{
+				if (copy[n] == temp)
+				{
+					out[ranks.length -1 - i] = n;
+					copy[n] = Double.NaN;
+					found = true;
+				}
+			}
+		}
+		return out;	
+	}
+}

@@ -1,0 +1,11 @@
+FUNCTION 8 = RASTRIGIN
+FUNCTION 9 = ROTATED RASTRIGIN
+Therefore, the two function have been merged into one F_{8-9} (implementation-wise I just skipped f_8)
+
+
+FUNCTION 10 = SCHWEFEL
+FUNCTION 11 = ROTATED SCHWEFEL
+Therefore, as before.
+
+
+CF01 still have to decide if the second evaluation of ellipct function must be rotated or not
