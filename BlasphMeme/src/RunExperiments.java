@@ -30,7 +30,6 @@ public class RunExperiments
 			
 		//@@@ MODIFY THIS PART @@@
 	
-		
 		experiments.add(new CEC14_rot(10));
 		experiments.add(new CEC14_rot(20));
 		experiments.add(new CEC14_rot(30));
