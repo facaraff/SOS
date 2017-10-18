@@ -29,15 +29,16 @@ public class CEC14_rot_EXP_TUNING extends Experiment
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 2.0);
 		add(a);
-		
-		a = new DE();
-		a.setID("rDEr1exp03");
-		a.setParameter("p0", 10.0);
-		a.setParameter("p1", 0.4);
-		a.setParameter("p2", 0.3);
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 2.0);
-		add(a);
+
+		//DATA with CR=0.3 already produced for conference papar		
+//		a = new DE();
+//		a.setID("rDEr1exp03");
+//		a.setParameter("p0", 10.0);
+//		a.setParameter("p1", 0.4);
+//		a.setParameter("p2", 0.3);
+//		a.setParameter("p3", 1.0);
+//		a.setParameter("p4", 2.0);
+//		add(a);
 		
 		
 		a = new DE();
