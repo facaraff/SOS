@@ -44,10 +44,20 @@ public class RunExperiments
 //		experiments.add(new CEC14_unrot(30));
 //		experiments.add(new CEC14_unrot(50));
 //		experiments.add(new CEC14_unrot(100));
-		experiments.add(new CEC14_rot_EXP_TUNING(10));
-		experiments.add(new CEC14_rot_EXP_TUNING(20));
-		experiments.add(new CEC14_rot_EXP_TUNING(50));
-		experiments.add(new CEC14_rot_EXP_TUNING(100));
+
+//		experiments.add(new CEC14_rot_EXP_TUNING(10));
+//		experiments.add(new CEC14_rot_EXP_TUNING(20));
+//		experiments.add(new CEC14_rot_EXP_TUNING(50));
+//		experiments.add(new CEC14_rot_EXP_TUNING(100));
+	
+//		experiments.add(new CMAESrot(10));
+//		experiments.add(new CMAESrot(50));
+//		experiments.add(new CMAESrot(100));
+		
+		experiments.add(new CMAESunrot(10));
+		experiments.add(new CMAESunrot(50));
+		experiments.add(new CMAESunrot(100));
+
 		//@@@@@@
 	
 	
