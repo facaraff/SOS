@@ -1236,6 +1236,44 @@ public class MatLab
 	 */
 	public static String format(double n){return decimalFormat.format(n);}
 	
+	/** 
+	 * Clone an array.
+	 * @param input array.
+	 * @return result a copy of the same array.
+	 */
+	public static double[] clone(double[] array)
+	{
+		int n = array.length;
+		double[] clone = new double[n];
+		try {
+				for(int j=0;j<n;j++)
+					clone[j]=array[j];
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return clone;
+	}
+		/** 
+		 * Clone n-by-m matrix.
+		 * @param matrix n-by-m array.
+		 * @return clone a copy of the same n-by-m array.
+		 */
+		public static double[][] clone(double[][] matrix)
+		{
+			int rows = matrix.length;
+			int col = matrix[0].length;
+			double[][] clone = new double[rows][col];
+			try {
+				for(int i=0;i<rows;i++)
+					for(int j=0;j<col;j++)
+						clone[i][j]=matrix[i][j];
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+			return clone;
+		}
 //	/**
 //	 * A simple main test class.
 //	 */

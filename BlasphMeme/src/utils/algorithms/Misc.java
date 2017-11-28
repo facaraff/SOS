@@ -14,7 +14,9 @@ package utils.algorithms;
 
 import static utils.MatLab.max;
 import static utils.MatLab.min;
-import utils.random.RandUtils;
+import static utils.MatLab.multiply;
+import static utils.MatLab.norm2;
+
 
 /**
  * This class contains useful miscellaneous methods.
@@ -192,6 +194,44 @@ public class Misc
 		return (int) ((x >= 0) ? Math.floor(x) : Math.ceil(x));  
 	}
 
+	/**
+	 * Return the centroid of a population of individuals.
+	 * 
+	 * @param p population.
+	 * @return c centroid.
+	 */
+	public static double[] centroid(double[][] p)
+	{
+		int dim=p[0].length;
+		double[] c= new double[dim];
+		int size= p.length;
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < dim; j++)
+				c[j] += p[i][j];
+		return multiply((1/size),c);
+	}
+	
+	/**
+	 * Return the orthonormilsed version of n n-dimensional direction vectors according to Gram-Shmidt.
+	 * see {@link https://www.researchgate.net/publication/220881848_Solving_nonlinear_optimization_problems_by_Differential_Evolution_with_a_rotation-invariant_crossover_operation_using_Gram-Schmidt_process}
+	 * @param p population.
+	 * @return c centroid.
+	 */
+	public static double[][] orthonormalise(double[][] dirVec)
+	{
+		int n=dirVec.length;
+		double[][] coorVec = new double[n][n];
+		
+		double[] b = new double[n];
+		b= multiply((1/norm2(dirVec[0])),dirVec[0]);
+		coorVec[0]=clone();
+		for(int i =0; i<n; i++)
+			
+			
+		
+		return coorVec;
+	}
+		
 
 }
 		
