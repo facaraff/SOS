@@ -16,6 +16,8 @@ import static utils.MatLab.max;
 import static utils.MatLab.min;
 import static utils.MatLab.multiply;
 import static utils.MatLab.norm2;
+import static utils.MatLab.clone;
+import utils.random.RandUtils;
 
 
 /**
@@ -223,9 +225,17 @@ public class Misc
 		double[][] coorVec = new double[n][n];
 		
 		double[] b = new double[n];
+		
 		b= multiply((1/norm2(dirVec[0])),dirVec[0]);
-		coorVec[0]=clone();
-		for(int i =0; i<n; i++)
+		coorVec[0]=clone(b);
+		double num, den =0;
+		for(int i =1; i<n; i++)
+		{
+			
+			//coorVec[i]=
+		}
+			
+			
 			
 			
 		
