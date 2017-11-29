@@ -109,11 +109,12 @@ public class Misc
 	 */
 	public static double[] clone(double[] x)
 	{
-		int n=x.length;
-		double[] xc = new double[n];
-		for (int i = 0; i < n; i++)
-			xc[i] = x[i];
-		return xc;
+//		int n=x.length;
+//		double[] xc = new double[n];
+//		for (int i = 0; i < n; i++)
+//			xc[i] = x[i];
+//		return xc;
+		return clone(x);
 	}
 /**
 	 * Clone a solution a 2d matrix.
@@ -123,13 +124,14 @@ public class Misc
 	 */
 	public static double[][] clone(double[][] x)
 	{
-		int n=x.length;
-		int nn=x[0].length;
-		double[][] xc = new double[n][nn];
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < nn; j++)
-				xc[i][j] = x[i][j];
-		return xc;
+//		int n=x.length;
+//		int nn=x[0].length;
+//		double[][] xc = new double[n][nn];
+//		for (int i = 0; i < n; i++)
+//			for (int j = 0; j < nn; j++)
+//				xc[i][j] = x[i][j];
+//		return xc;
+		return clone(x);
 	}
 	/**
 	 * Clone a solution.
@@ -227,19 +229,22 @@ public class Misc
 		double[][] coorVec = new double[n][n];
 		
 		double[][] b = new double[n][n];
-		
-		b[0]= multiply((1/norm2(dirVec[0])),dirVec[0]);
-		coorVec[0]=clone(b[0]);
-		double[] innerb;
-		for(int i =1; i<n; i++)
-		{
-			innerb=new double[n];
-			for(int j=0; j<i;j++)
-				innerb=multiply(-sum(dot(dirVec[i],b[j])),b[j]);
-			double[] temp = sum(dirVec[i],innerb);
-			b[i]=multiply((1/norm2(temp)),temp);
-			coorVec[i]=clone(b[i]);
-		}	
+		try{
+			b[0]= multiply((1/norm2(dirVec[0])),dirVec[0]);
+			coorVec[0]=clone(b[0]);
+			double[] innerb;
+			for(int i =1; i<n; i++)
+			{
+				innerb=new double[n];
+				for(int j=0; j<i;j++)
+					innerb=multiply(-sum(dot(dirVec[i],b[j])),b[j]);
+				double[] temp = sum(dirVec[i],innerb);
+				b[i]=multiply((1/norm2(temp)),temp);
+				coorVec[i]=clone(b[i]);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return coorVec;
 	}
 		
