@@ -18,7 +18,6 @@ import static utils.MatLab.multiply;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
 import static utils.MatLab.norm2;
-import static utils.MatLab.clone;
 import utils.random.RandUtils;
 
 

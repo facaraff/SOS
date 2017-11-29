@@ -14,7 +14,6 @@ package utils.algorithms.operators;
 import static utils.MatLab.indexMin;
 import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
-import static utils.MatLab.dot;
 import static utils.MatLab.multiply;
 import utils.MatLab;
 
@@ -423,7 +422,7 @@ public class DEOp
 			int index = RandUtils.randomInteger(n-1);
 			for (int i = 0; i < n; i++)
 			{
-				if (RandUtils.random() > CR || i == index)
+				if (RandUtils.random() < CR || i == index)
 					x_off[i] = y[i];
 				else
 					x_off[i] = x[i];
@@ -432,14 +431,16 @@ public class DEOp
 		}	
 		
 		   /**
-			* Rotation-Invariant Exponential crossover
+			* Rotation-invariant exponential crossover
 			* 
 			* @param x first parent solution (TARGET).
 			* @param y second parent solution (MUTANT).
 			* @param CR crossover rate.
 			* @param b orthonormal basis.
 			* @return x_off offspring solution.
+			* 
 			* see file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
+			* 
 			*/
 			public static double[] riec(double[] x, double[] m, double CR, double[][] b)
 			{
@@ -456,6 +457,29 @@ public class DEOp
 					j=((j+1)%(n-1));
 				} while(RandUtils.random() <= CR && k<= n);
 				
+				return x_off;
+			}
+			/**
+			* Rotation-invariant binomial crossover
+			* 
+			* @param x first parent solution (TARGET).
+			* @param y second parent solution (MUTANT).
+			* @param CR crossover rate.
+			* @return x_off offspring solution.
+			* 
+			* see file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
+			* 
+			*/
+			public static double[] ribc(double[] x, double[] m, double CR, double[][] b)
+			{
+				double[] y = subtract(m,x);
+				double[] x_off = MatLab.clone(x);
+				
+				int n = x.length;
+				int j = RandUtils.randomInteger(n-1);
+				for(int k=0;k<n;k++)
+					if(k==j || RandUtils.random()< CR)
+						x_off = sum(x_off,multiply(multiply(y,b[k]),b[k]));
 				return x_off;
 			}
 }
