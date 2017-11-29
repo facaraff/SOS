@@ -15,7 +15,7 @@ import experiments.rotInvStudy.*;
 /** 
 * This class contains the main method and has to be used for launching experiments.
 */
-public class RunExperiments
+public class RunExp
 {
 	
 	
