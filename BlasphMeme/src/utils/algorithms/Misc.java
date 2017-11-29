@@ -18,6 +18,7 @@ import static utils.MatLab.multiply;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
 import static utils.MatLab.norm2;
+import  utils.MatLab;
 import utils.random.RandUtils;
 
 
@@ -113,7 +114,7 @@ public class Misc
 //		for (int i = 0; i < n; i++)
 //			xc[i] = x[i];
 //		return xc;
-		return clone(x);
+		return MatLab.clone(x);
 	}
 /**
 	 * Clone a solution a 2d matrix.
@@ -130,7 +131,7 @@ public class Misc
 //			for (int j = 0; j < nn; j++)
 //				xc[i][j] = x[i][j];
 //		return xc;
-		return clone(x);
+		return MatLab.clone(x);
 	}
 	/**
 	 * Clone a solution.

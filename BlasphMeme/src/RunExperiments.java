@@ -55,10 +55,14 @@ public class RunExperiments
 //		experiments.add(new CMAESrot(50));
 //		experiments.add(new CMAESrot(100));
 		
-		experiments.add(new CMAESunrot(10));
-		experiments.add(new CMAESunrot(50));
-		experiments.add(new CMAESunrot(100));
+//		experiments.add(new CMAESunrot(10));
+//		experiments.add(new CMAESunrot(50));
+//		experiments.add(new CMAESunrot(100));
 
+		experiments.add(new CEC14_RIDE_rot(10));
+		experiments.add(new CEC14_RIDE_rot(50));
+		experiments.add(new CEC14_RIDE_rot(10));
+		
 		//@@@@@@
 	
 	
