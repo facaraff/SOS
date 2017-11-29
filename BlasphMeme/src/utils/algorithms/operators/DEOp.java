@@ -17,6 +17,9 @@ import static utils.MatLab.sum;
 import static utils.MatLab.multiply;
 import utils.MatLab;
 
+import static utils.algorithms.Misc.centroid;
+import static utils.algorithms.Misc.orthonormalise;
+
 import utils.random.RandUtils;
 /**
  * This class contains the implementation of Differential Evolution operators.
@@ -438,9 +441,10 @@ public class DEOp
 			* @param CR crossover rate.
 			* @param b orthonormal basis.
 			* @return x_off offspring solution.
-			* 
+			*
 			* see file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
 			* 
+			*  N.B. b is obtained via the getBasis method
 			*/
 			public static double[] riec(double[] x, double[] m, double CR, double[][] b)
 			{
@@ -469,6 +473,7 @@ public class DEOp
 			* 
 			* see file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
 			* 
+			*  N.B. b is obtained via the getBasis method
 			*/
 			public static double[] ribc(double[] x, double[] m, double CR, double[][] b)
 			{
@@ -481,6 +486,45 @@ public class DEOp
 					if(k==j || RandUtils.random()< CR)
 						x_off = sum(x_off,multiply(multiply(y,b[k]),b[k]));
 				return x_off;
+			}
+			
+			/**
+			* Get orthonormal basis from populations via Gram-Shmidt process
+			* 
+			* @param pop population.
+			* @return b Orthonormal basis.
+			*
+			*/
+			public static double[][] getBasis(double[][] pop)
+			{
+				double[][] b=null;
+				int popSize = pop.length;
+				int probDim =pop[0].length;
+				if(popSize<probDim)
+					System.out.println("There are not enough individulas to perform Gram-Shmidt otrthogonalisation procedure");
+				try
+				{
+					//get centroid
+					double[] c = centroid(pop);
+					
+					//get n directional vectors (n=probDim)
+					double[][] temp = new double[probDim][probDim];
+					int[] indeces = new int[popSize];
+					for(int i=0; i<probDim; i++) indeces[i]=i;
+					indeces = RandUtils.randomPermutation(indeces);
+					for(int i=0; i<probDim; i++) 
+						temp[i]=MatLab.clone(pop[indeces[i]]);
+					for(int i=0;i<probDim; i++) 
+						temp[i]=subtract(temp[i],c);
+					
+					//get the basis
+					b = orthonormalise(temp);
+			
+				}catch(Exception ex){
+				ex.printStackTrace();
+				}
+				
+				return b;
 			}
 }
 

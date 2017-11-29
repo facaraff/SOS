@@ -11,9 +11,13 @@ import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
 /**
- * Differential Evolution (standard version, rand/1/bin)
+ * Rotation invariant Differential Evolution with Gram-Shmidt process 
+ * 
+ * @url file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
+ * 
+ * @author facaraff fabio.caraffini@gmail.com
  */
-public class riRIDE extends Algorithm
+public class RIDE extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -33,6 +37,8 @@ public class riRIDE extends Algorithm
 		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
+		
+		boolean both = false;
 		
 		int i = 0;
 		
@@ -54,6 +60,9 @@ public class riRIDE extends Algorithm
 			
 			i++;
 		}
+		
+		//orthonormal basis
+		double[][] b=null;
 
 		// temp variables
 		double[] currPt = new double[problemDimension];
@@ -61,12 +70,15 @@ public class riRIDE extends Algorithm
 		double[] crossPt = new double[problemDimension];
 		double currFit = Double.NaN;
 		double crossFit = Double.NaN;
+		
+		
 
 		// iterate
 		while (i < maxEvaluations)
 		{
 		
-			double[][] newPop = new double[populationSize][problemDimension];
+			b = DEOp.getBasis(population);
+			
 
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -104,10 +116,42 @@ public class riRIDE extends Algorithm
 				// crossover
 				if (mutationStrategy != 4)
 				{
-					if (crossoverStrategy == 1)
-						crossPt = DEOp.crossOverBin(currPt, newPt, CR);
-					else if (crossoverStrategy == 2)
-						crossPt = DEOp.crossOverExp(currPt, newPt, CR);
+					switch (crossoverStrategy)
+					{
+						case 1:
+							// Binomial xo
+							crossPt = DEOp.crossOverBin(currPt, newPt, CR);
+							break;
+						case 2:
+							// Exponential xo
+							crossPt = DEOp.crossOverExp(currPt, newPt, CR);
+							break;
+						case 3:
+							// DE/rand/2
+							newPt = DEOp.rand2(population, F);
+							break;
+						case 4:
+							// Rotation invariant binomial xo
+							crossPt = DEOp.ribc(currPt, newPt, CR,b);
+							break;
+						case 5:
+							// Rotation invariant exponential xo
+							crossPt = DEOp.riec(currPt, newPt, CR,b);
+							break;
+						case 6:
+							// Binomial + Rotation invariant binomial xo (as in RIDE article)
+							crossPt = DEOp.crossOverBin(currPt, newPt, CR);
+							both = true;
+							break;
+						case 7:
+							// Exponential + Rotation invariant exponential xo (as in RIDE article)
+							crossPt = DEOp.crossOverExp(currPt, newPt, CR);
+							both = true;
+							break;
+						default:
+							break;
+					}
+						
 				}
 				
 				crossPt = toro(crossPt, bounds);
@@ -119,7 +163,7 @@ public class riRIDE extends Algorithm
 				if (crossFit < currFit)
 				{
 					for (int n = 0; n < problemDimension; n++)
-						newPop[j][n] = crossPt[n];
+						population[j][n] = crossPt[n];
 					fitnesses[j] = crossFit;
 					
 					// best update
@@ -134,15 +178,38 @@ public class riRIDE extends Algorithm
 				}
 				else
 				{
-					for (int n = 0; n < problemDimension; n++)
-						newPop[j][n] = currPt[n];
-					fitnesses[j] = currFit;
+					if(both)
+					{
+						if(crossoverStrategy==6)
+							crossPt = DEOp.ribc(currPt, newPt, CR,b);	
+						else if(crossoverStrategy==7)
+							crossPt = DEOp.riec(currPt, newPt, CR,b);		
+						// replacement
+						if (crossFit < currFit)
+						{
+							for (int n = 0; n < problemDimension; n++)
+								population[j][n] = crossPt[n];
+							fitnesses[j] = crossFit;
+							
+							// best update
+							if (crossFit < fBest)
+							{
+								fBest = crossFit;
+								for (int n = 0; n < problemDimension; n++)
+									best[n] = crossPt[n];
+								//if(i==problemDimension)	
+								FT.add(i, fBest);
+							}
+						}
+					}
+					
+//					for (int n = 0; n < problemDimension; n++)
+//						population[j][n] = currPt[n];
+//					fitnesses[j] = currFit;
 				}
 				crossPt = null; newPt = null;
 			}
 			
-			population = newPop;
-			newPop = null;
 		}
 		
 		finalBest = best;
