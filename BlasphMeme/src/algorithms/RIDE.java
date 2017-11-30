@@ -27,10 +27,14 @@ public class RIDE extends Algorithm
 		double CR = getParameter("p2").doubleValue();
 		int mutationStrategy = getParameter("p3").intValue();
 		int crossoverStrategy = getParameter("p4").intValue();
+		double alpha = getParameter("p5").doubleValue();
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
+		
+		if(CR==-1)
+			CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
 		
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
