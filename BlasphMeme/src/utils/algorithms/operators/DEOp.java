@@ -197,6 +197,34 @@ public class DEOp
 
 			return newPt;
 		}
+		 /**
+		* rand-to-best/1 mutation scheme
+		* 
+		* @param population set of candidate solutions/individuals.
+		* @param bestPt best individual.
+		* @param F scale factor.
+		* @return newPt mutant indvidual.
+		*/
+		public static double[] randToBest1(double[][] population, double[] bestPt, double F)
+		{
+			int problemDimension = population[0].length;
+			int populationSize = population.length;
+		
+			int[] r = new int[populationSize];
+			for (int i = 0; i < populationSize; i++)
+				r[i] = i;
+			r = RandUtils.randomPermutation(r);
+		
+			int r1 = r[0];
+			int r2 = r[1];
+			int r3 = r[2];
+		
+			double[] newPt = new double[problemDimension];
+			for (int i = 0; i < problemDimension; i++)
+				newPt[i] = population[r3][i] + F*(bestPt[i]-population[r3][i]) + F*(population[r1][i]-population[r2][i]);
+
+			return newPt;
+		}
 	   /**
 		* rand-to-best/2 mutation scheme
 		* 
@@ -342,6 +370,38 @@ public class DEOp
 			double[] newPt = new double[problemDimension];
 			for (int i = 0; i < problemDimension; i++)
 				newPt[i] = xBest[i] + F*(xr[i]-xs[i]);
+		
+			return newPt;
+		}
+		/**
+		* best/2 mutation scheme
+		* 
+		* @param population set of candidate solutions/individuals.
+		* @param fitnesses fitness value of each individual in the population.
+		* @param F scale factor.
+		* @return mutant individual.
+		*/
+		public static double[] best2(double[][] population, double[] fitnesses, double F)
+		{
+			int problemDimension = population[0].length;
+			int populationSize = population.length;
+		
+			int index = indexMin(fitnesses);
+		
+			int[] r = new int[populationSize];
+			for (int i = 0; i < populationSize-1; i++)
+				if(i!=index)
+					r[i] = i;
+			r = RandUtils.randomPermutation(r); 
+	
+			int r1 = r[0];
+			int r2 = r[1];
+			int r3 = r[2];
+			int r4 = r[3];
+		
+			double[] newPt = new double[problemDimension];
+			for (int i = 0; i < problemDimension; i++)
+				newPt[i] = population[index][i] + F*(population[r1][i]-population[r2][i]) +  F*(population[r3][i]-population[r4][i]);
 		
 			return newPt;
 		}
