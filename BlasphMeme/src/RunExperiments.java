@@ -61,7 +61,7 @@ public class RunExperiments
 
 		experiments.add(new CEC14_RIDE_rot(10));
 		experiments.add(new CEC14_RIDE_rot(50));
-		experiments.add(new CEC14_RIDE_rot(10));
+		experiments.add(new CEC14_RIDE_rot(100));
 		
 		//@@@@@@
 	

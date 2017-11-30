@@ -128,7 +128,7 @@ public class RIDE extends Algorithm
 							break;
 						case 3:
 							// DE/rand/2
-							newPt = DEOp.rand2(population, F);
+							crossPt = DEOp.rand2(population, F);
 							break;
 						case 4:
 							// Rotation invariant binomial xo

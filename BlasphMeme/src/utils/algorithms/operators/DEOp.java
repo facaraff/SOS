@@ -507,19 +507,24 @@ public class DEOp
 			*  N.B. b is obtained via the getBasis method
 			*/
 			public static double[] riec(double[] x, double[] m, double CR, double[][] b)
-			{
+			{		
 				double[] y = subtract(m,x);
 				double[] x_off = MatLab.clone(x);
 				
 				int n = x.length;
 				int j = RandUtils.randomInteger(n-1);
 				int k = 0;
-
+				try {
+					
 				do{
 					x_off = sum(x_off,multiply(multiply(y,b[j]),b[j]));
 					k++; 
 					j=((j+1)%(n-1));
 				} while(RandUtils.random() <= CR && k<= n);
+				
+				}catch(Exception ex){
+				ex.printStackTrace();
+				}
 				
 				return x_off;
 			}

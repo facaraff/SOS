@@ -27,8 +27,6 @@ public class MMCDE extends Algorithm
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-//		int mutationStrategy = getParameter("p3").intValue();
-//		int crossoverStrategy = getParameter("p4").intValue();
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -105,12 +103,13 @@ public class MMCDE extends Algorithm
 						break;
 					case 4:
 						// DE/best2
-						crossPt = DEOp.best2(population,fitnesses,F);
+						newPt = DEOp.best2(population,fitnesses,F);
 						break;
 					default:
 						break;
 				}
-		
+				if(newPt==null)
+					System.out.println("cazzo");
 				// crossover
 				int crossoverStrategy= 1+RandUtils.randomInteger(1);
 				switch (crossoverStrategy)

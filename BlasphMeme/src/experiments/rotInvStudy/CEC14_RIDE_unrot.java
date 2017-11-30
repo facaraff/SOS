@@ -8,10 +8,10 @@ import algorithms.MMCDE;
 
 
 
-public class CEC14_RIDE_rot extends Experiment
+public class CEC14_RIDE_unrot extends Experiment
 {
 	
-	public CEC14_RIDE_rot(int probDim) throws Exception
+	public CEC14_RIDE_unrot(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
 		super(probDim,5000,"testCEC14RIDE");
@@ -21,9 +21,7 @@ public class CEC14_RIDE_rot extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem p;// ///< A generic problem.
 		
-//		a = new CMAES();
-//		a.setID("rotation");//N.B. this algorithm makes use of "generateRandomSolution" that has still to be implemented.
-//		add(a);
+		
 		
 		a = new MMCDE();
 		a.setID("rMMCDE");
@@ -52,7 +50,7 @@ public class CEC14_RIDE_rot extends Experiment
 		
 		
 		for(int i = 1; i<=30; i++)
-				add(new CEC2014RotInvStudy(probDim, i));
+				add(new CEC2014RotInvStudy(probDim, i, 0));
 
 
 
