@@ -102,7 +102,7 @@ public class MMCDE extends Algorithm
 						newPt = DEOp.best1(population, fitnesses, F);
 						break;
 					case 3:
-						// DE/rand/2
+						// DE/rand-ti-best/1
 						newPt = DEOp.randToBest1(population, fitnesses, F);
 						break;
 					case 4:

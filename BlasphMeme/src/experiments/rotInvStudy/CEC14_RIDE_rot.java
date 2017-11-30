@@ -14,7 +14,7 @@ public class CEC14_RIDE_rot extends Experiment
 	public CEC14_RIDE_rot(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
-		super(probDim,5000,"testCEC14RIDE");
+		super(probDim,5000,"rotated_final");
 		setNrRuns(30);
 
 
@@ -29,7 +29,8 @@ public class CEC14_RIDE_rot extends Experiment
 		a.setID("rMMCDE");
 		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.4); //F
-		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p3", 0.3);//ALPHA
 		add(a);
 		
 		a = new RIDE();

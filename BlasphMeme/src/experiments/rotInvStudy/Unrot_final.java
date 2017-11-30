@@ -9,10 +9,10 @@ import algorithms.MMCDE;
 
 
 
-public class CEC14_RIDE_unrot extends Experiment
+public class Unrot_final extends Experiment
 {
 	
-	public CEC14_RIDE_unrot(int probDim) throws Exception
+	public Unrot_final(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
 		super(probDim,5000,"testCEC14RIDE");
@@ -21,7 +21,6 @@ public class CEC14_RIDE_unrot extends Experiment
 
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem p;// ///< A generic problem.
-		
 		
 		a = new DE();
 		a.setID("wrDEr1bin");
