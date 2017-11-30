@@ -99,7 +99,7 @@ public class MMCDE extends Algorithm
 						break;
 					case 3:
 						// DE/rand/2
-						newPt = DEOp.rand1(population, F);
+						newPt = DEOp.randToBest1(population, fitnesses, F);
 						break;
 					case 4:
 						// DE/best2
@@ -108,8 +108,6 @@ public class MMCDE extends Algorithm
 					default:
 						break;
 				}
-				if(newPt==null)
-					System.out.println("cazzo");
 				// crossover
 				int crossoverStrategy= 1+RandUtils.randomInteger(1);
 				switch (crossoverStrategy)
