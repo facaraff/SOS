@@ -1,4 +1,3 @@
-package mains;
 import utils.resultsProcessing.Experiment;
 import utils.resultsProcessing.TableAvgStdStat;
 import utils.resultsProcessing.TableStatistics;
