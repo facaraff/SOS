@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import static utils.RunAndStore.slash;
+import org.apache.commons.lang3.SystemUtils;
+
 public abstract class TableStatistics
 {
 	protected Experiment experiment = null;
@@ -208,7 +211,7 @@ public abstract class TableStatistics
 	}
 
 	public void mainLatex(String[] tables, String location, String mainName) throws Exception
-	{
+	{		
 		String[] str = new String[10 + tables.length + 1];
 		str[0] = "\\documentclass[a4paper,12pt]{article}";
 		str[1] = "\\usepackage[latin1]{inputenc}";
@@ -224,15 +227,17 @@ public abstract class TableStatistics
 			str[10+i] = "\\InputIfFileExists{"+tables[i]+".tex}{}{}";
 		str[str.length-1] = "\\end{document}";
 
-//		String Dir = "./results/"; 
-		String Dir = "./tables/"; 
+//		String Dir = "./results/";
+		//XXX aggiungere un a variabile con la quale si decide la directory  altrimenti e' fissa
+		String Dir = "."+slash()+"tables"+slash(); 
+
 		boolean success = (new File(Dir)).mkdir();
 		Dir += location; 
 		success = (new File(Dir)).mkdir();
 		if(success)
 			System.out.println("Path: " + Dir + " has been created");
 		mainName +=".tex";
-		File file = new File(Dir + "/"+mainName);
+		File file = new File(Dir +slash()+mainName);
 		// if file doesn't exists, then create it
 		if (!file.exists()) 
 			file.createNewFile();
@@ -245,12 +250,14 @@ public abstract class TableStatistics
 			bw.newLine();
 		}
 		bw.close();
-
-		this.getPDF(mainName);
+		
+		if(SystemUtils.IS_OS_WINDOWS==false)
+			this.getPDF(mainName);
 	}
 
 	public void getPDF(String str) throws Exception
 	{
+		//XXX aggiungi la compilazione windows!!!! https://stackoverflow.com/questions/14942473/windows-batch-file-to-compile-latex
 		File file = new File("./compileLatex.sh");
 		file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
