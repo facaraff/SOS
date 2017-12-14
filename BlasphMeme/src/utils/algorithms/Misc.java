@@ -20,6 +20,8 @@ import static utils.MatLab.sum;
 import static utils.MatLab.norm2;
 import  utils.MatLab;
 import utils.random.RandUtils;
+import interfaces.Problem;
+import utils.RunAndStore.FTrend;
 
 
 /**
@@ -247,11 +249,47 @@ public class Misc
 		}
 		return coorVec;
 	}
+	
+	
+	
+	
+	/**
+	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
+	 * introduce a penalty factor for solutions outside the bounds. 
+	 *  
+	 * @param x
+	 * @param bounds
+	 * @param PENALTY
+	 * @return
+	 * @throws Exception
+	 */
+	public static double fConstraint(double[] x, double[][] bounds, double PENALTY, Problem p, FTrend ft) throws Exception
+	{
+		
+		boolean outsideBounds = false; 
+		int n=bounds.length;
+		for (int j = 0; j < n && !outsideBounds; j++)
+		{
+			if (x[j] < bounds[j][0] || x[j] > bounds[j][1])
+				outsideBounds = true;
+		}
+
+		if (outsideBounds)
+		{
+			ft.setExtraInt(0);
+			return PENALTY;
+		}
+		else
+		{
+			ft.setExtraInt((ft.getLastI()+1));
+			return p.f(x);
+		}
+	}
+
 		
 
 }
 		
-	
 
 
 

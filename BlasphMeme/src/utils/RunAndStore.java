@@ -162,6 +162,9 @@ public class RunAndStore
 
 	private Vector<Double> fValue;
 	private Vector<Integer> index;
+	
+	private int extraInt;
+	
 	//private Vector<Double> extra; PUO' SERVIRE IN FUTURO! IN TOERIA SI POSSONO SALVARE ANCHE STRINGHE STILE ANNA KONONOVA
 	//double sepindex; non necessariamente un dvector usa questa classe per salvarci la peggio merda
 	
@@ -179,13 +182,26 @@ public class RunAndStore
 	*/
 	public double getF(int i){return this.fValue.get(i);}
 	/**
-	* Get the vector containg the FE counter vlaues.
+	* Get the vector containing the FE counter values.
 	*/
 	public Vector<Integer> getI(){return this.index;}
 	/**
 	* get the i-th FE counter value.
 	*/
 	public int getI(int i){return this.index.get(i);}
+	/**
+	* get the last FE counter value.
+	*/
+	public int getLastI(){return this.index.lastElement();}
+	/**
+	* set extraInt.
+	* @param n
+	*/
+	public void setExtraInt(int n){this.extraInt=n;}
+	/**
+	* get extraInt.
+	*/
+	public int getExtraInt(){return this.extraInt;}
 	/**
 	* add a new couple <i,f>
 	* 
