@@ -10,7 +10,6 @@ import static utils.MatLab.zeros;
 import static utils.MatLab.min;
 import static utils.MatLab.abs;
 
-import java.util.Vector;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -89,7 +88,7 @@ public class Rosenbrock extends Algorithm {
 				}
 				
 				if (iter%n == 0)
-					bests.add(new Best(iter, yBest));
+					FT.add(iter, yBest);
 			}
 			while ((yBest < yFirst) && (iter < maxEvaluations));
 			
@@ -139,8 +138,8 @@ public class Rosenbrock extends Algorithm {
 		while (iter < maxEvaluations);
 		
 		finalBest = xCurrent;
-		bests.add(new Best(iter, yBest));
+		FT.add(iter, yBest);
 	
-		return bests;
+		return FT;
 	}
 }
