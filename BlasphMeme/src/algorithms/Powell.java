@@ -72,7 +72,7 @@ public class Powell extends Algorithm
 		int ibig;
 		
 		double[] pt = new double[n], ptt = new double[n], xit = new double[n];
-		fret = fConstraint(p, bounds, PENALTY,problem, FT);
+		fret = fConstraint(p, bounds, PENALTY,problem);
 		for (int j=0; j<n; j++)
 			pt[j] = p[j];
 
@@ -124,8 +124,7 @@ public class Powell extends Algorithm
 				pt[j] = p[j];
 			}
 
-			fptt = fConstraint(ptt, bounds, PENALTY,problem, FT);
-			iter+=FT.getExtraInt();
+			fptt = fConstraint(ptt, bounds, PENALTY,problem);
 
 			if (fptt < fBest)
 			{
@@ -444,7 +443,7 @@ public class Powell extends Algorithm
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
 			xt[j] = p1dim[j]+x*xi1dim[j];		
-		return fConstraint(xt, bounds, PENALTY, problem, FT);
+		return fConstraint(xt, bounds, PENALTY, problem);
 	}
 
 	private static double sign(double a, double b)

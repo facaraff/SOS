@@ -1,30 +1,30 @@
 package algorithms;
 
 
-import static algorithms.utils.AlgorithmUtils.generateRandomSolution;
-import static algorithms.utils.AlgorithmUtils.saturateToro;
+import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.toro;
 
-import static utils.MatrixUtils.eye;
-import static utils.MatrixUtils.subtract;
-import static utils.MatrixUtils.zeros;
-import static utils.MathUtils.min;
-import static utils.MathUtils.abs;
+import static utils.MatLab.eye;
+import static utils.MatLab.subtract;
+import static utils.MatLab.zeros;
+import static utils.MatLab.min;
+import static utils.MatLab.abs;
 
 import java.util.Vector;
-import algorithms.interfaces.Algorithm;
-import algorithms.interfaces.Problem;
-import algorithms.utils.Best;
+import interfaces.Algorithm;
+import interfaces.Problem;
+import utils.RunAndStore.FTrend;
 
 public class Rosenbrock extends Algorithm {
 	
 	@Override
-	public Vector<Best> execute(Problem problem, int maxEvaluations) throws Exception
+	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		double eps = pullParameter("p0").doubleValue();		// 10e-5
-		double alpha = pullParameter("p1").doubleValue();	// 2  (3-->original paper value)
-		double beta = pullParameter("p2").doubleValue();	// 0.5
+		double eps = getParameter("p0").doubleValue();		// 10e-5
+		double alpha = getParameter("p1").doubleValue();	// 2  (3-->original paper value)
+		double beta = getParameter("p2").doubleValue();	// 0.5
 	
-		Vector<Best> bests = new Vector<Best>();
+		FTrend FT = new FTrend();
 		int n = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
@@ -48,7 +48,7 @@ public class Rosenbrock extends Algorithm {
 			yFirstFirst = problem.f(x);
 		}
 		
-		bests.add(new Best(0, yFirstFirst));
+		FT.add(0,yFirstFirst);
 		double yFirst = yFirstFirst;
 		double yBest = yFirst;
 		double yCurrent;
@@ -72,7 +72,7 @@ public class Rosenbrock extends Algorithm {
 				{
 					for (int j=0;j<n;j++)
 						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
-					xCurrent = saturateToro(xCurrent, bounds);
+					xCurrent = toro(xCurrent, bounds);
 					yCurrent = problem.f(xCurrent);
 					iter++;
 

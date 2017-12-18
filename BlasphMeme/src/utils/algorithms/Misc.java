@@ -21,8 +21,6 @@ import static utils.MatLab.norm2;
 import  utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.Problem;
-import utils.RunAndStore.FTrend;
-
 
 /**
  * This class contains useful miscellaneous methods.
@@ -253,6 +251,43 @@ public class Misc
 	
 	
 	
+//	/**
+//	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
+//	 * introduce a penalty factor for solutions outside the bounds. 
+//	 *  
+//	 * @param x
+//	 * @param bounds
+//	 * @param PENALTY
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public static double fConstraint(double[] x, double[][] bounds, double PENALTY, Problem p, FTrend ft) throws Exception
+//	{
+//		
+//		boolean outsideBounds = false; 
+//		int n=bounds.length;
+//		for (int j = 0; j < n && !outsideBounds; j++)
+//		{
+//			if (x[j] < bounds[j][0] || x[j] > bounds[j][1])
+//				outsideBounds = true;
+//		}
+//		
+//		double orzobimbo;
+//		
+//		if (outsideBounds || ft.iIsEmpty())
+//		{
+//			ft.setExtraInt(0);
+//			orzobimbo = PENALTY;
+//		}
+//		else
+//		{
+//			ft.setExtraInt(((ft.getLastI())+1));
+//			orzobimbo = p.f(x);
+//		}
+//		
+//		return orzobimbo;
+//	}
+
 	/**
 	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
 	 * introduce a penalty factor for solutions outside the bounds. 
@@ -263,7 +298,7 @@ public class Misc
 	 * @return
 	 * @throws Exception
 	 */
-	public static double fConstraint(double[] x, double[][] bounds, double PENALTY, Problem p, FTrend ft) throws Exception
+	public static double fConstraint(double[] x, double[][] bounds, double PENALTY, Problem p) throws Exception
 	{
 		
 		boolean outsideBounds = false; 
@@ -276,21 +311,13 @@ public class Misc
 		
 		double orzobimbo;
 		
-		if (outsideBounds || ft.iIsEmpty())
-		{
-			ft.setExtraInt(0);
+		if (outsideBounds)
 			orzobimbo = PENALTY;
-		}
 		else
-		{
-			ft.setExtraInt(((ft.getLastI())+1));
 			orzobimbo = p.f(x);
-		}
-		
-		return orzobimbo;
-	}
 
-		
+		return orzobimbo;
+	}	
 
 }
 		

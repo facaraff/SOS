@@ -4,7 +4,7 @@ import static utils.algorithms.Misc.generateRandomSolution;
 
 
 import utils.MatLab;
-import static utils.algorithms.Misc.fConstraint;
+import static utils.algorithms.Misc.toro;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -18,9 +18,9 @@ public class Powell_toro extends Algorithm
 {
 	private final static double TINY = 1.0e-25;
 	private final static double MIN_VECTOR_LENGTH = 1.0e-3;
-	private final static double PENALTY = 1e20;
 	private final static boolean unitDirectionVectors = true;
 
+	
 	private double[] p;
 	private double[][] xi;
 	private double ftol, fret;
@@ -72,7 +72,9 @@ public class Powell_toro extends Algorithm
 		int ibig;
 		
 		double[] pt = new double[n], ptt = new double[n], xit = new double[n];
-		fret = fConstraint(p, bounds, PENALTY,problem, FT);
+//		fret = fConstraint(p, bounds, PENALTY,problem, FT);
+		p=toro(p,bounds);
+		fret = problem.f(p);
 		for (int j=0; j<n; j++)
 			pt[j] = p[j];
 
@@ -124,7 +126,9 @@ public class Powell_toro extends Algorithm
 				pt[j] = p[j];
 			}
 
-			fptt = fConstraint(ptt, bounds, PENALTY,problem, FT);
+//			fptt = fConstraint(ptt, bounds, PENALTY,problem, FT);
+			ptt = toro(ptt,bounds);
+			fptt = problem.f(ptt);
 			iter+=FT.getExtraInt();
 
 			if (fptt < fBest)
@@ -406,31 +410,6 @@ public class Powell_toro extends Algorithm
 		}
 	}
 
-//	/**
-//	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
-//	 * introduce a penalty factor for solutions outside the bounds. 
-//	 *  
-//	 * @param x
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	private double fConstraint(double[] x) throws Exception
-//	{
-//		boolean outsiteBounds = false; 
-//		for (int j = 0; j < n && !outsiteBounds; j++)
-//		{
-//			if (x[j] < bounds[j][0] || x[j] > bounds[j][1])
-//				outsiteBounds = true;
-//		}
-//
-//		if (outsiteBounds)
-//			return PENALTY;
-//		else
-//		{
-//			iter++;
-//			return problem.f(x);
-//		}
-//	}
 
 	/**
 	 * 1-dimensional variable along the specified direction.
@@ -444,7 +423,7 @@ public class Powell_toro extends Algorithm
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
 			xt[j] = p1dim[j]+x*xi1dim[j];		
-		return fConstraint(xt, bounds, PENALTY, problem, FT);
+		return problem.f(toro(xt,bounds));
 	}
 
 	private static double sign(double a, double b)

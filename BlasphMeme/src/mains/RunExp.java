@@ -61,6 +61,8 @@ public class RunExp
 //		experiments.add(new CMAESunrot(100));
 
 		experiments.add(new CEC14(10));
+		
+		experiments.add(new CEC14(30));
 		//@@@@@@
 	
 	
