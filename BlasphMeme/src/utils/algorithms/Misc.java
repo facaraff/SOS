@@ -273,17 +273,21 @@ public class Misc
 			if (x[j] < bounds[j][0] || x[j] > bounds[j][1])
 				outsideBounds = true;
 		}
-
-		if (outsideBounds)
+		
+		double orzobimbo;
+		
+		if (outsideBounds || ft.iIsEmpty())
 		{
 			ft.setExtraInt(0);
-			return PENALTY;
+			orzobimbo = PENALTY;
 		}
 		else
 		{
-			ft.setExtraInt((ft.getLastI()+1));
-			return p.f(x);
+			ft.setExtraInt(((ft.getLastI())+1));
+			orzobimbo = p.f(x);
 		}
+		
+		return orzobimbo;
 	}
 
 		

@@ -14,7 +14,7 @@ import utils.RunAndStore.FTrend;
  * After Press WH, Teukolsky SA, Vetterling WT, Flannery BP: Numerical
  * recipes in C++. Cambridge University Press, 2002, Chap. 10
  */
-public class Powell extends Algorithm
+public class Powell_toro extends Algorithm
 {
 	private final static double TINY = 1.0e-25;
 	private final static double MIN_VECTOR_LENGTH = 1.0e-3;
@@ -235,7 +235,7 @@ public class Powell extends Algorithm
 		private final static double GOLD = 1.618034, GLIMIT = 100.0, TINY = 1.0e-20;
 		private double ax, bx, cx, fa, fb, fc;
 
-		public BracketMin(Powell powell, double ax, double bx) throws Exception
+		public BracketMin(Powell_toro powell, double ax, double bx) throws Exception
 		{
 			//if (ax==bx)
 			//	throw new IllegalArgumentException("ax == bx");
@@ -313,7 +313,7 @@ public class Powell extends Algorithm
 		private double xmin, fmin = 0.0;
 		private int brentIter;
 
-		public Brent(Powell powell, double ax, double bx, double cx) throws Exception {
+		public Brent(Powell_toro powell, double ax, double bx, double cx) throws Exception {
 			//if(!((ax<bx&&bx<cx)||(ax>bx&&bx>cx)))
 			//	throw new ArithmeticException("Invalid arguments");
 

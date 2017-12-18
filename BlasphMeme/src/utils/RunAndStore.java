@@ -210,6 +210,12 @@ public class RunAndStore
 	*/
 	public void add(int i, double f){this.index.add(i); this.fValue.add(f);}
 	/**
+	* Check if index is empty
+	* 
+	* @return boolean value for index to be empty or non-empty. 
+	*/
+	public boolean iIsEmpty(){return this.index.isEmpty();}
+	/**
 	* Merge two fitness trends.
 	* 
 	* Useful when an algorithms is run inside another. The fitness trned of the inner algorithm, i.e. FT, is appended to the bottom of the trend of the main algortihsm.

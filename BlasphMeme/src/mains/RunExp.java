@@ -10,7 +10,8 @@ import static utils.RunAndStore.resultsFolder;
 //import experiments.*;
 //import experiments.rotInvStudy.CEC14_rot;
 //import experiments.rotInvStudy.CEC14_unrot;
-import experiments.rotInvStudy.*;
+//import experiments.rotInvStudy.*;
+import experiments.CEC14;
 
 /** 
 * This class contains the main method and has to be used for launching experiments.
@@ -55,10 +56,11 @@ public class RunExp
 //		experiments.add(new CMAESrot(50));
 //		experiments.add(new CMAESrot(100));
 		
-		experiments.add(new CMAESunrot(10));
-		experiments.add(new CMAESunrot(50));
-		experiments.add(new CMAESunrot(100));
+//		experiments.add(new CMAESunrot(10));
+//		experiments.add(new CMAESunrot(50));
+//		experiments.add(new CMAESunrot(100));
 
+		experiments.add(new CEC14(10));
 		//@@@@@@
 	
 	
