@@ -87,7 +87,7 @@ public class Rosenbrock extends Algorithm {
 		            	d[i] *= -beta;
 				}
 				
-				if (iter%n == 0)
+				//if (iter%n == 0)
 					FT.add(iter, yBest);
 			}
 			while ((yBest < yFirst) && (iter < maxEvaluations));
