@@ -199,6 +199,30 @@ public class Misc
 	{
 		return (int) ((x >= 0) ? Math.floor(x) : Math.ceil(x));  
 	}
+	/**
+	 * Return an individual whose design variables are the AVG of the design variables of thhe individuals of the inuput population.
+	 * @param p population.
+	 * @return avgInd individual with averaged design variables.
+	 */
+	public static double[] AVGDesingVar(double[][] p)
+	{
+		int n=p[0].length;
+		int ps = p.length;
+		double[] avgInd = new double[n];
+		try{
+			for(int i =0; i<n; i++)
+			{
+				for(int j=0; j<ps; j++) 
+				{
+					avgInd[i] += ((1/ps)*(p[j][i]));
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return avgInd;
+	}
+	
 
 	/**
 	 * Return the centroid of a population of individuals.
