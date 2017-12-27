@@ -12,7 +12,6 @@
 package utils.algorithms.operators;
 
 import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 import static utils.MatLab.indexMin;
@@ -611,23 +610,37 @@ public class DEOp
 			*/
 			public static double[] eigenXOver(double[] x, double[] m, double CR, double[][] pop, double pr,  boolean exp)
 			{	
-				double[] eigen_x_off_apo= MatLab.clone(m);
-				double[] eigen_x= MatLab.clone(x);
+				double[] eigen_x_off_apo = null;
+				double[] eigen_x = null;
 				double[] x_off = new double[x.length];
+				double[][] Pt = null;
 				
-				if(RandUtils.random()<=pr)
+				double r = RandUtils.random();
+				
+				if(r<=pr)
 				{
 					double[][] Cov=Cov(pop);
-					
 					EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov));
 					double[][] P = E.getV().getData();
+					eigen_x_off_apo = 
+					eigen_x = multiply(P,x);
+					Pt = E.getVT().getData();
+					E = null; P = null;
+				}
+				else
+				{
+					eigen_x_off_apo = m;
+					eigen_x = x;
 				}
 				
 				
 				if(exp)
 					x_off=crossOverExp(eigen_x,eigen_x_off_apo, CR);
 				else
-					x_off=crossOverExp(eigen_x,eigen_x_off_apo, CR);
+					x_off=crossOverBin(eigen_x,eigen_x_off_apo, CR);
+				
+				if(r<=pr)
+					x_off = multiply(Pt,x_off);
 				
 				return x_off;
 			}
