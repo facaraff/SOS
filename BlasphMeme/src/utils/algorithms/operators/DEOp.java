@@ -11,6 +11,10 @@
 */
 package utils.algorithms.operators;
 
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+
 import static utils.MatLab.indexMin;
 import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
@@ -19,6 +23,7 @@ import utils.MatLab;
 
 import static utils.algorithms.Misc.centroid;
 import static utils.algorithms.Misc.orthonormalise;
+import static utils.algorithms.Misc.Cov;
 
 import utils.random.RandUtils;
 /**
@@ -497,7 +502,7 @@ public class DEOp
 			* Rotation-invariant exponential crossover
 			* 
 			* @param x first parent solution (TARGET).
-			* @param y second parent solution (MUTANT).
+			* @param m second parent solution (MUTANT).
 			* @param CR crossover rate.
 			* @param b orthonormal basis.
 			* @return x_off offspring solution.
@@ -590,6 +595,41 @@ public class DEOp
 				}
 				
 				return b;
+			}
+			
+			
+			/**
+			* Rotation-invariant Eigen-cross-over
+			* 
+			* @param x first parent solution (TARGET).
+			* @param m second parent solution (MUTANT).
+			* @param CR crossover rate.
+			* @param pop population.
+			* @param pr activation probability for Eigen-XO
+			* @param exp 1 for exponential cross-over, 0 for binomial cross-over.
+			* @return x_off offspring solution.
+			*/
+			public static double[] eigenXOver(double[] x, double[] m, double CR, double[][] pop, double pr,  boolean exp)
+			{	
+				double[] eigen_x_off_apo= MatLab.clone(m);
+				double[] eigen_x= MatLab.clone(x);
+				double[] x_off = new double[x.length];
+				
+				if(RandUtils.random()<=pr)
+				{
+					double[][] Cov=Cov(pop);
+					
+					EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov));
+					double[][] P = E.getV().getData();
+				}
+				
+				
+				if(exp)
+					x_off=crossOverExp(eigen_x,eigen_x_off_apo, CR);
+				else
+					x_off=crossOverExp(eigen_x,eigen_x_off_apo, CR);
+				
+				return x_off;
 			}
 }
 

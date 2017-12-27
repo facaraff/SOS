@@ -200,11 +200,11 @@ public class Misc
 		return (int) ((x >= 0) ? Math.floor(x) : Math.ceil(x));  
 	}
 	/**
-	 * Return an individual whose design variables are the AVG of the design variables of thhe individuals of the inuput population.
+	 * Return an individual whose design variables are the AVG of the design variables of the individuals of the inuput population.
 	 * @param p population.
 	 * @return avgInd individual with averaged design variables.
 	 */
-	public static double[] AVGDesingVar(double[][] p)
+	public static double[] AVGDesignVar(double[][] p)
 	{
 		int n=p[0].length;
 		int ps = p.length;
@@ -222,7 +222,36 @@ public class Misc
 		}
 		return avgInd;
 	}
-	
+	/**
+	 * Return the Cov matrix for implementing the eigenvalues-based cross over operator (DE).
+	 * @param p population.
+	 * @return Cov covariance matrix.
+	 */
+	public static double[][] Cov(double[][] p)
+	{
+		int n=p[0].length;
+		int ps = p.length;
+		double[][] Cov = new double[n][n];
+		double[] xBar = AVGDesignVar(p);
+		try{
+			for(int j =0; j<n; j++)
+			{
+				for(int k=0; k<n; k++) 
+				{
+					double temp = 0;
+					
+					for(int i=0; i<ps; i++)
+					{
+						temp += ((p[i][j]-xBar[j])*(p[i][k]-xBar[k]));
+					}
+					Cov[j][k] = (1/ps)*(temp);
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return Cov;
+	}
 
 	/**
 	 * Return the centroid of a population of individuals.
@@ -368,7 +397,7 @@ public class Misc
 //				delta = x_sat[i] - bounds[i][1];
 //				if (delta > 0)
 //					x_sat[i] = bounds[i][1] - delta;
-//				delta = x_sat[i] - bounds[i][0];
+//				delta = x_sat[i] - bounds[i][0]; 
 //				if (delta < 0)
 //					x_sat[i] = bounds[i][0] - delta;
 //			}
