@@ -67,9 +67,11 @@ public class RunExperiments
 //		experiments.add(new Rot_final(50));
 //		experiments.add(new Rot_final(100));
 		
-		experiments.add(new Unrot_final(10));
-		experiments.add(new Unrot_final(50));
-		experiments.add(new Unrot_final(100));
+//		experiments.add(new Unrot_final(10));
+//		experiments.add(new Unrot_final(50));
+//		experiments.add(new Unrot_final(100));
+		
+		experiments.add(new Rot_eigen(10));
 		
 		//@@@@@@
 	
