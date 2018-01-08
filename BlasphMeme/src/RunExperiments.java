@@ -75,6 +75,8 @@ public class RunExperiments
 		
 		experiments.add(new Rot_eigen(50));
 		
+		experiments.add(new Rot_eigen(100));
+		
 		//@@@@@@
 	
 	
