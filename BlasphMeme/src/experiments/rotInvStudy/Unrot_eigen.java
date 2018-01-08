@@ -22,7 +22,7 @@ public class Unrot_eigen extends Experiment
 	    //Problem p;// ///< A generic problem.
 		
 		a = new EigenDE();
-		a.setID("rEigenDEr1bin");
+		a.setID("wrEigenDEr1bin");
 		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", 0.3); //CR
@@ -33,7 +33,7 @@ public class Unrot_eigen extends Experiment
 		add(a);
 		
 		a = new EigenDE();
-		a.setID("rEigenDEr1exp");
+		a.setID("wrEigenDEr1exp");
 		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", -1.0); //CR
