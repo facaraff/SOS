@@ -14,7 +14,8 @@ public class TablesGenerator
 		if (args.length < 1)
 		{
 			//workingDir ="../results/cec2015allDim";
-			workingDir ="C:\\Users\\fcaraf00\\Desktop\\FINAL\\UNROT";
+//			workingDir ="C:\\Users\\fcaraf00\\Desktop\\FINAL\\UNROT";
+			workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
 			//System.exit(-1);
 		}
@@ -23,7 +24,8 @@ public class TablesGenerator
 
 		Experiment experiment = new Experiment();
 		experiment.setDirectory(workingDir);
-		experiment.setTrendsFlag(true, false);
+		//experiment.setTrendsFlag(true, false);
+		experiment.setTrendsFlag(true, true);
 		//experiment.setTrendsFlag(true);
 		experiment.importData();
 		experiment.describeExperiment();
@@ -36,19 +38,10 @@ public class TablesGenerator
 		experiment.deleteFinalValues();
 		*/
 
-		/*
-		Tests T1 = new TableCEC2013Competition(experiment);
-		T1.setErrorFlag(true);
-		T1.execute();
 
-		Tests T2 = new TableBestWorstMedAvgStd(experiment);
-		T2.setErrorFlag(true);
-		T2.execute();
-		 */
-		
-		TableHolmBonferroni T3 = new TableHolmBonferroni(experiment);
-		T3.setReferenceAlgorithm();
-		T3.execute();
+//		TableHolmBonferroni T3 = new TableHolmBonferroni(experiment);
+//		T3.setReferenceAlgorithm();
+//		T3.execute();
 		
 
 		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
