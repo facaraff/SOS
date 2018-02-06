@@ -622,7 +622,6 @@ public class DEOp
 					double[][] Cov=Cov(pop);
 					EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov));
 					double[][] P = E.getV().getData();
-					eigen_x_off_apo = 
 					eigen_x = multiply(P,x);
 					Pt = E.getVT().getData();
 					E = null; P = null;
