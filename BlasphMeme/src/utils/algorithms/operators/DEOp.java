@@ -596,6 +596,46 @@ public class DEOp
 				return b;
 			}
 			
+			/**
+			* Get orthonormal basis from populations via Eigen-decomposition method
+			* 
+			* @param pop population.
+			* @param criterion the criterion used to select the vector from the eigen-vectors matrix (0 random; 1 highest eigenvalue; 2 lowest eigenvalue)
+			* @return b Orthonormal basis.
+			*
+			*/
+			public static double[][] getEigenBasis(double[][] pop)
+			{
+				double[][] b=null;
+				int popSize = pop.length;
+				int probDim =pop[0].length;
+				if(popSize<probDim)
+					System.out.println("There are not enough individulas to perform Gram-Shmidt otrthogonalisation procedure");
+				try
+				{
+					//get centroid
+					double[] c = centroid(pop);
+					
+					//get n directional vectors (n=probDim)
+					double[][] temp = new double[probDim][probDim];
+					int[] indeces = new int[popSize];
+					for(int i=0; i<probDim; i++) indeces[i]=i;
+					indeces = RandUtils.randomPermutation(indeces);
+					for(int i=0; i<probDim; i++) 
+						temp[i]=MatLab.clone(pop[indeces[i]]);
+					for(int i=0;i<probDim; i++) 
+						temp[i]=subtract(temp[i],c);
+										
+					EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(temp));
+					b = E.getV().getData();
+					E = null; temp =null;
+				}catch(Exception ex){
+				ex.printStackTrace();
+				}
+				
+				return b;
+			}
+			
 			
 			/**
 			* Rotation-invariant Eigen-cross-over

@@ -77,17 +77,24 @@ public class RunExperiments
 ////		
 //		experiments.add(new Rot_eigen(100));
 		
-		experiments.add(new Unrot_eigen(10));
-		
-		experiments.add(new Unrot_eigen(50));
-		
-		experiments.add(new Unrot_eigen(100));
+//		experiments.add(new Unrot_eigen(10));
+//		
+//		experiments.add(new Unrot_eigen(50));
+//		
+//		experiments.add(new Unrot_eigen(100));
 		
 //		experiments.add(new RotEigen5050(10));
 		
 //		experiments.add(new RotEigen5050(50));
 		
 //		experiments.add(new RotEigen5050(100));
+		
+		
+		experiments.add(new RIDEvsEigenRIDE_rot(10));
+		
+		experiments.add(new RIDEvsEigenRIDE_rot(50));
+		
+		experiments.add(new RIDEvsEigenRIDE_rot(100));
 		
 		//@@@@@@
 	
