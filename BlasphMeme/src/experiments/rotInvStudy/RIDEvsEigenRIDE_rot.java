@@ -37,45 +37,49 @@ public class RIDEvsEigenRIDE_rot extends Experiment
 		a = new RIDE();
 		a.setID("rRIDErand1bin");
 		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.4); //F
+		a.setParameter("p1", 0.7); //F
 		a.setParameter("p2", 0.3); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 4.0);
+		a.setParameter("p5", 0.3);//ALPHA
 		add(a);
 		
 		a = new RIDE();
 		a.setID("rRIDErand1exp");
 		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.4); //F
-		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p1", 0.7); //F
+		a.setParameter("p2", -1.0); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 5.0);
+		a.setParameter("p5", 0.3);//ALPHA
 		add(a);
-		
 		
 		a = new EigenRIDE();
 		a.setID("rRIDErand1bin");
 		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.4); //F
+		a.setParameter("p1", 0.7); //F
 		a.setParameter("p2", 0.3); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 4.0);
+		a.setParameter("p5", 0.3);//ALPHA
 		add(a);
 		
 		a = new EigenRIDE();
 		a.setID("rRIDErand1exp");
 		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.4); //F
-		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p1", 0.7); //F
+		a.setParameter("p2", -1.0); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 5.0);
+		a.setParameter("p5", 0.3);//ALPHA
 		add(a);
 		
 		for(int i = 1; i<=30; i++)
 				add(new CEC2014RotInvStudy(probDim, i));
 
 
-
+		
+		
 
 	}
 }
