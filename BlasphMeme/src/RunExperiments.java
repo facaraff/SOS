@@ -90,11 +90,11 @@ public class RunExperiments
 //		experiments.add(new RotEigen5050(100));
 		
 		
-		experiments.add(new RIDEvsEigenRIDE_rot(10));
+		experiments.add(new diononrotato(10));
 		
-		experiments.add(new RIDEvsEigenRIDE_rot(50));
+		experiments.add(new diononrotato(50));
 		
-		experiments.add(new RIDEvsEigenRIDE_rot(100));
+		experiments.add(new diononrotato(100));
 		
 		//@@@@@@
 	

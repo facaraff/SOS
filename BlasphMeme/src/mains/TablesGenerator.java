@@ -1,8 +1,9 @@
 package mains;
 import utils.resultsProcessing.Experiment;
-import utils.resultsProcessing.TableAvgStdStat;
-import utils.resultsProcessing.TableStatistics;
-import utils.resultsProcessing.TableHolmBonferroni;
+//import utils.resultsProcessing.TableAvgStdStat;
+//import utils.resultsProcessing.TableStatistics;
+//import utils.resultsProcessing.TableHolmBonferroni;
+import utils.resultsProcessing.*;
 //import static utils.RunAndStore.slash;
 
 public class TablesGenerator
@@ -13,9 +14,11 @@ public class TablesGenerator
 		String workingDir = "";
 		if (args.length < 1)
 		{
-			//workingDir ="../results/cec2015allDim";
+//			workingDir ="../../results";
+//			workingDir ="/home/facaraff/git/BlasphMeme/results";
+			workingDir ="/home/facaraff/git/BlasphMeme/BlasphMeme/results";
 //			workingDir ="C:\\Users\\fcaraf00\\Desktop\\FINAL\\UNROT";
-			workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
+			//workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
 			//System.exit(-1);
 		}
@@ -25,7 +28,7 @@ public class TablesGenerator
 		Experiment experiment = new Experiment();
 		experiment.setDirectory(workingDir);
 		//experiment.setTrendsFlag(true, false);
-		experiment.setTrendsFlag(true, true);
+//		experiment.setTrendsFlag(true, true);
 		//experiment.setTrendsFlag(true);
 		experiment.importData();
 		experiment.describeExperiment();
@@ -39,14 +42,17 @@ public class TablesGenerator
 		*/
 
 
-//		TableHolmBonferroni T3 = new TableHolmBonferroni(experiment);
-//		T3.setReferenceAlgorithm();
-//		T3.execute();
+		TableHolmBonferroni T3 = new TableHolmBonferroni(experiment);
+		T3.setReferenceAlgorithm();
+		T3.execute();
 		
-
-		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
-		T4.setErrorFlag(true);
+		TableHolmBonferroni T4 = new TableHolmBonferroni(experiment);
 		T4.setReferenceAlgorithm();
-		T4.execute();
+		T3.execute();
+		
+//		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
+//		T4.setErrorFlag(true);
+//		T4.setReferenceAlgorithm();
+//		T4.execute();
 	}
 }
