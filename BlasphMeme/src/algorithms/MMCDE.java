@@ -24,17 +24,23 @@ public class MMCDE extends Algorithm
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 		double alpha = getParameter("p3").doubleValue();
-
+		double crbin = Double.NaN;
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 		
-		if(CR==-1)
+		if(CR==-1) {
 			CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
+			crbin = alpha;
+		}
+		else
+		{
+			crbin = CR;
+		}
 		
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
@@ -117,7 +123,7 @@ public class MMCDE extends Algorithm
 				switch (crossoverStrategy)
 				{	case 1:
 						// Rotation invariant binomial xo
-						crossPt = DEOp.ribc(currPt, newPt, CR,b);
+						crossPt = DEOp.ribc(currPt, newPt, crbin,b);
 						break;
 					case 2:
 						// Rotation invariant exponential xo

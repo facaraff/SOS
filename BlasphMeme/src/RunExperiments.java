@@ -89,15 +89,19 @@ public class RunExperiments
 		
 //		experiments.add(new RotEigen5050(100));
 		
+//		
+//		experiments.add(new diononrotato(10));
+//		
+//		experiments.add(new diononrotato(50));
+//		
+//		experiments.add(new diononrotato(100));
+
+		experiments.add(new RIDEbenchirideultimo(10));
 		
-		experiments.add(new diononrotato(10));
+		experiments.add(new RIDEbenchirideultimo(50));
 		
-		experiments.add(new diononrotato(50));
-		
-		experiments.add(new diononrotato(100));
-		
+		experiments.add(new RIDEbenchirideultimo(100));
 		//@@@@@@
-	
 	
 		for(Experiment experiment : experiments)
 		{

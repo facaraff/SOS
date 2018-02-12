@@ -27,7 +27,7 @@ public class CEC14_RIDE_unrot extends Experiment
 		a.setID("wrDEr1bin");
 		a.setParameter("p0",  (double)probDim);
 		a.setParameter("p1", 0.7);//F
-		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p2", 0.3); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 1.0);
 		a.setParameter("p5", 0.3);//ALPHA
@@ -66,7 +66,7 @@ public class CEC14_RIDE_unrot extends Experiment
 		a.setID("wrRIDErand1bin");
 		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.7); //F
-		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p2", 0.3); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 4.0);
 		a.setParameter("p5", 0.3);//ALPHA
