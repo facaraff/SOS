@@ -230,7 +230,7 @@ public class Misc
 	public static double[][] Cov(double[][] p)
 	{
 		int n=p[0].length;
-		int ps = p.length;
+		int ps = p.length-1;
 		double[][] Cov = new double[n][n];
 		double[] xBar = AVGDesignVar(p);
 		try{
@@ -244,7 +244,8 @@ public class Misc
 					{
 						temp += ((p[i][j]-xBar[j])*(p[i][k]-xBar[k]));
 					}
-					Cov[j][k] = (1/ps)*(temp);
+					Cov[j][k] = (1.0/ps)*(temp);
+					
 				}
 			}
 		}catch(Exception ex){

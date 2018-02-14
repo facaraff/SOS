@@ -164,6 +164,7 @@ public class RunAndStore
 	private Vector<Integer> index;
 	
 	private int extraInt;
+	private double extraDouble;
 	
 	//private Vector<Double> extra; PUO' SERVIRE IN FUTURO! IN TOERIA SI POSSONO SALVARE ANCHE STRINGHE STILE ANNA KONONOVA
 	//double sepindex; non necessariamente un dvector usa questa classe per salvarci la peggio merda
@@ -202,6 +203,15 @@ public class RunAndStore
 	* get extraInt.
 	*/
 	public int getExtraInt(){return this.extraInt;}
+	/**
+	* set extraDouble.
+	* @param n
+	*/
+	public void setExtraDouble(double n){this.extraDouble=n;}
+	/**
+	* get extraDouble.
+	*/
+	public double getExtraDouble(){return this.extraDouble;}
 	/**
 	* add a new couple <i,f>
 	* 

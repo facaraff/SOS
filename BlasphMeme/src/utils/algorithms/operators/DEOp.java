@@ -660,6 +660,7 @@ public class DEOp
 				if(r<=pr)
 				{
 					double[][] Cov=Cov(pop);
+					//System.out.println("uno="+Cov[0][0]+" due="+Cov[1][2]+" eud="+Cov[2][1]);
 					EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov));
 					double[][] P = E.getV().getData();
 					eigen_x_off_apo = multiply(P,m);

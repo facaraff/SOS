@@ -327,6 +327,50 @@ public abstract class Experiment
 		System.out.println();
 	}
 	
+	/**
+	 * This method runs an experiment without printing on screen partial results on the fly .
+	 * 
+	*/
+	public void startBlindExperiment() throws Exception
+	{
+		
+		setUniqueIDs();
+		shortDescription();
+		tableHeader();
+		createExperimentFolders();
+		
+		double[][] finalValues;
+		
+		ExecutorService threadPool = Executors.newFixedThreadPool(nrProc);
+		CompletionService<AlgorithmResult> pool = new ExecutorCompletionService<AlgorithmResult>(threadPool);
+
+		for (Problem problem: problems)
+		{
+
+			finalValues = new double[algorithms.size()][nrRuns];
+			int algorithmIndex = 0;
+			for (Algorithm algorithm : algorithms)
+			{ 
+				for (int i = 0; i < nrRuns; i++) 
+				{
+					AlgorithmRepetitionThread thread = new AlgorithmRepetitionThread(algorithm, problem, i, budgetFactor, saveRowData, expFolder);
+					pool.submit(thread);
+				}
+	
+				for (int j = 0; j < nrRuns; j++)
+				{
+					Future<AlgorithmResult> result = pool.take();
+					AlgorithmResult algorithmResult = result.get();
+					finalValues[algorithmIndex][algorithmResult.repNr] = algorithmResult.fbest; //- bias[problemIndex];
+				}
+				
+		
+			}
+			
+		}
+		threadPool.shutdownNow();
+	}
+	
 }
 
 

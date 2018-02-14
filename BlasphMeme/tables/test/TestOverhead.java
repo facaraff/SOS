@@ -1,53 +1,48 @@
-package mains.test;
+package test;
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static algorithms.utils.AlgorithmUtils.generateRandomSolution;
 
 import java.util.Vector;
 
 import algorithms.CMAES;
 import algorithms.SEP_CMAES;
-import interfaces.Algorithm;
-import interfaces.Problem;
-import benchmarks.problemsImplementation.CEC2014TestFunc; 
-//import benchmarks.problemsImplementation.CEC2015TestFunc;
+import algorithms.interfaces.Algorithm;
+import algorithms.interfaces.Problem;
+import darwin.BenchmarkBBOB2010;
+import darwin.BenchmarkCEC2005;
+import darwin.BenchmarkCEC2013;
 
 public class TestOverhead
 {
-	public static class CEC2014_F1 extends Problem 
+	public static class BBOB10_F3 extends Problem 
 	{
-		private CEC2014TestFunc p = null;
-		public CEC2014_F1(int dimension, double[] bounds) throws Exception
-		{ 
-			super(dimension, bounds); 
-			p = new CEC2014TestFunc(dimension,1);
-		}
-		
-		public double f(double[] x) { return p.f(x); }
+		public BBOB10_F3(int dimension, double[] bounds) { super(dimension, bounds); }
+		public double f(double[] x) { return BenchmarkBBOB2010.f3(x); }
 	}
 	
-//	public static class CEC05_F3 extends Problem 
-//	{
-//		public CEC05_F3(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2005.f3(x); }
-//	}
-//	
-//	public static class CEC2013_F1 extends Problem 
-//	{
-//		public CEC2013_F1(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2013.f1(x); }
-//	}
-//	
-//	public static class CEC2013_F3 extends Problem 
-//	{
-//		public CEC2013_F3(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2013.f3(x); }
-//	}
-//	
-//	public static class CEC2013_F14 extends Problem 
-//	{
-//		public CEC2013_F14(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2013.f14(x); }
-//	}
+	public static class CEC05_F3 extends Problem 
+	{
+		public CEC05_F3(int dimension, double[] bounds) { super(dimension, bounds); }
+		public double f(double[] x) { return BenchmarkCEC2005.f3(x); }
+	}
+	
+	public static class CEC2013_F1 extends Problem 
+	{
+		public CEC2013_F1(int dimension, double[] bounds) { super(dimension, bounds); }
+		public double f(double[] x) { return BenchmarkCEC2013.f1(x); }
+	}
+	
+	public static class CEC2013_F3 extends Problem 
+	{
+		public CEC2013_F3(int dimension, double[] bounds) { super(dimension, bounds); }
+		public double f(double[] x) { return BenchmarkCEC2013.f3(x); }
+	}
+	
+	public static class CEC2013_F14 extends Problem 
+	{
+		public CEC2013_F14(int dimension, double[] bounds) { super(dimension, bounds); }
+		public double f(double[] x) { return BenchmarkCEC2013.f14(x); }
+	}
 
 	public static void main(String[] args) throws Exception
 	{	
@@ -168,7 +163,9 @@ public class TestOverhead
 
 		// dummy runs (needed to fix preallocation time)
 		{
-			Problem problem = new CEC2014_F1(sizes[0], bounds);
+			//Problem problem = new BBOB10_F3(sizes[0], bounds);
+			//Problem problem = new CEC05_F3(sizes[0], bounds);
+			Problem problem = new CEC2013_F1(sizes[0], bounds);
 
 			for (int j = 0; j < numOfAlgs; j++)
 			{
@@ -179,7 +176,9 @@ public class TestOverhead
 		
 		for (int i = 0; i < numberOfSizes; i++)
 		{
-			Problem problem = new CEC2014_F1(sizes[i], bounds);
+			//Problem problem = new BBOB10_F3(sizes[i], bounds);
+			//Problem problem = new CEC05_F3(sizes[i], bounds);
+			Problem problem = new CEC2013_F1(sizes[i], bounds);
 			
 			for (int j = 0; j < numOfAlgs; j++)
 			{
@@ -198,7 +197,9 @@ public class TestOverhead
 
 		for (int i = 0; i < numberOfSizes; i++)
 		{
-			Problem problem = new CEC2014_F1(sizes[i], bounds);
+			//Problem problem = new BBOB10_F3(sizes[i], bounds);
+			//Problem problem = new CEC05_F3(sizes[i], bounds);
+			Problem problem = new CEC2013_F1(sizes[i], bounds);
 			
 			for (int j = 0; j < numOfRuns; j++)
 			{
