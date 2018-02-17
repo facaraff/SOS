@@ -63,7 +63,10 @@ public class RunExp
 //		experiments.add(new CEC14(10));
 //		
 //		experiments.add(new CEC14(30));
-		experiments.add(new Testolo(10));
+		
+		//experiments.add(new Testolo(10));
+		
+		experiments.add(new CEC13LSGO(1000));
 		
 
 		//@@@@@@

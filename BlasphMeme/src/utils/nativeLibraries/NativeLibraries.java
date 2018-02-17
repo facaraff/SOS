@@ -1,4 +1,4 @@
-package utils.loaders;
+package utils.nativeLibraries;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
