@@ -77,7 +77,7 @@ public class RunExperiments
 ////		
 //		experiments.add(new Rot_eigen(100));
 		
-		experiments.add(new Unrot_eigen(10));
+//		experiments.add(new Unrot_eigen(10));
 		
 		experiments.add(new Unrot_eigen(50));
 		

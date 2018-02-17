@@ -43,8 +43,16 @@ public class Unrot_eigen extends Experiment
 		a.setParameter("p6", 1.0);//PR
 		add(a);
 		
-		for(int i = 1; i<=30; i++)
-				add(new CEC2014RotInvStudy(probDim, i, 0));
+//		if(probDim==50)
+//			for(int i = 3; i<=30; i++)
+//				add(new CEC2014RotInvStudy(probDim, i, 0));
+//		else
+//			for(int i = 1; i<=30; i++)
+//				add(new CEC2014RotInvStudy(probDim, i, 0));
+//			
+
+
+				add(new CEC2014RotInvStudy(50, 2, 0));
 
 
 

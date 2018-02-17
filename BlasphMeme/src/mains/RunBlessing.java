@@ -38,6 +38,12 @@ public class RunBlessing
 
 		
 		experiments.add(new NewBlessingTests(10));
+		
+		experiments.add(new NewBlessingTests(30));
+		
+		experiments.add(new NewBlessingTests(50));
+		
+		experiments.add(new NewBlessingTests(100));
 		//@@@@@@
 	
 	

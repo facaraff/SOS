@@ -14,7 +14,7 @@ public class NewBlessingTests extends Experiment
 	{
 		//super(probDim,"cec2015allDim");
 		super(probDim,1000,"rotated_final");
-		setNrRuns(5);
+		setNrRuns(1);
 
 
 		Algorithm a;// ///< A generic optimiser.
