@@ -6,7 +6,8 @@ OBJECTS=demo.o Benchmarks.o \
 F1.o F2.o F3.o F4.o F5.o F6.o F7.o F8.o F9.o F10.o\
 F11.o F12.o F13.o F14.o F15.o
 
-JAVA_HOME=/usr/lib/jvm/java-6-sun
+#JAVA_HOME=/usr/lib/jvm/java-6-sun
+JAVA_HOME=/usr/lib/jvm/java-8-oracle
 INCLUDE=-I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 
 all: clean shared
@@ -17,7 +18,7 @@ static: $(OBJECTS)
 	rm *.o
 	
 shared: $(OBJECTS)
-	$(CC) $(CXXFLAGS) $(INCLUDE) -c -fPIC javacec2013_JNIfgeneric2013.cpp -o benchmark.o
+	$(CC) $(CXXFLAGS) $(INCLUDE) -c -fPIC javacec2013_JNIfgeneric2013.cpp -o benchmark.o 
 	$(CC) $(CXXFLAGS) $(INCLUDE) -shared -Wl,-soname,libcec2013lsgo.so.1 -o libcec2013lsgo.so.1.0.1 benchmark.o $(OBJECTS)
 	rm *.o
 
@@ -27,55 +28,55 @@ demo: 	$(OBJECTS)
 demo.o: demo.cpp Header.h  Benchmarks.h \
 F1.h F2.h F3.h F4.h F5.h F6.h F7.h F8.h F9.h F10.h\
 F11.h F12.h F13.h F14.h F15.h
-	$(CC) $(CXXFLAGS) -c demo.cpp 
+	$(CC) $(CXXFLAGS) -c -fPIC demo.cpp 
 
 Benchmarks.o:  Benchmarks.h Benchmarks.cpp
-	$(CC) $(CXXFLAGS) -c Benchmarks.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC Benchmarks.cpp
 
 F1.o: F1.h Benchmarks.h F1.cpp
-	$(CC) $(CXXFLAGS) -c F1.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F1.cpp
 
 F2.o: F2.h Benchmarks.h F2.cpp
-	$(CC) $(CXXFLAGS) -c F2.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F2.cpp
 
 F3.o: F3.h Benchmarks.h F3.cpp
-	$(CC) $(CXXFLAGS) -c F3.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F3.cpp
 
 F4.o: F4.h Benchmarks.h F4.cpp
-	$(CC) $(CXXFLAGS) -c F4.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F4.cpp
 
 F5.o: F5.h Benchmarks.h F5.cpp
-	$(CC) $(CXXFLAGS) -c F5.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F5.cpp
 
 F6.o: F6.h Benchmarks.h F6.cpp
-	$(CC) $(CXXFLAGS) -c F6.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F6.cpp
 
 F7.o: F7.h Benchmarks.h F7.cpp
-	$(CC) $(CXXFLAGS) -c F7.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F7.cpp
 
 F8.o: F8.h Benchmarks.h F8.cpp
-	$(CC) $(CXXFLAGS) -c F8.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F8.cpp
 
 F9.o: F9.h Benchmarks.h F9.cpp
-	$(CC) $(CXXFLAGS) -c F9.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F9.cpp
 
 F10.o: F10.h Benchmarks.h F10.cpp
-	$(CC) $(CXXFLAGS) -c F10.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F10.cpp
 
 F11.o: F11.h Benchmarks.h F11.cpp
-	$(CC) $(CXXFLAGS) -c F11.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F11.cpp
 
 F12.o: F12.h Benchmarks.h F12.cpp
-	$(CC) $(CXXFLAGS) -c F12.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F12.cpp
 
 F13.o: F13.h Benchmarks.h F13.cpp
-	$(CC) $(CXXFLAGS) -c F13.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F13.cpp
 
 F14.o: F14.h Benchmarks.h F14.cpp
-	$(CC) $(CXXFLAGS) -c F14.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F14.cpp
 
 F15.o: F15.h Benchmarks.h F15.cpp
-	$(CC) $(CXXFLAGS) -c F15.cpp
+	$(CC) $(CXXFLAGS) -c -fPIC F15.cpp
 
 .PHONY : clean
 clean:

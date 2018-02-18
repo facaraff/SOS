@@ -1,6 +1,8 @@
 package benchmarks.problemsImplementation.CEC2013_LSGO;
 
-import utils.nativeLibraries.LibLoader;
+import static utils.RunAndStore.slash;
+import java.lang.System;
+import utils.benchmarks.LibLoader;
 
 /**
  * JNI connection class for interfacing the CEC 2013 LSGO C-functions.
@@ -11,16 +13,19 @@ public class JNIfgeneric2013 {
 	static
 	{
 		try
-		{
-//			ClassLoaderHelper.loadFolderFromJar("javacec2013lsgo/cdatafiles/");
-//			ClassLoaderHelper.loadNativeLibraryFromJar("libcec2013lsgo");
-			LibLoader.loadNativeLibrary("libcec2013lsgo");
+		{		
+			//LibLoader.instalAndLoadNativeLibrary("cec2013lsgo");
+			LibLoader.loadNativeLib("cec2013lsgo");
+			
+			
+			//System.loadLibrary("cec2013lsgo");
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
+	
 	
 	//Native method declaration
 	private native long initCEC2013(int funcId, int dim);
