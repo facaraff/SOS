@@ -1,6 +1,7 @@
 package benchmarks.problemsImplementation.CEC2013_LSGO;
 
 //import static utils.RunAndStore.slash;
+import org.jblas.DoubleMatrix;
 import java.lang.System;
 import utils.benchmarks.LibLoader;
 
