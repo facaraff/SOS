@@ -1,6 +1,6 @@
 package benchmarks.problemsImplementation.CEC2013_LSGO;
 
-import static utils.RunAndStore.slash;
+//import static utils.RunAndStore.slash;
 import java.lang.System;
 import utils.benchmarks.LibLoader;
 
@@ -12,6 +12,7 @@ public class JNIfgeneric2013 {
 	/** Load the library, the system-specific filename extension is added by the JVM. */
 	static
 	{
+		System.out.println(System.getProperty("java.library.path"));
 		try
 		{		
 			//LibLoader.instalAndLoadNativeLibrary("cec2013lsgo");
