@@ -21,16 +21,16 @@ public class Unrot_eigen extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem p;// ///< A generic problem.
 		
-		a = new EigenDE();
-		a.setID("wrEigenDEr1bin");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.7);//F
-		a.setParameter("p2", 0.3); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 1.0);
-		a.setParameter("p5", Double.NaN);//ALPHA
-		a.setParameter("p6", 1.0);//PR
-		add(a);
+//		a = new EigenDE();
+//		a.setID("wrEigenDEr1bin");
+//		a.setParameter("p0", (double)probDim);
+//		a.setParameter("p1", 0.7);//F
+//		a.setParameter("p2", 0.3); //CR
+//		a.setParameter("p3", 1.0);
+//		a.setParameter("p4", 1.0);
+//		a.setParameter("p5", Double.NaN);//ALPHA
+//		a.setParameter("p6", 1.0);//PR
+//		add(a);
 		
 		a = new EigenDE();
 		a.setID("wrEigenDEr1exp");
