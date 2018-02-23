@@ -1,3 +1,7 @@
+#ifndef NULL
+#define NULL   ((void *) 0)
+#endif
+
 #include "F10.h"
 #include <stdio.h>
 

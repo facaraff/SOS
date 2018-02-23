@@ -210,7 +210,7 @@ double** Benchmarks::readOvectorVec()
           while (getline(iss, value, ','))
             {
               // printf("c=%d\ts=%d\ti=%d\tup=%d\tindex=%d\n",c,s[i],i,up,c-(up-s[i]));
-//              d[i][c-(up-s[i])] = stod(value);
+              d[i][c-(up-s[i])] = stod(value);
         	  d[i][c-(up-s[i])] = stodFabio(value);
               // printf("1\n");
               c++;
