@@ -375,7 +375,7 @@ double** Benchmarks::createRotMatrix(int dim){
       }
     }
 
-    return(m) ;
+    return m ;
   }
 }
 
