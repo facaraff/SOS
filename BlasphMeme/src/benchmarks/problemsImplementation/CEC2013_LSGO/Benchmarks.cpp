@@ -129,6 +129,20 @@ double* Benchmarks::createShiftVector(int dim, double min,double max) {
   return(d);
 }
 
+double stodFabio(string s)
+{
+
+// object from the class stringstream
+	  stringstream streams(s);
+
+
+	    // it to the integer x
+	    double x = 0;
+	    streams >> x;
+
+	return x;
+}
+
 double* Benchmarks::readOvector()
 {
   // read O vector from file in csv format
@@ -148,7 +162,8 @@ double* Benchmarks::readOvector()
           iss<<line;
           while (getline(iss, value, ','))
             {
-              d[c++] = stod(value);
+//              d[c++] = stod(value);
+        	  d[c++] = stodFabio(value);
             }
           iss.clear();
           // if (c==dimension)
@@ -195,7 +210,8 @@ double** Benchmarks::readOvectorVec()
           while (getline(iss, value, ','))
             {
               // printf("c=%d\ts=%d\ti=%d\tup=%d\tindex=%d\n",c,s[i],i,up,c-(up-s[i]));
-              d[i][c-(up-s[i])] = stod(value);
+//              d[i][c-(up-s[i])] = stod(value);
+        	  d[i][c-(up-s[i])] = stodFabio(value);
               // printf("1\n");
               c++;
             }
@@ -281,7 +297,8 @@ int* Benchmarks::readPermVector(){
     {
       while (getline(file,value,','))
         {
-          d[c++] = stod(value) - 1;
+//          d[c++] = stod(value) - 1;
+    	  d[c++] = stodFabio(value) - 1;
         }
     }
   else
@@ -301,6 +318,7 @@ int* Benchmarks::readPermVector(){
 
 
 //Create a random rotation matrix
+//double** Benchmarks::createRotMatrix(int dim){
 double** Benchmarks::createRotMatrix(int dim){
   double** m;
   int      i, j, k;
@@ -438,7 +456,8 @@ double** Benchmarks::readR(int sub_dim)
           while (getline(iss, value, ','))
             {
               // printf("%d,%d\t%f\n", i,j, stod(value));
-              m[i][j] = stod(value);
+              //m[i][j] = stod(value);
+              m[i][j] = stodFabio(value);
               // printf("done\n");
               j++;
             }
@@ -468,7 +487,8 @@ int* Benchmarks::readS(int num)
       while (getline(file,value))
         {
           // cout<<stod(value)<<endl;
-          s[c++] = stod(value);
+//          s[c++] = stod(value);
+    	  s[c++] = stodFabio(value);
         }
     }
   else
@@ -492,7 +512,8 @@ double* Benchmarks::readW(int num)
       while (getline(file,value))
         {
           // cout<<stod(value)<<endl;
-          w[c++] = stod(value);
+//          w[c++] = stod(value);
+    	  w[c++] = stodFabio(value);
         }
     }
   else

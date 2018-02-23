@@ -6,7 +6,7 @@ import utils.resultsProcessing.Experiment;
 import utils.resultsProcessing.*;
 //import static utils.RunAndStore.slash;
 
-public class TablesGenerator
+public class TabGen
 {
 	public static void main (String args[]) throws Exception
 	{
@@ -45,7 +45,7 @@ public class TablesGenerator
 //		TableHolmBonferroni T3 = new TableHolmBonferroni(experiment);
 //		T3.setReferenceAlgorithm();
 //		T3.execute();
-		
+//		
 		
 		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
 		T4.setErrorFlag(true);
