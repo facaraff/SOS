@@ -79,14 +79,14 @@ public class RunExperiments
 		
 //		experiments.add(new Unrot_eigen(10));
 		
-		experiments.add(new Unrot_eigen(50));
-		
-		experiments.add(new Unrot_eigen(100));
-		
+//		experiments.add(new Unrot_eigen(50));
+//		
+//		experiments.add(new Unrot_eigen(100));
+//		
 //		experiments.add(new RotEigen5050(10));
-		
+//		
 //		experiments.add(new RotEigen5050(50));
-		
+//		
 //		experiments.add(new RotEigen5050(100));
 		
 //		
@@ -101,6 +101,21 @@ public class RunExperiments
 //		experiments.add(new RIDEbenchirideultimo(50));
 //		
 //		experiments.add(new RIDEbenchirideultimo(100));
+		
+		
+//		experiments.add(new senzaXOr(10));
+		
+//		experiments.add(new senzaXOr(50));
+		
+//		experiments.add(new senzaXOr(100));
+		
+		experiments.add(new senzaXOwr(10));
+		
+		experiments.add(new senzaXOwr(50));
+		
+		experiments.add(new senzaXOwr(100));
+		
+		
 		//@@@@@@
 	
 		for(Experiment experiment : experiments)

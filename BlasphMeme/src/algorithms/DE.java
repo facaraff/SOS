@@ -112,6 +112,8 @@ public class DE extends Algorithm
 						crossPt = DEOp.crossOverBin(currPt, newPt, CR);
 					else if (crossoverStrategy == 2)
 						crossPt = DEOp.crossOverExp(currPt, newPt, CR);
+					else if (crossoverStrategy == 0)
+						crossPt = newPt;
 				}
 				
 				crossPt = toro(crossPt, bounds);
