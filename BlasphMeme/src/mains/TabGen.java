@@ -16,8 +16,8 @@ public class TabGen
 		{
 //			workingDir ="../../results";
 //			workingDir ="/home/facaraff/git/BlasphMeme/results";
-			workingDir ="/home/facaraff/git/BlasphMeme/BlasphMeme/results";
-//			workingDir ="C:\\Users\\fcaraf00\\Desktop\\FINAL\\UNROT";
+			//workingDir ="/home/facaraff/git/BlasphMeme/BlasphMeme/results";
+			workingDir ="C:\\Users\\fcaraf00\\Desktop\\TABELLONISSIME\\UNROT";
 			//workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
 			//System.exit(-1);
@@ -42,10 +42,10 @@ public class TabGen
 		*/
 
 
-//		TableHolmBonferroni T3 = new TableHolmBonferroni(experiment);
-//		T3.setReferenceAlgorithm();
-//		T3.execute();
-//		
+		TableHolmBonferroni T3 = new TableHolmBonferroni(experiment);
+		T3.setReferenceAlgorithm();
+		T3.execute();
+		
 		
 		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
 		T4.setErrorFlag(true);
