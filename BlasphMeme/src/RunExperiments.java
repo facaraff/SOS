@@ -103,17 +103,17 @@ public class RunExperiments
 //		experiments.add(new RIDEbenchirideultimo(100));
 		
 		
-//		experiments.add(new senzaXOr(10));
+		experiments.add(new senzaXOr(10));
 		
-//		experiments.add(new senzaXOr(50));
+		experiments.add(new senzaXOr(50));
 		
-//		experiments.add(new senzaXOr(100));
+		experiments.add(new senzaXOr(100));
 		
-		experiments.add(new senzaXOwr(10));
-		
-		experiments.add(new senzaXOwr(50));
-		
-		experiments.add(new senzaXOwr(100));
+//		experiments.add(new senzaXOwr(10));
+//		
+//		experiments.add(new senzaXOwr(50));
+//		
+//		experiments.add(new senzaXOwr(100));
 		
 		
 		//@@@@@@
