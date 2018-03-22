@@ -1,4 +1,4 @@
-package compact;
+package algorithms.compact;
 
 import static  utils.algorithms.operators.CompactAlgorithms.generateIndividual;
 import static  utils.algorithms.operators.CompactAlgorithms.scale;

@@ -2,12 +2,10 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
+import algorithms.singleSolution.Powell;
+import algorithms.singleSolution.Powell_toro;
+import algorithms.singleSolution.Rosenbrock;
 import benchmarks.CEC2014;
-//import algorithms.CMAES;
-//import algorithms.ISPO; 
-import algorithms.Powell;
-import algorithms.Powell_toro;
-import algorithms.Rosenbrock;
 
 
 public class CEC14 extends Experiment

@@ -1,4 +1,4 @@
-package algorithms.singleSolution;
+package algorithms;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
@@ -12,7 +12,7 @@ import static utils.MatLab.abs;
 
 import interfaces.Algorithm;
 import interfaces.Problem;
-import utils.RunAndStore.FTrend;
+import static utils.RunAndStore.FTrend;
 
 public class Rosenbrock extends Algorithm {
 	
@@ -47,7 +47,7 @@ public class Rosenbrock extends Algorithm {
 			yFirstFirst = problem.f(x);
 		}
 		
-		FT.add(0,yFirstFirst);
+		FT.add(0, yFirstFirst);
 		double yFirst = yFirstFirst;
 		double yBest = yFirst;
 		double yCurrent;
@@ -87,7 +87,7 @@ public class Rosenbrock extends Algorithm {
 		            	d[i] *= -beta;
 				}
 				
-				//if (iter%n == 0)
+				if (iter%n == 0)
 					FT.add(iter, yBest);
 			}
 			while ((yBest < yFirst) && (iter < maxEvaluations));

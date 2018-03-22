@@ -2,8 +2,8 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import benchmarks.CEC2015;
-import algorithms.ISPO; 
+import algorithms.singleSolution.ISPO;
+import benchmarks.CEC2015; 
 
 
 

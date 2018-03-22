@@ -3,7 +3,7 @@ package experiments;
 import interfaces.Experiment;
 import interfaces.Algorithm;
 //import interfaces.Problem;
-import algorithms.*; 
+import algorithms.singleSolution.PMS;
 //import benchmarks.BaseFunctions.Alpine;
 import benchmarks.CEC2014;
 //import benchmarks.BaseFunctions.Ackley;

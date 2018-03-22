@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.singleSolution;
 //in this part you can import the functionalities that yuo need to use for implementing your algorithm
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.MatLab.max;

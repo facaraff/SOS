@@ -1,4 +1,4 @@
-package compact;
+package algorithms.compact;
 
 import static utils.algorithms.Misc.toro;
 import static utils.algorithms.operators.CompactAlgorithms.generateIndividual;

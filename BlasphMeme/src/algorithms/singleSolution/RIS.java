@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.singleSolution;
 
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.operators.DEOp.crossOverExp;
