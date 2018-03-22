@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.singleSolution;
 
 
 import utils.algorithms.Misc;

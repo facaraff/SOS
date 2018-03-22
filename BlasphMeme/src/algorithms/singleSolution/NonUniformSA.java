@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.singleSolution;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import utils.random.RandUtils;
