@@ -59,7 +59,6 @@ public class Roulette_3SOME extends Algorithm {
 
 	protected boolean globalSearch(int budget, double CR, FTrend ft) throws Exception {
 		c = new Counter();
-		
 		int i = 0;
 		int changed = 0;
 		while (i < budget) {
