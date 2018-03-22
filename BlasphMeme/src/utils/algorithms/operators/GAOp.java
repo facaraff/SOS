@@ -1,6 +1,5 @@
 package utils.algorithms.operators;
 
-import static utils.algorithms.Misc.fix;
 import utils.MatLab;
 import utils.random.RandUtils;
 

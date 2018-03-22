@@ -3,7 +3,6 @@ package utils.algorithms.operators;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.DEOp.currentToRand1;
-import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 import java.util.Arrays;
