@@ -1,4 +1,4 @@
-package algorithms;
+package compact;
 
 import static utils.algorithms.operators.CompactAlgorithms.bin2dec;
 import static utils.algorithms.operators.CompactAlgorithms.generateIndividual;

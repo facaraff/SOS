@@ -1,4 +1,4 @@
-package algorithms;
+package compact;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.operators.DEOp.crossOverExp;
