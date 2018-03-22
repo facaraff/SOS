@@ -1,15 +1,15 @@
 package algorithms;
 
+import static utils.algorithms.operators.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.operators.CompactAlgorithms.scale;
+import static utils.algorithms.operators.CompactAlgorithms.updateMean;
+import static utils.algorithms.operators.CompactAlgorithms.updateSigma2;
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.DEOp.currentToBest1;
 import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.operators.DEOp.rand2;
 import static utils.algorithms.operators.DEOp.randToBest2;
-import static utils.algorithms.CompactAlgorithms.generateIndividual;
-import static utils.algorithms.CompactAlgorithms.scale;
-import static utils.algorithms.CompactAlgorithms.updateMean;
-import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import static utils.algorithms.Misc.toro;
 import static utils.MatLab.isEqual;
 
