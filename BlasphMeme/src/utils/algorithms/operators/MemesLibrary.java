@@ -3,6 +3,7 @@ package utils.algorithms.operators;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.DEOp.currentToRand1;
+import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import  utils.algorithms.Misc;
 import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.Problem;
-
+import static utils.RunAndStore.FTrend;
 
 public class MemesLibrary
 {	
@@ -525,10 +526,10 @@ public class MemesLibrary
 		return out;
 	}
 	
+	
 	/** 3SOME's short distance searcher **/
 	/** Standard settings: deepLSRadius = 0.4, deepLSSteps = 150 **/
-	public static double[] ThreeSome_ShortDistance(double[] sol, double fit, double deepLSRadius, int deepLSSteps, 
-			Problem prob, int totalBudget, int iter) throws Exception
+	public static double[] ThreeSome_ShortDistance(double[] sol, double fit, double deepLSRadius, int deepLSSteps, Problem prob, int totalBudget, int iter, FTrend  FT) throws Exception
 	{
 		int numEval = 0;
 		int problemDimension = prob.getDimension();
@@ -574,6 +575,7 @@ public class MemesLibrary
 					fit = fXk;
 					for (int n = 0; n < problemDimension; n++)
 						sol[n] = Xk[n];
+					FT.add(iter, fit);
 				}
 
 				if (iter < totalBudget)
@@ -599,6 +601,7 @@ public class MemesLibrary
 								fit = fXk;
 								for (int n = 0; n < problemDimension; n++)
 									sol[n] = Xk[n];
+								FT.add(iter, fit);
 							}
 
 							if (fXk >= fXk_orig)
@@ -623,8 +626,7 @@ public class MemesLibrary
 
 	/** 3SOME's short distance searcher with stop criterion **/
 	/** Standard settings: deepLSRadius = 0.4, precision = 10^-6 **/
-	public static double[] ThreeSome_ShortDistance(double[] sol, double fit, double deepLSRadius, double precision, 
-			Problem prob, int totalBudget, int iter) throws Exception
+	public static double[] ThreeSome_ShortDistance(double[] sol, double fit, double deepLSRadius, double precision, Problem prob, int totalBudget, int iter, FTrend FT) throws Exception
 	{
 		int numEval = 0;
 		int problemDimension = prob.getDimension();
@@ -663,13 +665,14 @@ public class MemesLibrary
 				Xk = Misc.toro(Xk, bounds);
 				double fXk = prob.f(Xk);
 				iter++; numEval++;
-
+				
 				// best update
 				if (fXk < fit)
 				{
 					fit = fXk;
 					for (int n = 0; n < problemDimension; n++)
 						sol[n] = Xk[n];
+					FT.add(iter, fit);
 				}
 
 				if (iter < totalBudget)
@@ -695,6 +698,7 @@ public class MemesLibrary
 								fit = fXk;
 								for (int n = 0; n < problemDimension; n++)
 									sol[n] = Xk[n];
+								FT.add(iter, fit);
 							}
 
 							if (fXk >= fXk_orig)
@@ -736,8 +740,7 @@ public class MemesLibrary
 
 	/** ROSENBROCK METHOD **/
 	/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-	public static double[] Rosenbrock(double[] sol, double fit, double eps, double alpha, double beta, 
-			Problem problem, int totalBudget, int iter) throws Exception
+	public static double[] Rosenbrock(double[] sol, double fit, double eps, double alpha, double beta, Problem problem, int totalBudget, int iter, FTrend FT) throws Exception
 	{		
 		int n = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
@@ -786,6 +789,7 @@ public class MemesLibrary
 		            	lambda[i] += d[i];
 		            	d[i] *= alpha;
 		            	yBest = yCurrent;
+		            	FT.add(iter, yBest);
 		            	for (int j=0;j<n;j++)
 		            	{
 		            		xk[j] = xCurrent[j];
