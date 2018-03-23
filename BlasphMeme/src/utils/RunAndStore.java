@@ -175,6 +175,10 @@ public class RunAndStore
 	public FTrend(){this.fValue = new Vector<Double>(); this.index =  new Vector<Integer>();}
 	
 	/**
+	* Get the size of the FTrend object.
+	*/
+	public int getFTSize(){return this.fValue.size();}
+	/**
 	* Get the vector containg the fitness values.
 	*/
 	public Vector<Double> getF(){return this.fValue;}
@@ -182,6 +186,10 @@ public class RunAndStore
 	* Get the i-th fitness value.
 	*/
 	public double getF(int i){return this.fValue.get(i);}
+	/**
+	* Get the last fitness value.
+	*/
+	public double getLastF(){return this.fValue.get(this.fValue.size()-1);}//or equivalently {return this.fValue.lastElement;}
 	/**
 	* Get the vector containing the FE counter values.
 	*/
@@ -228,13 +236,24 @@ public class RunAndStore
 	/**
 	* Merge two fitness trends.
 	* 
-	* Useful when an algorithms is run inside another. The fitness trned of the inner algorithm, i.e. FT, is appended to the bottom of the trend of the main algortihsm.
-	* The FE value is appropriatelty modified.  
+	* Useful when an algorithms is run inside another. The fitness trend of the inner algorithm, i.e. FT, is appended to the bottom of the trend of the main algorithm.
+	* The FE value is appropriately modified.  
 	* 
 	* @param FT fitness trend to be included in the main trend.
 	* @param startI last FE counter value of the main fitness trend.
 	*/
-	public void merge(FTrend FT, int startI){for(int i = 0; i<this.index.size(); i++) add(startI+FT.getI(i), FT.getF(i));}
+//	public void merge(FTrend FT, int startI){for(int i = 0; i<this.index.size(); i++) add(startI+FT.getI(i), FT.getF(i));} CONTROLLARE!!!!! PER LORA LO RICONVERTO IN APPEND!! (mi sa che ho fatto bene , cancella questo e tieni append!!!)
+	/**
+	* Join two fitness trends.
+	* 
+	* Useful when an algorithms is run inside another. The fitness trend of the inner algorithm, i.e. FT, is appended to the bottom of the trend of the main algorithm.
+	* The FE value is appropriately modified.  
+	* 
+	* @param FT fitness trend to be included in the main trend.
+	* @param startI last FE counter value of the main fitness trend.
+	*/
+	public void append(FTrend FT, int startI){for(int i = 0; i<FT.index.size(); i++) add(startI+FT.getI(i), FT.getF(i));}
+
 	/**
 	* Store the fitnes trend into a string.
 	* 

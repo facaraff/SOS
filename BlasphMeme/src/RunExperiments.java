@@ -33,11 +33,11 @@ public class RunExperiments
 			
 		//@@@ MODIFY THIS PART @@@		
 		
-		experiments.add(new MUCCHIATALOCAL(10));
+		experiments.add(new MUCCHIATACATENAZZI(10));
 		
-		experiments.add(new MUCCHIATALOCAL(50));
+		experiments.add(new MUCCHIATACATENAZZI(50));
 		
-		experiments.add(new MUCCHIATALOCAL(100));
+		experiments.add(new MUCCHIATACATENAZZI(100));
 		
 
 		

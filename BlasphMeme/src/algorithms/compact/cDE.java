@@ -195,7 +195,7 @@ public class cDE extends Algorithm
 				else
 				{
 					// log best fitness (non persistent elitism)
-					if (fBest < FT.getF(FT.getLastI()))
+					if (fBest <FT.getLastF())
 						FT.add(i, fBest);
 				}
 			}
@@ -245,7 +245,7 @@ public class cDE extends Algorithm
 		else
 		{
 			// log best fitness (non persistent elitism)
-			double lastFBest = FT.getF(FT.getLastI()); 
+			double lastFBest =FT.getLastF(); 
 			if (fBest < lastFBest)
 				FT.add(i, fBest);
 			else

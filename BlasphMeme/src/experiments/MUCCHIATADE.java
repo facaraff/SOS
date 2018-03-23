@@ -5,7 +5,6 @@ import interfaces.Algorithm;
 import algorithms.JADE;
 import algorithms.jDE;
 //import interfaces.Problem;
-import algorithms.singleSolution.*;
 //import benchmarks.BaseFunctions.Alpine;
 import benchmarks.CEC2014;
 //import benchmarks.BaseFunctions.Ackley;

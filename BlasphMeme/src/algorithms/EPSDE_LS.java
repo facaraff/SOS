@@ -104,7 +104,7 @@ public class EPSDE_LS extends Algorithm
 			crossoverStrategies[i] = poolCrossoverStrategies[RandUtils.randomInteger(nrCrossoverStrategies)];
 			mutationStrategies[i] = poolMutationStrategies[RandUtils.randomInteger(nrMutationStrategies)];
 		}
-
+		
 		// initialize local search methods
 		Powell powell = new Powell();
 		powell.setParameter("p0",-1.0); // purposely set a negative tolerance
@@ -120,6 +120,8 @@ public class EPSDE_LS extends Algorithm
 		nelderMead.setParameter("p1", 0.5);
 		nelderMead.setParameter("p2", 2.0);
 		nelderMead.setParameter("p3", 0.5);
+		
+		FTrend ft;
 		
 		// iterate
 		while (evalCount < maxEvaluations)
@@ -218,42 +220,54 @@ public class EPSDE_LS extends Algorithm
 				MatLab.sortRows(fitIndices, 0);
 				int bestIndex = (int)fitIndices[0][1];
 				
-				int ls = RandUtils.randomInteger(2);
-				FTrend ft;
+//				int ls = RandUtils.randomInteger(2);
+
+				int ls = 1;
+				
+				
 				switch (ls) {
 					case 0:
 					{
 						// powell
+						//FTrend ft;
 						powell.setInitialSolution(currentPopulation[bestIndex]);
+						powell.setInitialFitness(currentFitnesses[bestIndex]);
 						int budget = (int)(MatLab.min(lsBudget, maxEvaluations-evalCount));
 						ft  = powell.execute(problem, budget+1);
 						currentPopulation[bestIndex] = powell.getFinalBest();
-						currentFitnesses[bestIndex] = ft.getF(ft.getLastI());
-						FT.merge(ft, evalCount); ft = null;
+						//System.out.println("powell "+ft.getLastF());
+						FT.append(ft, evalCount); ft = null;
 						evalCount += budget;
 						break;
 					}
 					case 1:
 					{
 						// rosenbrock
-						rosenbrock.setInitialSolution(bestPt);
+						//FTrend ft;
+						//System.out.println("best mortacci f "+bestPt[0]);
+						rosenbrock.setInitialSolution(currentPopulation[bestIndex]);
+						rosenbrock.setInitialFitness(currentFitnesses[bestIndex]);
 						int budget = (int)(MatLab.min(lsBudget, maxEvaluations-evalCount));
 						ft = rosenbrock.execute(problem, budget+1);
 						currentPopulation[bestIndex] = rosenbrock.getFinalBest();
-						currentFitnesses[bestIndex] = ft.getF(ft.getLastI());
-						FT.merge(ft, evalCount); ft = null;
+						//System.out.println("ROS "+ft.getLastF());
+						currentFitnesses[bestIndex] = ft.getLastF();
+						FT.append(ft, evalCount); ft = null;
 						evalCount += budget;
 						break;
 					}
 					case 2:
 					{
 						// nelder-mead
-						nelderMead.setInitialSolution(bestPt);
+						//FTrend ft;
+						nelderMead.setInitialSolution(currentPopulation[bestIndex]);
+						nelderMead.setInitialFitness(currentFitnesses[bestIndex]);
 						int budget = (int)(MatLab.min(lsBudget, maxEvaluations-evalCount));
 						ft = nelderMead.execute(problem, budget+1);
 						currentPopulation[bestIndex] = nelderMead.getFinalBest();
-						currentFitnesses[bestIndex] = ft.getF(ft.getLastI()); 
-						FT.merge(ft, evalCount); ft = null;
+						//System.out.println("NELDER "+ft.getLastF());
+						currentFitnesses[bestIndex] = ft.getLastF();
+						FT.append(ft, evalCount); ft = null;
 						evalCount += budget;
 						break;
 					}
