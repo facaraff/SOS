@@ -6,13 +6,11 @@ import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.saturate;
 import static utils.algorithms.Misc.toro;
 
-import java.util.Vector;
-
 import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.Algorithm;
 import algorithms.singleSolution.Powell;
-import algorithms.singleSolution.NelderMead;
+import algorithms.NelderMead;
 import algorithms.singleSolution.Rosenbrock;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
@@ -221,16 +219,17 @@ public class EPSDE_LS extends Algorithm
 				int bestIndex = (int)fitIndices[0][1];
 				
 				int ls = RandUtils.randomInteger(2);
-
+				FTrend ft;
 				switch (ls) {
 					case 0:
 					{
 						// powell
 						powell.setInitialSolution(currentPopulation[bestIndex]);
 						int budget = (int)(MatLab.min(lsBudget, maxEvaluations-evalCount));
-						Vector<Best> bestsLS = powell.execute(problem, budget+1);
+						ft  = powell.execute(problem, budget+1);
 						currentPopulation[bestIndex] = powell.getFinalBest();
-						currentFitnesses[bestIndex] = bestsLS.get(bestsLS.size()-1).getfBest();
+						currentFitnesses[bestIndex] = ft.getF(ft.getLastI());
+						FT.merge(ft, evalCount); ft = null;
 						evalCount += budget;
 						break;
 					}
@@ -239,9 +238,10 @@ public class EPSDE_LS extends Algorithm
 						// rosenbrock
 						rosenbrock.setInitialSolution(bestPt);
 						int budget = (int)(MatLab.min(lsBudget, maxEvaluations-evalCount));
-						Vector<Best> bestsLS = rosenbrock.execute(problem, budget+1);
+						ft = rosenbrock.execute(problem, budget+1);
 						currentPopulation[bestIndex] = rosenbrock.getFinalBest();
-						currentFitnesses[bestIndex] = bestsLS.get(bestsLS.size()-1).getfBest();
+						currentFitnesses[bestIndex] = ft.getF(ft.getLastI());
+						FT.merge(ft, evalCount); ft = null;
 						evalCount += budget;
 						break;
 					}
@@ -250,9 +250,10 @@ public class EPSDE_LS extends Algorithm
 						// nelder-mead
 						nelderMead.setInitialSolution(bestPt);
 						int budget = (int)(MatLab.min(lsBudget, maxEvaluations-evalCount));
-						Vector<Best> bestsLS = nelderMead.execute(problem, budget+1);
+						ft = nelderMead.execute(problem, budget+1);
 						currentPopulation[bestIndex] = nelderMead.getFinalBest();
-						currentFitnesses[bestIndex] = bestsLS.get(bestsLS.size()-1).getfBest();
+						currentFitnesses[bestIndex] = ft.getF(ft.getLastI()); 
+						FT.merge(ft, evalCount); ft = null;
 						evalCount += budget;
 						break;
 					}
