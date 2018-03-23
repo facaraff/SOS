@@ -1,0 +1,47 @@
+package experiments;
+
+import interfaces.Experiment;
+import interfaces.Algorithm;
+//import interfaces.Problem;
+import algorithms.singleSolution.*;
+import algorithms.compact.*;
+import algorithms.*;
+//import benchmarks.BaseFunctions.Alpine;
+import benchmarks.CEC2014;
+//import benchmarks.BaseFunctions.Ackley;
+//import benchmarks.BaseFunctions.Rosenbrock;
+
+public class MUCCHIATACATENAZZI extends Experiment
+{
+	
+	public MUCCHIATACATENAZZI(int probDim) throws Exception
+	{
+		//super(probDim,"DESIGN");
+		super(probDim,5000,"DESIGN");
+		setNrRuns(30);
+		
+		Algorithm a;// ///< A generic optimiser.
+//	    Problem p;// ///< A generic problem.
+
+	    a = new MS_CAP();
+	    a.setParameter("p0",50.0);
+	    a.setParameter("p1", 1e-6);
+	    a.setParameter("p2", 3.0);
+	    add(a);
+	    
+	    a = new MADE();
+	    a.setParameter("p0",50.0);
+	    a.setParameter("p1", 50.0);
+	    a.setParameter("p2", 0.5);
+	    a.setParameter("p3", 0.7);
+	    a.setParameter("p4", 0.02);
+	    a.setParameter("p5", 1.0);
+	    add(a);
+	    
+
+
+		for(int i = 1; i<=30; i++)
+			add(new CEC2014(probDim, i));
+
+	}
+}
