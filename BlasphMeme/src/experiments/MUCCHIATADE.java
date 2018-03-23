@@ -2,8 +2,7 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.JADE;
-import algorithms.jDE;
+import algorithms.*;
 //import interfaces.Problem;
 //import benchmarks.BaseFunctions.Alpine;
 import benchmarks.CEC2014;
@@ -37,10 +36,19 @@ public class MUCCHIATADE extends Experiment
 	    a.setParameter("p2", 0.1);
 	    add(a);
 	    
-	    a = new JADE();
+	    a = new SADE();
+	    a.setParameter("p0",50.0);
+	    a.setParameter("p1", 4.0);
+	    a.setParameter("p2", 20.0);
+	    add(a);
+	    
+	    a = new CLPSO();
 	    a.setParameter("p0",60.0);
-	    a.setParameter("p1", 0.05);
-	    a.setParameter("p2", 0.1);
+	    add(a);
+	    
+	    a = new CCPSO2();
+	    a.setParameter("p0",30.0);
+	    a.setParameter("p1",0.5);
 	    add(a);
 
 		for(int i = 1; i<=30; i++)
