@@ -41,15 +41,30 @@ public class CMAES_11 extends Algorithm
 		double[] x_offspring; //= new double[problemDimension];
 		double f_offspring;
 
-		//compute and evaluate initial solution
-		double[] x_parent = generateRandomSolution(bounds, problemDimension);
-		double f_parent = problem.f(x_parent);
-		FT.add(0, f_parent);
+		
+		
+		int i=0;
+		double[] x_parent = null;
+		double f_parent = Double.NaN;
+		if (initialSolution != null)
+		{
+			
+			x_parent = initialSolution;
+			f_parent = initialFitness;
+		}
+		else
+		{
+			//compute and evaluate initial solution
+			x_parent = generateRandomSolution(bounds, problemDimension);
+			f_parent = problem.f(x_parent);
+			i++;
+		}
+		FT.add(i, f_parent);
 
 		double[] z;
 		double[][] A = eye(problemDimension);
 		double[] Az;
-		int i = 1;
+		
 		int improvements=0;
 		while (i < maxEvaluations)
 		{	
@@ -85,7 +100,7 @@ public class CMAES_11 extends Algorithm
 		finalBest = x_parent;
 				
 		FT.add(i, f_parent);
-
+		
 		return FT;
 	}
 

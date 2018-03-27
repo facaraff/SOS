@@ -35,17 +35,27 @@ public class NonUniformSA extends Algorithm
 		double fWorst;
 		
 		// initialize first point
+
+		int i=0;
 		if (initialSolution != null)
+		{
+			
 			bestPt = initialSolution;
+			fNew = initialFitness;
+		}
 		else
+		{
+			//compute and evaluate initial solution
 			bestPt = generateRandomSolution(bounds, problemDimension);
+			fNew = problem.f(bestPt);
+			i++;
+		}
 		
-		fNew = problem.f(bestPt);
 		fOld = fNew;
 		fBest = fNew;
 		fWorst = fNew;
-
-		FT.add(0, fNew);
+		
+		FT.add(i, fNew);
 		
 		// evaluate initial solutions to set the initial temperature
 		for (int j = 0; j < initialSolutions; j++)
@@ -56,7 +66,7 @@ public class NonUniformSA extends Algorithm
 			// update best
 			if (fNew < fBest)
 			{
-				FT.add(j+1, fNew);
+				FT.add(j+i+1, fNew);
 				for (int k = 0; k < problemDimension; k++)
 					bestPt[k] = newPt[k];
 				fBest = fNew;
@@ -76,7 +86,7 @@ public class NonUniformSA extends Algorithm
 		double T0 = -delt0/Math.log(accept0);		
 		double tk = T0;
 
-		int i = initialSolutions+1;
+		i = initialSolutions+1;
 		
 		int generationIndex = 1;
 		int totalGenerations = (maxEvaluations-i)/Lk;
@@ -133,3 +143,5 @@ public class NonUniformSA extends Algorithm
 		return FT;
 	}
 }
+
+//System.out.println(f_parent+" contro "+FT.getLastF());

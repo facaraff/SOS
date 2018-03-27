@@ -260,10 +260,10 @@ public class PMS extends Algorithm
 				yFirst = fBest;
 				for(int j=0;j<problemDimension;j++)
 				{
-					if(i%problemDimension==0)
-					{
-						FT.add(i,fBest);
-					}
+//					if(i%problemDimension==0)
+//					{
+//						FT.add(i,fBest);
+//					}
 
 					for(int n=0;n<problemDimension;n++)
 						xCurrent[n]= xk[n]+d[j]*xi[j][n];
@@ -282,6 +282,11 @@ public class PMS extends Algorithm
 						{
 							xk[n] = xCurrent[n];
 							best[n] = xCurrent[n];
+						}
+						
+						if(i%problemDimension==0)
+						{
+							FT.add(i,fBest);
 						}
 
 					}

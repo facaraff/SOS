@@ -574,7 +574,7 @@ public class MemesLibrary
 					fit = fXk;
 					for (int n = 0; n < problemDimension; n++)
 						sol[n] = Xk[n];
-					FT.add(iter, fit);
+					if(problemDimension%iter==0) FT.add(iter, fit);
 				}
 
 				if (iter < totalBudget)
@@ -600,7 +600,7 @@ public class MemesLibrary
 								fit = fXk;
 								for (int n = 0; n < problemDimension; n++)
 									sol[n] = Xk[n];
-								FT.add(iter, fit);
+								if(problemDimension%iter==0) FT.add(iter, fit);
 							}
 
 							if (fXk >= fXk_orig)
@@ -671,7 +671,7 @@ public class MemesLibrary
 					fit = fXk;
 					for (int n = 0; n < problemDimension; n++)
 						sol[n] = Xk[n];
-					FT.add(iter, fit);
+					if(problemDimension%iter==0) FT.add(iter, fit);
 				}
 
 				if (iter < totalBudget)
@@ -697,7 +697,7 @@ public class MemesLibrary
 								fit = fXk;
 								for (int n = 0; n < problemDimension; n++)
 									sol[n] = Xk[n];
-								FT.add(iter, fit);
+								if(problemDimension%iter==0) FT.add(iter, fit);
 							}
 
 							if (fXk >= fXk_orig)
@@ -788,7 +788,7 @@ public class MemesLibrary
 		            	lambda[i] += d[i];
 		            	d[i] *= alpha;
 		            	yBest = yCurrent;
-		            	FT.add(iter, yBest);
+		            	if(n%iter==0) FT.add(iter, yBest);
 		            	for (int j=0;j<n;j++)
 		            	{
 		            		xk[j] = xCurrent[j];

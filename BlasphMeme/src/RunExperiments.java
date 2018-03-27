@@ -33,11 +33,11 @@ public class RunExperiments
 			
 		//@@@ MODIFY THIS PART @@@		
 		
-		experiments.add(new MUCCHIATADE(10));
+		experiments.add(new inprogress(10));
 		
-		experiments.add(new MUCCHIATADE(50));
+		experiments.add(new inprogress(50));
 		
-		experiments.add(new MUCCHIATADE(100));
+		experiments.add(new inprogress(100));
 		
 
 		
