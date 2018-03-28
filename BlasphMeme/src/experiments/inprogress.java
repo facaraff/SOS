@@ -18,7 +18,7 @@ public class inprogress extends Experiment
 	{
 		//super(probDim,"DESIGN");
 		super(probDim,5000,"DESIGN");
-		setNrRuns(16);
+		setNrRuns(30);
 		
 		Algorithm a;// ///< A generic optimiser.
 //	    Problem p;// ///< A generic problem.
