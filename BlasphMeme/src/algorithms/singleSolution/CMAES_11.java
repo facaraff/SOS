@@ -81,7 +81,7 @@ public class CMAES_11 extends Algorithm
 				lambda_succ=0;
 			//update step size procedure
 			p_succ_sign = (1-c_p)*p_succ_sign + c_p*lambda_succ;
-			sigma = sigma*Math.exp( (1/d)*(p_succ_sign-(p_target_succ/(1-p_target_succ))*(1-p_succ_sign)) );
+			sigma = sigma*Math.exp( (1/d)*(p_succ_sign-(p_target_succ/(1-p_target_succ))*(1-p_succ_sign)));
 			if(f_offspring <= f_parent)
 			{
 				f_parent=f_offspring;

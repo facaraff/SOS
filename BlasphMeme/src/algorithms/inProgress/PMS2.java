@@ -16,6 +16,7 @@ import interfaces.Problem;
 
 public class PMS2 extends Algorithm
 {	
+	boolean verbose = false;
 
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -70,48 +71,71 @@ public class PMS2 extends Algorithm
 		
 		int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
 		
+		double[] xTemp = new double[problemDimension];
+		for(int n=0;n<problemDimension; n++)
+			xTemp[n] = best[n];
+		double fTemp = fBest;
+		
 		while (i < maxEvaluations)
 		{
-			System.out.println("L start point: "+fBest);
-			l.setInitialSolution(best);
-			l.setInitialFitness(fBest);
+			if (verbose) System.out.println("L start point: "+fBest);
+			l.setInitialSolution(xTemp);
+			l.setInitialFitness(fTemp);
 //			budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
-			ft = l.execute(problem, budget);
+			ft = l.execute(problem, 0);
 			i+=FT.getLastI();
-			best = l.getFinalBest();
-			fBest = ft.getLastF();
-			System.out.println("L final point: "+fBest);
+			xTemp = l.getFinalBest();
+			fTemp = ft.getLastF();
+			if (verbose) System.out.println("L final point: "+fBest);
 			FT.append(ft, i);
-			System.out.println("L appended point: "+FT.getLastF());
+			if (verbose) System.out.println("L appended point: "+FT.getLastF());
+			if(fTemp<fBest)
+			{
+				fBest = fTemp;
+				for(int n=0;n<problemDimension; n++)
+					best[n] = xTemp[n];
+			}
 			if (RandUtils.random() > 0.5)
 			{
-				System.out.println("C start point: "+fBest);
-				cma11.setInitialSolution(best);
-				cma11.setInitialFitness(fBest);
+				if (verbose) System.out.println("C start point: "+fBest);
+				cma11.setInitialSolution(xTemp);
+				cma11.setInitialFitness(fTemp);
 //				budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
 				ft = cma11.execute(problem, budget);
 				i+=FT.getLastI(); 
-				best = cma11.getFinalBest();
-				fBest = ft.getLastF();
-				System.out.println("C final point: "+fBest);
+				xTemp = cma11.getFinalBest();
+				fTemp = ft.getLastF();
+				if (verbose) System.out.println("C final point: "+fBest);
 				FT.append(ft, i);
-				System.out.println("C appended point: "+FT.getLastF());
+				if (verbose) System.out.println("C appended point: "+FT.getLastF());
+				if(fTemp<fBest)
+				{
+					fBest = fTemp;
+					for(int n=0;n<problemDimension; n++)
+						best[n] = xTemp[n];
+				}
 			}
 			else
 			{
-				System.out.println("N start point: "+FT.getLastF());
-				nusa.setInitialSolution(best);
-				nusa.setInitialFitness(fBest);
+				if (verbose) System.out.println("N start point: "+FT.getLastF());
+				nusa.setInitialSolution(xTemp);
+				nusa.setInitialFitness(fTemp);
 //				budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
 				ft = nusa.execute(problem, budget);
 				i+=FT.getLastI();
-				best = nusa.getFinalBest();
-				fBest = ft.getLastF();
-				System.out.println("N final point: "+FT.getLastF());
+				xTemp = nusa.getFinalBest();
+				fTemp = ft.getLastF();
+				if (verbose) System.out.println("N final point: "+FT.getLastF());
 				FT.append(ft, i);
-				System.out.println("N appended point: "+FT.getLastF());
+				if (verbose) System.out.println("N appended point: "+FT.getLastF());
+				if(fTemp<fBest)
+				{
+					fBest = fTemp;
+					for(int n=0;n<problemDimension; n++)
+						best[n] = xTemp[n];
+				}
 			}
-			//System.out.println("pippo");
+			//if (verbose) System.out.println("pippo");
 		}
 		
 		FT.add(i,fBest);
