@@ -23,6 +23,19 @@ public class inprogress extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 //	    Problem p;// ///< A generic problem.
 
+	    a = new inprogressAlg();
+	    a.setParameter("p0", 5.0);
+	    a.setParameter("p1", 0.9);
+	    a.setParameter("p2", 3.0);
+	    a.setParameter("p3", 10.0);
+	    a.setParameter("p4", 0.18181818181);
+	    a.setParameter("p5", 0.08333333333);
+	    a.setParameter("p6", 0.44);
+	    a.setParameter("p7", 1.0);
+	    a.setParameter("p8", 150.0);
+	    a.setParameter("p9", 0.4);	    
+	    a.setParameter("p10", 0.25);
+	    add(a);
 		
 	    a = new PMS2();
 	    a.setParameter("p0",0.95);
@@ -37,14 +50,14 @@ public class inprogress extends Experiment
 	    a.setParameter("p9", 0.25);
 	    add(a);
 
-	    a = new ResampledCMAES11();
-	    a.setParameter("p0",0.25);
-	    a.setParameter("p1", 0.18181818181);
-	    a.setParameter("p2", 0.08333333333);
-	    a.setParameter("p3", 0.44);
-	    a.setParameter("p4", 1.0);
-	    a.setParameter("p5", 0.25);
-	    add(a);
+//	    a = new ResampledCMAES11();
+//	    a.setParameter("p0",0.25);
+//	    a.setParameter("p1", 0.18181818181);
+//	    a.setParameter("p2", 0.08333333333);
+//	    a.setParameter("p3", 0.44);
+//	    a.setParameter("p4", 1.0);
+//	    a.setParameter("p5", 0.25);
+//	    add(a);
 	    
 	    a = new PMS();
 	    a.setParameter("p0",0.5);
