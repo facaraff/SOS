@@ -32,12 +32,18 @@ public class RunExperiments
 	
 			
 		//@@@ MODIFY THIS PART @@@		
+
+		experiments.add(new extendedtoro(10));
 		
-		experiments.add(new inprogress(10));
+		experiments.add(new extendedtoro(50));
 		
-		experiments.add(new inprogress(50));
+		experiments.add(new extendedtoro(100));
 		
-		experiments.add(new inprogress(100));
+//		experiments.add(new inprogress(10));
+//		
+//		experiments.add(new inprogress(50));
+//		
+//		experiments.add(new inprogress(100));
 //		
 
 	

@@ -15,6 +15,7 @@ package utils.algorithms;
 import static utils.MatLab.max;
 import static utils.MatLab.min;
 import static utils.MatLab.multiply;
+import static utils.MatLab.columnXrow;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
 import static utils.MatLab.norm2;
@@ -304,6 +305,34 @@ public class Misc
 	
 	
 	
+	/**
+	 * Return the A matrix (determinant = 1) by means of the cholesky decomposition method in (1+1)-CMAES.
+	 * @param A.
+	 * @return A updated.
+	 */
+	public  static double[][] updateCholesky(double[][] A, double[] z, double c_a)
+	{   
+		//scalars factors
+		double z2 = norm2(z); z2=z2*z2; 
+		double ca2 = c_a*c_a;
+		double factor = (c_a / z2)*(Math.sqrt(1+((1-ca2)*z2)/ca2)-1); 
+		//System.out.println(factor);
+		//matrix A*z*z'
+		double[][] temp = columnXrow(multiply(A,z),z); 
+		return sum( multiply(c_a,A) , multiply(factor,temp) );
+	}
+	/**
+	 * Return return a new Z vector in in (1+1)-CMAES.
+	 * @param A.
+	 * @return A updated.
+	 */
+	public static double[] newZ(int dimension)
+	{
+		double[] x = new double[dimension];
+		for(int i=0;i<dimension;i++)
+			x[i] = RandUtils.gaussian(0, 1);
+		return x;
+	}
 	
 //	/**
 //	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
