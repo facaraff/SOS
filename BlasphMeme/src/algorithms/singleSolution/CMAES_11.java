@@ -17,7 +17,13 @@ import static utils.RunAndStore.FTrend;
  * Covariance Matrix Adaptation Evolutionary Strategy (1+1)
  */
 public class CMAES_11 extends Algorithm
-{
+{   
+	
+	private boolean saveMatrix = false;
+	private double[][] matrix = null;
+	public void setSavematrix(boolean saveMatrix){this.saveMatrix= saveMatrix;}
+	public void setMatrix(double[][] matrix) {this.matrix = matrix;}
+	public double[][] getMatrix() {return this.matrix;}
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
@@ -93,10 +99,22 @@ public class CMAES_11 extends Algorithm
 				//update cholesky
 				if(p_succ_sign < p_thresh)
 					A=updateCholesky(A,z,c_a);
+				
+//controllato se il determinante fosse unitario, in effetti sto accrocchio funziona				
+//				for(int c=0; c<A.length;c++)
+//				{
+//					for(int b=0; b<A.length;b++)
+//						System.out.print(A[c][b]+"\t");
+//					System.out.println();
+//				}
+//				System.out.println();
 			}
+
+				
 			i++;
 		}
-
+		if(saveMatrix)
+				this.matrix = A;
 		finalBest = x_parent;
 				
 		FT.add(i, f_parent);

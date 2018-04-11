@@ -1,6 +1,7 @@
 package algorithms.inProgress;
 
-import algorithms.singleSolution.S;
+import algorithms.memes.LineMinimization;
+//import algorithms.singleSolution.S;
 import algorithms.singleSolution.NonUniformSA;
 import algorithms.singleSolution.CMAES_11;
 
@@ -10,11 +11,11 @@ import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.MatLab.min;
 import utils.RunAndStore.FTrend;
 
-//import utils.random.RandUtils;
+import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class inprogressAlg extends Algorithm
+public class inprogressAlg2 extends Algorithm
 {	
 	boolean verbose = false;
 
@@ -63,14 +64,16 @@ public class inprogressAlg extends Algorithm
 		cma11.setParameter("p1",getParameter("p5").doubleValue());  // 1/12
 		cma11.setParameter("p2",getParameter("p6").doubleValue()); // 0.44
 		cma11.setParameter("p3",getParameter("p7").doubleValue()); // 1 --> problem dependent!!
-
+		cma11.setSavematrix(true);
 		
-		S s = new S();
-		s.setParameter("p0", getParameter("p8").doubleValue()); //150;
-		s.setParameter("p1", getParameter("p9").doubleValue()); //0.4;
+//		S s = new S();
+//		s.setParameter("p0", getParameter("p8").doubleValue()); //150;
+//		s.setParameter("p1", getParameter("p9").doubleValue()); //0.4;
 		
+		LineMinimization brent = new LineMinimization();
+		int brentBudget = getParameter("p8").intValue();//100
+		double maxB = getParameter("p9").doubleValue();
 		
-		double maxB = getParameter("p10").doubleValue();
 		
 		FTrend ft = null;
 		
@@ -81,8 +84,11 @@ public class inprogressAlg extends Algorithm
 			xTemp[n] = best[n];
 		double fTemp = fBest;
 		
+		boolean matrixDoNotExists = true;
+		
 		while (i < maxEvaluations)
 		{
+			
 			budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
 			
 			if (verbose) System.out.println("L start point: "+fBest);
@@ -103,7 +109,7 @@ public class inprogressAlg extends Algorithm
 					best[n] = xTemp[n];
 			}
 			
-			//if (RandUtils.random() > 0.5)
+			if (RandUtils.random() > 0.5 || matrixDoNotExists)
 			{
 				if (verbose) System.out.println("C start point: "+fBest);
 				cma11.setInitialSolution(xTemp);
@@ -122,26 +128,41 @@ public class inprogressAlg extends Algorithm
 					for(int n=0;n<problemDimension; n++)
 						best[n] = xTemp[n];
 				}
+				matrixDoNotExists = false;
 			}
-			//else
+			else
 			{
-				if (verbose) System.out.println("N start point: "+FT.getLastF());
-				s.setInitialSolution(xTemp);
-				s.setInitialFitness(fTemp);
-//				budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
-				ft = s.execute(problem, 0);
-				i+=ft.getLastI();
-				xTemp = s.getFinalBest();
-				fTemp = ft.getLastF();
-				if (verbose) System.out.println("N final point: "+FT.getLastF());
-				FT.append(ft, i);
-				if (verbose) System.out.println("N appended point: "+FT.getLastF());
-				if(fTemp<fBest)
+				double[][] m = cma11.getMatrix();
+//				for(int c=0; c<m.length;c++)
+//				{
+//					for(int b=0; b<m[0].length;b++)
+//						System.out.print(m[c][b]+"\t");
+//					System.out.println();
+//				}
+//				System.out.println();
+				
+				for(int k=0; k<m.length;k++)
 				{
-					fBest = fTemp;
-					for(int n=0;n<problemDimension; n++)
-						best[n] = xTemp[n];
+					brent.setInitialSolution(xTemp);
+					brent.setInitialFitness(fTemp);
+//					System.out.println(m[k]==null);
+					brent.setXI(m[k]);
+					budget = (int)(min(brentBudget, maxEvaluations-i)); if(budget<0) budget = 0;
+					ft = brent.execute(problem, budget);
+					i+=ft.getLastI();
+					xTemp = brent.getFinalBest();
+					fTemp = ft.getLastF();
+					if (verbose) System.out.println("brent final point: "+ft.getLastF());
+					FT.append(ft, i);
+					if (verbose) System.out.println("brent appended point: "+FT.getLastF());
+					if(fTemp<fBest)
+					{
+						fBest = fTemp;
+						for(int n=0;n<problemDimension; n++)
+							best[n] = xTemp[n];
+					}
 				}
+				m = null;
 			}
 			//if (verbose) System.out.println("pippo");
 		}

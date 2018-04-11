@@ -47,8 +47,12 @@ public class LineMinimization extends Algorithm
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		
+//		System.out.println(p1dim==null);
+//		System.out.println(xi1dim==null);
+		
 		if(xi==null) 
 		{
+			
 			System.out.println("A direction along wich the optimisation is performed must be provided!");
 			FT = null;
 		}
@@ -63,7 +67,7 @@ public class LineMinimization extends Algorithm
 //			p1dim = new double[n];
 //			xi1dim = new double[n];
 //			
-			
+
 
 //			double del, fp, fptt, t;
 //			
@@ -87,7 +91,6 @@ public class LineMinimization extends Algorithm
 			
 			}
 			
-			
 			fBest = lineMinimization(p, xi);
 			finalBest = best;
 			FT.add(iter, fBest);
@@ -106,6 +109,9 @@ public class LineMinimization extends Algorithm
 	 */
 	private double lineMinimization(double[] p, double[] xit) throws Exception
 	{
+		p1dim = new double[xit.length];
+		xi1dim = new double[xit.length];
+		
 		for(int j=0; j<n; j++)
 		{
 			p1dim[j] = p[j];
