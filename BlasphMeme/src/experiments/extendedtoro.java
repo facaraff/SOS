@@ -50,6 +50,15 @@ public class extendedtoro extends Experiment
 	    a.setParameter("p6", 0.25);
 	    add(a);
 
+	    a = new ResampledBrentCMAES11();
+	    a.setParameter("p0", 0.95);
+	    a.setParameter("p1", 0.18181818181);
+	    a.setParameter("p2", 0.08333333333);
+	    a.setParameter("p3", 0.44);
+	    a.setParameter("p4", 1.0);
+	    a.setParameter("p5", 10.0);	    
+	    a.setParameter("p6", 0.25);
+	    add(a);
 
 		
 		
