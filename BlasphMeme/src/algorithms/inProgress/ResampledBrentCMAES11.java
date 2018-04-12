@@ -2,12 +2,10 @@ package algorithms.inProgress;
 
 import algorithms.memes.LineMinimization;
 //import algorithms.singleSolution.S;
-import algorithms.singleSolution.NonUniformSA;
 import algorithms.singleSolution.CMAES_11;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-
-
+import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.MatLab.min;
 import utils.RunAndStore.FTrend;
 
@@ -15,7 +13,7 @@ import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class inprogressAlg2 extends Algorithm
+public class ResampledBrentCMAES11 extends Algorithm
 {	
 	boolean verbose = false;
 
@@ -47,23 +45,17 @@ public class inprogressAlg2 extends Algorithm
 		FT.add(i, fBest);
 		
 		
+
+		
 		// INITIALISE MEMES//
 		
-//		L l = new L();
-//		l.setParameter("p0",getParameter("p0").doubleValue()); //0.95
-		
-		NonUniformSA nusa = new NonUniformSA();
-		nusa.setParameter("p0",getParameter("p0").doubleValue()); //5
-		nusa.setParameter("p1", getParameter("p1").doubleValue()); //0.9
-		nusa.setParameter("p2", getParameter("p2").doubleValue()); //3
-		nusa.setParameter("p3", getParameter("p3").doubleValue()); //10
-		
-		
+		double globalCR = getParameter("p0").doubleValue(); //0.95
+
 		CMAES_11 cma11 = new CMAES_11();
-		cma11.setParameter("p0",getParameter("p4").doubleValue()); // 2/11
-		cma11.setParameter("p1",getParameter("p5").doubleValue());  // 1/12
-		cma11.setParameter("p2",getParameter("p6").doubleValue()); // 0.44
-		cma11.setParameter("p3",getParameter("p7").doubleValue()); // 1 --> problem dependent!!
+		cma11.setParameter("p0",getParameter("p1").doubleValue()); // 2/11
+		cma11.setParameter("p1",getParameter("p2").doubleValue());  // 1/12
+		cma11.setParameter("p2",getParameter("p3").doubleValue()); // 0.44
+		cma11.setParameter("p3",getParameter("p4").doubleValue()); // 1 --> problem dependent!!
 		cma11.setSavematrix(true);
 		
 //		S s = new S();
@@ -71,8 +63,9 @@ public class inprogressAlg2 extends Algorithm
 //		s.setParameter("p1", getParameter("p9").doubleValue()); //0.4;
 		
 		LineMinimization brent = new LineMinimization();
-		int brentBudget = getParameter("p8").intValue();//100
-		double maxB = getParameter("p9").doubleValue();
+		int brentBudget = getParameter("p5").intValue();//100
+		if(brentBudget==Double.NaN) brentBudget = problemDimension;
+		double maxB = getParameter("p6").doubleValue();
 		
 		
 		FTrend ft = null;
@@ -88,24 +81,18 @@ public class inprogressAlg2 extends Algorithm
 		
 		while (i < maxEvaluations)
 		{	
-			budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-			if (verbose) System.out.println("L start point: "+fBest);
-			nusa.setInitialSolution(xTemp);
-			nusa.setInitialFitness(fTemp);
-//			budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
-			ft = nusa.execute(problem, budget/4);
-			xTemp = nusa.getFinalBest();
-			fTemp = ft.getLastF();
-			if (verbose) System.out.println("L final point: "+fBest);
-//			System.out.println("i="+i);
-			FT.merge(ft, i);
-			i+=budget;
-			if (verbose) System.out.println("L appended point: "+FT.getLastF());
+			
+			
+			xTemp = generateRandomSolution(bounds, problemDimension);
+			xTemp = crossOverExp(best, xTemp, globalCR);
+			fTemp = problem.f(xTemp);
+			i++;
 			if(fTemp<fBest)
 			{
 				fBest = fTemp;
 				for(int n=0;n<problemDimension; n++)
 					best[n] = xTemp[n];
+				FT.add(i, fBest);
 			}
 			
 			if (RandUtils.random() > 0.5 || matrixDoNotExists)

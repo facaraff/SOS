@@ -94,8 +94,8 @@ public class inprogressAlg extends Algorithm
 			xTemp = nusa.getFinalBest();
 			fTemp = ft.getLastF();
 			if (verbose) System.out.println("L final point: "+fBest);
-			FT.append(ft, i);
-			if (verbose) System.out.println("L appended point: "+FT.getLastF());
+			FT.merge(ft, i);
+			if (verbose) System.out.println("L mergeed point: "+FT.getLastF());
 			if(fTemp<fBest)
 			{
 				fBest = fTemp;
@@ -114,8 +114,8 @@ public class inprogressAlg extends Algorithm
 				xTemp = cma11.getFinalBest();
 				fTemp = ft.getLastF();
 				if (verbose) System.out.println("C final point: "+fBest);
-				FT.append(ft, i);
-				if (verbose) System.out.println("C appended point: "+FT.getLastF());
+				FT.merge(ft, i);
+				if (verbose) System.out.println("C mergeed point: "+FT.getLastF());
 				if(fTemp<fBest)
 				{
 					fBest = fTemp;
@@ -134,8 +134,8 @@ public class inprogressAlg extends Algorithm
 				xTemp = s.getFinalBest();
 				fTemp = ft.getLastF();
 				if (verbose) System.out.println("N final point: "+FT.getLastF());
-				FT.append(ft, i);
-				if (verbose) System.out.println("N appended point: "+FT.getLastF());
+				FT.merge(ft, i);
+				if (verbose) System.out.println("N mergeed point: "+FT.getLastF());
 				if(fTemp<fBest)
 				{
 					fBest = fTemp;

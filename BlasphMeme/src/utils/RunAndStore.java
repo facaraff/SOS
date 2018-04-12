@@ -253,6 +253,32 @@ public class RunAndStore
 	* @param startI last FE counter value of the main fitness trend.
 	*/
 	public void append(FTrend FT, int startI){for(int i = 0; i<FT.index.size(); i++) add(startI+FT.getI(i), FT.getF(i));}
+	/**
+	* Join two fitness trends so that the resulting one is monotone decreasing.
+	* 
+	* Useful when an algorithms is run inside another. The fitness trend of the inner algorithm, i.e. FT, is merged with in the trend of the main algorithm.
+	* The FE value is appropriately modified.  
+	* 
+	* @param FT fitness trend to be included in the main trend.
+	* @param startI last FE counter value of the main fitness trend.
+	*/
+	public void merge(FTrend FT, int startI)
+	{
+		double currentBestFitness = this.getLastF();
+		
+		for(int i = 0; i<FT.index.size(); i++)
+		{
+			double currentFitness = FT.getF(i);
+			//if(currentFitness>currentBestFitness) System.out.println("cazzo");
+			if(currentFitness<currentBestFitness)
+			{
+//				System.out.println("starting index="+startI);
+//				System.out.println("internal improvement index="+FT.getI(i));
+//				System.out.println("added="+(startI+FT.getI(i)+1)+","+currentFitness);
+				add(startI+FT.getI(i), currentFitness);
+			}
+		}
+	}
 
 	/**
 	* Store the fitnes trend into a string.

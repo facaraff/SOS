@@ -59,7 +59,7 @@ public class ResampledCMAES11 extends Algorithm
 		
 		FTrend ft = null;
 		
-		int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
+//		int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
 		
 		double[] xTemp;
 		double fTemp;
@@ -69,24 +69,25 @@ public class ResampledCMAES11 extends Algorithm
 			xTemp = generateRandomSolution(bounds, problemDimension);
 			xTemp = crossOverExp(best, xTemp, globalCR);
 			fTemp = problem.f(xTemp);
-			
+			i++;
 			if(fTemp<fBest)
 			{
 				fBest = fTemp;
 				for(int n=0;n<problemDimension; n++)
 					best[n] = xTemp[n];
+				FT.add(i, fBest);
 			}
 			
 				if (verbose) System.out.println("C start point: "+fBest);
 				cma11.setInitialSolution(xTemp);
 				cma11.setInitialFitness(fTemp);
-//				budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
+				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
 				ft = cma11.execute(problem, budget);
-				i+=FT.getLastI(); 
 				xTemp = cma11.getFinalBest();
 				fTemp = ft.getLastF();
 				if (verbose) System.out.println("C final point: "+fBest);
-				FT.append(ft, i);
+				FT.merge(ft, i);
+				i+=budget;
 				if (verbose) System.out.println("C appended point: "+FT.getLastF());
 				if(fTemp<fBest)
 				{

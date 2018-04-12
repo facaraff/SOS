@@ -14,7 +14,7 @@ import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class PMS2 extends Algorithm
+public class PMS2_ellenonva extends Algorithm
 {	
 	boolean verbose = false;
 
@@ -83,12 +83,12 @@ public class PMS2 extends Algorithm
 			l.setInitialFitness(fTemp);
 //			budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
 			ft = l.execute(problem, 0);
-			i+=FT.getLastI();
 			xTemp = l.getFinalBest();
 			fTemp = ft.getLastF();
 			if (verbose) System.out.println("L final point: "+fBest);
-			FT.append(ft, i);
-			if (verbose) System.out.println("L appended point: "+FT.getLastF());
+			FT.merge(ft, i);
+			i+=ft.getLastI();
+			if (verbose) System.out.println("L mergeed point: "+FT.getLastF());
 			if(fTemp<fBest)
 			{
 				fBest = fTemp;
@@ -102,12 +102,12 @@ public class PMS2 extends Algorithm
 				cma11.setInitialFitness(fTemp);
 //				budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
 				ft = cma11.execute(problem, budget);
-				i+=FT.getLastI(); 
 				xTemp = cma11.getFinalBest();
 				fTemp = ft.getLastF();
 				if (verbose) System.out.println("C final point: "+fBest);
-				FT.append(ft, i);
-				if (verbose) System.out.println("C appended point: "+FT.getLastF());
+				FT.merge(ft, i);
+				i+=ft.getLastI(); 
+				if (verbose) System.out.println("C mergeed point: "+FT.getLastF());
 				if(fTemp<fBest)
 				{
 					fBest = fTemp;
@@ -122,12 +122,12 @@ public class PMS2 extends Algorithm
 				nusa.setInitialFitness(fTemp);
 //				budget = (int)(MatLab.min(maxB*maxEvaluations, maxEvaluations-i));
 				ft = nusa.execute(problem, budget);
-				i+=FT.getLastI();
 				xTemp = nusa.getFinalBest();
 				fTemp = ft.getLastF();
 				if (verbose) System.out.println("N final point: "+FT.getLastF());
-				FT.append(ft, i);
-				if (verbose) System.out.println("N appended point: "+FT.getLastF());
+				FT.merge(ft, i);
+				i+=ft.getLastI();
+				if (verbose) System.out.println("N mergeed point: "+FT.getLastF());
 				if(fTemp<fBest)
 				{
 					fBest = fTemp;

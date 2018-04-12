@@ -5,7 +5,7 @@ import interfaces.Algorithm;
 //import interfaces.Problem;
 //import algorithms.singleSolution.*;
 import algorithms.inProgress.ResampledCMAES11;
-import algorithms.singleSolution.CMAES_11;
+import algorithms.inProgress.ResampledBrentCMAES11;
 //import benchmarks.BaseFunctions.Alpine;
 import benchmarks.CEC2014;
 //import benchmarks.BaseFunctions.Ackley;
@@ -40,7 +40,17 @@ public class extendedtoro extends Experiment
 	    a.setParameter("p5", 0.25);
 	    add(a);
 	    
-	    
+	    a = new ResampledBrentCMAES11();
+	    a.setParameter("p0", 0.95);
+	    a.setParameter("p1", 0.18181818181);
+	    a.setParameter("p2", 0.08333333333);
+	    a.setParameter("p3", 0.44);
+	    a.setParameter("p4", 1.0);
+	    a.setParameter("p5", Double.NaN);	    
+	    a.setParameter("p6", 0.25);
+	    add(a);
+
+
 		
 		
 		

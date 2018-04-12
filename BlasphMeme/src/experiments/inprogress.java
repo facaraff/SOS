@@ -24,19 +24,7 @@ public class inprogress extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 //	    Problem p;// ///< A generic problem.
 
-		   a = new inprogressAlg2();
-		    a.setID("PMS2_20");
-		    a.setParameter("p0", 5.0);
-		    a.setParameter("p1", 0.9);
-		    a.setParameter("p2", 3.0);
-		    a.setParameter("p3", 10.0);
-		    a.setParameter("p4", 0.18181818181);
-		    a.setParameter("p5", 0.08333333333);
-		    a.setParameter("p6", 0.44);
-		    a.setParameter("p7", 1.0);
-		    a.setParameter("p8", 50.0);	    
-		    a.setParameter("p9", 0.20);
-		    add(a);
+
 			
 		    a = new inprogressAlg2();
 		    a.setID("PMS2_25");
@@ -48,39 +36,69 @@ public class inprogress extends Experiment
 		    a.setParameter("p5", 0.08333333333);
 		    a.setParameter("p6", 0.44);
 		    a.setParameter("p7", 1.0);
-		    a.setParameter("p8", 50.0);	    
+		    a.setParameter("p8", 100.0);	    
 		    a.setParameter("p9", 0.25);
 		    add(a);
-			
-		    a = new inprogressAlg();
-		    a.setID("PMS_gamba20");
-		    a.setParameter("p0", 5.0);
-		    a.setParameter("p1", 0.9);
-		    a.setParameter("p2", 3.0);
-		    a.setParameter("p3", 10.0);
-		    a.setParameter("p4", 0.18181818181);
-		    a.setParameter("p5", 0.08333333333);
-		    a.setParameter("p6", 0.44);
-		    a.setParameter("p7", 1.0);
-		    a.setParameter("p8", 150.0);
-		    a.setParameter("p9", 0.4);	    
-		    a.setParameter("p10", 0.20);
-		    add(a);
 		    
-		    a = new inprogressAlg();
-		    a.setID("PMS_gamba25");
-		    a.setParameter("p0", 5.0);
-		    a.setParameter("p1", 0.9);
-		    a.setParameter("p2", 3.0);
-		    a.setParameter("p3", 10.0);
-		    a.setParameter("p4", 0.18181818181);
-		    a.setParameter("p5", 0.08333333333);
-		    a.setParameter("p6", 0.44);
-		    a.setParameter("p7", 1.0);
-		    a.setParameter("p8", 150.0);
-		    a.setParameter("p9", 0.4);	    
-		    a.setParameter("p10", 0.25);
-		    add(a);
+			   a = new inprogressAlg2();
+			    a.setID("PMS2_20");
+			    a.setParameter("p0", 5.0);
+			    a.setParameter("p1", 0.9);
+			    a.setParameter("p2", 3.0);
+			    a.setParameter("p3", 10.0);
+			    a.setParameter("p4", 0.18181818181);
+			    a.setParameter("p5", 0.08333333333);
+			    a.setParameter("p6", 0.44);
+			    a.setParameter("p7", 1.0);
+			    a.setParameter("p8", 100.0);	    
+			    a.setParameter("p9", 0.20);
+			    add(a);
+			    
+			    
+			    
+				   a = new inprogressAlg2();
+				    a.setID("GAMBAPMS2_25");
+				    a.setParameter("p0", 5.0);
+				    a.setParameter("p1", 0.9);
+				    a.setParameter("p2", 3.0);
+				    a.setParameter("p3", 10.0);
+				    a.setParameter("p4", 0.18181818181);
+				    a.setParameter("p5", 0.08333333333);
+				    a.setParameter("p6", 0.44);
+				    a.setParameter("p7", 1.0);
+				    a.setParameter("p8", 0.0);	    
+				    a.setParameter("p9", 0.25);
+				    add(a);
+//			
+//		    a = new inprogressAlg();
+//		    a.setID("PMS_gamba20");
+//		    a.setParameter("p0", 5.0);
+//		    a.setParameter("p1", 0.9);
+//		    a.setParameter("p2", 3.0);
+//		    a.setParameter("p3", 10.0);
+//		    a.setParameter("p4", 0.18181818181);
+//		    a.setParameter("p5", 0.08333333333);
+//		    a.setParameter("p6", 0.44);
+//		    a.setParameter("p7", 1.0);
+//		    a.setParameter("p8", 150.0);
+//		    a.setParameter("p9", 0.4);	    
+//		    a.setParameter("p10", 0.20);
+//		    add(a);
+//		    
+//		    a = new inprogressAlg();
+//		    a.setID("PMS_gamba25");
+//		    a.setParameter("p0", 5.0);
+//		    a.setParameter("p1", 0.9);
+//		    a.setParameter("p2", 3.0);
+//		    a.setParameter("p3", 10.0);
+//		    a.setParameter("p4", 0.18181818181);
+//		    a.setParameter("p5", 0.08333333333);
+//		    a.setParameter("p6", 0.44);
+//		    a.setParameter("p7", 1.0);
+//		    a.setParameter("p8", 150.0);
+//		    a.setParameter("p9", 0.4);	    
+//		    a.setParameter("p10", 0.25);
+//		    add(a);
 		    
 
 //		    a = new PMS2();
