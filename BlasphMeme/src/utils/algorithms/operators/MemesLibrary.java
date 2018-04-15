@@ -1482,13 +1482,14 @@ public class MemesLibrary
     double[] out = {fBest, iter};
     return out;
     }
-    
+   
 	/**CMAES
 	 * Standard settings: p_target_succ =2/11; c_p=1/12;  p_thresh=0.44; sigma0 = 1;
 	 * localBudget is local budget for meme, totalBudget is maximum FEs of optimization process, iter is current FEs used.
 	 * 
 	 * returns double[] out = {fBest, iter};
 	 **/
+    /*
     public static double[] CMAES_11(double[] sol, double fit, int localBudget, int totalBudget, Problem prob, int iter, double p_target_succ, double c_p, double p_thresh, double sigma0, double numbOfFails, FTrend ft) throws Exception
     {      
     	
@@ -1568,7 +1569,7 @@ public class MemesLibrary
     		return out;
     	}
 
-
+*/
 
     	
        

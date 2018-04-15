@@ -18,7 +18,7 @@ public class TabGen
 //			workingDir ="/home/facaraff/git/BlasphMeme/results";
 			//workingDir ="/home/facaraff/git/BlasphMeme/BlasphMeme/results";
 			//workingDir ="/home/facaraff/Desktop/LIBIBBO/UNROT";
-			workingDir ="/home/facaraff/Desktop/DACAPIRE/PMS";
+			workingDir ="/home/facaraff/Desktop/RisTORO/totale";
 //			workingDir ="C:\\Users\\fcaraf00\\Desktop\\TABELLONISSIME\\UNROT";
 			//workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
@@ -39,7 +39,7 @@ public class TabGen
 		/*
 		experiment.computeAVG();
 		experiment.computeSTD();
-		experiment.computeMedian();
+	1	experiment.computeMedian();
 		experiment.deleteFinalValues();
 		*/
 
@@ -49,7 +49,7 @@ public class TabGen
 		T3.execute();
 		
 		
-		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
+		TableStatistics T4 = new TableAvgStdStat(experiment, false, true);
 		T4.setErrorFlag(true);
 		T4.setReferenceAlgorithm();
 		T4.execute();
