@@ -2,15 +2,11 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.inProgress.inprogressAlg;
 import algorithms.inProgress.inprogressAlg2;
-//import interfaces.Problem;
-//import algorithms.singleSolution.*;
 
-//import benchmarks.BaseFunctions.Alpine;
 import benchmarks.CEC2014;
-//import benchmarks.BaseFunctions.Ackley;
-//import benchmarks.BaseFunctions.Rosenbrock;
+
+
 
 public class inprogress extends Experiment
 {

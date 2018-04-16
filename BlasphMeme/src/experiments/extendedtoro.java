@@ -4,13 +4,9 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 //import interfaces.Problem;
 import algorithms.singleSolution.*;
-import algorithms.compact.*;
-//import algorithms.inProgress.ResampledCMAES11;
-//import algorithms.inProgress.ResampledBrentCMAES11;
-//import benchmarks.BaseFunctions.Alpine;
+//import algorithms.compact.*;
 import benchmarks.CEC2014;
-//import benchmarks.BaseFunctions.Ackley;
-//import benchmarks.BaseFunctions.Rosenbrock;
+
 
 public class extendedtoro extends Experiment
 {
@@ -21,9 +17,11 @@ public class extendedtoro extends Experiment
 		super(probDim,5000,"DESIGN");
 		setNrRuns(30);
 		
-//		//questo e' stato quello uufficializzato
-//		Algorithm a;// ///< A generic optimiser.
+
+		Algorithm a;// ///< A generic optimiser.
 ////	    Problem p;// ///< A generic problem.
+		
+//		//questo e' stato quello uufficializzato
 //		a = new ResampledCMAES11();
 //	    a.setParameter("p0",0.95); 
 //	    a.setParameter("p1",0.18181818181); // 2/11
@@ -40,14 +38,14 @@ public class extendedtoro extends Experiment
 		add(a);
 		
 	    
-	    a = new cDE_exp_light();
-	    a.setParameter("p0",300.0);
-	    a.setParameter("p1", 0.25);
-	    a.setParameter("p2", 0.5);
-	    a.setParameter("p3", 3.0);
-	    a.setParameter("p4", 1.0);
-	    a.setParameter("p5", 1.0);
-	    add(a);
+//	    a = new cDE_exp_light();
+//	    a.setParameter("p0",300.0);
+//	    a.setParameter("p1", 0.25);
+//	    a.setParameter("p2", 0.5);
+//	    a.setParameter("p3", 3.0);
+//	    a.setParameter("p4", 1.0);
+//	    a.setParameter("p5", 1.0);
+//	    add(a);
 	
 		for(int i = 1; i<=30; i++)
 			add(new CEC2014(probDim, i));

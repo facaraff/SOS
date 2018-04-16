@@ -4,8 +4,6 @@ package utils.algorithms.operators;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.DEOp.currentToRand1;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
-
 
 
 import java.util.Arrays;
@@ -14,12 +12,7 @@ import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.Problem;
 
-import static utils.MatLab.eye;
-import static utils.MatLab.multiply;
-import static utils.MatLab.sum;
 
-import static utils.algorithms.Misc.updateCholesky;
-import static utils.algorithms.Misc.newZ;
 
 import static utils.RunAndStore.FTrend;
 
@@ -1482,98 +1475,5 @@ public class MemesLibrary
     double[] out = {fBest, iter};
     return out;
     }
-   
-	/**CMAES
-	 * Standard settings: p_target_succ =2/11; c_p=1/12;  p_thresh=0.44; sigma0 = 1;
-	 * localBudget is local budget for meme, totalBudget is maximum FEs of optimization process, iter is current FEs used.
-	 * 
-	 * returns double[] out = {fBest, iter};
-	 **/
-    /*
-    public static double[] CMAES_11(double[] sol, double fit, int localBudget, int totalBudget, Problem prob, int iter, double p_target_succ, double c_p, double p_thresh, double sigma0, double numbOfFails, FTrend ft) throws Exception
-    {      
-    	
-
-    	int problemDimension = prob.getDimension(); 
-    	double[][] bounds = prob.getBounds();
-
-    	double d = 1+problemDimension/2;
-    	double c_cov = 2/(Math.pow(problemDimension,2)+6);
-    	double c_a = Math.sqrt(1-c_cov);
-    		//double c_c = 2/(problemDimension+2); 
-    	double sigma=sigma0;
-    	double p_succ_sign = p_target_succ;
-    	int lambda_succ;
-    		//offspring
-    	double[] x_offspring; //= new double[problemDimension];
-    	double f_offspring;
-
-    		
-    	int i=0;   		
-
-    	double[] z;
-    	double[][] A = eye(problemDimension);
-    	double[] Az;
-    		
-    	
-    	boolean stay = true;
-    	
-    	int improvements=0;
-    	int fails=10;
-    	if(numbOfFails!=Double.NaN)
-    		fails = (int)numbOfFails;
-    	
-    	while (iter < totalBudget && i<localBudget && stay)
-    	{	
-    		if(numbOfFails!=Double.NaN)
-    			   stay = (fails>0);
-    		
-    		z=newZ(problemDimension);
-    		Az = multiply(A,z);
-    		x_offspring = sum(sol,multiply(sigma,Az));
-    		//System.out.println(x_offspring[0]);
-    		x_offspring = toro(x_offspring, bounds);
-    		f_offspring=prob.f(x_offspring);
-    		
-    		iter++; i++;
-    		
-    		if(f_offspring <= fit)
-    			lambda_succ=1;
-    		else
-    		{
-    			lambda_succ=0;
-    			fails--;
-    		}
-    		//update step size procedure
-    		p_succ_sign = (1-c_p)*p_succ_sign + c_p*lambda_succ;
-    		sigma = sigma*Math.exp( (1/d)*(p_succ_sign-(p_target_succ/(1-p_target_succ))*(1-p_succ_sign)));
-    		if(f_offspring <= fit)
-    		{
-    			fit=f_offspring;
-    			for(int dim=0;dim<problemDimension;dim++)
-    				sol[dim]=x_offspring[dim];
-    			improvements++;
-    			if(improvements%10==0)
-    				ft.add(i, fit);
-    			//update cholesky
-    			if(p_succ_sign < p_thresh)
-    				A=updateCholesky(A,z,c_a);		
-
-    		}
-
-    				
-    		i++;
-    		}
-    		
-    		double[] out = {fit, iter};
-    		return out;
-    	}
-
-*/
-
-    	
-       
-    
-    
     
 }
