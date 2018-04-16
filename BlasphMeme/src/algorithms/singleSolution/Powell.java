@@ -4,7 +4,7 @@ import static utils.algorithms.Misc.generateRandomSolution;
 
 
 import utils.MatLab;
-import static utils.algorithms.Misc.fConstraint;
+//import static utils.algorithms.Misc.fConstraint;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -41,6 +41,9 @@ public class Powell extends Algorithm
 
 	FTrend FT = new FTrend();
 	
+	public void increaseIter() {this.iter++;};
+	
+	
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		
@@ -72,7 +75,8 @@ public class Powell extends Algorithm
 		int ibig;
 		
 		double[] pt = new double[n], ptt = new double[n], xit = new double[n];
-		fret = fConstraint(p, bounds, PENALTY,problem);
+//		fret = fConstraint(p, bounds, PENALTY,problem);
+		fret = fConstraint(p);
 		for (int j=0; j<n; j++)
 			pt[j] = p[j];
 
@@ -124,7 +128,8 @@ public class Powell extends Algorithm
 				pt[j] = p[j];
 			}
 
-			fptt = fConstraint(ptt, bounds, PENALTY,problem);
+//			fptt = fConstraint(ptt, bounds, PENALTY,problem);
+			fptt = fConstraint(ptt);
 
 			if (fptt < fBest)
 			{
@@ -191,7 +196,7 @@ public class Powell extends Algorithm
 		}
 
 		finalBest = best;
-
+		FT.add(iter, fBest);
 		return FT;
 	}
 
@@ -402,34 +407,35 @@ public class Powell extends Algorithm
 				}
 			}
 			xmin = x; fmin = fx;
+//			powell.FT.add(powell.iter,fmin);
 		}
 	}
 
-//	/**
-//	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
-//	 * introduce a penalty factor for solutions outside the bounds. 
-//	 *  
-//	 * @param x
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	private double fConstraint(double[] x) throws Exception
-//	{
-//		boolean outsiteBounds = false; 
-//		for (int j = 0; j < n && !outsiteBounds; j++)
-//		{
-//			if (x[j] < bounds[j][0] || x[j] > bounds[j][1])
-//				outsiteBounds = true;
-//		}
-//
-//		if (outsiteBounds)
-//			return PENALTY;
-//		else
-//		{
-//			iter++;
-//			return problem.f(x);
-//		}
-//	}
+	/**
+	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
+	 * introduce a penalty factor for solutions outside the bounds. 
+	 *  
+	 * @param x
+	 * @return
+	 * @throws Exception
+	 */
+	private double fConstraint(double[] x) throws Exception
+	{
+		boolean outsiteBounds = false; 
+		for (int j = 0; j < n && !outsiteBounds; j++)
+		{
+			if (x[j] < bounds[j][0] || x[j] > bounds[j][1])
+				outsiteBounds = true;
+		}
+
+		if (outsiteBounds)
+			return PENALTY;
+		else
+		{
+			iter++;
+			return problem.f(x);
+		}
+	}
 
 	/**
 	 * 1-dimensional variable along the specified direction.
@@ -443,7 +449,8 @@ public class Powell extends Algorithm
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
 			xt[j] = p1dim[j]+x*xi1dim[j];		
-		return fConstraint(xt, bounds, PENALTY, problem);
+//		return fConstraint(xt, bounds, PENALTY, problem);
+		return fConstraint(xt);
 	}
 
 	private static double sign(double a, double b)

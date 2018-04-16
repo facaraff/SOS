@@ -33,9 +33,9 @@ public class RunExperiments
 			
 		//@@@ MODIFY THIS PART @@@		
 
-//		experiments.add(new extendedtoro(10));
-//		
-//		experiments.add(new extendedtoro(50));
+		experiments.add(new extendedtoro(10));
+		
+		experiments.add(new extendedtoro(50));
 		
 		experiments.add(new extendedtoro(100));
 		
