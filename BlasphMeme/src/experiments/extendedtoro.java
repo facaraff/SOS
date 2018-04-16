@@ -37,6 +37,9 @@ public class extendedtoro extends Experiment
 		a.setParameter("p1", 100.0);
 		add(a);
 		
+		a = new SolisWets();
+		a.setParameter("p0", 1.0);
+		add(a);
 	    
 //	    a = new cDE_exp_light();
 //	    a.setParameter("p0",300.0);

@@ -39,14 +39,14 @@ public class Powell extends Algorithm
 	// current best fitness
 	double fBest;
 
-	FTrend FT = new FTrend();
-	
-	public void increaseIter() {this.iter++;};
+//	FTrend FT = new FTrend();
+//	
+	private boolean useFtol = false;
+	public void setUseFtol(boolean b) {this.useFtol = b;};
 	
 	
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		
 		ftol = getParameter("p0").doubleValue();	// fitness tolerance
 		
 		this.maxEvaluations = maxEvaluations;
@@ -58,6 +58,7 @@ public class Powell extends Algorithm
 		p1dim = new double[n];
 		xi1dim = new double[n];
 		
+		FTrend FT = new FTrend();
 		
 
 		double del, fp, fptt, t;
@@ -118,7 +119,7 @@ public class Powell extends Algorithm
 			}
 
 			// fractional change in one iteration, fp-fret/|fret|, is less than the tolerance
-			if (2.0*(fp-fret)<=ftol*(Math.abs(fp)+Math.abs(fret))+TINY)
+			if ( (2.0*(fp-fret)<=ftol*(Math.abs(fp)+Math.abs(fret))+TINY) && useFtol)
 				break;
 
 			for (int j=0; j<n; j++)
