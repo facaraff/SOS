@@ -30,7 +30,7 @@ public class TabGen
 		Experiment experiment = new Experiment();
 		experiment.setDirectory(workingDir);
 		//experiment.setTrendsFlag(true, false);
-//		experiment.setTrendsFlag(true, true);
+		experiment.setTrendsFlag(true, true);
 		//experiment.setTrendsFlag(true);
 		experiment.importData();
 		experiment.describeExperiment();
