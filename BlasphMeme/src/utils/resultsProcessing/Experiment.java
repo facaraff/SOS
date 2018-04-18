@@ -419,7 +419,7 @@ public class Experiment
 						
 						for (int a=0; a<avg_trend.length; a++)
 							if(Double.isNaN(avg_trend[a]))
-								System.out.println("null value found at a="+a);
+								System.out.println("NaN value found at position="+a+" in algorithm: "+alg);
 							else
 							{
 								avg_trend[a] /= delta;
@@ -430,7 +430,7 @@ public class Experiment
 					{
 							for (int a=0; a<avg_trend.length;a++) 
 								if(Double.isNaN(avg_trend[a]))
-									System.out.println("null value found at a="+a);
+									System.out.println("NaN value found at position="+" in algorithm: "+alg);
 								else
 									avg_trend[a] /= delta;
 						

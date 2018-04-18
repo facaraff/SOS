@@ -18,7 +18,7 @@ public class TabGen
 //			workingDir ="/home/facaraff/git/BlasphMeme/results";
 			//workingDir ="/home/facaraff/git/BlasphMeme/BlasphMeme/results";
 			//workingDir ="/home/facaraff/Desktop/LIBIBBO/UNROT";
-			workingDir ="/home/facaraff/Desktop/RisTORO/totale";
+			workingDir ="/home/facaraff/Desktop/RisTORO/tottrend";
 //			workingDir ="C:\\Users\\fcaraf00\\Desktop\\TABELLONISSIME\\UNROT";
 			//workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
