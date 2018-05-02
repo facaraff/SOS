@@ -33,11 +33,11 @@ public class RunExperiments
 			
 		//@@@ MODIFY THIS PART @@@		
 
-		experiments.add(new extendedtoro(10));
-		
-		experiments.add(new extendedtoro(50));
-		
-		experiments.add(new extendedtoro(100));
+//		experiments.add(new extendedtoro(10));
+//		
+//		experiments.add(new extendedtoro(50));
+//		
+//		experiments.add(new extendedtoro(100));
 		
 //		experiments.add(new inprogress(10));
 //		
@@ -53,6 +53,7 @@ public class RunExperiments
 //		
 //		experiments.add(new EigenToro(100));
 		
+		experiments.add(new TestCEC2011(6));
 		
 		//@@@@@@
 	
