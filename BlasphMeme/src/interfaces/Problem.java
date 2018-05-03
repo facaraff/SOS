@@ -11,7 +11,7 @@ public abstract class Problem
 	
 
 	/**
-	* Costructor for generic decision space scenario.
+	* Constructor for generic decision space scenario.
 	* 
 	* @param dimension the dimension of the problem.
 	* @param bounds customised upper and lower bound for each design variable.
@@ -22,10 +22,17 @@ public abstract class Problem
 		this.bounds = bounds;
 	}
 	/**
-	* Costructor for hyper-parallelepiped decision space scenario.
+	* Constructor for hyper-parallelepiped decision space scenario.
 	* 
 	* @param dimension the dimension of the problem.
 	* @param bounds makes use of the same upper and lower bound for all the design variables.
+	*/
+	public Problem (int dimension){this.dimension = dimension;}
+	
+	/**
+	* Constructor without boundariees (to be set up manually).
+	* 
+	* @param dimension the dimension of the problem.
 	*/
 	public Problem(int dimension, double[] bounds)
 	{
@@ -56,6 +63,10 @@ public abstract class Problem
 	 * @return the bounds of the search space.
 	 */
 	public double[][] getBounds(){return bounds;}
+	/**
+	 * This method sets problem-specific boundaries
+	 */
+	public void setBounds( double[][] boudaries){this.bounds=boudaries;}
 	/**
 	 * This method returns the function ID, in case the problem is from bechmark test suite.
 	 * @return a string containing the function name/ID;
