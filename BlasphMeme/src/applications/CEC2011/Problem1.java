@@ -1,4 +1,4 @@
-package benchmarks.problemsImplementation.CEC2011Problems;
+package applications.CEC2011;
 
 import interfaces.Problem;
 
@@ -16,7 +16,7 @@ public class Problem1 extends Problem {
 		public Problem1() //throws Exception
 		{
 			super(6, new double[][] {{-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}}); 
-			setFID(".Problem1");
+			//setFID(".Problem1");
 			
 		}
 		

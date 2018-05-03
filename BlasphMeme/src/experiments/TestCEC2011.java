@@ -5,14 +5,15 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import algorithms.CMAES;
 import algorithms.singleSolution.ISPO;
-import benchmarks.problemsImplementation.CEC2011Problems.*;
+import applications.CEC2011.Problem1;
+
 
 public class TestCEC2011 extends Experiment
 {
 	
-	public TestCEC2011(int probDim)
+	public TestCEC2011()
 	{
-		super(probDim,"TEST");
+		super("TESTCEC2011");
 			
 		Algorithm a;// ///< A generic optimiser.
 	    Problem p;// ///< A generic problem.

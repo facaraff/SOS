@@ -53,7 +53,7 @@ public class RunExperiments
 //		
 //		experiments.add(new EigenToro(100));
 		
-		experiments.add(new TestCEC2011(6));
+		experiments.add(new TestCEC2011());
 		
 		//@@@@@@
 	
