@@ -5,7 +5,7 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import algorithms.CMAES;
 import algorithms.singleSolution.ISPO;
-import applications.CEC2011.Problem1;
+import applications.CEC2011.P1;
 
 
 public class TestCEC2011 extends Experiment
@@ -34,7 +34,7 @@ public class TestCEC2011 extends Experiment
 		
         //double[] bounds = {-100, 100};
 		//p = new Ackley(problemDimension, bounds);
-		p = new Problem1();
+		p = new P1();
 		add(p);//add it to the list
 
 

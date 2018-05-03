@@ -2,7 +2,7 @@ package applications.CEC2011;
 
 import interfaces.Problem;
 
-public class Problem1 extends Problem {
+public class P1 extends Problem {
 	
 		private static double theta = 2*Math.PI/100;
 		
@@ -13,10 +13,10 @@ public class Problem1 extends Problem {
 //		private double[][] bounds = {{-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}};
 			
 		
-		public Problem1() //throws Exception
+		public P1() //throws Exception
 		{
 			super(6, new double[][] {{-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}, {-6.4, 6.35}}); 
-			//setFID(".Problem1");
+//			setFID(".p1");
 			
 		}
 		

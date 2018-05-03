@@ -11,7 +11,8 @@ public class TablesGenerator
 		if (args.length < 1)
 		{
 			//workingDir ="../results/cec2015allDim";
-			workingDir ="../../results/testCEC14";
+//			workingDir ="../../results/testCEC14";
+			workingDir ="C:\\Users\\Badddobaby\\git\\BlasphMeme\\BlasphMeme\\results\\TESTCEC2011";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
 			//System.exit(-1);
 		}
