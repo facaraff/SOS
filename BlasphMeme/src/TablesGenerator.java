@@ -13,7 +13,7 @@ public class TablesGenerator
 			//workingDir ="../results/cec2015allDim";
 //			workingDir ="../../results/testCEC14";
 //			workingDir ="C:\\Users\\Badddobaby\\git\\BlasphMeme\\BlasphMeme\\results\\TESTCEC2011";
-			workingDir ="/home/facaraff/Desktop/cec11";
+			workingDir ="/home/facaraff/Desktop/FINAL/ROT";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
 			//System.exit(-1);
 		}
@@ -22,8 +22,8 @@ public class TablesGenerator
 
 		Experiment experiment = new Experiment();
 		experiment.setDirectory(workingDir);
-		experiment.setTrendsFlag(true, false);
-//		experiment.setTrendsFlag(true, true);
+//		experiment.setTrendsFlag(true, false);
+		experiment.setTrendsFlag(true, true);
 		//experiment.setTrendsFlag(true);
 		experiment.importData();
 		experiment.describeExperiment();
