@@ -60,7 +60,7 @@ public class senzaXOr extends Experiment
 		add(a);
 		
 		a = new DE();
-		a.setID("rDEr1enoxo");
+		a.setID("rDEr1noxo");
 		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.7);//F
 //		a.setParameter("p2", -1.0); //CR

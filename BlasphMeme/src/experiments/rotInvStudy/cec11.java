@@ -103,6 +103,17 @@ public class cec11 extends Experiment
 		a.setParameter("p6", 1.0);//PR
 		add(a);
 		
+		a = new DE();
+		a.setID("DEr1noxo");
+		a.setParameter("p0", (double)probDim);
+		a.setParameter("p1", 0.7);//F
+//		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p2", Double.NaN); //CR
+		a.setParameter("p3", 1.0);//mutation strategy
+		a.setParameter("p4", 0.0);//crossover strategy
+		a.setParameter("p5", 0.3);//ALPHA
+		add(a);
+		
 		p = new P1();
 		add(p);
 		p = new P2(probDim);
