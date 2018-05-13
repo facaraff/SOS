@@ -13,7 +13,6 @@ import applications.CEC2011.P2;
 
 public class cec11 extends Experiment
 {
-	
 	public cec11(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
