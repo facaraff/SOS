@@ -1,8 +1,8 @@
 package benchmarks;
 
 
-import benchmarks.problemsImplementation.cec2005.Benchmark;
-import benchmarks.problemsImplementation.cec2005.TestFunction;
+import benchmarks.problemsImplementation.CEC2005.Benchmark;
+import benchmarks.problemsImplementation.CEC2005.TestFunction;
 import interfaces.Problem;
 
 
