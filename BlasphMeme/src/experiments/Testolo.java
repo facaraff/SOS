@@ -5,7 +5,8 @@ import interfaces.Algorithm;
 //import interfaces.Problem;
 import algorithms.singleSolution.PMS;
 //import benchmarks.BaseFunctions.Alpine;
-import benchmarks.CEC2014;
+//import benchmarks.CEC2014;
+import benchmarks.CEC2005;
 //import benchmarks.BaseFunctions.Ackley;
 //import benchmarks.BaseFunctions.Rosenbrock;
 
@@ -54,8 +55,11 @@ public class Testolo extends Experiment
 //		p = new Rosenbrock(probDim);
 //		add(p);
 	    
-		for(int i = 1; i<=30; i++)
-			add(new CEC2014(probDim, i));
+	    for(int i = 1; i<=25; i++)
+			add(new CEC2005(probDim, i));
+	    
+//		for(int i = 1; i<=30; i++)
+//			add(new CEC2014(probDim, i));
 
 	}
 }

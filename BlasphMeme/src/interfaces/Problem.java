@@ -27,13 +27,6 @@ public abstract class Problem
 	* @param dimension the dimension of the problem.
 	* @param bounds makes use of the same upper and lower bound for all the design variables.
 	*/
-	public Problem (int dimension){this.dimension = dimension;}
-	
-	/**
-	* Constructor without boundariees (to be set up manually).
-	* 
-	* @param dimension the dimension of the problem.
-	*/
 	public Problem(int dimension, double[] bounds)
 	{
 		this.dimension = dimension;
@@ -44,6 +37,15 @@ public abstract class Problem
 			this.bounds[i][1] = bounds[1];
 		}
 	}
+	/**
+	* Constructor without boundariees (to be set up manually).
+	* 
+	* @param dimension the dimension of the problem.
+	*/
+	public Problem (int dimension){this.dimension = dimension;}
+	
+
+	
 	
 	/**
 	 * This method evaluates the fitness function.
@@ -66,7 +68,19 @@ public abstract class Problem
 	/**
 	 * This method sets problem-specific boundaries
 	 */
-	public void setBounds( double[][] boudaries){this.bounds=boudaries;}
+	public void setBounds( double[][] boundaries){this.bounds=boundaries;}
+	/**
+	 * This method sets problem-specific boundaries (hyper-parallelepiped case)
+	 */
+	public void setBounds( double[] boundaries)
+	{
+		this.bounds = new double[dimension][2];
+		for (int i = 0; i < dimension; i++)
+		{
+			this.bounds[i][0] = boundaries[0];
+			this.bounds[i][1] = boundaries[1];
+		}
+	}
 	/**
 	 * This method returns the function ID, in case the problem is from bechmark test suite.
 	 * @return a string containing the function name/ID;

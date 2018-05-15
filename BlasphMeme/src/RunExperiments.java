@@ -7,7 +7,7 @@ import java.util.Vector;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
-//import experiments.*;
+import experiments.*;
 import experiments.rotInvStudy.*;
 
 /** 
@@ -55,6 +55,8 @@ public class RunExperiments
 		
 //		experiments.add(new TestCEC2011());
 	
+		experiments.add(new Testolo(10));
+		
 		experiments.add(new cec11(30));
 		
 		
