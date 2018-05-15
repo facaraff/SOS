@@ -1,4 +1,4 @@
-package benchmarks.problemsImplementation.cec2005;
+package benchmarks.problemsImplementation.CEC2005;
 
 public class F10 extends TestFunction {
 

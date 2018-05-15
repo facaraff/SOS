@@ -1,4 +1,4 @@
-package benchmarks.problemsImplementation.cec2005;
+package benchmarks.problemsImplementation.CEC2005;
 //
 // Special Session on Real-Parameter Optimization at CEC-05
 // Edinburgh, UK, 2-5 Sept. 2005
