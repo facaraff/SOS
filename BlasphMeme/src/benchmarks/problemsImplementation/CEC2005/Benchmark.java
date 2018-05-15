@@ -149,7 +149,7 @@ public class Benchmark {
 		try {
 			returnFunc = (TestFunction)
 //				loader.loadClass("cec2005." + test_func_class_names[func_num-1])
-					loader.loadClass("benchmarks.problemsImplementation.cec2005." + test_func_class_names[func_num-1]) //CHECK STO MODIFN+ANCO L'ANIMA
+					loader.loadClass("benchmarks.problemsImplementation.CEC2005." + test_func_class_names[func_num-1]) //XXX fabio
 					.getConstructor(test_func_arg_types)
 					.newInstance(
 						new Object[] {
@@ -584,7 +584,6 @@ public class Benchmark {
 	static public void loadRowVectorFromFile(String file, int columns, double[] row) {
 		try {
 			file = "cec2005"+slash()+file;
-			System.out.println(file);
 			//InputStream inputStream = ClassLoader.getSystemResourceAsStream(file);
 			InputStream inputStream = loader.getResourceAsStream(file);
 			BufferedReader brSrc = new BufferedReader(new InputStreamReader(inputStream));
@@ -600,12 +599,13 @@ public class Benchmark {
 	
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-	public void loadLineFromFile(String file, int columns, double[] row) {
+	private void loadLineFromFile(String file, int columns, double[] row) {
 		try {
 //			file = "cec2005"+slash()+file; 
 			//System.out.println(this.getClass());
-			//System.out.println(file);
+			System.out.println(file);
 			System.out.println(this.getClass().getResourceAsStream(file));
+			System.out.println(this.getClass());
 			Scanner input = new Scanner(this.getClass().getResourceAsStream(file));
 			
 			for (int i=0;i<columns; i++)

@@ -71,7 +71,8 @@ public class F01 extends TestFunction {
 		m_z = new double[m_dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+//		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		loadLineFromFile(file_data, m_dimension, m_o);//XXX fabio
 	}
 
 	// Function body
