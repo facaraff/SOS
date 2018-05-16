@@ -8,7 +8,7 @@ import interfaces.Problem;
 
 public class CEC2005 extends Problem
 {
-	private CEC2005TestFunction testFunction;
+	private CEC2005TestFunction CEC2005TestFunction;
 	
 	 
 	public CEC2005(int dimension, int problemNum) throws Exception
@@ -17,7 +17,7 @@ public class CEC2005 extends Problem
 		setFID(".f"+problemNum);
 		setBounds(getBoundaries(problemNum));
 		Benchmark benchmark = new Benchmark();
-		testFunction = benchmark.testFunctionFactory(problemNum, dimension);
+		CEC2005TestFunction = benchmark.testFunctionFactory(problemNum, dimension);
 		benchmark = null;				
 	}
 	
@@ -25,7 +25,7 @@ public class CEC2005 extends Problem
 	/**
 	 * This method returns the fitness function value.
 	 */
-	public double f(double[] x){return testFunction.f(x);}
+	public double f(double[] x){return CEC2005TestFunction.f(x);}
 	
 	
 	/**

@@ -12,6 +12,7 @@ public abstract class CEC2005TestFunction {
 	// Constructors
 	public CEC2005TestFunction (int dimension, double bias) {
 		this(dimension, bias, "undefined");
+		
 	}
 	public CEC2005TestFunction (int dimension, double bias, String func_name) {
 		m_dimension = dimension;
