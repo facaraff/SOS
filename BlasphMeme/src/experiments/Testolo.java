@@ -55,7 +55,7 @@ public class Testolo extends Experiment
 //		p = new Rosenbrock(probDim);
 //		add(p);
 	    
-	    for(int i = 1; i<=25; i++)
+	    for(int i = 1; i<=1; i++)
 			add(new CEC2005(probDim, i));
 	    
 //		for(int i = 1; i<=30; i++)

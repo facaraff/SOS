@@ -1,10 +1,14 @@
 package utils.benchmarks;
 /******************************************************************************************************/
-/*** shifting, rotation, compostion , etc. for CEC2014 and CEC2015 (they both use the very same code)****/
+/*** shifting, rotation, composition , etc. for CEC2014 and CEC2015 (they both use the very same code)****/
 /*****************************************************************************************************/
 
 public class ProblemsTransformations
 {
+	
+	
+	//%%%%%%%%%%%%%%% CEC2014 and CEC2015 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
 	
 	static final double INF = 1.0e99;
 	
@@ -171,6 +175,56 @@ public class ProblemsTransformations
 			f=f+w[i]/w_sum*fit[i];
 		}
 		return f;
-	}	
+	}
+	
+	//
+	// Elementary operations %%%%%%%%%%%%%%%%%%%     CEC2005   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	//
+
+	// Shift
+	public static void shift(double[] results, double[] x, double[] o) {
+		for (int i = 0 ; i < x.length ; i ++) {
+			results[i] = x[i] - o[i];
+		}
+	}
+
+	// Rotate
+	static public void rotate(double[] results, double[] x, double[][] matrix) {
+		xA(results, x, matrix);
+	}
+
+	//
+	// Matrix & vector operations
+	//
+
+	// (1xD) row vector * (Dx1) column vector = (1) scalar
+	public static double xy(double[] x, double[] y) {
+		double result = 0.0;
+		for (int i = 0 ; i < x.length ; i ++) {
+			result += (x[i] * y[i]);
+		}
+
+		return (result);
+	}
+
+	// (1xD) row vector * (DxD) matrix = (1xD) row vector
+	static public void xA(double[] result, double[] x, double[][] A) {
+		for (int i = 0 ; i < result.length ; i ++) {
+			result[i] = 0.0;
+			for (int j = 0 ; j < result.length ; j ++) {
+				result[i] += (x[j] * A[j][i]);
+			}
+		}
+	}
+
+	// (DxD) matrix * (Dx1) column vector = (Dx1) column vector
+	public static void Ax(double[] result, double[][] A, double[] x) {
+		for (int i = 0 ; i < result.length ; i ++) {
+			result[i] = 0.0;
+			for (int j = 0 ; j < result.length ; j ++) {
+				result[i] += (A[i][j] * x[j]);
+			}
+		}
+	}
 }
 

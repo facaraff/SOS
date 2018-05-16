@@ -1,5 +1,7 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.shift;
+import static utils.benchmarks.ProblemsTransformations.rotate;
 
 public class F04 extends CEC2005TestFunction {
 
@@ -15,25 +17,25 @@ public class F04 extends CEC2005TestFunction {
 	private double[] m_z;
 
 	// Constructors
-	public F04 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA);
+	public F04 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA);
 	}
-	public F04 (int dimension, double bias, String file_data) {
-		super(dimension, bias, FUNCTION_NAME);
+	public F04 (int dimension, String file_data) {
+		super(dimension, FUNCTION_NAME);
 
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_z = new double[m_dimension];
+		m_o = new double[dimension];
+		m_z = new double[dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		Benchmark.loadRowVectorFromFile(file_data, dimension, m_o);
 	}
 
 	// Function body
 	public double f(double[] x) {
 		double result = 0.0;
 
-		Benchmark.shift(m_z, x, m_o);
+		shift(m_z, x, m_o);
 
 		result = Benchmark.schwefel_102(m_z);
 

@@ -235,17 +235,17 @@ public class Benchmark {
 	// Basic functions
 	//
 
-	// Sphere function
-	static public double sphere(double[] x) {
-
-		double sum = 0.0;
-
-		for (int i = 0 ; i < x.length ; i ++) {
-			sum += x[i] * x[i];
-		}
-
-		return (sum);
-	}
+//	// Sphere function
+//	static public double sphere(double[] x) {
+//
+//		double sum = 0.0;
+//
+//		for (int i = 0 ; i < x.length ; i ++) {
+//			sum += x[i] * x[i];
+//		}
+//
+//		return (sum);
+//	}
 
 	// Sphere function with noise
 	static public double sphere_noise(double[] x) {
@@ -512,55 +512,55 @@ public class Benchmark {
 		return (sumF);
 	}
 
-	//
-	// Elementary operations
-	//
-
-	// Shift
-	static public void shift(double[] results, double[] x, double[] o) {
-		for (int i = 0 ; i < x.length ; i ++) {
-			results[i] = x[i] - o[i];
-		}
-	}
-
-	// Rotate
-	static public void rotate(double[] results, double[] x, double[][] matrix) {
-		xA(results, x, matrix);
-	}
-
-	//
-	// Matrix & vector operations
-	//
-
-	// (1xD) row vector * (Dx1) column vector = (1) scalar
-	static public double xy(double[] x, double[] y) {
-		double result = 0.0;
-		for (int i = 0 ; i < x.length ; i ++) {
-			result += (x[i] * y[i]);
-		}
-
-		return (result);
-	}
-
-	// (1xD) row vector * (DxD) matrix = (1xD) row vector
-	static public void xA(double[] result, double[] x, double[][] A) {
-		for (int i = 0 ; i < result.length ; i ++) {
-			result[i] = 0.0;
-			for (int j = 0 ; j < result.length ; j ++) {
-				result[i] += (x[j] * A[j][i]);
-			}
-		}
-	}
-
-	// (DxD) matrix * (Dx1) column vector = (Dx1) column vector
-	static public void Ax(double[] result, double[][] A, double[] x) {
-		for (int i = 0 ; i < result.length ; i ++) {
-			result[i] = 0.0;
-			for (int j = 0 ; j < result.length ; j ++) {
-				result[i] += (A[i][j] * x[j]);
-			}
-		}
-	}
+//	//
+//	// Elementary operations
+//	//
+//
+//	// Shift
+//	static public void shift(double[] results, double[] x, double[] o) {
+//		for (int i = 0 ; i < x.length ; i ++) {
+//			results[i] = x[i] - o[i];
+//		}
+//	}
+//
+//	// Rotate
+//	static public void rotate(double[] results, double[] x, double[][] matrix) {
+//		xA(results, x, matrix);
+//	}
+//
+//	//
+//	// Matrix & vector operations
+//	//
+//
+//	// (1xD) row vector * (Dx1) column vector = (1) scalar
+//	static public double xy(double[] x, double[] y) {
+//		double result = 0.0;
+//		for (int i = 0 ; i < x.length ; i ++) {
+//			result += (x[i] * y[i]);
+//		}
+//
+//		return (result);
+//	}
+//
+//	// (1xD) row vector * (DxD) matrix = (1xD) row vector
+//	static public void xA(double[] result, double[] x, double[][] A) {
+//		for (int i = 0 ; i < result.length ; i ++) {
+//			result[i] = 0.0;
+//			for (int j = 0 ; j < result.length ; j ++) {
+//				result[i] += (x[j] * A[j][i]);
+//			}
+//		}
+//	}
+//
+//	// (DxD) matrix * (Dx1) column vector = (Dx1) column vector
+//	static public void Ax(double[] result, double[][] A, double[] x) {
+//		for (int i = 0 ; i < result.length ; i ++) {
+//			result[i] = 0.0;
+//			for (int j = 0 ; j < result.length ; j ++) {
+//				result[i] += (A[i][j] * x[j]);
+//			}
+//		}
+//	}
 
 	//
 	// Utility functions for loading data from the given text file

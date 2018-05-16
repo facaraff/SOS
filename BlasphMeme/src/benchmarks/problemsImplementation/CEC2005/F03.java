@@ -1,5 +1,7 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.shift;
+import static utils.benchmarks.ProblemsTransformations.rotate;
 
 public class F03 extends CEC2005TestFunction {
 
@@ -21,41 +23,44 @@ public class F03 extends CEC2005TestFunction {
 	private	double constant;
 
 	// Constructors
-	public F03 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
+	public F03 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
 	}
-	public F03 (int dimension, double bias, String file_data, String file_m) {
-		super(dimension, bias, FUNCTION_NAME);
+	public F03 (int dimension, String file_data, String file_m) {
+		super(dimension, FUNCTION_NAME);
 
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_matrix = new double[m_dimension][m_dimension];
+		m_o = new double[dimension];
+		m_matrix = new double[dimension][dimension];
 
-		m_z = new double[m_dimension];
-		m_zM = new double[m_dimension];
-
+		m_z = new double[dimension];
+		m_zM = new double[dimension];
+			
+		setBias(3);
+		
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		loadFromFile(file_data, dimension, m_o);
 		// Load the matrix
-		Benchmark.loadMatrixFromFile(file_m, m_dimension, m_dimension, m_matrix);
+		loadFromFile(file_m, dimension, dimension, m_matrix);
+//		Benchmark.loadMatrixFromFile(file_m, dimension, dimension, m_matrix);
 
-		constant = Math.pow(1.0e6, 1.0/(m_dimension-1.0));
+		constant = Math.pow(1.0e6, 1.0/(dimension-1.0));
 	}
 
 	// Function body
 	public double f(double[] x) {
 		double result = 0.0;
 
-		Benchmark.shift(m_z, x, m_o);
-		Benchmark.rotate(m_zM, m_z, m_matrix);
+		shift(m_z, x, m_o);
+		rotate(m_zM, m_z, m_matrix);
 
 		double sum = 0.0;
 
-		for (int i = 0 ; i < m_dimension ; i ++) {
+		for (int i = 0 ; i < dimension ; i ++) {
 			sum += Math.pow(constant, i) * m_zM[i] * m_zM[i];
 		}
 
-		result = sum + m_bias;
+		result = sum + bias;
 
 		return (result);
 	}
