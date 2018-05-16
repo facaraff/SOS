@@ -1,5 +1,8 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.shift;
+import static utils.benchmarks.ProblemsTransformations.rotate;
+
 public class F07 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
@@ -11,30 +14,39 @@ public class F07 extends CEC2005TestFunction {
 	// Shifted global optimum
 	private final double[] m_o;
 	private final double[][] m_matrix;
-
+	private double[] m_iSqrt = new double[MAX_SUPPORT_DIM];
 	// In order to avoid excessive memory allocation,
 	// a fixed memory buffer is allocated for each function object.
 	private double[] m_z;
 	private double[] m_zM;
 
 	// Constructors
-	public F07 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
+	public F07 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
 	}
-	public F07 (int dimension, double bias, String file_data, String file_m) {
-		super(dimension, bias, FUNCTION_NAME);
-
+	public F07 (int dimension,String file_data, String file_m) {
+		super(dimension,  FUNCTION_NAME);
+		
+		setBias(7);
+		this.bounds = new double[] {0, 600};
+		
+		for (int i = 0 ; i < MAX_SUPPORT_DIM ; i ++) {
+			m_iSqrt[i] = Math.sqrt(((double )i) + 1.0);
+		}
+		
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_matrix = new double[m_dimension][m_dimension];
+		m_o = new double[dimension];
+		m_matrix = new double[dimension][dimension];
 
-		m_z = new double[m_dimension];
-		m_zM = new double[m_dimension];
+		m_z = new double[dimension];
+		m_zM = new double[dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		loadFromFile(file_data, dimension, m_o);
+//		Benchmark.loadRowVectorFromFile(file_data, dimension, m_o);
 		// Load the matrix
-		Benchmark.loadMatrixFromFile(file_m, m_dimension, m_dimension, m_matrix);
+		loadFromFile(file_m, dimension, dimension, m_matrix);
+//		Benchmark.loadMatrixFromFile(file_m, dimension, dimension, m_matrix);
 	}
 
 	// Function body
@@ -42,17 +54,32 @@ public class F07 extends CEC2005TestFunction {
 
 		double result = 0.0;
 
-		Benchmark.shift(m_z, x, m_o);
-		Benchmark.rotate(m_zM, m_z, m_matrix);
+		shift(m_z, x, m_o);
+		rotate(m_zM, m_z, m_matrix);
 
-		result = Benchmark.griewank(m_zM);
+		result = griewank(m_zM);
 
 		// XXX (gio) fixes -inf bug
 		if (Double.isInfinite(result))
 			result = Double.POSITIVE_INFINITY;
 		
-		result += m_bias;
+		result += bias;
 
 		return (result);
 	}
+	
+	// Griewank's function
+		private double griewank(double[] x) {
+
+			double sum = 0.0;
+			double product = 1.0;
+
+			for (int i = 0 ; i < x.length ; i ++) {
+				sum += ((x[i] * x[i]) / 4000.0);
+				product *= Math.cos(x[i] / m_iSqrt[i]);
+			}
+
+			return (sum - product + 1.0);
+		}
+	
 }

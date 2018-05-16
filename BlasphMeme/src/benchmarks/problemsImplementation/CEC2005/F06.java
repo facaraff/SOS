@@ -1,5 +1,7 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.shift;
+
 public class F06 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
@@ -14,22 +16,25 @@ public class F06 extends CEC2005TestFunction {
 	private double[] m_z;
 
 	// Constructors
-	public F06 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA);
+	public F06 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA);
 	}
-	public F06 (int dimension, double bias, String file_data) {
-		super(dimension, bias, FUNCTION_NAME);
-
+	public F06 (int dimension, String file_data) {
+		super(dimension,  FUNCTION_NAME);
+		
+		setBias(6);	
+		this.bounds = new double[] {-100, 100};
+		
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_z = new double[m_dimension];
+		m_o = new double[dimension];
+		m_z = new double[dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		Benchmark.loadRowVectorFromFile(file_data, dimension, m_o);
 
 		// z = x - o + 1 = x - (o - 1)
 		// Do the "(o - 1)" part first
-		for (int i = 0 ; i < m_dimension ; i ++) {
+		for (int i = 0 ; i < dimension ; i ++) {
 			m_o[i] -= 1.0;
 		}
 	}
@@ -39,12 +44,28 @@ public class F06 extends CEC2005TestFunction {
 
 		double result = 0.0;
 
-		Benchmark.shift(m_z, x, m_o);
+		shift(m_z, x, m_o);
 
-		result = Benchmark.rosenbrock(m_z);
+		result = rosenbrock(m_z);
 
-		result += m_bias;
+		result += bias;
 
 		return (result);
 	}
+	
+	
+	// Rosenbrock's function
+		private double rosenbrock(double[] x) {
+
+			double sum = 0.0;
+
+			for (int i = 0 ; i < (x.length-1) ; i ++) {
+				double temp1 = (x[i] * x[i]) - x[i+1];
+				double temp2 = x[i] - 1.0;
+				sum += (100.0 * temp1 * temp1) + (temp2 * temp2);
+			}
+
+			return (sum);
+		}
+	
 }

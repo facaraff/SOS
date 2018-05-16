@@ -19,7 +19,7 @@ public abstract class CEC2005TestFunction {
 	static final public String DEFAULT_FILE_BIAS = "supportData"+slash()+"fbias_data.txt";
 
 	
-//	static final public int MAX_SUPPORT_DIM = 100;
+	static final public int MAX_SUPPORT_DIM = 100;
 //	static final public double PIx2 = Math.PI * 2.0;
 //
 //	// Formatter for the number representation
@@ -40,7 +40,8 @@ public abstract class CEC2005TestFunction {
 	public CEC2005TestFunction (int dimension, String func_name) {
 		this.dimension = dimension;
 		this.func_name = func_name;
-	}
+		if(dimension>MAX_SUPPORT_DIM)System.out.println("Maximums dimensionality of the proboem is"+MAX_SUPPORT_DIM);
+	} 
 
 	// Function body to be defined in the child classes
 	public abstract double f(double[] x);

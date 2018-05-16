@@ -235,17 +235,17 @@ public class Benchmark {
 	// Basic functions
 	//
 
-//	// Sphere function
-//	static public double sphere(double[] x) {
-//
-//		double sum = 0.0;
-//
-//		for (int i = 0 ; i < x.length ; i ++) {
-//			sum += x[i] * x[i];
-//		}
-//
-//		return (sum);
-//	}
+	// Sphere function
+	static public double sphere(double[] x) {
+
+		double sum = 0.0;
+
+		for (int i = 0 ; i < x.length ; i ++) {
+			sum += x[i] * x[i];
+		}
+
+		return (sum);
+	}
 
 	// Sphere function with noise
 	static public double sphere_noise(double[] x) {

@@ -28,7 +28,9 @@ public class F03 extends CEC2005TestFunction {
 	}
 	public F03 (int dimension, String file_data, String file_m) {
 		super(dimension, FUNCTION_NAME);
-
+		
+		this.bounds = new double[] {-100, 100};
+		
 		// Note: dimension starts from 0
 		m_o = new double[dimension];
 		m_matrix = new double[dimension][dimension];

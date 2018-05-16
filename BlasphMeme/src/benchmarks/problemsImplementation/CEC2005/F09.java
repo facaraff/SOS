@@ -1,11 +1,14 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.shift;
+
+
 public class F09 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
-	static final public String FUNCTION_NAME = "Shifted Rastrigin's Function";
-	static final public String DEFAULT_FILE_DATA = "supportData/rastrigin_func_data.txt";
-
+	static final private String FUNCTION_NAME = "Shifted Rastrigin's Function";
+	static final private String DEFAULT_FILE_DATA = "supportData/rastrigin_func_data.txt";
+	static final private double PIx2 = Math.PI * 2.0;
 	// Shifted global optimum
 	private final double[] m_o;
 
@@ -14,18 +17,21 @@ public class F09 extends CEC2005TestFunction {
 	private double[] m_z;
 
 	// Constructors
-	public F09 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA);
+	public F09 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA);
 	}
-	public F09 (int dimension, double bias, String file_data) {
-		super(dimension, bias, FUNCTION_NAME);
+	public F09 (int dimension, String file_data) {
+		super(dimension, FUNCTION_NAME);
+		
+		setBias(9);
+		this.bounds=new double[] {-5, 5};
 
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_z = new double[m_dimension];
+		m_o = new double[dimension];
+		m_z = new double[dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		loadFromFile(file_data, dimension, m_o);
 	}
 
 	// Function body
@@ -33,12 +39,25 @@ public class F09 extends CEC2005TestFunction {
 
 		double result = 0.0;
 
-		Benchmark.shift(m_z, x, m_o);
+		shift(m_z, x, m_o);
 
-		result = Benchmark.rastrigin(m_z);
+		result = rastrigin(m_z);
 
-		result += m_bias;
+		result += bias;
 
 		return (result);
 	}
+	
+	// Rastrigin's function
+	private double rastrigin(double[] x) {
+
+		double sum = 0.0;
+
+		for (int i = 0 ; i < x.length ; i ++) {
+			sum += (x[i] * x[i]) - (10.0 * Math.cos(PIx2 * x[i])) + 10.0;
+		}
+
+		return (sum);
+	}
+	
 }

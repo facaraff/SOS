@@ -1,5 +1,8 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.shift;
+import static utils.benchmarks.ProblemsTransformations.rotate;
+
 public class F10 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
@@ -18,23 +21,26 @@ public class F10 extends CEC2005TestFunction {
 	private double[] m_zM;
 
 	// Constructors
-	public F10 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
+	public F10 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
 	}
-	public F10 (int dimension, double bias, String file_data, String file_m) {
-		super(dimension, bias, FUNCTION_NAME);
+	public F10 (int dimension,  String file_data, String file_m) {
+		super(dimension, FUNCTION_NAME);
+		
+		setBias(10);
+		this.bounds = new double[] {-5, 5};
 
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_matrix = new double[m_dimension][m_dimension];
+		m_o = new double[dimension];
+		m_matrix = new double[dimension][dimension];
 
-		m_z = new double[m_dimension];
-		m_zM = new double[m_dimension];
+		m_z = new double[dimension];
+		m_zM = new double[dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		loadFromFile(file_data, dimension, m_o);
 		// Load the matrix
-		Benchmark.loadMatrixFromFile(file_m, m_dimension, m_dimension, m_matrix);
+		loadFromFile(file_m, dimension, dimension, m_matrix);
 	}
 
 	// Function body
@@ -42,12 +48,12 @@ public class F10 extends CEC2005TestFunction {
 
 		double result = 0.0;
 
-		Benchmark.shift(m_z, x, m_o);
-		Benchmark.rotate(m_zM, m_z, m_matrix);
+		shift(m_z, x, m_o);
+		rotate(m_zM, m_z, m_matrix);
 
 		result = Benchmark.rastrigin(m_zM);
 
-		result += m_bias;
+		result += bias;
 
 		return (result);
 	}

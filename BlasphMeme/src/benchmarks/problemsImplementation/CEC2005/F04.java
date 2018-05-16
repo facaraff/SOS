@@ -1,7 +1,7 @@
 package benchmarks.problemsImplementation.CEC2005;
 
 import static utils.benchmarks.ProblemsTransformations.shift;
-import static utils.benchmarks.ProblemsTransformations.rotate;
+
 
 public class F04 extends CEC2005TestFunction {
 
@@ -22,13 +22,18 @@ public class F04 extends CEC2005TestFunction {
 	}
 	public F04 (int dimension, String file_data) {
 		super(dimension, FUNCTION_NAME);
-
+		
+		this.bounds = new double[] {-100, 100};
+		
 		// Note: dimension starts from 0
 		m_o = new double[dimension];
 		m_z = new double[dimension];
-
+		
+		setBias(4);
+		
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, dimension, m_o);
+		loadFromFile(file_data, dimension, m_o);
+		//Benchmark.loadRowVectorFromFile(file_data, dimension, m_o);
 	}
 
 	// Function body
@@ -37,14 +42,32 @@ public class F04 extends CEC2005TestFunction {
 
 		shift(m_z, x, m_o);
 
-		result = Benchmark.schwefel_102(m_z);
+		result = schwefel_102(m_z);
 
 		// NOISE
 		// Comment the next line to remove the noise
 		result *= (1.0 + 0.4 * Math.abs(Benchmark.random.nextGaussian()));
 
-		result += m_bias;
+		result += bias;
 
 		return (result);
 	}
+	
+	// Schwefel's problem 1.2
+		private double schwefel_102(double[] x) {
+
+			double prev_sum, curr_sum, outer_sum;
+
+			curr_sum = x[0];
+			outer_sum = (curr_sum * curr_sum);
+
+			for (int i = 1 ; i < x.length ; i ++) {
+				prev_sum = curr_sum;
+				curr_sum = prev_sum + x[i];
+				outer_sum += (curr_sum * curr_sum);
+			}
+
+			return (outer_sum);
+		}
+
 }
