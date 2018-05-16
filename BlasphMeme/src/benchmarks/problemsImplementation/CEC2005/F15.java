@@ -1,7 +1,7 @@
 package benchmarks.problemsImplementation.CEC2005;
 
 
-public class F15 extends TestFunction {
+public class F15 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Hybrid Composition Function 1";

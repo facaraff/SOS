@@ -1,7 +1,7 @@
 package benchmarks.problemsImplementation.CEC2005;
 
 
-public class F08 extends TestFunction {
+public class F08 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Shifted Rotated Ackley's Function with Global Optimum on Bounds";

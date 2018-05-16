@@ -46,7 +46,7 @@ package benchmarks.problemsImplementation.CEC2005;
 //		dated March 8, 2005.
 //
 
-public class F01 extends TestFunction {
+public class F01 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Shifted Sphere Function";

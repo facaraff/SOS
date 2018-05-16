@@ -1,7 +1,7 @@
 package benchmarks.problemsImplementation.CEC2005;
 
 
-public class F14 extends TestFunction {
+public class F14 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Shifted Rotated Expanded Scaffer's F6 Function";

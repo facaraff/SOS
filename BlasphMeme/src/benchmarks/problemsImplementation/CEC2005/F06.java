@@ -1,6 +1,6 @@
 package benchmarks.problemsImplementation.CEC2005;
 
-public class F06 extends TestFunction {
+public class F06 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Shifted Rosenbrock's Function";

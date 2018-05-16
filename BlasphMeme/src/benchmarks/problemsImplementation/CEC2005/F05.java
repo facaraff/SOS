@@ -1,6 +1,6 @@
 package benchmarks.problemsImplementation.CEC2005;
 
-public class F05 extends TestFunction {
+public class F05 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Schwefel's Problem 2.6 with Global Optimum on Bounds";

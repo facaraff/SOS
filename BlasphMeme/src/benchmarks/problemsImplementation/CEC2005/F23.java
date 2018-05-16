@@ -1,6 +1,6 @@
 package benchmarks.problemsImplementation.CEC2005;
 
-public class F23 extends TestFunction {
+public class F23 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Non-Continuous Rotated Hybrid Composition Function 3";

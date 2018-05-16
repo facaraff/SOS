@@ -1,6 +1,6 @@
 package benchmarks.problemsImplementation.CEC2005;
 
-public class F19 extends TestFunction {
+public class F19 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Rotated Hybrid Composition Function 2 with narrow basin global optimum";

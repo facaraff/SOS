@@ -1,6 +1,6 @@
 package benchmarks.problemsImplementation.CEC2005;
 
-public class F11 extends TestFunction {
+public class F11 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
 	static final public String FUNCTION_NAME = "Shifted Rotated Weierstrass Function";

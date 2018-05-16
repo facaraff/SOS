@@ -144,10 +144,10 @@ public class Benchmark {
 	//
 	// Use this function to manufacture new test function objects
 	//
-	public TestFunction testFunctionFactory(int func_num, int dimension) {
-		TestFunction returnFunc = null;
+	public CEC2005TestFunction testFunctionFactory(int func_num, int dimension) {
+		CEC2005TestFunction returnFunc = null;
 		try {
-			returnFunc = (TestFunction)
+			returnFunc = (CEC2005TestFunction)
 //				loader.loadClass("cec2005." + test_func_class_names[func_num-1])
 					loader.loadClass("benchmarks.problemsImplementation.CEC2005." + test_func_class_names[func_num-1]) //XXX fabio
 					.getConstructor(test_func_arg_types)
@@ -192,7 +192,7 @@ public class Benchmark {
 			String file_test = "testData"+slash()+"test_data_func" + func_num + ".txt";
 			
 			// Create the test function object
-			TestFunction aFunc = testFunctionFactory(func_num, test_dimension);
+			CEC2005TestFunction aFunc = testFunctionFactory(func_num, test_dimension);
 
 			System.out.println("Run tests on function " + func_num +
 				" (" + aFunc.name() + "):");
@@ -599,28 +599,28 @@ public class Benchmark {
 	
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-	private void loadLineFromFile(String file, int columns, double[] row) {
-		try {
-//			file = "cec2005"+slash()+file; 
-			//System.out.println(this.getClass());
-			System.out.println(file);
-			System.out.println(this.getClass().getResourceAsStream(file));
-			System.out.println(this.getClass());
-			Scanner input = new Scanner(this.getClass().getResourceAsStream(file));
-			
-			for (int i=0;i<columns; i++)
-			{
-				String next = input.next(); //System.out.println(next+"\t");
-				row[i]=Double.parseDouble(next);
-			}
-			
-			input.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
-	}
+//	private void loadLineFromFile(String file, int columns, double[] row) {
+//		try {
+////			file = "cec2005"+slash()+file; 
+//			//System.out.println(this.getClass());
+//			System.out.println(file);
+//			System.out.println(this.getClass().getResourceAsStream(file));
+//			System.out.println(this.getClass());
+//			Scanner input = new Scanner(this.getClass().getResourceAsStream(file));
+//			
+//			for (int i=0;i<columns; i++)
+//			{
+//				String next = input.next(); //System.out.println(next+"\t");
+//				row[i]=Double.parseDouble(next);
+//			}
+//			
+//			input.close();
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//			System.exit(-1);
+//		}
+//	}
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	

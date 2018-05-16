@@ -2,13 +2,13 @@ package benchmarks;
 
 
 import benchmarks.problemsImplementation.CEC2005.Benchmark;
-import benchmarks.problemsImplementation.CEC2005.TestFunction;
+import benchmarks.problemsImplementation.CEC2005.CEC2005TestFunction;
 import interfaces.Problem;
 
 
 public class CEC2005 extends Problem
 {
-	private TestFunction testFunction;
+	private CEC2005TestFunction testFunction;
 	
 	 
 	public CEC2005(int dimension, int problemNum) throws Exception
