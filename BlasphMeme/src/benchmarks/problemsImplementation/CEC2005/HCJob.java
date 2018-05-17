@@ -88,16 +88,17 @@ public abstract class HCJob {
    private static  double[] m_iSqrt = new double[MAX_SUPPORT_DIM];
 	
 	public HCJob() {
-		// Nothing
-		// This class is just a place holder.
+		initM_iSqrt();
 	}
 
 	public abstract double basic_func(int func_no, double[] x);
 	
 	
-	
-	
-	
+	private void initM_iSqrt()
+	{
+		for (int i = 0 ; i < MAX_SUPPORT_DIM ; i ++) 
+			m_iSqrt[i] = Math.sqrt(((double )i) + 1.0);
+	}	
 	
 	//
 	// Basic functions

@@ -43,20 +43,21 @@ public class F01 extends CEC2005TestFunction {
 	// Function body
 	public double f(double[] x) {
 		double result = 0.0;
-
+//		System.out.println("porco: "+x[0]);
 		shift(m_z, x, m_o);
 
 		result = this.sphere(m_z);
-
+//		System.out.println("dio: "+result);
+//		System.out.println("bias: "+bias);
 		result += bias;
-
+//		System.out.println("cane: "+result);
 		return (result);
 	}
 	
 	
 	// Sphere function
 	private double sphere(double[] x) {
-
+		
 		double sum = 0.0;
 
 		for (int i = 0 ; i < x.length ; i ++) 

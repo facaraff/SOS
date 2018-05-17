@@ -23,6 +23,7 @@ public class F13 extends CEC2005TestFunction {
 	public F13 (int dimension,  String file_data) {
 		super(dimension, FUNCTION_NAME);
 		
+		setBias(13);
 		this.bounds = new double[] {-5, 5}; //XXX (gio) {-3,1} in Suganthan's code, {-5,5} in report
 
 		// Note: dimension starts from 0

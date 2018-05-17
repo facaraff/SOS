@@ -57,7 +57,7 @@ public class RunExperiments
 	
 		experiments.add(new Testolo(10));
 		
-		experiments.add(new cec11(30));
+		//experiments.add(new cec11(30));
 		
 		
 		//@@@@@@

@@ -15,13 +15,14 @@ public class CEC2005 extends Problem
 	{
 		super(dimension);  
 		setFID(".f"+problemNum);
-		cec2005 = cec2005.initiliaseFunction(problemNum,dimension);			
+		cec2005 = CEC2005TestFunction.initiliaseFunction(problemNum,dimension);	
+		setBounds(cec2005.getBounds());
 	}
 	
 	
 	/**
 	 * This method returns the fitness function value.
 	 */
-	public double f(double[] x){return cec2005.f(x);}
+	public double f(double[] x){return cec2005.f(x);}//System.out.println("CAZZO"+cec2005.f(x));
 	
 }
