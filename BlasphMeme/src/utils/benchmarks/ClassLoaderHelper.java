@@ -18,9 +18,9 @@ import java.util.jar.JarFile;
  * This class provides an utility function to dynamically load native libraries 
  * contained into a jar file.
  */
-public class ClassLoaderHelperBAKUP
+public class ClassLoaderHelper
 {
-	public static final ClassLoader loader = ClassLoaderHelperBAKUP.class.getClassLoader();
+	public static final ClassLoader loader = ClassLoaderHelper.class.getClassLoader();
 
 	private static final boolean forceReload = true;
 	
@@ -62,7 +62,7 @@ public class ClassLoaderHelperBAKUP
 					{
 						//jarPath = url.getPath().substring(5, url.getPath().indexOf("!"));
 						// this method should get the path of the running jar file 
-						jarPath = new File(ClassLoaderHelperBAKUP.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toString();	
+						jarPath = new File(ClassLoaderHelper.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toString();	
 					}
 					catch (Exception e) {}
 					
@@ -330,7 +330,7 @@ public class ClassLoaderHelperBAKUP
 					
 					
 					// read the native library from jar file
-					in = loader.getResourceAsStream("benhcmarks/lib" + File.separator + archLibDir + File.separator + name);
+					in = loader.getResourceAsStream("nativeLibraries" + File.separator + archLibDir + File.separator + name);
 					
 					// save the native library to the temporary file
 					fos = new FileOutputStream(temp);

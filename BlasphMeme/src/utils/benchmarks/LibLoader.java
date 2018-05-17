@@ -26,7 +26,7 @@ public class LibLoader
 	
 	
 	
-	public static final ClassLoader loader = ClassLoaderHelperBAKUP.class.getClassLoader();
+	public static final ClassLoader loader = ClassLoaderHelper.class.getClassLoader();
 
 	private static final boolean forceReload = true;
 	
@@ -261,7 +261,7 @@ public class LibLoader
 				// create a temporary file to store the native library
 				temp = new File(new File(System.getProperty("java.io.tmpdir")), nameMangling);
 				// force its deletion at jvm shutdown
-				//temp.deleteOnExit();
+				temp.deleteOnExit();
 				
 				
 				if (!temp.exists() || temp.length() == 0 || forceReload)

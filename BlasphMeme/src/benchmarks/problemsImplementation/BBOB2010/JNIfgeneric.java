@@ -2,7 +2,7 @@ package benchmarks.problemsImplementation.BBOB2010;
 
 import java.io.File;
 
-//import utils.benchmarks.ClassLoaderHelper;
+import utils.benchmarks.ClassLoaderHelper;
 import utils.benchmarks.LibLoader;
 
 /**
@@ -15,8 +15,8 @@ public class JNIfgeneric {
 	static {
 		try
 		{
-			LibLoader LB = new LibLoader(); LB.FABIOloadNativeLibraryFromJar("libcjavabbob");
-			//ClassLoaderHelper.loadNativeLibraryFromJar("libcjavabbob");
+			//LibLoader LB = new LibLoader(); LB.FABIOloadNativeLibraryFromJar("libcjavabbob");
+			ClassLoaderHelper.loadNativeLibraryFromJar("libcjavabbob");
 		}
 		catch (Exception e)
 		{
