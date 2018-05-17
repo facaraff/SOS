@@ -1,5 +1,8 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.rotate;
+
+
 public class F19 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
@@ -39,35 +42,38 @@ public class F19 extends CEC2005TestFunction {
 	private double[][] m_zM;
 
 	// Constructors
-	public F19 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
+	public F19 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
 	}
-	public F19 (int dimension, double bias, String file_data, String file_m) {
-		super(dimension, bias, FUNCTION_NAME);
+	public F19 (int dimension, String file_data, String file_m) {
+		super(dimension, FUNCTION_NAME);
+		
+		setBias(19);
+		this.bounds = new double[] {-5,5};
 
 		// Note: dimension starts from 0
-		m_o = new double[NUM_FUNC][m_dimension];
-		m_M = new double[NUM_FUNC][m_dimension][m_dimension];
+		m_o = new double[NUM_FUNC][dimension];
+		m_M = new double[NUM_FUNC][dimension][dimension];
 
-		m_testPoint = new double[m_dimension];
-		m_testPointM = new double[m_dimension];
+		m_testPoint = new double[dimension];
+		m_testPointM = new double[dimension];
 		m_fmax = new double[NUM_FUNC];
 
 		m_w = new double[NUM_FUNC];
-		m_z = new double[NUM_FUNC][m_dimension];
-		m_zM = new double[NUM_FUNC][m_dimension];
+		m_z = new double[NUM_FUNC][dimension];
+		m_zM = new double[NUM_FUNC][dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadMatrixFromFile(file_data, NUM_FUNC, m_dimension, m_o);
-		for (int i = 0 ; i < m_dimension ; i ++) {
+		loadFromFile(file_data, NUM_FUNC, dimension, m_o);
+		for (int i = 0 ; i < dimension ; i ++) {
 			m_o[9][i] = 0.0;
 		}
 		// Load the matrix
-		Benchmark.loadNMatrixFromFile(file_m, NUM_FUNC, m_dimension, m_dimension, m_M);
+		loadFromFile(file_m, NUM_FUNC, dimension, dimension, m_M);
 
 		// Initialize the hybrid composition job object
 		theJob.num_func = NUM_FUNC;
-		theJob.num_dim = m_dimension;
+		theJob.num_dim = dimension;
 		theJob.C = 2000.0;
 		theJob.sigma = m_sigma;
 		theJob.biases = m_func_biases;
@@ -79,10 +85,10 @@ public class F19 extends CEC2005TestFunction {
 		theJob.zM = m_zM;
 		// Calculate/estimate the fmax for all the functions involved
 		for (int i = 0 ; i < NUM_FUNC ; i ++) {
-			for (int j = 0 ; j < m_dimension ; j ++) {
+			for (int j = 0 ; j < dimension ; j ++) {
 				m_testPoint[j] = (5.0 / m_lambda[i]);
 			}
-			Benchmark.rotate(m_testPointM, m_testPoint, m_M[i]);
+			rotate(m_testPointM, m_testPoint, m_M[i]);
 			m_fmax[i] = Math.abs(theJob.basic_func(i, m_testPointM));
 		}
 		theJob.fmax = m_fmax;
@@ -94,23 +100,23 @@ public class F19 extends CEC2005TestFunction {
 			switch(func_no) {
 				case 0:
 				case 1:
-					result = Benchmark.ackley(x);
+					result =ackley(x);
 					break;
 				case 2:
 				case 3:
-					result = Benchmark.rastrigin(x);
+					result =rastrigin(x);
 					break;
 				case 4:
 				case 5:
-					result = Benchmark.sphere(x);
+					result =sphere(x);
 					break;
 				case 6:
 				case 7:
-					result = Benchmark.weierstrass(x);
+					result =weierstrass(x);
 					break;
 				case 8:
 				case 9:
-					result = Benchmark.griewank(x);
+					result =griewank(x);
 					break;
 				default:
 					System.err.println("func_no is out of range.");
@@ -125,9 +131,9 @@ public class F19 extends CEC2005TestFunction {
 
 		double result = 0.0;
 
-		result = Benchmark.hybrid_composition(x, theJob);
+		result =MyHCJob.hybrid_composition(x, theJob);
 
-		result += m_bias;
+		result += bias;
 
 		return (result);
 	}

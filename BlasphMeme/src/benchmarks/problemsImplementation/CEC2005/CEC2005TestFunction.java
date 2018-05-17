@@ -2,10 +2,6 @@ package benchmarks.problemsImplementation.CEC2005;
 
 import static utils.RunAndStore.slash;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public abstract class CEC2005TestFunction {
@@ -184,18 +180,15 @@ public abstract class CEC2005TestFunction {
 			Scanner input = new Scanner(this.getClass().getResourceAsStream(file));
 			
 			for (int r=0; r<rows; r++)
-			{
+			{				
+				//loadFromFile(file, columns, matrix[r]);
 				
-				loadFromFile(file, columns, matrix[r]);
-				
-//				for(int c=0; c<columns; r++)
-//				{
-//					String next = input.next(); //System.out.println(next+"\t");
-//					matrix[r][c]=Double.parseDouble(next);
-//				}
+				for(int c=0; c<columns; r++)
+				{
+					String next = input.next(); //System.out.println(next+"\t");
+					matrix[r][c]=Double.parseDouble(next);
+				}
 			}
-				
-			
 			
 			input.close();
 		}
@@ -204,5 +197,39 @@ public abstract class CEC2005TestFunction {
 			System.exit(-1);
 		}
 	}
+	
+	protected void loadFromFile(String file, int N, int rows, int columns, double[][][] matrix)
+	{
+		try 
+		{
+//			file = "cec2005"+slash()+file; 
+			//System.out.println(this.getClass());
+			System.out.println(file);
+			System.out.println(this.getClass().getResourceAsStream(file));
+			System.out.println(this.getClass());
+			Scanner input = new Scanner(this.getClass().getResourceAsStream(file));
+			
+			for (int i = 0 ; i < N ; i ++) {
+				for (int r=0; r<rows; r++)
+				{				
+					//loadFromFile(file, columns, matrix[r]);
+				
+					for(int c=0; c<columns; r++)
+					{
+						String next = input.next(); //System.out.println(next+"\t");
+						matrix[i][r][c]=Double.parseDouble(next);
+					}
+				}
+			}
+			
+			input.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+	
+
 	
 }

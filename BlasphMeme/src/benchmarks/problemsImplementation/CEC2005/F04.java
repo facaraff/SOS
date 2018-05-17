@@ -46,7 +46,7 @@ public class F04 extends CEC2005TestFunction {
 
 		// NOISE
 		// Comment the next line to remove the noise
-		result *= (1.0 + 0.4 * Math.abs(Benchmark.random.nextGaussian()));
+		result *= (1.0 + 0.4 * Math.abs(HCJob.random.nextGaussian()));
 
 		result += bias;
 

@@ -4,8 +4,8 @@ package benchmarks.problemsImplementation.CEC2005;
 public class F12 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
-	static final public String FUNCTION_NAME = "Schwefel's Problem 2.13";
-	static final public String DEFAULT_FILE_DATA = "supportData/schwefel_213_data.txt";
+	static final private String FUNCTION_NAME = "Schwefel's Problem 2.13";
+	static final private String DEFAULT_FILE_DATA = "supportData/schwefel_213_data.txt";
 
 	// Shifted global optimum
 	private final double[] m_o;
@@ -18,39 +18,42 @@ public class F12 extends CEC2005TestFunction {
 	private double[] m_B;
 
 	// Constructors
-	public F12 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA);
+	public F12 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA);
 	}
-	public F12 (int dimension, double bias, String file_data) {
-		super(dimension, bias, FUNCTION_NAME);
+	public F12 (int dimension, String file_data) {
+		super(dimension, FUNCTION_NAME);
+		
+		setBias(12);
+		this.bounds = new double[] {-Math.PI, Math.PI};
 
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_a = new double[m_dimension][m_dimension];
-		m_b = new double[m_dimension][m_dimension];
+		m_o = new double[dimension];
+		m_a = new double[dimension][dimension];
+		m_b = new double[dimension][dimension];
 
-		m_A = new double[m_dimension];
-		m_B = new double[m_dimension];
+		m_A = new double[dimension];
+		m_B = new double[dimension];
 
 		// Data:
 		//	1. a 		100x100
 		//	2. b 		100x100
 		//	3. alpha	1x100
-		double[][] m_data = new double[100+100+1][m_dimension];
+		double[][] m_data = new double[100+100+1][dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadMatrixFromFile(file_data, m_data.length, m_dimension, m_data);
-		for (int i = 0 ; i < m_dimension ; i ++) {
-			for (int j = 0 ; j < m_dimension ; j ++) {
+		loadFromFile(file_data, m_data.length, dimension, m_data);
+		for (int i = 0 ; i < dimension ; i ++) {
+			for (int j = 0 ; j < dimension ; j ++) {
 				m_a[i][j] = m_data[i][j];
 				m_b[i][j] = m_data[100+i][j];
 			}
 			m_o[i] = m_data[100+100][i];
 		}
 
-		for (int i = 0 ; i < m_dimension ; i ++) {
+		for (int i = 0 ; i < dimension ; i ++) {
 			m_A[i] = 0.0;
-			for (int j = 0 ; j < m_dimension ; j ++) {
+			for (int j = 0 ; j < dimension ; j ++) {
 				m_A[i] += (m_a[i][j] * Math.sin(m_o[j]) + m_b[i][j] * Math.cos(m_o[j]));
 			}
 		}
@@ -61,9 +64,9 @@ public class F12 extends CEC2005TestFunction {
 
 		double sum = 0.0;
 
-		for (int i = 0 ; i < m_dimension ; i ++) {
+		for (int i = 0 ; i < dimension ; i ++) {
 			m_B[i] = 0.0;
-			for (int j = 0 ; j < m_dimension ; j ++) {
+			for (int j = 0 ; j < dimension ; j ++) {
 				m_B[i] += (m_a[i][j] * Math.sin(x[j]) + m_b[i][j] * Math.cos(x[j]));
 			}
 
@@ -71,6 +74,6 @@ public class F12 extends CEC2005TestFunction {
 			sum += (temp * temp);
 		}
 
-		return (sum + m_bias);
+		return (sum + bias);
 	}
 }

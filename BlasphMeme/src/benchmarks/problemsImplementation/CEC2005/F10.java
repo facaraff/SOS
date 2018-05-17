@@ -51,7 +51,7 @@ public class F10 extends CEC2005TestFunction {
 		shift(m_z, x, m_o);
 		rotate(m_zM, m_z, m_matrix);
 
-		result = Benchmark.rastrigin(m_zM);
+		result = HCJob.rastrigin(m_zM);
 
 		result += bias;
 

@@ -30,7 +30,7 @@ public class F06 extends CEC2005TestFunction {
 		m_z = new double[dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, dimension, m_o);
+		loadFromFile(file_data, dimension, m_o);
 
 		// z = x - o + 1 = x - (o - 1)
 		// Do the "(o - 1)" part first

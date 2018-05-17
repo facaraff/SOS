@@ -1,13 +1,15 @@
 package benchmarks.problemsImplementation.CEC2005;
 
+import static utils.benchmarks.ProblemsTransformations.shift;
+import static utils.benchmarks.ProblemsTransformations.rotate;
 
 public class F14 extends CEC2005TestFunction {
 
 	// Fixed (class) parameters
-	static final public String FUNCTION_NAME = "Shifted Rotated Expanded Scaffer's F6 Function";
-	static final public String DEFAULT_FILE_DATA = "supportData/E_ScafferF6_func_data.txt";
-	static final public String DEFAULT_FILE_MX_PREFIX = "supportData/E_ScafferF6_M_D";
-	static final public String DEFAULT_FILE_MX_SUFFIX = ".txt";
+	static final private String FUNCTION_NAME = "Shifted Rotated Expanded Scaffer's F6 Function";
+	static final private String DEFAULT_FILE_DATA = "supportData/E_ScafferF6_func_data.txt";
+	static final private String DEFAULT_FILE_MX_PREFIX = "supportData/E_ScafferF6_M_D";
+	static final private String DEFAULT_FILE_MX_SUFFIX = ".txt";
 
 	// Shifted global optimum
 	private final double[] m_o;
@@ -19,23 +21,26 @@ public class F14 extends CEC2005TestFunction {
 	private double[] m_zM;
 
 	// Constructors
-	public F14 (int dimension, double bias) {
-		this(dimension, bias, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
+	public F14 (int dimension) {
+		this(dimension, DEFAULT_FILE_DATA, DEFAULT_FILE_MX_PREFIX + dimension + DEFAULT_FILE_MX_SUFFIX);
 	}
-	public F14 (int dimension, double bias, String file_data, String file_m) {
-		super(dimension, bias, FUNCTION_NAME);
+	public F14 (int dimension, String file_data, String file_m) {
+		super(dimension, FUNCTION_NAME);
+		
+		setBias(14);
+		this.bounds = new double[] {-100, 100};
 
 		// Note: dimension starts from 0
-		m_o = new double[m_dimension];
-		m_matrix = new double[m_dimension][m_dimension];
+		m_o = new double[dimension];
+		m_matrix = new double[dimension][dimension];
 
-		m_z = new double[m_dimension];
-		m_zM = new double[m_dimension];
+		m_z = new double[dimension];
+		m_zM = new double[dimension];
 
 		// Load the shifted global optimum
-		Benchmark.loadRowVectorFromFile(file_data, m_dimension, m_o);
+		loadFromFile(file_data, dimension, m_o);
 		// Load the matrix
-		Benchmark.loadMatrixFromFile(file_m, m_dimension, m_dimension, m_matrix);
+		loadFromFile(file_m, dimension, dimension, m_matrix);
 	}
 
 	// Function body
@@ -43,17 +48,40 @@ public class F14 extends CEC2005TestFunction {
 
 		double result = 0.0;
 
-		Benchmark.shift(m_z, x, m_o);
-		Benchmark.rotate(m_zM, m_z, m_matrix);
+		shift(m_z, x, m_o);
+		rotate(m_zM, m_z, m_matrix);
 
-		result = Benchmark.EScafferF6(m_zM);
+		result = EScafferF6(m_zM);
 
 		// XXX (gio) fixes -inf bug
 		if (Double.isInfinite(result))
 			result = Double.POSITIVE_INFINITY;
 		
-		result += m_bias;
+		result += bias;
 
 		return (result);
 	}
+	
+	
+	// Expanded Scaffer's F6 function
+		private double EScafferF6(double[] x) {
+
+			double sum = 0.0;
+
+			for (int i = 1 ; i < x.length ; i ++) {
+				sum += ScafferF6(x[i-1], x[i]);
+			}
+			sum += ScafferF6(x[x.length-1], x[0]);
+
+			return (sum);
+		}
+		
+		// Scaffer's F6 function
+		private double ScafferF6(double x, double y) {
+			double temp1 = x*x + y*y;
+			double temp2 = Math.sin(Math.sqrt(temp1));
+			double temp3 = 1.0 + 0.001 * temp1;
+			return (0.5 + ((temp2 * temp2 - 0.5)/(temp3 * temp3)));
+		}
+	
 }
