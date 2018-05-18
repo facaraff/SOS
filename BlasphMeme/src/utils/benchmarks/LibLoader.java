@@ -464,6 +464,7 @@ public class LibLoader
 		String paths[] = getJavaLibPaths();
 		
 		for(String s: paths)System.out.println(s);
+		System.out.println("currrent folder is: "+LibLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 	}
 	
 

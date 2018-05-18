@@ -372,8 +372,6 @@ public class ClassLoaderHelper
 //						    libc.chmod(temp.getAbsolutePath(), 0755);
 //						    System.out.println("ciccio");
 						
-						
-						
 						System.load(temp.getAbsolutePath());
 						libraryLoaded = true;
 					}

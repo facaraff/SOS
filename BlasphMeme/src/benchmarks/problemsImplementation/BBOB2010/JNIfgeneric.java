@@ -15,8 +15,8 @@ public class JNIfgeneric {
 	static {
 		try
 		{
-			LibLoader LL = new LibLoader(); //LB.FABIOloadNativeLibraryFromJar("libcjavabbob");
-			LL.showLibPaths();
+			//LibLoader LL = new LibLoader(); //LB.FABIOloadNativeLibraryFromJar("libcjavabbob");
+			//LL.showLibPaths();
 			ClassLoaderHelper.loadNativeLibraryFromJar("libcjavabbob");
 		}
 		catch (Exception e)
