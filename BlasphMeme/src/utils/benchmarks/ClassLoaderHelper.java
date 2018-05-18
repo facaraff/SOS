@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+//import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -12,7 +13,10 @@ import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+//import java.nio.file.Files;
 
+//import com.sun.jna.Library;
+//import com.sun.jna.Native;
 
 /**
  * This class provides an utility function to dynamically load native libraries 
@@ -257,6 +261,7 @@ public class ClassLoaderHelper
 		}
 	}
 	
+	
 	/**
 	 * Loads a native library contained into a jar file.
 	 * 
@@ -264,6 +269,155 @@ public class ClassLoaderHelper
 	 * @throws IOException
 	 */
 	public static void loadNativeLibraryFromJar(String name) throws Exception
+	{
+		boolean libraryLoaded = false;
+		
+		int trials = 600; // 600 x 100 ms = 60 seconds
+		int i = 0;
+		
+		// build the platform-dependent name of the native library
+		String architecture = System.getProperty("os.arch");
+		String osName = System.getProperty("os.name");
+		String archLibDir = "";
+		
+		if (osName.contains("Windows"))
+		{		
+			if (architecture.equalsIgnoreCase("x86") || architecture.equalsIgnoreCase("i386"))
+				archLibDir = "win32";
+			else
+				archLibDir = "win64";
+
+			name += ".dll";
+		}
+		else if (osName.contains("Mac"))
+		{	
+			if (architecture.equalsIgnoreCase("x86") || architecture.equalsIgnoreCase("i386"))
+				archLibDir = "mac32";
+			else
+				archLibDir = "mac64";
+
+			name += ".jnilib";
+		}
+		else
+		{	
+			if (architecture.equalsIgnoreCase("x86") || architecture.equalsIgnoreCase("i386"))
+				archLibDir = "x86";
+			else
+				archLibDir = "x86_64";
+
+			name += ".so.1.0.1";
+		}
+		
+		String nameMangling;
+		
+		// hack: try multiple times to load the native library
+		while (!libraryLoaded && i < trials)
+		{
+			// create a random mangling
+			long time = System.currentTimeMillis();
+			long random = new Random(time).nextLong();
+			nameMangling = name + "-" + (long)(time + random);
+			
+			File temp = null;
+			InputStream in = null;
+			FileOutputStream fos = null;
+			
+			
+			try
+			{
+				// create a temporary file to store the native library
+				temp = new File(new File(System.getProperty("java.io.tmpdir")), nameMangling);
+				temp.setExecutable(true);
+				temp.setReadable(true);
+				// force its deletion at jvm shutdown
+				temp.deleteOnExit();
+				
+				
+				
+				if (!temp.exists() || temp.length() == 0 || forceReload)
+				{
+					
+					
+					// read the native library from jar file
+					in = loader.getResourceAsStream("utils"+File.separator+"benchmarks"+File.separator+"nativeLibraries" + File.separator + archLibDir + File.separator + name);
+//					System.out.println(in);
+//					System.out.println(in.available());
+					
+					
+					// save the native library to the temporary file
+					fos = new FileOutputStream(temp);
+					
+					byte[] buffer = new byte[1024];
+					int read = -1;
+
+					while ((read = in.read(buffer)) != -1)
+						fos.write(buffer, 0, read);
+				}
+				
+				fos.flush();//XXX fabio
+				//fos.close();
+				
+				
+				// try to load the native library
+				if (temp.exists() && temp.length() > 0)
+				{
+					
+					
+			
+					
+					try
+					{
+//						 CLibrary libc = (CLibrary) Native.loadLibrary("c", CLibrary.class);
+//
+//						    libc.chmod(temp.getAbsolutePath(), 0755);
+//						    System.out.println("ciccio");
+						
+						System.load(temp.getAbsolutePath());
+						libraryLoaded = true;
+					}
+					catch (UnsatisfiedLinkError ule)
+					{
+						libraryLoaded = false;
+						// throw the exception only if the loader failed all the times
+						if (i == trials-1)
+							throw ule;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				libraryLoaded = false;
+				// throw the exception only if the loader failed all the times
+				if (i == trials-1)
+					throw e;
+			}
+			finally
+			{
+				if (fos != null)
+					fos.close();
+				if (in != null)
+					in.close();
+			}
+			
+			try
+			{
+				//Thread.yield();
+				Thread.sleep(100);
+			}
+			catch (Exception e) {}
+
+			i++;
+		}
+	}
+	
+	
+	/**
+	 * Loads a native library contained into a jar file.
+	 * 
+	 * @param name the name of the native library.
+	 * @throws IOException
+	 */
+	public static void loadNativeLibraryFromJarORIGINAL(String name) throws Exception
 	{
 		boolean libraryLoaded = false;
 		
@@ -330,8 +484,9 @@ public class ClassLoaderHelper
 					
 					
 					// read the native library from jar file
-					in = loader.getResourceAsStream("nativeLibraries" + File.separator + archLibDir + File.separator + name);
-					
+					in = loader.getResourceAsStream("utils"+File.separator+"benchmarks"+File.separator+"nativeLibraries" + File.separator + archLibDir + File.separator + name);
+					System.out.println(in);
+					System.out.println(in.available());
 					// save the native library to the temporary file
 					fos = new FileOutputStream(temp);
 					
@@ -384,4 +539,8 @@ public class ClassLoaderHelper
 			i++;
 		}
 	}
+//	
+//	interface CLibrary extends Library {
+//	    public int chmod(String path, int mode);
+//	}
 }
