@@ -509,7 +509,6 @@ public class ClassLoaderHelper
 					}
 					catch (UnsatisfiedLinkError ule)
 					{
-						System.err.println("Native code library failed to load.\n" + ule);
 						libraryLoaded = false;
 						// throw the exception only if the loader failed all the times
 						if (i == trials-1)

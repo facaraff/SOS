@@ -459,7 +459,12 @@ public class LibLoader
 	
 	
 	
-	
+	public void showLibPaths()
+	{
+		String paths[] = getJavaLibPaths();
+		
+		for(String s: paths)System.out.println(s);
+	}
 	
 
 }
