@@ -12,8 +12,8 @@
  
 package benchmarks;
 
+import benchmarks.problemsImplementation.CEC2015.CEC2015TestFunc;
 import interfaces.Problem;
-import benchmarks.problemsImplementation.CEC2015TestFunc;
 /**
  * CEC15 Test Function Suite for Single Objective Optimization.
  */

@@ -5,9 +5,9 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import algorithms.CMAES;
 import algorithms.singleSolution.ISPO;
-import benchmarks.BaseFunctions.Alpine; 
-import benchmarks.BaseFunctions.Ackley;
-import benchmarks.BaseFunctions.Rosenbrock;
+import benchmarks.problemsImplementation.BaseFunctions.Ackley;
+import benchmarks.problemsImplementation.BaseFunctions.Alpine;
+import benchmarks.problemsImplementation.BaseFunctions.Rosenbrock;
 
 public class Test extends Experiment
 {

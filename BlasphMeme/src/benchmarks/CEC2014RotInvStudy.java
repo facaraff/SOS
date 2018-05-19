@@ -1,11 +1,12 @@
 package benchmarks;
 
+import benchmarks.problemsImplementation.CEC2014.CEC2014TestFuncRotInvStudy;
+
 //import java.text.DecimalFormat;
 //import java.util.Vector;
 
 //import algorithms.interfaces.Algorithm;
 import interfaces.Problem;
-import benchmarks.problemsImplementation.CEC2014TestFuncRotInvStudy;
 
 
 public class CEC2014RotInvStudy extends Problem

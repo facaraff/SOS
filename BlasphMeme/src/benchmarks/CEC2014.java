@@ -1,8 +1,8 @@
 package benchmarks;
 
 
+import benchmarks.problemsImplementation.CEC2014.CEC2014TestFunc;
 import interfaces.Problem;
-import benchmarks.problemsImplementation.CEC2014TestFunc;
 
 
 public class CEC2014 extends Problem

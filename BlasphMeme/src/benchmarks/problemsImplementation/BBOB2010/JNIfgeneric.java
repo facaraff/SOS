@@ -2,8 +2,9 @@ package benchmarks.problemsImplementation.BBOB2010;
 
 import java.io.File;
 
-import utils.benchmarks.ClassLoaderHelper;
-import utils.benchmarks.LibLoader;
+//import utils.benchmarks.ClassLoaderHelper;
+//import utils.benchmarks.LibLoader;
+import utils.benchmarks.BenchmarkLoader;
 
 /**
  * JNI connection class for interfacing the needed BBOB C-functions in fgeneric.
@@ -17,7 +18,7 @@ public class JNIfgeneric {
 		{
 			//LibLoader LL = new LibLoader(); //LB.FABIOloadNativeLibraryFromJar("libcjavabbob");
 			//LL.showLibPaths();
-			ClassLoaderHelper.loadNativeLibraryFromJar("libcjavabbob");
+			BenchmarkLoader.loadNativeLibraryFromJar("libcjavabbob");
 		}
 		catch (Exception e)
 		{
