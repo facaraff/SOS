@@ -29,7 +29,10 @@ either expressed or implied, of the FreeBSD Project.
 
 package javacec2013;
 
-import utils.ClassLoaderHelper;
+import static utils.RunAndStore.slash;
+
+//import utils.ClassLoaderHelper;
+import utils.benchmarks.BenchmarkLoader;
 
 /**
  * JNI connection class for interfacing the CEC 2013 LSGO C-functions.
@@ -41,8 +44,8 @@ public class JNIfgeneric2013 {
 	{
 		try
 		{
-			ClassLoaderHelper.loadFolderFromJar("javacec2013/cdatafiles/");
-			ClassLoaderHelper.loadNativeLibraryFromJar("libcec2013lsgo");
+			BenchmarkLoader.loadFolderFromJar("benchmarks"+slash()+"problemsImplementation"+slash()+"CEC2013_LSGO"+slash()+"cdatafiles");
+			BenchmarkLoader.loadNativeLibraryFromJar("libcec2013lsgo");
 		}
 		catch (Exception e)
 		{
