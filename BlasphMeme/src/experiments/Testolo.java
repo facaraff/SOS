@@ -6,7 +6,7 @@ import interfaces.Algorithm;
 import algorithms.singleSolution.ISPO;
 //import benchmarks.BaseFunctions.Alpine;
 //import benchmarks.CEC2014;
-import benchmarks.CEC2005;
+//import benchmarks.CEC2005;
 import benchmarks.BBOB2010;
 //import benchmarks.BaseFunctions.Ackley;
 //import benchmarks.BaseFunctions.Rosenbrock;
@@ -61,8 +61,8 @@ public class Testolo extends Experiment
 			add(new BBOB2010(probDim, i));
 	
 	    
-	    for(int i = 1; i<=25; i++)
-			add(new CEC2005(probDim, i));
+//	    for(int i = 1; i<=25; i++)
+//			add(new CEC2005(probDim, i));
 	    
 //		for(int i = 1; i<=30; i++)
 //			add(new CEC2014(probDim, i));
