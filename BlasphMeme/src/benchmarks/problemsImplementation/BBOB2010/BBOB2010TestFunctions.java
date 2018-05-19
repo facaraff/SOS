@@ -1,7 +1,7 @@
 package benchmarks.problemsImplementation.BBOB2010;
 
-import benchmarks.problemsImplementation.BBOB2010.JNIfgeneric;
-import benchmarks.problemsImplementation.BBOB2010.JNIfgeneric.Params;
+import javabbob.JNIfgeneric;
+import javabbob.JNIfgeneric.Params;
 
 /**
  * Benchmark Functions defined in the Real-Parameter Black-Box 
