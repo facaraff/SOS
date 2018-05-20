@@ -7,7 +7,8 @@ import algorithms.singleSolution.ISPO;
 //import benchmarks.BaseFunctions.Alpine;
 //import benchmarks.CEC2014;
 //import benchmarks.CEC2005;
-import benchmarks.BBOB2010;
+//import benchmarks.BBOB2010;
+import benchmarks.CEC2013_LSGO;
 //import benchmarks.BaseFunctions.Ackley;
 //import benchmarks.BaseFunctions.Rosenbrock;
 
@@ -17,7 +18,7 @@ public class Testolo extends Experiment
 	public Testolo(int probDim) throws Exception
 	{
 		//super(probDim,"DESIGN");
-		super(probDim,5000,"DESIGN");
+		super(probDim,1,"DESIGN");
 		setNrRuns(10);
 		
 		Algorithm a;// ///< A generic optimiser.
@@ -56,9 +57,13 @@ public class Testolo extends Experiment
 //		p = new Rosenbrock(probDim);
 //		add(p);
 	    
-	
-		for(int i = 1; i<=24; i++)
-			add(new BBOB2010(probDim, i));
+//	
+//		for(int i = 1; i<=24; i++)
+//			add(new BBOB2010(probDim, i));
+//	
+
+		for(int i = 1; i<=15; i++)
+			add(new CEC2013_LSGO(i));
 	
 	    
 //	    for(int i = 1; i<=25; i++)
