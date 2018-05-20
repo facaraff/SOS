@@ -1,5 +1,6 @@
 package benchmarks.problemsImplementation.BBOB2010;
 
+
 import javabbob.JNIfgeneric;
 import javabbob.JNIfgeneric.Params;
 
@@ -9,13 +10,13 @@ import javabbob.JNIfgeneric.Params;
  */
 public class BBOB2010TestFunctions
 {
-	private static int instanceId = 1;
-	private static JNIfgeneric fgeneric;
+	public static int instanceId = 1;
+	public static JNIfgeneric fgeneric;
 	
-	//private double[] bias = new double[] {79.48, -209.88, -462.09, -462.09, -9.21, 35.9, 92.94, 149.15, 123.83, -54.94, 76.27, -621.11, 29.97, -52.35, 1000.0, 71.35, -16.94, -16.94,-102.55, -546.5, 40.78, -1000.0, 6.87, 102.61};
+	//public double[] bias = new double[] {79.48, -209.88, -462.09, -462.09, -9.21, 35.9, 92.94, 149.15, 123.83, -54.94, 76.27, -621.11, 29.97, -52.35, 1000.0, 71.35, -16.94, -16.94,-102.55, -546.5, 40.78, -1000.0, 6.87, 102.61};
 	
 
-	private static void initializeBBOB(int funcId, int instanceId, int dim)
+	public static void initializeBBOB(int funcId, int instanceId, int dim)
 	{
 		fgeneric = new JNIfgeneric();
 		fgeneric.initBBOB(funcId, instanceId, dim, "", new Params());
@@ -36,168 +37,168 @@ public class BBOB2010TestFunctions
 		}
 	}
 
-	private static double f1(double[] x)
+	public static double f1(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(1, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f2(double[] x)
+	public static double f2(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(2, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f3(double[] x)
+	public static double f3(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(3, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f4(double[] x)
+	public static double f4(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(4, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f5(double[] x)
+	public static double f5(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(5, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f6(double[] x)
+	public static double f6(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(6, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f7(double[] x)
+	public static double f7(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(7, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f8(double[] x)
+	public static double f8(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(8, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f9(double[] x)
+	public static double f9(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(9, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f10(double[] x)
+	public static double f10(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(10, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f11(double[] x)
+	public static double f11(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(11, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f12(double[] x)
+	public static double f12(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(12, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f13(double[] x)
+	public static double f13(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(13, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f14(double[] x)
+	public static double f14(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(14, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f15(double[] x)
+	public static double f15(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(15, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f16(double[] x)
+	public static double f16(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(16, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f17(double[] x)
+	public static double f17(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(17, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f18(double[] x)
+	public static double f18(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(18, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f19(double[] x)
+	public static double f19(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(19, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f20(double[] x)
+	public static double f20(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(20, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f21(double[] x)
+	public static double f21(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(21, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f22(double[] x)
+	public static double f22(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(22, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f23(double[] x)
+	public static double f23(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(23, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f24(double[] x)
+	public static double f24(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(24, BBOB2010TestFunctions.instanceId++, x.length);
@@ -208,210 +209,210 @@ public class BBOB2010TestFunctions
 	/**                                     NOISE FUNCTIONS                                   **/
 	/*******************************************************************************************/
 	
-	private static double f101(double[] x)
+	public static double f101(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(101, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f102(double[] x)
+	public static double f102(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(102, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f103(double[] x)
+	public static double f103(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(103, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f104(double[] x)
+	public static double f104(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(104, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f105(double[] x)
+	public static double f105(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(105, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f106(double[] x)
+	public static double f106(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(106, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f107(double[] x)
+	public static double f107(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(107, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f108(double[] x)
+	public static double f108(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(108, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f109(double[] x)
+	public static double f109(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(109, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f110(double[] x)
+	public static double f110(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(110, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f111(double[] x)
+	public static double f111(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(111, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f112(double[] x)
+	public static double f112(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(112, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f113(double[] x)
+	public static double f113(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(113, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f114(double[] x)
+	public static double f114(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(114, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f115(double[] x)
+	public static double f115(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(115, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f116(double[] x)
+	public static double f116(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(116, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f117(double[] x)
+	public static double f117(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(117, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f118(double[] x)
+	public static double f118(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(118, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f119(double[] x)
+	public static double f119(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(119, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f120(double[] x)
+	public static double f120(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(120, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f121(double[] x)
+	public static double f121(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(121, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f122(double[] x)
+	public static double f122(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(122, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f123(double[] x)
+	public static double f123(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(123, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 
-	private static double f124(double[] x)
+	public static double f124(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(124, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 	
-	private static double f125(double[] x)
+	public static double f125(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(125, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 	
-	private static double f126(double[] x)
+	public static double f126(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(126, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 	
-	private static double f127(double[] x)
+	public static double f127(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(127, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 	
-	private static double f128(double[] x)
+	public static double f128(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(128, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 	
-	private static double f129(double[] x)
+	public static double f129(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(129, BBOB2010TestFunctions.instanceId++, x.length);
 		return fgeneric.evaluate(x);
 	}
 	
-	private static double f130(double[] x)
+	public static double f130(double[] x)
 	{
 		if (fgeneric == null)
 			initializeBBOB(130, BBOB2010TestFunctions.instanceId++, x.length);
@@ -421,7 +422,7 @@ public class BBOB2010TestFunctions
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-	public static  double f_noise(double[] x, int fNum)
+	public  double f_noise(double[] x, int fNum)
 	{
 		switch (fNum) 
 		{
@@ -491,7 +492,7 @@ public class BBOB2010TestFunctions
 		}
 	}
 	
-	public static double f(double[] x, int fNum)
+	public double f(double[] x, int fNum)
 	{
 		switch (fNum) 
 		{

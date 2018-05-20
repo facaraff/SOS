@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="BlasphMeme/src"/>
+	<classpathentry kind="lib" path="BlasphMeme/jars/jblas-1.2.3.jar"/>
+	<classpathentry kind="lib" path="BlasphMeme/jars/jsc.jar"/>
+	<classpathentry kind="lib" path="BlasphMeme/jars/org.jar"/>
+	<classpathentry kind="lib" path="BlasphMeme/jars/sysnet-registration-1.0.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
