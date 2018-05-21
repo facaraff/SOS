@@ -7,8 +7,11 @@ import benchmarks.problemsImplementation.CEC2013_LSGO.BenchmarkCEC2013_LSGO;
 public class CEC2013_LSGO extends Problem 
 {
 	int problem;
-	public CEC2013_LSGO(int problem) { super(1000, new double[] {-100,100}); this.problem = problem; }
-	public double f(double[] x)//XXX bounds da sistemare!! sono personalizzati!
+	
+	public CEC2013_LSGO(int problem) {super(1000, BenchmarkCEC2013_LSGO.getBounds(problem)); this.problem = problem;}
+	public CEC2013_LSGO(int problem, int dim) {this(problem); if (dim!=1000)System.out.println("The dimensionality of the problem was set up euqal to 1000");}
+
+	public double f(double[] x)
 	{
 		switch (problem) {
 			case 1:

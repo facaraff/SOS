@@ -63,7 +63,7 @@ public class Testolo extends Experiment
 //	
 
 		for(int i = 1; i<=15; i++)
-			add(new CEC2013_LSGO(i));
+			add(new CEC2013_LSGO(i,probDim));
 	
 	    
 //	    for(int i = 1; i<=25; i++)

@@ -160,4 +160,19 @@ public class BenchmarkCEC2013_LSGO
 			initializeCEC2013(15, x.length);
 		return fgeneric.evaluate(x);
 	}
+	
+	public static double[] getBounds(int fNum) 
+	{
+		double[] bounds=null;
+		if ((fNum == 1) || (fNum == 4) || (fNum == 7) || (fNum == 8)|| (fNum == 11)|| (fNum == 12)|| (fNum == 9) || 
+			(fNum == 13) || (fNum == 14) || (fNum == 15))
+			bounds = new double[] {-100, 100};
+		else if ((fNum == 3) || (fNum == 6) || (fNum == 10))
+			bounds = new double[] {-32, 32};
+		else
+			bounds = new double[] {-5, 5};
+		return bounds;
+	}
+
+
 }

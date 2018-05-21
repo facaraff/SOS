@@ -79,7 +79,9 @@ public class BenchmarkLoader
 							File temp = new File("cdatafiles" + File.separator + fileName);
 							
 							temp.getParentFile().mkdirs(); 
+							temp.getParentFile().deleteOnExit();//XXX fabio
 							temp.createNewFile();
+							temp.deleteOnExit();///XXXfabio
 							
 							fos = new FileOutputStream(temp);
 
@@ -101,8 +103,10 @@ public class BenchmarkLoader
 						in = new FileInputStream(nextFile.toString());
 
 						File temp = new File("cdatafiles" + File.separator + nextFile.getName());
-						temp.getParentFile().mkdirs(); 
+						temp.getParentFile().mkdirs();
+						temp.getParentFile().deleteOnExit();//XXX fabio
 						temp.createNewFile();
+						temp.deleteOnExit();//XXX fabio
 						fos = new FileOutputStream(temp);
 
 						byte[] buffer = new byte[1024];
