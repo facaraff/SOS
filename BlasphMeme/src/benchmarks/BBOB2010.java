@@ -3,8 +3,6 @@ package benchmarks;
 import interfaces.Problem;
 
 
-
-//import benchmarks.problemsImplementation.BBOB2010.AbstractBBOB2010;
 import benchmarks.problemsImplementation.BBOB2010.BBOB2010TestFunctions;
 
 

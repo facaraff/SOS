@@ -2,7 +2,8 @@ package benchmarks;
 
 import interfaces.Problem;
 
-import benchmarks.problemsImplementation.BenchmarkCEC2008;
+//import benchmarks.problemsImplementation.BenchmarkCEC2008;
+import darwin.BenchmarkCEC2008;
 
 public class CEC2008 extends Problem 
 {

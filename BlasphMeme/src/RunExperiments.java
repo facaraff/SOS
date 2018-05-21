@@ -55,13 +55,23 @@ public class RunExperiments
 //		experiments.add(new EigenToro(100));
 		
 //		experiments.add(new TestCEC2011());
-	
-		experiments.add(new Cec2013_c(10));
+		
+		//experiments.add(new Bbob2010(10));
+		
+		//experiments.add(new Cec2013_c(10));
+		
+		//experiments.add(new Cec2013_c(50));
 		
 		experiments.add(new Cec2010());
 		
 		experiments.add(new Cec2010_c());
 		
+		
+		experiments.add(new Sisc2010(20));
+		experiments.add(new Sisc2010(30));
+		experiments.add(new Sisc2010(60));
+		
+		experiments.add(new Cec2008());
 		
 		//experiments.add(new cec11(30));
 		

@@ -40,7 +40,7 @@ public class Sisc2010 extends Experiment
 
 
 		for(int i = 1; i<=19; i++)
-			add(new SISC2010(probDim, i));			
+			add(new SISC2010(i, probDim));			
 
 	}
 }

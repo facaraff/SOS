@@ -40,7 +40,7 @@ public class Cec2013_c extends Experiment
 
 
 		for(int i = 1; i<=28; i++)
-			add(new CEC2013_C(probDim, i));			
+			add(new CEC2013_C(i,probDim));			
 
 	}
 }

@@ -44,7 +44,18 @@ public class CEC2010 extends Problem
 				return BenchmarkCEC2010.f14(x);
 			case 15:
 				return BenchmarkCEC2010.f15(x);
+			case 16:
+				return BenchmarkCEC2010.f16(x);
+			case 17:
+				return BenchmarkCEC2010.f17(x);
+			case 18:
+				return BenchmarkCEC2010.f18(x);
+			case 19:
+				return BenchmarkCEC2010.f19(x);
+			case 20:
+				return BenchmarkCEC2010.f20(x);
 			default:
+				System.out.println("This function does not exit");
 				return Double.NaN;
 		}
 	}
