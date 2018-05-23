@@ -1481,7 +1481,7 @@ public class MemesLibrary
     /** ROSENBROCK METHOD **/
 	/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
 	public static double[] RosenbrockShortTime(double[] sol, double fit, double eps, double alpha, double beta, 
-			Problem problem, int totalBudget, int iter, int localBudget) throws Exception
+			Problem problem, int totalBudget, int iter, int localBudget, FTrend FT) throws Exception
 	{		
 		int localFEs = 0;
 		int n = problem.getDimension(); 
@@ -1532,6 +1532,7 @@ public class MemesLibrary
 		            	lambda[i] += d[i];
 		            	d[i] *= alpha;
 		            	yBest = yCurrent;
+		            	FT.add(iter, yBest);
 		            	for (int j=0;j<n;j++)
 		            	{
 		            		xk[j] = xCurrent[j];
@@ -1600,7 +1601,7 @@ public class MemesLibrary
 	/** 3SOME's short distance searcher **/
 	/** Standard settings: deepLSRadius = 0.4, deepLSSteps = 150 **/
 	public static double[] ThreeSome_ShortDistanceShortTime(double[] sol, double fit, double deepLSRadius, int deepLSSteps, 
-			Problem prob, int totalBudget, int iter, int localBudget) throws Exception
+			Problem prob, int totalBudget, int iter, int localBudget, FTrend FT) throws Exception
 	{
 		int numEval = 0;
 		int localFEs = 0;
@@ -1672,6 +1673,7 @@ public class MemesLibrary
 								fit = fXk;
 								for (int n = 0; n < problemDimension; n++)
 									sol[n] = Xk[n];
+								FT.add(iter, fXk);
 							}
 
 							if (fXk >= fXk_orig)

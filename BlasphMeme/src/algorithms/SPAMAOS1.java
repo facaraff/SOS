@@ -178,12 +178,12 @@ public class SPAMAOS1 extends Algorithm
 				if (selection == 0)
 				{
 					/** 3SOME's local searcher with stop criterion **/
-					temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget);	
+					temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget, FT);	
 				}
 				else
 				{
 					/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-					temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget);
+					temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget, FT);
 				}
 				double fold = fx, fnew = temp[0];
 				AOS.credit[selection].addFitnessImprovM(selection, fold, fnew);
