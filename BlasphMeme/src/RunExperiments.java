@@ -58,7 +58,11 @@ public class RunExperiments
 		
 		//experiments.add(new Bbob2010(10));//XXX FABIO: do not work 
 		
-		//experiments.add(new Cec2013_c(10));//XXX FABIO: do not work do implement the java version!!
+		experiments.add(new Cec2013(10));
+		
+		experiments.add(new Cec2013(50));
+		
+		experiments.add(new Cec2013(100));
 		
 		//experiments.add(new Cec2013_c(50));
 		

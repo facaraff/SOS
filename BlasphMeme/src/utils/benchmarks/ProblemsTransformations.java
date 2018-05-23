@@ -7,7 +7,7 @@ public class ProblemsTransformations
 {
 	
 	
-	//%%%%%%%%%%%%%%% CEC2014 and CEC2015 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	//%%%%%%%%%%%%%%% 2013 and CECCEC2014 and CEC2015 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
 	
 	static final double INF = 1.0e99;
@@ -90,7 +90,7 @@ public class ProblemsTransformations
 		}
 	}
 
-	void asyfunc (double[] x, double[] xasy, int nx, double beta)
+	public static void asyfunc (double[] x, double[] xasy, int nx, double beta)
 	{
 		int i;
 		for (i=0; i<nx; i++)
@@ -100,7 +100,7 @@ public class ProblemsTransformations
 		}
 	}
 
-	void oszfunc (double[] x, double[] xosz, int nx)
+	public static void oszfunc (double[] x, double[] xosz, int nx)
 	{
 		int i,sx;
 		double c1,c2,xx=0;
@@ -134,7 +134,7 @@ public class ProblemsTransformations
 	}
 	
 	/**
-	 * Evaluate composition (CEC2014)
+	 * Evaluate composition (CEC2013, 2014,etc.)
 	 */
 	public static double cf_cal(double[] x, int nx, double[] Os, double[]  delta,double[] bias,double[] fit, int cf_num)
 	{
@@ -226,5 +226,6 @@ public class ProblemsTransformations
 			}
 		}
 	}
+	
 }
 

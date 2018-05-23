@@ -4,13 +4,13 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 //import interfaces.Problem;
 import algorithms.singleSolution.ISPO;
-import benchmarks.CEC2013_C;
+import benchmarks.CEC2013;
 
 
-public class Cec2013_c extends Experiment
+public class Cec2013 extends Experiment
 {
 	
-	public Cec2013_c(int probDim) throws Exception
+	public Cec2013(int probDim) throws Exception
 	{
 		super(probDim,5,"DESIGN");
 		setNrRuns(10);
@@ -40,7 +40,7 @@ public class Cec2013_c extends Experiment
 
 
 		for(int i = 1; i<=28; i++)
-			add(new CEC2013_C(i,probDim));			
+			add(new CEC2013(i,probDim));			
 
 	}
 }

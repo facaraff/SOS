@@ -184,7 +184,7 @@ public class CEC2014TestFunc {
 		//LOAD M MATRIX
 		double[] M;
 		
-		Scanner input = new Scanner(this.getClass().getResourceAsStream("CEC2014"+slash+"files_cec2014"+slash+"M_"+func_num+"_D"+nx+".txt"));
+		Scanner input = new Scanner(this.getClass().getResourceAsStream("files_cec2014"+slash+"M_"+func_num+"_D"+nx+".txt"));
 		
 		if (func_num<23)
 		{

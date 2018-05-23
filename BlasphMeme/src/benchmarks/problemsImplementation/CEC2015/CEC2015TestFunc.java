@@ -161,7 +161,7 @@ public class CEC2015TestFunc
 		}
 		else
 		{	
-			Scanner input = new Scanner(this.getClass().getResourceAsStream("CEC2015"+slash+"files_cec2015"+slash+"M_"+func_num+"_D"+nx+".txt"));
+			Scanner input = new Scanner(this.getClass().getResourceAsStream("files_cec2015"+slash+"M_"+func_num+"_D"+nx+".txt"));
 			
 			em=new double[cf_num*nx*nx]; 
 					
@@ -230,7 +230,7 @@ public class CEC2015TestFunc
 
 		public double[] getShift() throws Exception
 		{
-			Scanner input = new Scanner(this.getClass().getResourceAsStream("CEC2015_extra"+slash+"files_cec2015"+slash+"shift_data_"+func_num+".txt"));
+			Scanner input = new Scanner(this.getClass().getResourceAsStream("files_cec2015"+slash+"shift_data_"+func_num+".txt"));
 			
 			double[] OS=null;
 			
@@ -273,7 +273,7 @@ public class CEC2015TestFunc
 			
 			if(bShuffle[func_num]==1)
 			{	
-				Scanner input = new Scanner(this.getClass().getResourceAsStream("CEC2015_extra"+slash+"files_cec2015"+slash+"shuffle_data_"+func_num+"_D"+nx+".txt"));
+				Scanner input = new Scanner(this.getClass().getResourceAsStream("files_cec2015"+slash+"shuffle_data_"+func_num+"_D"+nx+".txt"));
 				
 				S = new int[cf_num*nx];
 					
