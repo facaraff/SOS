@@ -1,9 +1,9 @@
 package algorithms;
 
-import static utils.algorithms.Misc.clone;
+import  utils.algorithms.Misc;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+
 import static utils.algorithms.operators.MemesLibrary.Rosenbrock;
 import static utils.algorithms.operators.MemesLibrary.RosenbrockShortTime;
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
@@ -25,10 +25,10 @@ public class SPAMAOS1 extends Algorithm
 {
 	@SuppressWarnings("unused")
 	@Override
-	public Vector<Best> execute(Problem problem, int maxEvaluations) throws Exception
+	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		//System.out.println("budget "+maxEvaluations);	
-		Vector<Best> bests = new Vector<Best>();
+		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
@@ -64,7 +64,7 @@ public class SPAMAOS1 extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = Misc.toro(pop[i], bounds);
 
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -75,7 +75,7 @@ public class SPAMAOS1 extends Algorithm
 					fBest = fitness[i];
 					for (int n = 0; n < problemDimension; n++)
 						best[n] = pop[i][n];
-					bests.add(new Best(j, fBest));
+					FT.add(j, fBest);
 				}
 
 				j++;
@@ -122,17 +122,17 @@ public class SPAMAOS1 extends Algorithm
 
 		//      ***************************************************
 
-		double globalAlpha = pullParameter("p0").doubleValue(); //0.5
-		double deepLSRadius = pullParameter("p1").doubleValue(); //0.4
-		int steps = pullParameter("p2").intValue(); //150
-		double alpha = pullParameter("p3").doubleValue(); //2
-		double beta = pullParameter("p4").doubleValue(); //0.5
-		double eps = pullParameter("p5").doubleValue(); //0.00001
-		int strategy = pullParameter("p6").intValue(); //{1,2,3,4}
+		double globalAlpha = getParameter("p0").doubleValue(); //0.5
+		double deepLSRadius = getParameter("p1").doubleValue(); //0.4
+		int steps = getParameter("p2").intValue(); //150
+		double alpha = getParameter("p3").doubleValue(); //2
+		double beta = getParameter("p4").doubleValue(); //0.5
+		double eps = getParameter("p5").doubleValue(); //0.00001
+		int strategy = getParameter("p6").intValue(); //{1,2,3,4}
 
 		// One more parameter
 		//int strategy = 1;
-		//		strategy = pullParameter("p6").intValue(); //{1,2,3,4}
+		//		strategy = getParameter("p6").intValue(); //{1,2,3,4}
 
 		int maximumLocalBudget = 1000;
 		OperatorSelection AOS = SelectModel(strategy);
@@ -148,7 +148,7 @@ public class SPAMAOS1 extends Algorithm
 
 		double[] temp;
 
-		double[] x = cloneSolution(best);
+		double[] x = Misc.clone(best);
 		double fx = fBest;
 		boolean improved = true;
 
@@ -162,9 +162,9 @@ public class SPAMAOS1 extends Algorithm
 				fx = problem.f(x);
 				if(fx < fBest)
 				{
-					best = cloneSolution(x);
+					best = Misc.clone(x);
 					fBest =fx;
-					bests.add(new Best(j, fBest));
+					FT.add(j, fBest);
 				}
 				improved = true;
 			}
@@ -191,10 +191,10 @@ public class SPAMAOS1 extends Algorithm
 			} else {
 				if (RandUtils.random() > prob) {
 					/** 3SOME's local searcher with stop criterion **/
-					temp = ThreeSome_ShortDistance(x, fx, deepLSRadius, steps, problem, maxEvaluations, j);	
+					temp = ThreeSome_ShortDistance(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, FT);	
 				} else {
 					/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-					temp = Rosenbrock(x, fx, eps, alpha, beta,  problem, maxEvaluations, j);
+					temp = Rosenbrock(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, FT);
 				}
 			}
 
@@ -203,18 +203,18 @@ public class SPAMAOS1 extends Algorithm
 			j += temp[1];
 			if(fx < fBest)
 			{
-				best = cloneSolution(x);
+				best = Misc.clone(x);
 				fBest = fx;
-				bests.add(new Best(j, fBest));
+				FT.add(j, fBest);
 			}
 		}
 
 
 		finalBest = best;
 
-		bests.add(new Best(j, fBest));
+		FT.add(j, fBest);
 
-		return bests;
+		return FT;
 	}
 
 	@SuppressWarnings("unused")
