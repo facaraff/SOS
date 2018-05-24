@@ -5,12 +5,8 @@ import static utils.algorithms.Misc.cloneArray;
 import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
-//import static algorithms.utils.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistanceShortTime;
-//import static algorithms.utils.MemesLibrary.Rosenbrock;
 import static  utils.algorithms.operators.MemesLibrary.RosenbrockShortTime;
-
-
 
 import utils.random.RandUtils;
 import utils.algorithms.operators.aos.AdaptPursuit;
