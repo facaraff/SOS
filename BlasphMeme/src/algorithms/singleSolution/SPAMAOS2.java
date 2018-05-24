@@ -1,13 +1,15 @@
-package algorithms;
+package algorithms.singleSolution;
 
-import  utils.algorithms.Misc;
-import static utils.algorithms.operators.DEOp.crossOverExp;
+
+import static utils.algorithms.Misc.cloneArray;
+import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
-
-import static utils.algorithms.operators.MemesLibrary.Rosenbrock;
-import static utils.algorithms.operators.MemesLibrary.RosenbrockShortTime;
-import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
+import static utils.algorithms.operators.DEOp.crossOverExp;
+//import static algorithms.utils.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistanceShortTime;
+//import static algorithms.utils.MemesLibrary.Rosenbrock;
+import static  utils.algorithms.operators.MemesLibrary.RosenbrockShortTime;
+
 
 
 import utils.random.RandUtils;
@@ -21,9 +23,9 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
-public class SPAMAOS1 extends Algorithm
+public class SPAMAOS2 extends Algorithm
 {
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
@@ -64,7 +66,7 @@ public class SPAMAOS1 extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = Misc.toro(pop[i], bounds);
+				pop[i] = toro(pop[i], bounds);
 
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -115,10 +117,6 @@ public class SPAMAOS1 extends Algorithm
 		double prob = 2*ci;
 		if(prob > 1)
 			prob = 1;
-		boolean adapt = true; int selection = -1;
-		if (ci <= 0.1) { adapt = false; selection = 0; 	}
-		if (ci > 0.5) { adapt = false; selection = 1; }
-		//		System.out.println("prob: " + prob + " ci: " + ci);
 
 		//      ***************************************************
 
@@ -130,25 +128,26 @@ public class SPAMAOS1 extends Algorithm
 		double eps = getParameter("p5").doubleValue(); //0.00001
 		int strategy = getParameter("p6").intValue(); //{1,2,3,4}
 
-		// One more parameter
-		//int strategy = 1;
+		//		int strategy = 1;
 		//		strategy = getParameter("p6").intValue(); //{1,2,3,4}
 
+		// One more parameter
 		int maximumLocalBudget = 1000;
 		OperatorSelection AOS = SelectModel(strategy);
+		int selection = -1;
 
-		//double globalAlpha = 0.5;
-		//double deepLSRadius = 0.4;
-		//int steps = 150;
-		//double alpha = 2;
-		//double beta = 0.5;
-		//double eps = 0.00001;
+		//		double globalAlpha = 0.5;
+		//		double deepLSRadius = 0.4;
+		//		int steps = 150;
+		//		double alpha = 2;
+		//		double beta = 0.5;
+		//		double eps = 0.00001;
 
 		double CR = Math.pow(0.5, (1/(problemDimension*globalAlpha)));
 
 		double[] temp;
 
-		double[] x = Misc.clone(best);
+		double[] x = cloneArray(best);
 		double fx = fBest;
 		boolean improved = true;
 
@@ -162,7 +161,7 @@ public class SPAMAOS1 extends Algorithm
 				fx = problem.f(x);
 				if(fx < fBest)
 				{
-					best = Misc.clone(x);
+					best = cloneArray(x);
 					fBest =fx;
 					FT.add(j, fBest);
 				}
@@ -171,39 +170,29 @@ public class SPAMAOS1 extends Algorithm
 			//			prob = 0.5;
 			//			System.out.println("Prob: " + prob);
 
-			if (adapt) {
-				selection = AOS.SelectOperator();
-				//				System.out.println("Selection: " + selection + " p1: " + AOS.getProbability(0) +
-				//						" p2: " + AOS.getProbability(1) );
-				if (selection == 0)
-				{
-					/** 3SOME's local searcher with stop criterion **/
-					temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget, FT);	
-				}
-				else
-				{
-					/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-					temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget, FT);
-				}
-				double fold = fx, fnew = temp[0];
-				AOS.credit[selection].addFitnessImprovM(selection, fold, fnew);
-				double reward = AOS.ApplyReward(selection);
-			} else {
-				if (RandUtils.random() > prob) {
-					/** 3SOME's local searcher with stop criterion **/
-					temp = ThreeSome_ShortDistance(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, FT);	
-				} else {
-					/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-					temp = Rosenbrock(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, FT);
-				}
+			selection = AOS.SelectOperator();
+			//				System.out.println("Selection: " + selection + " p1: " + AOS.getProbability(0) +
+			//						" p2: " + AOS.getProbability(1) );
+			if (selection == 0)
+			{
+				/** 3SOME's local searcher with stop criterion **/
+				temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget, FT);	
 			}
+			else
+			{
+				/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
+				temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget, FT);
+			}
+			double fold = fx, fnew = temp[0];
+			AOS.credit[selection].addFitnessImprovM(selection, fold, fnew);
+//			double reward = AOS.ApplyReward(selection);
 
 			if((fx - temp[0]) == 0) improved = false;
 			fx = temp[0];
 			j += temp[1];
 			if(fx < fBest)
 			{
-				best = Misc.clone(x);
+				best = cloneArray(x);
 				fBest = fx;
 				FT.add(j, fBest);
 			}
@@ -217,15 +206,15 @@ public class SPAMAOS1 extends Algorithm
 		return FT;
 	}
 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	protected OperatorSelection SelectModel(int idx)
 	{
 		int numberOfArms = 2;
 		double pmin = 0.05;
 		double alphaAOS = 0.8;
 		double betaAOS = 0.8;	
-		double v_scaling = 0.5;
-		double v_gamma = 0.5; //DMAB
+//		double v_scaling = 0.5;
+//		double v_gamma = 0.5; //DMAB
 		double lambda = 0.99;
 
 		OperatorSelection AOS = null;
@@ -246,5 +235,4 @@ public class SPAMAOS1 extends Algorithm
 
 		return AOS;
 	}
-
 }
