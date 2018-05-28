@@ -68,7 +68,7 @@ public class DataBox
 		}
 		else if (benchmark.equals("CEC2011"))
 		{
-			this.functionsNumber = 2;
+			this.functionsNumber = 13;
 			this.citation = "\\cite{bib:cec2011}";
 			this.minima = new double[this.functionsNumber];
 		}
@@ -141,6 +141,7 @@ public class DataBox
 	
 	public void insertValue(double value, int function)
 	{
+		System.out.println(function+" "+finalValues.length);
 		this.finalValues[function].add(value);
 	}
 	
