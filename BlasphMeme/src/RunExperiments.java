@@ -54,7 +54,7 @@ public class RunExperiments
 //		
 //		experiments.add(new EigenToro(100));
 		
-		experiments.add(new TestCEC2011());
+		//experiments.add(new TestCEC2011());
 		
 		//experiments.add(new Bbob2010(10));//XXX FABIO: do not work 
 		
@@ -79,6 +79,7 @@ public class RunExperiments
 		
 		//experiments.add(new cec11(30));
 		
+		experiments.add(new large());
 		
 		//@@@@@@
 	
