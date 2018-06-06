@@ -56,7 +56,7 @@ public class RunExperiments
 		
 		//experiments.add(new TestCEC2011());
 		
-		//experiments.add(new Bbob2010(10));//XXX FABIO: do not work 
+		//experiments.add(new Bbob2010(10));//XXX FABIO: do not work as I want
 		
 //		experiments.add(new Cec2013(10));
 //		
