@@ -8,7 +8,7 @@ public class CEC2010 extends Problem
 {
 	int problem;
 	
-	public CEC2010(int problem) {super(1000, BenchmarkCEC2010.getBounds(problem)); this.problem = problem;}
+	public CEC2010(int problem) {super(1000, BenchmarkCEC2010.getBounds(problem)); this.problem = problem; setFID(".f"+problem);}
 	public CEC2010(int problem, int dim) {this(problem); if (dim!=1000)System.out.println("The dimensionality of the problem was set up euqal to 1000");}
 
 	public double f(double[] x)
