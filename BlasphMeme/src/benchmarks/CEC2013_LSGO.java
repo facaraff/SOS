@@ -8,9 +8,9 @@ public class CEC2013_LSGO extends Problem
 {
 	int problem;
 	
-	public CEC2013_LSGO(int problem) {super(1000, BenchmarkCEC2013_LSGO.getBounds(problem)); this.problem = problem;}
+	public CEC2013_LSGO(int problem) {super(1000, BenchmarkCEC2013_LSGO.getBounds(problem)); this.problem = problem; setFID(".f"+problem);}
 	public CEC2013_LSGO(int problem, int dim) {this(problem); if (dim!=1000)System.out.println("The dimensionality of the problem was set up euqal to 1000");}
-
+	
 	public double f(double[] x)
 	{
 		switch (problem) {

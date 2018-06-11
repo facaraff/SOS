@@ -39,7 +39,7 @@ public class CEC2013 extends Problem
 {
 	private AbstractCEC2013 cec13 = null;
 	
-	public CEC2013(int problem, int dim) {super(dim, new double[] {-100,100}); this.cec13=initFunction(problem,dim);}
+	public CEC2013(int problem, int dim) {super(dim, new double[] {-100,100}); this.cec13=initFunction(problem,dim); setFID(".f"+problem);}
 
 	public double f(double[] x){return cec13.f(x);}
 }
