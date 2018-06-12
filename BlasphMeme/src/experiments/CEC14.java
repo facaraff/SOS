@@ -48,7 +48,7 @@ public class CEC14 extends Experiment
 	{
 		//super(probDim,"cec2015allDim");
 		super(probDim,5000,"testCEC14");
-		setNrRuns(10);
+		setNrRuns(30);
 
 
 		Algorithm a;// ///< A generic optimiser.
