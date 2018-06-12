@@ -28,7 +28,7 @@ public class cPSO extends Algorithm
 		int virtualPopulationSize = getParameter("p0").intValue(); //50
 		double phi1 = getParameter("p1").doubleValue(); // -0.2
 		double phi2 = getParameter("p2").doubleValue(); // -0.07
-		double phi3 = getParameter("p4").doubleValue(); // 3.74
+		double phi3 = getParameter("p3").doubleValue(); // 3.74
 		double gamma1 = getParameter("p4").doubleValue(); // 1.0
 		double gamma2 = getParameter("p5").doubleValue(); // 1.0
 		

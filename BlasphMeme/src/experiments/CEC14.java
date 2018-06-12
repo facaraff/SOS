@@ -30,9 +30,14 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.singleSolution.Powell;
-import algorithms.singleSolution.Powell_toro;
-import algorithms.singleSolution.Rosenbrock;
+import algorithms.compact.cBFO;
+import algorithms.compact.cDE_exp;
+import algorithms.compact.cDE_exp_light;
+import algorithms.compact.cGA_real;
+import algorithms.compact.cPSO;
+//import algorithms.singleSolution.Powell;
+//import algorithms.singleSolution.Powell_toro;
+//import algorithms.singleSolution.Rosenbrock;
 import benchmarks.CEC2014;
 
 
@@ -49,21 +54,21 @@ public class CEC14 extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem p;// ///< A generic problem.
 		
-		a = new Powell();
-		a.setParameter("p0", 0.0001);
-		a.setParameter("p1", 100.0);
-		add(a);
-		
-		a = new Powell_toro();
-		a.setParameter("p0", 0.0001);
-		a.setParameter("p1", 100.0);
-		add(a);
-		
-		a = new Rosenbrock();
-		a.setParameter("p0", 10e-5);
-		a.setParameter("p1", 2.0);
-		a.setParameter("p2", 0.5);
-		add(a);
+//		a = new Powell();
+//		a.setParameter("p0", 0.0001);
+//		a.setParameter("p1", 100.0);
+//		add(a);
+//		
+//		a = new Powell_toro();
+//		a.setParameter("p0", 0.0001);
+//		a.setParameter("p1", 100.0);
+//		add(a);
+//		
+//		a = new Rosenbrock();
+//		a.setParameter("p0", 10e-5);
+//		a.setParameter("p1", 2.0);
+//		a.setParameter("p2", 0.5);
+//		add(a);
 		
 //		a = new CMAES(); //N.B. this algorithm makes use of "generateRandomSolution" that has still to be implemented.
 //		add(a);
@@ -77,6 +82,50 @@ public class CEC14 extends Experiment
 //		a.setParameter("p5", 30.0);
 //		add(a);
 	
+		a = new cDE_exp();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.25);
+		a.setParameter("p2", 0.5);
+		a.setParameter("p3", 2.0);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);	
+		
+		a = new cDE_exp_light();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.25);
+		a.setParameter("p2", 0.5);
+		a.setParameter("p3", 3.0);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);	
+		
+		a = new cBFO();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.1);
+		a.setParameter("p2", 4.0);
+		a.setParameter("p3", 1.0);
+		a.setParameter("p4", 10.0);
+		a.setParameter("p5", 2.0);
+		a.setParameter("p6", 2.0);
+		add(a);
+		
+		a = new cGA_real();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
+		a.setParameter("p2", 1.0);
+		add(a);
+
+		a = new cPSO();
+		a.setParameter("p0", 50.0);
+		a.setParameter("p1", -0.2);
+		a.setParameter("p2", -0.07);
+		a.setParameter("p3", 3.74);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);
+
+		
 		for(int i = 1; i<=30; i++)
 			add(new CEC2014(probDim, i));
 

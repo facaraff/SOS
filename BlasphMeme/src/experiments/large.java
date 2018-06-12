@@ -30,7 +30,10 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.singleSolution.SPAMAOS2;
+import algorithms.MDE_pBX;
+import algorithms.MS_CAP;
+//import algorithms.singleSolution.SPAMAOS2;
+import algorithms.compact.*;
 import benchmarks.CEC2013_LSGO;
 
 
@@ -47,15 +50,15 @@ public class large extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem p;// ///< A generic problem.
 		
-	    a = new SPAMAOS2();
-			a.setParameter("p0",0.5);
-			a.setParameter("p1", 0.4); 
-			a.setParameter("p2",150.0);
-			a.setParameter("p3",2.0);
-			a.setParameter("p4",0.5);
-			a.setParameter("p5",0.00001);
-			a.setParameter("p6",3.0); //{1,2,3,4}
-			add(a);
+//	    a = new SPAMAOS2();
+//			a.setParameter("p0",0.5);
+//			a.setParameter("p1", 0.4); 
+//			a.setParameter("p2",150.0);
+//			a.setParameter("p3",2.0);
+//			a.setParameter("p4",0.5);
+//			a.setParameter("p5",0.00001);
+//			a.setParameter("p6",3.0); //{1,2,3,4}
+//			add(a);
 		    
 		
 //		a = new Powell();
@@ -74,10 +77,68 @@ public class large extends Experiment
 //		a.setParameter("p2", 0.5);
 //		add(a);
 		
+		a = new cDE_exp();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.25);
+		a.setParameter("p2", 0.5);
+		a.setParameter("p3", 2.0);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);	
+		
+		a = new cDE_exp_light();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.25);
+		a.setParameter("p2", 0.5);
+		a.setParameter("p3", 3.0);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);	
+		
+		a = new cBFO();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.1);
+		a.setParameter("p2", 4.0);
+		a.setParameter("p3", 1.0);
+		a.setParameter("p4", 10.0);
+		a.setParameter("p5", 2.0);
+		a.setParameter("p6", 2.0);
+		add(a);
+		
+		a = new cGA_real();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
+		a.setParameter("p2", 1.0);
+		add(a);
+
+		a = new cPSO();
+		a.setParameter("p0", 50.0);
+		a.setParameter("p1", -0.2);
+		a.setParameter("p2", -0.07);
+		a.setParameter("p3", 3.74);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);
+
+
+		  a = new MS_CAP();
+		  a.setParameter("p0",50.0);
+		  a.setParameter("p1", 1e-6);
+		  a.setParameter("p2", 3.0);
+		  add(a);
+		  
+		   a = new MDE_pBX();
+		   a.setParameter("p0", 100.0);
+		   a.setParameter("p1", 0.15); 
+		   a.setParameter("p2", 0.6);
+		   a.setParameter("p3", 0.5);
+		   a.setParameter("p4", 1.5);
+		   add(a);
 	
 		for(int i = 1; i<=15; i++)
 			add(new CEC2013_LSGO(i));
 
+		
 
 
 
