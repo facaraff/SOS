@@ -64,55 +64,11 @@ public class RunExperiments
 	
 			
 		//@@@ MODIFY THIS PART @@@		
-
-//		experiments.add(new extendedtoro(10));
-//		
-//		experiments.add(new extendedtoro(50));
-//		
-//		experiments.add(new extendedtoro(100));
-		
-//		experiments.add(new inprogress(10));
-//		
-//		experiments.add(new inprogress(50));
-//		
-//		experiments.add(new inprogress(100));
-//		
-
-	
-//		experiments.add(new EigenToro(10));
-//		
-//		experiments.add(new EigenToro(50));
-//		
-//		experiments.add(new EigenToro(100));
-		
-		//experiments.add(new TestCEC2011());
-		
-		//experiments.add(new Bbob2010(10));//XXX FABIO: do not work as I want
-		
-//		experiments.add(new Cec2013(10));
-//		
-//		experiments.add(new Cec2013(50));
-//		
-//		experiments.add(new Cec2013(100));
-//		
-//		//experiments.add(new Cec2013_c(50));
-//		
-//		experiments.add(new Cec2010());
-//		
-//		experiments.add(new Cec2010_c());
-		
-		
-//		experiments.add(new Sisc2010(20));
-//		experiments.add(new Sisc2010(30));
-//		experiments.add(new Sisc2010(60));
-//		
-//		experiments.add(new Cec2008());
-		
-		//experiments.add(new cec11(30));
 		
 		 experiments.add(new CEC14(10));
 		 experiments.add(new CEC14(50));
 		 experiments.add(new CEC14(100));
+		 
 //		experiments.add(new large());
 		
 		//@@@@@@
