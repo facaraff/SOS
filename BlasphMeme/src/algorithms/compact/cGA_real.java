@@ -1,10 +1,5 @@
 package algorithms.compact;
 
-import static  utils.algorithms.operators.CompactAlgorithms.generateIndividual;
-import static  utils.algorithms.operators.CompactAlgorithms.scale;
-import static  utils.algorithms.operators.CompactAlgorithms.updateMean;
-import static  utils.algorithms.operators.CompactAlgorithms.updateSigma2;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -12,6 +7,10 @@ import utils.MatLab;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
+import static utils.algorithms.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.CompactAlgorithms.scale;
+import static utils.algorithms.CompactAlgorithms.updateMean;
+import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
 /*
  * Real coded compact Genetic Algorithm

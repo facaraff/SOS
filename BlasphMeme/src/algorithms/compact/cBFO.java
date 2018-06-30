@@ -1,11 +1,10 @@
 package algorithms.compact;
 
+import static utils.algorithms.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.CompactAlgorithms.scale;
+import static utils.algorithms.CompactAlgorithms.updateMean;
+import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import static utils.algorithms.Misc.toro;
-import static utils.algorithms.operators.CompactAlgorithms.generateIndividual;
-import static utils.algorithms.operators.CompactAlgorithms.scale;
-import static utils.algorithms.operators.CompactAlgorithms.updateMean;
-import static utils.algorithms.operators.CompactAlgorithms.updateSigma2;
-
 
 import utils.MatLab;
 import utils.random.RandUtils;

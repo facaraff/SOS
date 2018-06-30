@@ -8,15 +8,14 @@ import static utils.algorithms.operators.DEOp.currentToBest1;
 import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.operators.DEOp.rand2;
 import static utils.algorithms.operators.DEOp.randToBest2;
+import static utils.algorithms.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.CompactAlgorithms.scale;
+import static utils.algorithms.CompactAlgorithms.updateMean;
+import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import static utils.algorithms.Misc.toro;
 
-import static  utils.algorithms.operators.CompactAlgorithms.generateIndividual;
-import static  utils.algorithms.operators.CompactAlgorithms.scale;
-import static  utils.algorithms.operators.CompactAlgorithms.updateMean;
-import static  utils.algorithms.operators.CompactAlgorithms.updateSigma2;
-
 import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.IOException;
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -31,8 +30,8 @@ import utils.RunAndStore.FTrend;
  */
 public class MScDE extends Algorithm
 {
-	private double[] mean;
-	private double[] sigma2;
+//	private double[] mean;
+//	private double[] sigma2;
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -61,8 +60,8 @@ public class MScDE extends Algorithm
 		int i = 0;
 		int teta = 0;
 
-		mean = new double[problemDimension];
-		sigma2 = new double[problemDimension];
+		double[] mean = new double[problemDimension];
+		double[] sigma2 = new double[problemDimension];
 		for (int j = 0; j < problemDimension; j++)
 		{
 			mean[j] = 0.0;
@@ -215,93 +214,14 @@ public class MScDE extends Algorithm
 		
 		FT.add(i, fBest);
 		return FT;
-		
+
 }
 
 
 	
 	
 	
-	private double[] cdelight(double F, double alpha, int problemDimension, double[] best) 
-	{
-		double CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
-		double Fmod = (1+2*Math.pow(F,2));
-		double[] sigma2_F = new double[problemDimension];
-		for (int n = 0; n < problemDimension; n++)
-			sigma2_F[n] = Fmod*sigma2[n];	
-		double[] b = generateIndividual(mean, sigma2_F);
-		return crossOverExpFast(best, b, CR);
-	}
-	
-	private double[] rand_one_randomF(double alpha, int problemDimension, int xo_strat, double[] best)
-	{
-		 // DE/rand/1-Random-Scale-Factor
-		double[] xr = generateIndividual(mean, sigma2);
-		double[] xs = generateIndividual(mean, sigma2);
-		double[] xt = generateIndividual(mean, sigma2);
-		double F = 0.5*(1+RandUtils.random());
-		double[] b = rand1(xr, xs, xt, F);
-		return binOrExpXO(problemDimension, F, alpha, b, best, xo_strat);
-	}
-	
-	private double[] rand_one(double F, double alpha, int problemDimension, int xo_strat, double[] best)
-	{
-	
-		double[] xr = generateIndividual(mean, sigma2);
-		double[] xs = generateIndividual(mean, sigma2);
-		double[] xt = generateIndividual(mean, sigma2);
-		double[] b = rand1(xr, xs, xt, F);
-		return binOrExpXO(problemDimension, F, alpha,  b, best, xo_strat);
-	}
-	
-	private double[] rand_to_best(double F, double alpha, int problemDimension, int xo_strat, double[] best)
-	{
-	
-		// DE/current(rand)-to-best/1
-		double[] xr = generateIndividual(mean, sigma2);
-		double[] xs = generateIndividual(mean, sigma2);
-		double[] xt = generateIndividual(mean, sigma2);
-		double[] b = currentToBest1(xt, xr, xs, best, F);
-		return binOrExpXO(problemDimension, F, alpha,  b, best, xo_strat);
-	}
-	
-	private double[] rand_two(double F, double alpha, int problemDimension, int xo_strat, double[] best)
-	{	
-		double[] xr = generateIndividual(mean, sigma2);
-		double[] xs = generateIndividual(mean, sigma2);
-		double[] xt = generateIndividual(mean, sigma2);
-		double[] xu = generateIndividual(mean, sigma2);
-		double[] xv = generateIndividual(mean, sigma2);
-		double[] b = rand2(xr, xs, xt, xu, xv, F);
-		return binOrExpXO(problemDimension, F, alpha,  b, best, xo_strat);
-	}
-	
-	private double[] rand_to_best_two(double F, double alpha, int problemDimension, int xo_strat, double[] best)
-	{	
-		double[] xr = generateIndividual(mean, sigma2);
-		double[] xs = generateIndividual(mean, sigma2);
-		double[] xt = generateIndividual(mean, sigma2);
-		double[] xu = generateIndividual(mean, sigma2);
-		double[] xv = generateIndividual(mean, sigma2);
-		double[] b = randToBest2(xr, xs, xt, xu, xv, best, F);
-		return binOrExpXO(problemDimension, F, alpha,  b, best, xo_strat);
-	}
-	
-	
-	private double[] binOrExpXO(int problemDimension, double F, double alpha, double[] b, double[] best, int strategy)
-	{
-		double CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
-		if (strategy == 1)
-			b = crossOverBin(best, b, CR);
-		else if (strategy == 2)
-			b = crossOverExp(best, b, CR);
-		else
-			
-			System.out.println("Andate affanculo tutti quanti porcodio");
-		return b;
-	}
-	
-	
+		
 
 	
 	

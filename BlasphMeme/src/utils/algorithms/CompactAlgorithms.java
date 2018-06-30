@@ -1,4 +1,4 @@
-package utils.algorithms.operators;
+package utils.algorithms;
 
 import java.io.FileWriter;
 import java.io.IOException;

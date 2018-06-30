@@ -1,8 +1,5 @@
 package algorithms.compact;
 
-import static utils.algorithms.operators.CompactAlgorithms.bin2dec;
-import static utils.algorithms.operators.CompactAlgorithms.generateIndividual;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -10,6 +7,8 @@ import utils.MatLab;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
+import static utils.algorithms.CompactAlgorithms.bin2dec;
+import static utils.algorithms.CompactAlgorithms.generateIndividual;
 
 /*
  * Binary coded compact Genetic Algorithm
