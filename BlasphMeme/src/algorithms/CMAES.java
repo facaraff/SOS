@@ -82,7 +82,7 @@ public class CMAES extends Algorithm
 		
 		finalBest = best;
 
-		//add the best solutionat the end f the fitness trend
+		//add the best solution at the end f the fitness trend
 		FT.add(j, fBest);
 		
 		//return bests;
