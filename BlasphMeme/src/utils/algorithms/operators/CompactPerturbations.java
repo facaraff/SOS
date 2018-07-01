@@ -42,6 +42,7 @@ import utils.random.RandUtils;
 
 public class CompactPerturbations {
 
+	//compact Differential Evolution
 	
 	public static double[] cdelight(double F, double alpha, double[] best, double[] mean, double[] sigma2) 
 	{
@@ -124,7 +125,21 @@ public class CompactPerturbations {
 	
 
 	
+	//other compact algorithhms
 	
+	//cGA
+	public static double[] cGArealPerturbation(double[] mean, double[] sigma2){return generateIndividual(mean, sigma2);}
 	
+	//cPSO
+	public static double[] cPSOPerturbation(double[] v, double[] x, double[] x_gb, double[] mean, double[] sigma2, double phi1, double phi2, double phi3, double gamma1, double gamma2) 
+	{	
+		double[] x_lb = generateIndividual(mean, sigma2);
+		for (int n = 0; n < v.length; n++)
+		{
+			v[n] = phi1*v[n]+phi2*RandUtils.random()*(x_lb[n]-x[n])+phi3*RandUtils.random()*(x_gb[n]-x[n]);
+			x[n] = gamma1*x[n] + gamma2*v[n];
+		}
+		return x_lb; //return x_lb because x is passed by argument... then both of them have to be evualated and the best one used.
+	}
 	
 }

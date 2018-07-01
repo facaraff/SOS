@@ -36,11 +36,7 @@ import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import static utils.algorithms.Misc.toro;
 
-//import java.io.FileWriter;
-//import java.io.IOException;
-
-import utils.MatLab;
-//import utils.random.RandUtils;
+//import utils.MatLab;
 
 import interfaces.Algorithm;
 import interfaces.Problem;
@@ -48,21 +44,33 @@ import utils.RunAndStore.FTrend;
 import utils.random.RandUtils;
 
 import static utils.algorithms.operators.CompactPerturbations.cdelight;
-import static utils.algorithms.operators.CompactPerturbations.rand_one;
-import static utils.algorithms.operators.CompactPerturbations.rand_one_randomF;
-import static utils.algorithms.operators.CompactPerturbations.rand_to_best;
-import static utils.algorithms.operators.CompactPerturbations.rand_to_best_two;
-import static utils.algorithms.operators.CompactPerturbations.rand_two;
+//import static utils.algorithms.operators.CompactPerturbations.rand_one;
+//import static utils.algorithms.operators.CompactPerturbations.rand_one_randomF;
+//import static utils.algorithms.operators.CompactPerturbations.rand_to_best;
+//import static utils.algorithms.operators.CompactPerturbations.rand_to_best_two;
+//import static utils.algorithms.operators.CompactPerturbations.rand_two;
 
 /*
  * compact multistrategy Differential Evolution 
  */
-public class MScDE extends Algorithm
+public class McA extends Algorithm
 {
 
+	double[] mean;
+	double[] sigma2;
+	
+	double[] winner;
+	double[] loser;
+	
+	double[] best;
+	double fBest = Double.NaN;
+	
+	int i = 0;
+	int k;
+	FTrend FT = new FTrend();
 	
 	@Override
-	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
+	public FTrend execute(Problem problem, int maxEvaluations)  throws Exception
 	{
 	
 		//COMMON PARAMTERS
@@ -72,20 +80,20 @@ public class MScDE extends Algorithm
 		double alpha = this.getParameter("p1").doubleValue();//0.25
 		double F = this.getParameter("p2").doubleValue();//0.5
 		int maxConsecutiveRep = this.getParameter("p3").intValue();
-		boolean isPersistent = this.getParameter("p4").intValue()!=0;//true
-		int eta = virtualPopulationSize*2/3;
+//		boolean isPersistent = this.getParameter("p4").intValue()!=0;//true
+//		int eta = virtualPopulationSize*2/3;
 			
-		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
-		double[][] bounds = problem.getBounds();
-		double[] normalizedBounds = {-1.0, 1.0};
-		
-		double[] best = new double[problemDimension];
-		double fBest = Double.NaN;
-		
-		int i = 0;
-		int teta = 0;
 
+		int	 problemDimension = problem.getDimension(); 
+		double[][] bounds = problem.getBounds();
+		//double[] normalizedBounds = {-1.0, 1.0};
+		
+//		double[] best = new double[problemDimension];
+//		double fBest = Double.NaN;
+		
+//		int i = 0;
+//		int teta = 0;
+////
 		double[] mean = new double[problemDimension];
 		double[] sigma2 = new double[problemDimension];
 		for (int j = 0; j < problemDimension; j++)
@@ -140,134 +148,109 @@ public class MScDE extends Algorithm
 		}
 
 		
-
-		double[] winner = new double[problemDimension];
-		double[] loser = new double[problemDimension];
+		best = new double[problemDimension];
+		winner = new double[problemDimension];
+		loser = new double[problemDimension];
 		
 
+		//to save memory, a is re-used instead of x as position for cPSO while velocity ha to be initialised here
+		//double[] x = generateIndividual(mean, sigma2);
+		double[] v = generateIndividual(mean, sigma2);
+		for (int n = 0; n < problemDimension; n++)
+			v[n] = 0.1*v[n];
 		
-
-		int mutationStrategy = -1;
-		int crossoverStrategy = -1;
+		
+		
+		
+		
 		
 		// iterate
 		while (i < maxEvaluations)
 		{
-
-			mutationStrategy  = RandUtils.randomInteger(5)+1;
-			if(mutationStrategy>1) crossoverStrategy = RandUtils.randomInteger(1)+1;
+			int perturbation = RandUtils.randomInteger(2)+1;
 			
-			int k = 0;
+			 int k = 0;
 			//boolean improved = true;
 			//while(improved && k<maxConsecutiveRep && i<maxEvaluations)
 			while(k<maxConsecutiveRep && i<maxEvaluations)
 			{
 				// mutation
-				switch (mutationStrategy)
+				switch (perturbation)
 				{
 					case 1:
-						
-						b = cdelight(F, alpha, best, mean, sigma2);
+						cDElight(F, alpha, virtualPopulationSize, problem, bounds,  xc);
 						break;
 					case 2:
-						b = rand_one_randomF(alpha, crossoverStrategy,  best,  mean,  sigma2);
+						//b = rand_one_randomF(alpha, crossoverStrategy,  best,  mean,  sigma2);
 						break;
 					case 3:
-						b = rand_one(F, alpha, crossoverStrategy, best,  mean, sigma2);
+						//b = rand_one(F, alpha, crossoverStrategy, best,  mean, sigma2);
 						break;
 					case 4:
-						b = rand_to_best( F, alpha, crossoverStrategy, best, mean, sigma2);
+						//b = rand_to_best( F, alpha, crossoverStrategy, best, mean, sigma2);
 						break;
 					case 5:
-						b = rand_two(F, alpha,  crossoverStrategy, best,  mean, sigma2);
+						//b = rand_two(F, alpha,  crossoverStrategy, best,  mean, sigma2);
 					case 6:
-						b = rand_to_best_two(F, alpha, crossoverStrategy, best, mean,  sigma2);
+						//b = rand_to_best_two(F, alpha, crossoverStrategy, best, mean,  sigma2);
 					default:
 						break;
-						
 				}
-
-						b = toro(b, normalizedBounds);
-						bScaled = scale(b, bounds, xc);
-						fB = problem.f(bScaled);
-						i++;
-						k++;
-
-						if (fB < fBest)
-						{
-							for (int n = 0; n < problemDimension; n++)
-							{
-								winner[n] = b[n];
-								loser[n] = best[n];
-							}
-							fBest = fB;
-
-							if (isPersistent)
-								// log best fitness (persistent elitism)
-								FT.add(i, fBest);
-								//bests.add(new Best(i, fBest));
-							else
-							{
-								// log best fitness (non persistent elitism)
-								if (fBest < FT.getF(FT.size()-1))
-									FT.add(i, fBest);
-									//bests.add(new Best(i, fBest));
-							}
-						}
-						else
-						{
-							for (int n = 0; n < problemDimension; n++)
-							{
-								winner[n] = best[n];
-								loser[n] = b[n];
-							}
-						}
 						
-						if (!isPersistent)
-						{
-							if ((teta < eta) && (MatLab.isEqual(winner, best)))
-								teta++;
-							else
-							{
-								teta = 0;
-								for (int n = 0; n < problemDimension; n++)
-									winner[n] = b[n];
-								fBest = fB;
-							}
-						}
-						
-						for (int n = 0; n < problemDimension; n++)
-							best[n] = winner[n];
+			}
 
-						// best and mean/sigma2 update
-						mean = updateMean(winner, loser, mean, virtualPopulationSize);
-						sigma2 = updateSigma2(winner, loser, mean, sigma2, virtualPopulationSize);	
-						
-						}
-
-				}
-			
-	
-		
-		if (isPersistent)
-			// log best fitness (persistent elitism)
-			FT.add(i, fBest);
-		else
-		{
-			// log best fitness (non persistent elitism)
-			double lastFBest = FT.getF(FT.size()-1); 
-			if (fBest < lastFBest)
-				FT.add(i, fBest);
-			else
-				FT.add(i, fBest);
 		}
-		
 	
 		finalBest = best;
 		
 		FT.add(i, fBest);
 		return FT;
-
 	}
+	
+	
+	
+	
+	
+	private void cDElight(double F, double alpha, int virtualPopulationSize, Problem problem, double[][] bounds, double[] xc) throws Exception
+	{
+		double[] b = cdelight(F, alpha, best, mean, sigma2);
+		
+		double[] normalizedBounds = {-1.0, 1.0};
+		b = toro(b, normalizedBounds);
+		double fB = problem.f(scale(b, bounds, xc));
+		i++;
+		k++;
+		int problemDimension = problem.getDimension();
+		if(fB < fBest)
+		{
+			for (int n = 0; n < problemDimension; n++)
+			{
+				winner[n] = b[n];
+				loser[n] = best[n];
+			}
+			fBest = fB;
+
+			FT.add(i, fBest);
+
+		}
+		else
+		{
+			for (int n = 0; n < problemDimension; n++)
+			{
+				winner[n] = best[n];
+				loser[n] = b[n];
+			}
+		}
+		
+		
+		for (int n = 0; n < problemDimension; n++)
+			best[n] = winner[n];
+
+		// best and mean/sigma2 update
+		mean = updateMean(winner, loser, mean, virtualPopulationSize);
+		sigma2 = updateSigma2(winner, loser, mean, sigma2, virtualPopulationSize);	
+		}
+
+	
 	
 }
