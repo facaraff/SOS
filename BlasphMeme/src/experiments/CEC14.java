@@ -30,11 +30,10 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.compact.cBFO;
-import algorithms.compact.cDE_exp;
-import algorithms.compact.cDE_exp_light;
-import algorithms.compact.cGA_real;
-import algorithms.compact.cPSO;
+import algorithms.compact.nucDElight;
+//import algorithms.compact.cDE_exp_light;
+//import algorithms.compact.memeticCDE;
+//import algorithms.inProgress.CMO;
 //import algorithms.singleSolution.Powell;
 //import algorithms.singleSolution.Powell_toro;
 //import algorithms.singleSolution.Rosenbrock;
@@ -81,49 +80,82 @@ public class CEC14 extends Experiment
 //		a.setParameter("p4", 1e-5);
 //		a.setParameter("p5", 30.0);
 //		add(a);
-	
-		a = new cDE_exp();
+		
+		
+//		a = new CMO();
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 0.1);
+//		a.setParameter("p4", 4.0);
+//		a.setParameter("p5", 1.0);
+//		a.setParameter("p6", 10.0);
+//		a.setParameter("p7", 2.0);
+//		a.setParameter("p8", 2.0);
+//		a.setParameter("p9", 1.0);
+//		a.setParameter("p10", 10.0);
+//		add(a);
+		
+//		a = new cDE_exp();
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 2.0);
+//		a.setParameter("p4", 1.0);
+//		a.setParameter("p5", 1.0);
+//		add(a);	
+		
+		a = new nucDElight();
 		a.setParameter("p0", 300.0);
 		a.setParameter("p1", 0.25);
 		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 2.0);
-		a.setParameter("p4", 1.0);
+		a.setParameter("p3", 10.0);
+		a.setParameter("p4", 0.9);
 		a.setParameter("p5", 1.0);
-		add(a);	
+		add(a);		
 		
-		a = new cDE_exp_light();
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
-		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 3.0);
-		a.setParameter("p4", 1.0);
-		a.setParameter("p5", 1.0);
-		add(a);	
+//		a = new memeticCDE();
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 3.0);
+//		a.setParameter("p4", 1.0);
+//		a.setParameter("p5", 1.0);
+//		add(a);	
 		
-		a = new cBFO();
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.1);
-		a.setParameter("p2", 4.0);
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 10.0);
-		a.setParameter("p5", 2.0);
-		a.setParameter("p6", 2.0);
-		add(a);
+//		a = new cDE_exp_light();
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 3.0);
+//		a.setParameter("p4", 1.0);
+//		a.setParameter("p5", 1.0);
+//		add(a);	
 		
-		a = new cGA_real();
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
-		a.setParameter("p2", 1.0);
-		add(a);
-
-		a = new cPSO();
-		a.setParameter("p0", 50.0);
-		a.setParameter("p1", -0.2);
-		a.setParameter("p2", -0.07);
-		a.setParameter("p3", 3.74);
-		a.setParameter("p4", 1.0);
-		a.setParameter("p5", 1.0);
-		add(a);
+//		a = new cBFO();
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.1);
+//		a.setParameter("p2", 4.0);
+//		a.setParameter("p3", 1.0);
+//		a.setParameter("p4", 10.0);
+//		a.setParameter("p5", 2.0);
+//		a.setParameter("p6", 2.0);
+//		add(a);
+		
+//		a = new cGA_real();
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
+//		a.setParameter("p2", 1.0);
+//		add(a);
+//
+//		a = new cPSO();
+//		a.setParameter("p0", 50.0);
+//		a.setParameter("p1", -0.2);
+//		a.setParameter("p2", -0.07);
+//		a.setParameter("p3", 3.74);
+//		a.setParameter("p4", 1.0);
+//		a.setParameter("p5", 1.0);
+//		add(a);
 
 		
 		for(int i = 1; i<=30; i++)

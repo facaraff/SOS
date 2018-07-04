@@ -45,7 +45,7 @@ public class NonUniformSA extends Algorithm
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{		
 		int B = this.getParameter("p0").intValue(); //5
-		double alpha = this.getParameter("p1").intValue(); //0.9
+		double alpha = this.getParameter("p1").doubleValue(); //0.9
 		int Lk = this.getParameter("p2").intValue(); //3
 		int initialSolutions = this.getParameter("p3").intValue(); //10
 				

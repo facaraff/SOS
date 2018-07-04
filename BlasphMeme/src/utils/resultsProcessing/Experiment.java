@@ -108,7 +108,7 @@ public class Experiment
 					algorithms[nrFolders++] = new AlgorithmInfo(name, importDataTrends(name));
 				else
 				{
-					System.out.println(name);
+					System.out.println(name); 
 					algorithms[nrFolders++] = new AlgorithmInfo(name, importDataAlgorithm(name));						
 				}
 			}

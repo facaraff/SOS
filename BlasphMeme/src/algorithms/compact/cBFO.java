@@ -31,7 +31,7 @@ public class cBFO extends Algorithm
 		double beta = this.getParameter("p6").doubleValue();					// epsilon reduction ratio 2
 
 		// enable ABFO0 flag
-		boolean enableAdaptation0 = this.getParameter("p2").intValue()!=0;
+		boolean enableAdaptation0 = this.getParameter("p2").intValue()!=0;//XXX qualche errore? dovrebbe eseere  p7?
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 

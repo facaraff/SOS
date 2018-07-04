@@ -169,7 +169,7 @@ public class DataBox
 	
 	public void insertValue(double value, int function)
 	{
-		System.out.println(function+" "+finalValues.length);
+		//System.out.println(function+" "+finalValues.length);System.out.println("dio cane");
 		this.finalValues[function].add(value);
 	}
 	

@@ -47,12 +47,12 @@ import utils.random.RandUtils;
 import static utils.algorithms.operators.CompactPerturbations.cdelight;
 
 
-import static utils.algorithms.operators.CompactPerturbations.cPSOPerturbation;
+//import static utils.algorithms.operators.CompactPerturbations.cPSOPerturbation;
 
 /*
  * compact multistrategy Differential Evolution 
  */
-public class McA extends Algorithm
+public class CMO extends Algorithm
 {
 
 	double[] mean;
@@ -76,41 +76,48 @@ public class McA extends Algorithm
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations)  throws Exception
 	{
+		
+		int	 problemDimension = problem.getDimension(); 
+		double[][] bounds = problem.getBounds();
 	
 		//COMMON PARAMTERS
 		int virtualPopulationSize = this.getParameter("p0").intValue();//300
 		
 		// PARAMTERS
-		//cDE
+		//cDElight
 		double alpha = this.getParameter("p1").doubleValue();//0.25
 		double F = this.getParameter("p2").doubleValue();//0.5
-		int maxConsecutiveRep = this.getParameter("p3").intValue();
-		//cPSO
-		int virtualPopulationSizePSO = getParameter("p0").intValue(); //50
-		double phi1 = getParameter("p1").doubleValue(); // -0.2
-		double phi2 = getParameter("p2").doubleValue(); // -0.07
-		double phi3 = getParameter("p3").doubleValue(); // 3.74
-		double gamma1 = getParameter("p4").doubleValue(); // 1.0
-		double gamma2 = getParameter("p5").doubleValue(); // 1.0
+		
+
 		//cBFO
-		int virtualPopulationSizeBFO = this.getParameter("p0").intValue();		// number of bacteria 300
-		double C_initial = this.getParameter("p1").doubleValue();				// chemotactic step size 0.1
-		int Ns = this.getParameter("p2").intValue();							// swim steps 4
+//		int virtualPopulationSizeBFO = this.getParameter("p0").intValue();		// number of bacteria 300
+		double C_initial = this.getParameter("p3").doubleValue();				// chemotactic step size 0.1
+		int Ns = this.getParameter("p4").intValue();							// swim steps 4
 		
 		// Adaptive BFO (ABFO0) parameters
-		double epsilon_initial = this.getParameter("p3").doubleValue();		// initial epsilon 1
-		int ng = this.getParameter("p4").intValue();							// number of generations for adaptation 10
-		double alfa = this.getParameter("p5").doubleValue();					// C_i reduction ratio 2
-		double beta = this.getParameter("p6").doubleValue();					// epsilon reduction ratio 2
-		boolean enableAdaptation0 = this.getParameter("p2").intValue()!=0;
+		double epsilon_initial = this.getParameter("p5").doubleValue();		// initial epsilon 1
+		int ng = this.getParameter("p6").intValue();							// number of generations for adaptation 10
+		double alfa = this.getParameter("p7").doubleValue();					// C_i reduction ratio 2
+		double beta = this.getParameter("p8").doubleValue();					// epsilon reduction ratio 2
+		boolean enableAdaptation0 = this.getParameter("p9").intValue()!=0;
 		C_i =C_initial;
 		
-		int	 problemDimension = problem.getDimension(); 
-		double[][] bounds = problem.getBounds();
+		int maxConsecutiveRep = this.getParameter("p10").intValue();
+		maxConsecutiveRep = maxConsecutiveRep*problemDimension;
+//		//cPSO
+//		int virtualPopulationSizePSO = getParameter("p0").intValue(); //50
+//		double phi1 = getParameter("p1").doubleValue(); // -0.2
+//		double phi2 = getParameter("p2").doubleValue(); // -0.07
+//		double phi3 = getParameter("p3").doubleValue(); // 3.74
+//		double gamma1 = getParameter("p4").doubleValue(); // 1.0
+//		double gamma2 = getParameter("p5").doubleValue(); // 1.0
+		
+		
 
 
-		double[] mean = new double[problemDimension];
-		double[] sigma2 = new double[problemDimension];
+		mean = new double[problemDimension];
+		sigma2 = new double[problemDimension];
+		best = new double[problemDimension];
 		for (int j = 0; j < problemDimension; j++)
 		{
 			mean[j] = 0.0;
@@ -182,12 +189,12 @@ public class McA extends Algorithm
 		// iterate
 		while (i < maxEvaluations)
 		{
-			int perturbation = RandUtils.randomInteger(2)+1;
+			int perturbation = 1;//RandUtils.randomInteger(1)+1;
 			
 			 int k = 0;
 			//boolean improved = true;
 			//while(improved && k<maxConsecutiveRep && i<maxEvaluations)
-			while(k<maxConsecutiveRep && i<maxEvaluations)
+			//while(k<maxConsecutiveRep && i<maxEvaluations)
 			{
 				// mutation
 				switch (perturbation)
@@ -196,13 +203,13 @@ public class McA extends Algorithm
 						cDElight(F, alpha, virtualPopulationSize, problem, bounds,  xc);
 						break;
 					case 2:
-						cPSO( phi1, phi2, phi3, gamma1, gamma2, b, v, virtualPopulationSizePSO, problem, bounds, xc);						
+						cBFO(C_initial, Ns, epsilon_initial, ng, alfa, beta, virtualPopulationSize, enableAdaptation0, problem, bounds, xc,  maxEvaluations);				
 						break;
-					case 3:
-						cBFO(C_initial, Ns, epsilon_initial, ng, alfa, beta, virtualPopulationSizeBFO, enableAdaptation0, problem, bounds, xc,  maxEvaluations);
-						break;
-					case 4:
-						//cGA???????
+//					case 3:
+//						//cGA?
+//						break;
+//					case 4:
+//						cPSO( phi1, phi2, phi3, gamma1, gamma2, b, v, virtualPopulationSizePSO, problem, bounds, xc);	
 					default:
 						break;
 				}
@@ -259,60 +266,60 @@ public class McA extends Algorithm
 		sigma2 = updateSigma2(winner, loser, mean, sigma2, virtualPopulationSize);	
 	}
 	
-	private void cPSO(double phi1, double phi2, double phi3, double gamma1, double gamma2, double[] x, double[] v, int virtualPopulationSizePSO, Problem problem, double[][] bounds, double[] xc) throws Exception
-	{
-//		 cPSOPerturbation(v, x, x_gb, mean, sigma2, phi1, phi2, phi3, gamma1, gamma2);
-		double[] x_lb = cPSOPerturbation(v, x, best, mean, sigma2, phi1, phi2, phi3, gamma1, gamma2);
-		
-		int problemDimension = problem.getDimension();
-		x = toro(x, normalizedBounds);
-		double[] xScaled = scale(x, bounds, xc);
-		double fitness_x = problem.f(xScaled);
-		
-		double[] x_lbScaled = scale(x_lb, bounds, xc);
-		double fitness_lb = problem.f(x_lbScaled);
-		
-		i += 2;
-		k+=2;
-
-		if (fitness_lb < fitness_x)
-		{
-			for (int n = 0; n < problemDimension; n++)
-			{
-				winner[n] = x_lb[n];
-				loser[n] = x[n];
-			}
-			
-			if (fitness_lb < fBest)
-			{
-				for (int n = 0; n < problemDimension; n++)
-					best[n] = x_lb[n];
-				fBest = fitness_lb;
-			}
-		}
-		else
-		{
-			for (int n = 0; n < problemDimension; n++)
-			{
-				winner[n] = x[n];
-				loser[n] = x_lb[n];
-			}
-			
-			if (fitness_x < fBest)
-			{
-				for (int n = 0; n < problemDimension; n++)
-					best[n] = x[n];
-				fBest = fitness_x;
-			}
-		}
-		
-		if (i % problemDimension == 0)
-			FT.add(i, fBest);
-
-		// best and mean/sigma2 update
-		mean = updateMean(winner, loser, mean, virtualPopulationSizePSO);
-		sigma2 = updateSigma2(winner, loser, mean, sigma2, virtualPopulationSizePSO);	
-	}
+//	private void cPSO(double phi1, double phi2, double phi3, double gamma1, double gamma2, double[] x, double[] v, int virtualPopulationSizePSO, Problem problem, double[][] bounds, double[] xc) throws Exception
+//	{
+////		 cPSOPerturbation(v, x, x_gb, mean, sigma2, phi1, phi2, phi3, gamma1, gamma2);
+//		double[] x_lb = cPSOPerturbation(v, x, best, mean, sigma2, phi1, phi2, phi3, gamma1, gamma2);
+//		
+//		int problemDimension = problem.getDimension();
+//		x = toro(x, normalizedBounds);
+//		double[] xScaled = scale(x, bounds, xc);
+//		double fitness_x = problem.f(xScaled);
+//		
+//		double[] x_lbScaled = scale(x_lb, bounds, xc);
+//		double fitness_lb = problem.f(x_lbScaled);
+//		
+//		i += 2;
+//		k+=2;
+//
+//		if (fitness_lb < fitness_x)
+//		{
+//			for (int n = 0; n < problemDimension; n++)
+//			{
+//				winner[n] = x_lb[n];
+//				loser[n] = x[n];
+//			}
+//			
+//			if (fitness_lb < fBest)
+//			{
+//				for (int n = 0; n < problemDimension; n++)
+//					best[n] = x_lb[n];
+//				fBest = fitness_lb;
+//			}
+//		}
+//		else
+//		{
+//			for (int n = 0; n < problemDimension; n++)
+//			{
+//				winner[n] = x[n];
+//				loser[n] = x_lb[n];
+//			}
+//			
+//			if (fitness_x < fBest)
+//			{
+//				for (int n = 0; n < problemDimension; n++)
+//					best[n] = x[n];
+//				fBest = fitness_x;
+//			}
+//		}
+//		
+//		if (i % problemDimension == 0)
+//			FT.add(i, fBest);
+//
+//		// best and mean/sigma2 update
+//		mean = updateMean(winner, loser, mean, virtualPopulationSizePSO);
+//		sigma2 = updateSigma2(winner, loser, mean, sigma2, virtualPopulationSizePSO);	
+//	}
 
 
 	
@@ -324,7 +331,7 @@ public class McA extends Algorithm
 		/*
 		 * chemotaxis (iterate on bacteria)
 		 */
-		for (int ii = 0; ii < virtualPopulationSizeBFO && i < maxEvaluations; i++)
+		for (int ii = 0; ii < virtualPopulationSizeBFO && i < maxEvaluations; ii++)
 		{
 			//if ((i % 10000) == 0)
 			//	System.out.println(i);

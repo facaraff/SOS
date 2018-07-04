@@ -63,7 +63,7 @@ public class CompactAlgorithms
 	 * Normalized a solution over [-1,1].
 	 * 
 	 * @param x
-	 * @param bounds
+	 * @param bounds (hypercube)
 	 * @param xc
 	 * @param xNormalized
 	 * @return
@@ -77,6 +77,30 @@ public class CompactAlgorithms
 			xNormalized[i] = (x[i]-xc)/delta;
 		return xNormalized;
 	}
+	
+	/**
+	 * Normalized a solution over [-1,1].
+	 * 
+	 * @param x
+	 * @param bounds (custom)
+	 * @param xc
+	 * @param xNormalized
+	 * @return
+	 */
+	public static double[] normalize(double[] x, double[][] bounds, double[] xc)
+	{
+		int n = x.length;
+		double[] delta = new double[n];
+		for (int i = 0; i < n; i++)
+			delta[i] = bounds[i][1] - xc[i];
+		double[] xNormalized = new double[n];
+		for (int i = 0; i < n; i++)
+			xNormalized[i] = (x[i]-xc[i])/delta[i];
+		return xNormalized;
+	}
+	
+
+
 	
 	/**
 	 * 
