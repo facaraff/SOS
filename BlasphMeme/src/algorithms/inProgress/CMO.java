@@ -191,7 +191,7 @@ public class CMO extends Algorithm
 		{
 			int perturbation = 1;//RandUtils.randomInteger(1)+1;
 			
-			 int k = 0;
+//			 int k = 0;
 			//boolean improved = true;
 			//while(improved && k<maxConsecutiveRep && i<maxEvaluations)
 			//while(k<maxConsecutiveRep && i<maxEvaluations)

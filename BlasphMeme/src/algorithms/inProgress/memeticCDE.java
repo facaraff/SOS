@@ -1,13 +1,13 @@
 package algorithms.inProgress;
 
 //import static utils.algorithms..operators.Operators.DEO;
-import static utils.algorithms.operators.DEOp.crossOverBin;
-import static utils.algorithms.operators.DEOp.crossOverExp;
+//import static utils.algorithms.operators.DEOp.crossOverBin;
+//import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.DEOp.crossOverExpFast;
-import static utils.algorithms.operators.DEOp.currentToBest1;
-import static utils.algorithms.operators.DEOp.rand1;
-import static utils.algorithms.operators.DEOp.rand2;
-import static utils.algorithms.operators.DEOp.randToBest2;
+//import static utils.algorithms.operators.DEOp.currentToBest1;
+//import static utils.algorithms.operators.DEOp.rand1;
+//import static utils.algorithms.operators.DEOp.rand2;
+//import static utils.algorithms.operators.DEOp.randToBest2;
 import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
@@ -19,7 +19,7 @@ import java.io.IOException;
 //import java.util.Vector;
 
 import utils.MatLab;
-import utils.random.RandUtils;
+//import utils.random.RandUtils;
 
 import interfaces.Algorithm;
 import interfaces.Problem;
@@ -40,8 +40,8 @@ public class memeticCDE extends Algorithm
 		double alpha = this.getParameter("p1").doubleValue();//0.25
 		double F = this.getParameter("p2").doubleValue();//0.5
 		
-		int crossoverStrategy = this.getParameter("p3").intValue();//3
-		int mutationStrategy = this.getParameter("p4").intValue();//1
+//		int crossoverStrategy = this.getParameter("p3").intValue();//3
+//		int mutationStrategy = this.getParameter("p4").intValue();//1
 		
 		boolean isPersistent = this.getParameter("p5").intValue()!=0;//true
 		int eta = virtualPopulationSize*2/3;
@@ -110,12 +110,12 @@ public class memeticCDE extends Algorithm
 			i += 2;
 		}
 		//FT.add(0, fParticle);
-
-		double[] xr = new double[problemDimension];
-		double[] xs = new double[problemDimension];
-		double[] xt = new double[problemDimension];
-		double[] xu = new double[problemDimension];
-		double[] xv = new double[problemDimension];
+//
+//		double[] xr = new double[problemDimension];
+//		double[] xs = new double[problemDimension];
+//		double[] xt = new double[problemDimension];
+//		double[] xu = new double[problemDimension];
+//		double[] xv = new double[problemDimension];
 		
 		double[] winner = new double[problemDimension];
 		double[] loser = new double[problemDimension];

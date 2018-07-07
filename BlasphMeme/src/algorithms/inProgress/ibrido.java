@@ -1,4 +1,4 @@
-package algorithms.compact;
+package algorithms.inProgress;
 
 //import static utils.algorithms..operators.Operators.DEO;
 import static utils.algorithms.operators.DEOp.crossOverExpFast;
@@ -10,7 +10,7 @@ import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
 
-import utils.MatLab;
+//import utils.MatLab;
 import utils.random.RandUtils;
 
 import interfaces.Algorithm;
@@ -21,7 +21,7 @@ import utils.RunAndStore.FTrend;
 /*
  * compact Differential Evolution Light (with light exponential crossover and light mutation)
  */
-public class nucDElight extends Algorithm
+public class ibrido extends Algorithm
 {
 	
 	@Override
@@ -32,8 +32,10 @@ public class nucDElight extends Algorithm
 		double F = this.getParameter("p2").doubleValue();//0.5
 		int initialSolutions = this.getParameter("p3").intValue();//10
 		double alphaTemp = this.getParameter("p4").doubleValue(); //0.9
-		boolean isPersistent = this.getParameter("p5").intValue()!=0;//true
-		int eta = virtualPopulationSize*2/3;
+		int Lk = this.getParameter("p5").intValue(); //3
+		int B = this.getParameter("p6").intValue(); //5
+//		boolean isPersistent = this.getParameter("p6").intValue()!=0;//true
+//		int eta = virtualPopulationSize*2/3;
 			
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -44,7 +46,7 @@ public class nucDElight extends Algorithm
 		double fBest = Double.NaN;
 		
 		int i = 0;
-		int teta = 0;
+//		int teta = 0;
 
 		double[] mean = new double[problemDimension];
 		double[] sigma2 = new double[problemDimension];
@@ -157,7 +159,9 @@ public class nucDElight extends Algorithm
 		double tk = T0;
 
 		i += initialSolutions;
-
+	
+		int  generationIndex = 1;
+		int totalGenerations = (maxEvaluations-i)/Lk;
 		
 		// iterate
 		while (i < maxEvaluations)
@@ -166,13 +170,11 @@ public class nucDElight extends Algorithm
 			//	System.out.println(i);
 			
 			
-					// DE/rand/1
-					// XXX (gio) Jarek Arabas' suggestion
-					for (int n = 0; n < problemDimension; n++)
-						sigma2_F[n] = Fmod*sigma2[n];
-					b = generateIndividual(mean, sigma2_F);
-			
-					b = crossOverExpFast(best, b, CR);
+			// DE/rand/1
+			for (int n = 0; n < problemDimension; n++)
+				sigma2_F[n] = Fmod*sigma2[n];
+			b = generateIndividual(mean, sigma2_F);
+			b = crossOverExpFast(best, b, CR);
 			
 			
 			b = toro(b, normalizedBounds);
@@ -188,41 +190,81 @@ public class nucDElight extends Algorithm
 					winner[n] = b[n];
 					loser[n] = best[n];
 				}
+				generationIndex++;
 				//fBest = fB;
-
-				if (isPersistent)
-					// log best fitness (persistent elitism)
-					FT.add(i, fBest);
-					//bests.add(new Best(i, fBest));
-				else
-				{
-					// log best fitness (non persistent elitism)
-					if (fBest < FT.getF(FT.size()-1))
-						FT.add(i, fBest);
-						//bests.add(new Best(i, fBest));
-				}
+				//FT.add(i, fBest);
 			}
 			else
 			{
-				for (int n = 0; n < problemDimension; n++)
+//				for (int n = 0; n < problemDimension; n++)
+//				{
+//					winner[n] = best[n];
+//					loser[n] = b[n];
+//				}
+				
+				
+				for (int j = 0; j < Lk && i < maxEvaluations; j++)
 				{
-					winner[n] = best[n];
-					loser[n] = b[n];
+					// non-uniform mutation
+					for (int k = 0; k < problemDimension; k++)
+					{
+						//double temp = Math.pow(RandUtils.random(), Math.pow(1.0-(double)i/maxEvaluations, B));
+						double temp = Math.pow(RandUtils.random(), Math.pow(1.0-(double)generationIndex/totalGenerations, B));
+						
+						if (RandUtils.random()<0.5)
+							bScaled[k] = best[k] - (best[k]-problem.getBounds()[k][0])*(1-temp);
+						else
+							bScaled[k] = best[k] + (problem.getBounds()[k][1]-best[k])*(1-temp);
+					}
+					
+					// evaluate fitness
+					bScaled = toro(bScaled, bounds);
+					b = normalize(bScaled,bounds,xc);
+					fB = problem.f(bScaled);
+					i++;
+					
+					if (fB < fBest)
+					{
+						for (int n = 0; n < problemDimension; n++)
+						{
+							
+							winner[n] = b[n];
+							loser[n] = best[n];
+						}
+						//fBest = fB;
+						//FT.add(i, fBest);
+					}
+					else
+					{
+						for (int n = 0; n < problemDimension; n++)
+						{
+							winner[n] = best[n];
+							loser[n] = b[n];
+						}
+					}
+					
 				}
+				
+				generationIndex++;
+				
+				
+				
+				
+				
 			}
 			
-			if (!isPersistent)
-			{
-				if ((teta < eta) && (MatLab.isEqual(winner, best)))
-					teta++;
-				else
-				{
-					teta = 0;
-					for (int n = 0; n < problemDimension; n++)
-						winner[n] = b[n];
-					//fBest = fB;
-				}
-			}
+//			if (!isPersistent)
+//			{
+//				if ((teta < eta) && (MatLab.isEqual(winner, best)))
+//					teta++;
+//				else
+//				{
+//					teta = 0;
+//					for (int n = 0; n < problemDimension; n++)
+//						winner[n] = b[n];
+//					//fBest = fB;
+//				}
+//			}
 			
 			
 			
@@ -236,7 +278,8 @@ public class nucDElight extends Algorithm
 				fOld = fB;
 			}
 			
-			 tk = alphaTemp*tk;
+			if(generationIndex%Lk==0)
+				tk = alphaTemp*tk;
 
 			// best and mean/sigma2 update
 			mean = updateMean(winner, loser, mean, virtualPopulationSize);
@@ -244,28 +287,10 @@ public class nucDElight extends Algorithm
 		
 		}
 		
-		//System.out.println(i);
-		
-		if (isPersistent)
-			// log best fitness (persistent elitism)
-			FT.add(i, fBest);
-		else
-		{
-			// log best fitness (non persistent elitism)
-			double lastFBest = FT.getF(FT.size()-1); 
-			if (fBest < lastFBest)
-				FT.add(i, fBest);
-			else
-				FT.add(i, fBest);
-		}
-		
-	
-	
+
 		finalBest = scale(best, bounds, xc);
-		
 		FT.add(i, fBest);
 		return FT;
-
 	}
 	
 
