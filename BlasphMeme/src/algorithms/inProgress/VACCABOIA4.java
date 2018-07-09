@@ -29,19 +29,17 @@ either expressed or implied, of the FreeBSD Project.
 */package algorithms.inProgress;
 
 
-import algorithms.compact.cDE_exp_light;
-import algorithms.singleSolution.NonUniformSA;
-
+import algorithms.inProgress.nucDElight;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.MatLab.min;
 import utils.RunAndStore.FTrend;
-import utils.random.RandUtils;
+
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class VACCABOIA2 extends Algorithm
+public class VACCABOIA4 extends Algorithm
 {	
 	boolean verbose = false;
 
@@ -78,19 +76,13 @@ public class VACCABOIA2 extends Algorithm
 	
 		double globalCR = getParameter("p0").doubleValue(); //0.95
 
-		cDE_exp_light cde = new cDE_exp_light();
+		nucDElight cde = new nucDElight();
 		cde.setParameter("p0", 300.0);
 		cde.setParameter("p1", 0.25);
 		cde.setParameter("p2", 0.5);
-		cde.setParameter("p3", 3.0);
-		cde.setParameter("p4", 1.0);
+		cde.setParameter("p3", 10.0);
+		cde.setParameter("p4", 0.9);
 		cde.setParameter("p5", 1.0);	
-		
-		NonUniformSA nusa = new NonUniformSA();
-		nusa.setParameter("p0",5.0);
-		nusa.setParameter("p1", 0.9);
-		nusa.setParameter("p2", 3.0);
-		nusa.setParameter("p3", 10.0);
 		
 		
 		double maxB = getParameter("p1").doubleValue();//0.2
@@ -109,7 +101,6 @@ public class VACCABOIA2 extends Algorithm
 			xTemp = crossOverExp(best, xTemp, globalCR);
 			fTemp = problem.f(xTemp);
 			i++;
-			
 			if(fTemp<fBest)
 			{
 				fBest = fTemp;
@@ -118,37 +109,18 @@ public class VACCABOIA2 extends Algorithm
 				FT.add(i, fBest);
 			}
 			
-				if(RandUtils.random() > 0.5)
-				{
-					if (verbose) System.out.println("C start point: "+fBest);
-					cde.setInitialSolution(xTemp);
-					cde.setInitialFitness(fTemp);
-//					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					ft = cde.execute(problem, budget);
-					xTemp = cde.getFinalBest();
-					fTemp = ft.getLastF();
-					if (verbose) System.out.println("C final point: "+fBest);
-					FT.merge(ft, i);
-					i+=budget;
-					if (verbose) System.out.println("C appended point: "+FT.getLastF());
-				}
-				else
-				{
-					if (verbose) System.out.println("C start point: "+fBest);
-					nusa.setInitialSolution(xTemp);
-					nusa.setInitialFitness(fTemp);
-//					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					ft = nusa.execute(problem, budget);
-					xTemp = nusa.getFinalBest();
-					fTemp = ft.getLastF();
-					if (verbose) System.out.println("C final point: "+fBest);
-					FT.merge(ft, i);
-					i+=budget;
-					if (verbose) System.out.println("C appended point: "+FT.getLastF());
-				}
-				
+				if (verbose) System.out.println("C start point: "+fBest);
+				cde.setInitialSolution(xTemp);
+				cde.setInitialFitness(fTemp);
+//				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
+				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
+				ft = cde.execute(problem, budget);
+				xTemp = cde.getFinalBest();
+				fTemp = ft.getLastF();
+				if (verbose) System.out.println("C final point: "+fBest);
+				FT.merge(ft, i);
+				i+=budget;
+				if (verbose) System.out.println("C appended point: "+FT.getLastF());
 				if(fTemp<fBest)
 				{
 					fBest = fTemp;
@@ -160,7 +132,9 @@ public class VACCABOIA2 extends Algorithm
 		
 		FT.add(i,fBest);
 		finalBest = best;
-		return FT;	
+		return FT;
+			
+			
 	}
 }
 			

@@ -48,7 +48,9 @@ public class TabGen
 			//workingDir ="/home/facaraff/Desktop/LIBIBBO/UNROT";
 //			workingDir ="/home/facaraff/Desktop/RisTORO/tottrend";
 //			workingDir ="C:\\Users\\\\Badddobaby\\Desktop\\compatti";
-			workingDir ="/home/orzobimbo/Desktop/COMPACTORI";
+//			workingDir ="/home/orzobimbo/Desktop/COMPACTORI";
+			workingDir ="/home/orzobimbo/Desktop/ricdelight";
+			//workingDir ="/home/orzobimbo/Desktop/VACCHEBOIE";
 //			workingDir ="C:\\Users\\fcaraf00\\Desktop\\TABELLONISSIME\\UNROT";
 			//workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
@@ -60,7 +62,7 @@ public class TabGen
 		Experiment experiment = new Experiment();
 		experiment.setDirectory(workingDir);
 		//experiment.setTrendsFlag(true, false);
-//		experiment.setTrendsFlag(true, true);
+		experiment.setTrendsFlag(true, true);
 		//experiment.setTrendsFlag(true);
 		experiment.importData();
 		experiment.describeExperiment();

@@ -30,9 +30,10 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.inProgress.VACCABOIA;
-import algorithms.inProgress.VACCABOIA2;
-import algorithms.inProgress.VACCABOIA3;
+import algorithms.inProgress.VACCABOIA4;
+//import algorithms.inProgress.VACCABOIA;
+//import algorithms.inProgress.VACCABOIA2;
+//import algorithms.inProgress.VACCABOIA3;
 //import algorithms.compact.cDE_exp_light;
 //import algorithms.compact.memeticCDE;
 //import algorithms.inProgress.CMO;
@@ -137,19 +138,24 @@ public class CEC14 extends Experiment
 //		a.setParameter("p5", 1.0);
 //		add(a);	
 	
-		a = new VACCABOIA3();
-		a.setParameter("p0", 0.95);
-		a.setParameter("p1", 0.25);
-		add(a);	
-		
-		
-		
-		a = new VACCABOIA2();
-		a.setParameter("p0", 0.95);
-		a.setParameter("p1", 0.25);
-		add(a);	
-		
-		a = new VACCABOIA();
+//		a = new VACCABOIA3();
+//		a.setParameter("p0", 0.95);
+//		a.setParameter("p1", 0.25);
+//		add(a);	
+//		
+//		
+//		
+//		a = new VACCABOIA2();
+//		a.setParameter("p0", 0.95);
+//		a.setParameter("p1", 0.25);
+//		add(a);	
+//		
+//		a = new VACCABOIA();
+//		a.setParameter("p0", 0.95);
+//		a.setParameter("p1", 0.25);
+//		add(a);	
+//		
+		a = new VACCABOIA4();
 		a.setParameter("p0", 0.95);
 		a.setParameter("p1", 0.25);
 		add(a);	
