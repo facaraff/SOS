@@ -29,7 +29,7 @@ either expressed or implied, of the FreeBSD Project.
 */package algorithms.inProgress;
 
 
-import algorithms.compact.cDE_exp_light;
+import algorithms.compact.cPSO;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
@@ -39,7 +39,7 @@ import utils.RunAndStore.FTrend;
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class VACCABOIA extends Algorithm
+public class RIcPSO extends Algorithm
 {	
 	boolean verbose = false;
 
@@ -76,13 +76,13 @@ public class VACCABOIA extends Algorithm
 	
 		double globalCR = getParameter("p0").doubleValue(); //0.95
 
-		cDE_exp_light cde = new cDE_exp_light();
-		cde.setParameter("p0", 300.0);
-		cde.setParameter("p1", 0.25);
-		cde.setParameter("p2", 0.5);
-		cde.setParameter("p3", 3.0);
-		cde.setParameter("p4", 1.0);
-		cde.setParameter("p5", 1.0);	
+		cPSO a = new cPSO();
+		a.setParameter("p0", 50.0);
+		a.setParameter("p1", -0.2);
+		a.setParameter("p2", -0.07);
+		a.setParameter("p3", 3.74);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);	
 		
 		
 		double maxB = getParameter("p1").doubleValue();//0.2
@@ -110,12 +110,12 @@ public class VACCABOIA extends Algorithm
 			}
 			
 				if (verbose) System.out.println("C start point: "+fBest);
-				cde.setInitialSolution(xTemp);
-				cde.setInitialFitness(fTemp);
+				a.setInitialSolution(xTemp);
+				a.setInitialFitness(fTemp);
 //				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
 				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-				ft = cde.execute(problem, budget);
-				xTemp = cde.getFinalBest();
+				ft = a.execute(problem, budget);
+				xTemp = a.getFinalBest();
 				fTemp = ft.getLastF();
 				if (verbose) System.out.println("C final point: "+fBest);
 				FT.merge(ft, i);

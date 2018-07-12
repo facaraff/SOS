@@ -30,7 +30,10 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.inProgress.VACCABOIA4;
+import algorithms.inProgress.RIcGA;
+import algorithms.inProgress.RIcBFO;
+import algorithms.inProgress.RIcPSO;
+//import algorithms.inProgress.VACCABOIA4;
 //import algorithms.inProgress.VACCABOIA;
 //import algorithms.inProgress.VACCABOIA2;
 //import algorithms.inProgress.VACCABOIA3;
@@ -155,11 +158,25 @@ public class CEC14 extends Experiment
 //		a.setParameter("p1", 0.25);
 //		add(a);	
 //		
-		a = new VACCABOIA4();
+//		a = new VACCABOIA4();
+//		a.setParameter("p0", 0.95);
+//		a.setParameter("p1", 0.25);
+//		add(a);	
+		
+		a = new RIcGA();
 		a.setParameter("p0", 0.95);
 		a.setParameter("p1", 0.25);
 		add(a);	
 		
+		a = new RIcBFO();
+		a.setParameter("p0", 0.95);
+		a.setParameter("p1", 0.25);
+		add(a);	
+		
+		a = new RIcPSO();
+		a.setParameter("p0", 0.95);
+		a.setParameter("p1", 0.25);
+		add(a);	
 		
 //		a = new cDE_exp_light();
 //		a.setParameter("p0", 300.0);
