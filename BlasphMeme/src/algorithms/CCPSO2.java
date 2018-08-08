@@ -49,7 +49,7 @@ public class CCPSO2 extends Algorithm
 		double[][] bounds = problem.getBounds();
 		
 		int[] s = {2, 5, 10, 50, 100, 250}; int[] s1 = {2, 5, 10}; int[] s2 = {2, 5, 10, 50, 100}; int[] s3 = {2, 3}; int[] s4 = {2, 3, 6, 8, 12};
-		if(problemDimension == 30)
+		if(problemDimension == 30 || problemDimension == 10)
 		{
 			s = s1; s2 = null;	
 		}
