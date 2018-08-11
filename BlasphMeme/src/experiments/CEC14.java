@@ -30,9 +30,9 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.inProgress.RIcGA;
-import algorithms.inProgress.RIcBFO;
-import algorithms.inProgress.RIcPSO;
+import algorithms.compact.RIcGA;
+import algorithms.compact.RIcBFO;
+import algorithms.compact.RIcPSO;
 //import algorithms.inProgress.VACCABOIA4;
 //import algorithms.inProgress.VACCABOIA;
 //import algorithms.inProgress.VACCABOIA2;

@@ -26,10 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
-*/package algorithms.inProgress;
+*/package algorithms.compact;
 
-
-import algorithms.compact.cGA_real;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
@@ -39,7 +37,7 @@ import utils.RunAndStore.FTrend;
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class RIcGA extends Algorithm
+public class RIcDE_light extends Algorithm
 {	
 	boolean verbose = false;
 
@@ -76,10 +74,14 @@ public class RIcGA extends Algorithm
 	
 		double globalCR = getParameter("p0").doubleValue(); //0.95
 
-		cGA_real a = new cGA_real();
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
-		a.setParameter("p2", 1.0);
+		cDE_exp_light cde = new cDE_exp_light();
+		cde.setParameter("p0", 300.0);
+		cde.setParameter("p1", 0.25);
+		cde.setParameter("p2", 0.5);
+		cde.setParameter("p3", 3.0);
+		cde.setParameter("p4", 1.0);
+		cde.setParameter("p5", 1.0);	
+		
 		
 		double maxB = getParameter("p1").doubleValue();//0.2
 //		int maxB = getParameter("p1").intValue();//
@@ -106,12 +108,12 @@ public class RIcGA extends Algorithm
 			}
 			
 				if (verbose) System.out.println("C start point: "+fBest);
-				a.setInitialSolution(xTemp);
-				a.setInitialFitness(fTemp);
+				cde.setInitialSolution(xTemp);
+				cde.setInitialFitness(fTemp);
 //				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
 				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-				ft = a.execute(problem, budget);
-				xTemp = a.getFinalBest();
+				ft = cde.execute(problem, budget);
+				xTemp = cde.getFinalBest();
 				fTemp = ft.getLastF();
 				if (verbose) System.out.println("C final point: "+fBest);
 				FT.merge(ft, i);
