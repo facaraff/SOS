@@ -26,10 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
-*/package algorithms.inProgress;
+*/package algorithms.compact;
 
-
-import algorithms.compact.cBFO;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
@@ -39,7 +37,7 @@ import utils.RunAndStore.FTrend;
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class RIcBFO extends Algorithm
+public class RIcPSO extends Algorithm
 {	
 	boolean verbose = false;
 
@@ -76,14 +74,14 @@ public class RIcBFO extends Algorithm
 	
 		double globalCR = getParameter("p0").doubleValue(); //0.95
 
-		cBFO a = new cBFO();
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.1);
-		a.setParameter("p2", 4.0);
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 10.0);
-		a.setParameter("p5", 2.0);
-		a.setParameter("p6", 2.0);
+		cPSO a = new cPSO();
+		a.setParameter("p0", 50.0);
+		a.setParameter("p1", -0.2);
+		a.setParameter("p2", -0.07);
+		a.setParameter("p3", 3.74);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);	
+		
 		
 		double maxB = getParameter("p1").doubleValue();//0.2
 //		int maxB = getParameter("p1").intValue();//
