@@ -50,7 +50,7 @@ public class TabGen
 //			workingDir ="C:\\Users\\\\Badddobaby\\Desktop\\compatti";
 //			workingDir ="/home/orzobimbo/Desktop/COMPACTORI";
 			//workingDir ="/home/orzobimbo/Desktop/RICOMPACT";
-			workingDir ="/home/facaraff/Desktop/MINONOTAURO";
+			workingDir ="/home/facaraff/Desktop/LARGE";
 			//workingDir ="/home/orzobimbo/Desktop/VACCHEBOIE";
 //			workingDir ="C:\\Users\\fcaraf00\\Desktop\\TABELLONISSIME\\UNROT";
 			//workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
@@ -63,7 +63,7 @@ public class TabGen
 		Experiment experiment = new Experiment();
 		experiment.setDirectory(workingDir);
 		//experiment.setTrendsFlag(true, false);
-		experiment.setTrendsFlag(true, true);
+		//experiment.setTrendsFlag(true, true);
 		//experiment.setTrendsFlag(true);
 		experiment.importData();
 		experiment.describeExperiment();

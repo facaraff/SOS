@@ -65,11 +65,11 @@ public class RunExperiments
 			
 		//@@@ MODIFY THIS PART @@@		
 		
-		 experiments.add(new CEC14(10));
-		 experiments.add(new CEC14(50));
-		 experiments.add(new CEC14(100));
+//		 experiments.add(new CEC14(10));
+//		 experiments.add(new CEC14(50));
+//		 experiments.add(new CEC14(100));
 		 
-//		experiments.add(new large());
+		experiments.add(new large());
 		
 		//@@@@@@
 	
