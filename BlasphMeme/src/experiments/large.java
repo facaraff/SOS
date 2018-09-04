@@ -43,6 +43,7 @@ public class large extends Experiment
 	public large() throws Exception
 	{
 		//super(probDim,"cec2015allDim");
+//		super(1000,5000,"CEC2013_LSGO_RICOMPACT");
 		super(1000,5000,"CEC2013_LSGO_RICOMPACT");
 		setNrRuns(30);
 
