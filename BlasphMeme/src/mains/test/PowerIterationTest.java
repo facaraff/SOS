@@ -33,6 +33,9 @@ import utils.powerIteration.Matrix;
 		//Call to solve method
 		EigenValueVector result = method.solve(m, initialEigenVector, error);
 		method.printCommandLine(result);
+		
+		result = method.solve(m, initialEigenVector, 10);
+		method.printCommandLine(result);
 	}
 
 }
