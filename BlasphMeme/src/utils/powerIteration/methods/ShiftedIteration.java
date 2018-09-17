@@ -23,6 +23,23 @@ public class ShiftedIteration implements PowerIteration {
 		eigenValueVector.eigenValue += estimatedValue;
 		return eigenValueVector;
 	}
+	
+	@Override
+	public EigenValueVector solve(Matrix matrix, double[] initialEigenVector, int iterations) {
+		/**
+		 * Shifted Iteration Algorithm:
+		 * 1) A' = A - u * I
+		 * 2) Calculates li and Yi using the inverse iteration in A
+		 * I is a identity matrix. u is a estimated value for the eigenvalue.
+		 */
+		Matrix identityMatrix = Matrix.identity(matrix.getRowDimension(), matrix.getColumnDimension());
+		Matrix changedIdentityMatrix = identityMatrix.times(estimatedValue);
+		Matrix displacementMatrix = matrix.minus(changedIdentityMatrix);
+		PowerIteration inverse = new InverseIteration();
+		EigenValueVector eigenValueVector = inverse.solve(displacementMatrix, initialEigenVector, iterations);
+		eigenValueVector.eigenValue += estimatedValue;
+		return eigenValueVector;
+	}
 
 	@Override
 	public void printCommandLine(EigenValueVector ev) {

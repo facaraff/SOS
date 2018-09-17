@@ -4,8 +4,7 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 import benchmarks.CEC2014RotInvStudy;
 import algorithms.RIDE;
-import algorithms.EigenRIDE;
-//import algorithms.MMCDE;
+import algorithms.inProgress.EigenRIDE;
 
 
 

@@ -5,7 +5,7 @@ import interfaces.Algorithm;
 import benchmarks.CEC2014RotInvStudy;
 import algorithms.DE;
 import algorithms.EigenDE;
-import algorithms.EigenDE2;
+import algorithms.inProgress.EigenDE2;
 
 
 

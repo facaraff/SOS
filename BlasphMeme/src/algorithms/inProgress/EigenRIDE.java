@@ -26,17 +26,10 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package algorithms;
+package algorithms.inProgress;
 
 import  utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.toro;
-import utils.algorithms.Misc;
-
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.EigenDecomposition;
-
-import static utils.MatLab.multiply;
-import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -46,9 +39,13 @@ import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
 /**
- * Rotational Invariant Differential Evolution strategies by eigen-decomposition method 
+ * Rotation invariant Differential Evolution with Eigenvector decomposition to replace Gram-Shmidt process 
+ * 
+ * @url file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
+ * 
+ * @author facaraff fabio.caraffini@gmail.com
  */
-public class EigenDE2 extends Algorithm
+public class EigenRIDE extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -59,6 +56,7 @@ public class EigenDE2 extends Algorithm
 		int mutationStrategy = getParameter("p3").intValue();
 		int crossoverStrategy = getParameter("p4").intValue();
 		double alpha = getParameter("p5").doubleValue();
+
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
@@ -71,6 +69,8 @@ public class EigenDE2 extends Algorithm
 		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
+		
+		boolean both = false;
 		
 		int i = 0;
 		
@@ -92,27 +92,30 @@ public class EigenDE2 extends Algorithm
 			
 			i++;
 		}
+		
+		//orthonormal basis
+		double[][] b=null;
 
 		// temp variables
-		double[][] Pt = null;//
-		double[][] rotPop = Misc.clone(population);
 		double[] currPt = new double[problemDimension];
 		double[] newPt = new double[problemDimension];
 		double[] crossPt = new double[problemDimension];
 		double currFit = Double.NaN;
 		double crossFit = Double.NaN;
+		
+		
 
 		// iterate
 		while (i < maxEvaluations)
 		{
 		
-			double[][] newPop = new double[populationSize][problemDimension];
-			Pt = changeCoorditate(rotPop);
-		
+			b = DEOp.getEigenBasis(population);
+			
+
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
 				for (int n = 0; n < problemDimension; n++)
-					currPt[n] = rotPop[j][n];
+					currPt[n] = population[j][n];
 				currFit = fitnesses[j];
 				
 				// mutation
@@ -120,36 +123,70 @@ public class EigenDE2 extends Algorithm
 				{
 					case 1:
 						// DE/rand/1
-						newPt = DEOp.rand1(rotPop, F);
+						newPt = DEOp.rand1(population, F);
 						break;
 					case 2:
 						// DE/cur-to-best/1
-						newPt = DEOp.currentToBest1(rotPop, best, j, F);
+						newPt = DEOp.currentToBest1(population, best, j, F);
 						break;
 					case 3:
 						// DE/rand/2
-						newPt = DEOp.rand2(rotPop, F);
+						newPt = DEOp.rand2(population, F);
 						break;
 					case 4:
+						// DE/current-to-rand/1
+						crossPt = DEOp.currentToRand1(population, j, F);
+						break;
+					case 5:
 						// DE/rand-to-best/2
-						newPt = DEOp.randToBest2(rotPop, best, F);
+						newPt = DEOp.randToBest2(population, best, F);
 						break;
 					default:
 						break;
 				}
-						
+		
 				// crossover
 				if (mutationStrategy != 4)
 				{
-					if (crossoverStrategy == 1)
-						crossPt = DEOp.crossOverBin(currPt, newPt, CR);
-					else if (crossoverStrategy == 2)
-						crossPt = DEOp.crossOverExp(currPt, newPt, CR);
-					else if (crossoverStrategy == 0)
-						crossPt = newPt;
-				}			
+					switch (crossoverStrategy)
+					{
+						case 1:
+							// Binomial xo
+							crossPt = DEOp.crossOverBin(currPt, newPt, CR);
+							break;
+						case 2:
+							// Exponential xo
+							crossPt = DEOp.crossOverExp(currPt, newPt, CR);
+							break;
+						case 3:
+							// DE/rand/2
+							crossPt = DEOp.rand2(population, F);
+							break;
+						case 4:
+							// Rotation invariant binomial xo
+							crossPt = DEOp.ribc(currPt, newPt, CR,b);
+							break;
+						case 5:
+							// Rotation invariant exponential xo
+							crossPt = DEOp.riec(currPt, newPt, CR,b);
+							break;
+						case 6:
+							// Binomial + Rotation invariant binomial xo (as in RIDE article)
+							crossPt = DEOp.crossOverBin(currPt, newPt, CR);
+							both = true;
+							break;
+						case 7:
+							// Exponential + Rotation invariant exponential xo (as in RIDE article)
+							crossPt = DEOp.crossOverExp(currPt, newPt, CR);
+							both = true;
+							break;
+						default:
+							break;
+					}
+						
+				}
 				
-				crossPt = toro(restoreSystem(Pt,crossPt), bounds);
+				crossPt = toro(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 
@@ -158,7 +195,7 @@ public class EigenDE2 extends Algorithm
 				if (crossFit < currFit)
 				{
 					for (int n = 0; n < problemDimension; n++)
-						newPop[j][n] = crossPt[n];
+						population[j][n] = crossPt[n];
 					fitnesses[j] = crossFit;
 					
 					// best update
@@ -173,34 +210,46 @@ public class EigenDE2 extends Algorithm
 				}
 				else
 				{
-					for (int n = 0; n < problemDimension; n++)
-						newPop[j][n] = population[j][n];
-					fitnesses[j] = currFit;
+					if(both)
+					{
+						if(crossoverStrategy==6)
+							crossPt = DEOp.ribc(currPt, newPt, CR,b);	
+						else if(crossoverStrategy==7)
+							crossPt = DEOp.riec(currPt, newPt, CR,b);		
+						// replacement
+						if (crossFit < currFit)
+						{
+							for (int n = 0; n < problemDimension; n++)
+								population[j][n] = crossPt[n];
+							fitnesses[j] = crossFit;
+							
+							// best update
+							if (crossFit < fBest)
+							{
+								fBest = crossFit;
+								for (int n = 0; n < problemDimension; n++)
+									best[n] = crossPt[n];
+								//if(i==problemDimension)	
+								FT.add(i, fBest);
+							}
+						}
+					}
+					
+//					for (int n = 0; n < problemDimension; n++)
+//						population[j][n] = currPt[n];
+//					fitnesses[j] = currFit;
 				}
 				crossPt = null; newPt = null;
 			}
 			
-			population = newPop;
-			newPop = null;
 		}
 		
 		finalBest = best;
 		
 		FT.add(i, fBest);
-		return FT;		
+		return FT;
+		
+		
 	}
-	
-	private double[][] changeCoorditate(double[][] pop)
-	{
-		EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov(pop)));
-		double[][] P = E.getV().getData();
-		for(int i=0; i<pop.length; i++)
-			pop[i]= multiply(P,pop[i]);
-		return  E.getVT().getData();
-	}
-	
-	private double[] restoreSystem(double [][] Pt, double[] x)
-	{
-		return multiply(Pt,x);
-	}
+
 }

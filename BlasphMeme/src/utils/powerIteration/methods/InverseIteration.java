@@ -74,6 +74,62 @@ public class InverseIteration implements PowerIteration {
 		return eigenValueVector;
 	}
 
+	
+	@Override
+	public EigenValueVector solve(Matrix matrix, double[] initialEigenVector, int iterations) 
+	{
+		double newEigenValue = 0;
+
+		// Step 1:
+		Matrix matrizVetorInicial = Matrix.vectorToMatrix(initialEigenVector);
+		Matrix evectorX = Matrix.normalize(matrizVetorInicial);
+		//Prepare the matrices L and U to be used in 2th step
+		LUDecomposition luMatrix = Matrix.getLU(matrix);
+		Matrix lowerMatrix = luMatrix.getL();
+		Matrix upperMatrix = luMatrix.getU();
+
+		// Step 2:
+		/*
+		 * M*yi = xi-1 => L*U*yi = xi-1 a) Doing U*yi = Z, solving firstly
+		 * L*Z = xi-1 b) with  Z vector, we can solve U*yi = Z
+		 */
+		Matrix vectorZ = Matrix.solveSubstitution(lowerMatrix, evectorX);
+		Matrix vectorY = Matrix.solveRetrosubstitution(upperMatrix, vectorZ);
+		for(int i=0; i<iterations; i++)
+		{
+			// Step 3:
+			evectorX = Matrix.normalize(vectorY);
+
+			// Calcule yi+1:
+			/*
+			 * M*yi = xi-1 => L*U*yi = xi-1 a) if we do U*yi = Z,
+			 * we can solve firstly L*Z = xi-1 
+			 * With the Z Vector, we can conclude that U*yi = Z
+			 * 
+			 */
+			vectorZ = Matrix.solveSubstitution(lowerMatrix, evectorX);
+			vectorY = Matrix.solveRetrosubstitution(upperMatrix, vectorZ);
+
+			// Step 4:
+			// li = (T(Xi) * M^(-1) * Xi) / (T(Xi) * Xi => li = (T(Xi) * yi+1) /
+			// (T(Xi) * Xi)
+			Matrix transposeMatrixEigenVector = evectorX.transpose();
+			double evalueNumerator = transposeMatrixEigenVector.times(vectorY).get(
+					0, 0);
+			double avalorDenominador = transposeMatrixEigenVector.times(evectorX)
+					.get(0, 0);
+			newEigenValue = evalueNumerator / avalorDenominador;
+			i++;
+		} 
+
+		EigenValueVector eigenValueVector = new EigenValueVector();
+		eigenValueVector.eigenValue = 1.0 / newEigenValue;
+		eigenValueVector.eigenVector = Matrix.matrixToVector(evectorX);
+		return eigenValueVector;
+	}
+	
+	
+	
 	@Override
 	public void printCommandLine(EigenValueVector ev) {
 		System.out.println("Inverse Iteration find the smallest EigenValue.");

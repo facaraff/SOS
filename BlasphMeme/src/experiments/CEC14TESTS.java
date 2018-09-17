@@ -32,6 +32,7 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 import benchmarks.CEC2014;
 import algorithms.*;
+import algorithms.inProgress.EigenRIDE;
 
 public class CEC14TESTS extends Experiment
 {
