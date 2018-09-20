@@ -52,15 +52,15 @@ public class large extends Experiment
 	    //Problem p;// ///< A generic problem.
 		
 		
-		a = new RIcDE();
-		a.setParameter("p0", 0.95);
-		a.setParameter("p1", 0.25);
-		add(a);
-		
-//		a = new RIcDE_light();
+//		a = new RIcDE();
 //		a.setParameter("p0", 0.95);
 //		a.setParameter("p1", 0.25);
 //		add(a);
+		
+		a = new RIcDE_light();
+		a.setParameter("p0", 0.95);
+		a.setParameter("p1", 0.25);
+		add(a);
 //		
 //		a = new RIcGA();
 //		a.setParameter("p0", 0.95);
@@ -135,7 +135,7 @@ public class large extends Experiment
 //		   a.setParameter("p4", 1.5);
 //		   add(a);
 	
-		for(int i = 2; i<=15; i++)
+		for(int i = 1; i<=15; i++)
 			add(new CEC2013_LSGO(i));
 
 		
