@@ -32,7 +32,8 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 import algorithms.paperReviews.HyperSPAMnoR;
 import algorithms.paperReviews.HyperSPAMnoSnoR;
-import benchmarks.CEC2013;
+import benchmarks.BBOB2010;
+//import benchmarks.CEC2013;
 import algorithms.paperReviews.HyperSPAMnoS;
 
 
@@ -41,9 +42,9 @@ import algorithms.paperReviews.HyperSPAMnoS;
 
 public class HyperSPAM extends Experiment
 {
-	public HyperSPAM(int probDim)
+	public HyperSPAM(int probDim) throws Exception
 	{
-		super("TESTCEC2011");
+		super("HYPER");
 		setNrRuns(30);	
 		
 		Algorithm a;// ///< A generic optimiser.
@@ -60,10 +61,11 @@ public class HyperSPAM extends Experiment
 			
 		
 	    
-		for(int i = 1; i<=28; i++)
-			add(new CEC2013(i,probDim));	
+//		for(int i = 1; i<=28; i++)
+//			add(new CEC2013(i,probDim));	
 
-		
+		for(int i = 1; i<=24; i++)
+			add(new BBOB2010(probDim, i));	
 
 	}
 }
