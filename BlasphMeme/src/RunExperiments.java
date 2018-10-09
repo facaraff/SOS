@@ -38,7 +38,8 @@ import java.util.Vector;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
-import experiments.*;
+//import experiments.*;
+import experiments.paperReviews.*;
 //import experiments.rotInvStudy.*;
 //import experiments.BenchmarksTesting.*;
 
@@ -69,11 +70,17 @@ public class RunExperiments
 //		 experiments.add(new CEC14(50));
 //		 experiments.add(new CEC14(100));
 		 
-		experiments.add(new RIBudgetStudy(10));
-		experiments.add(new RIBudgetStudy(50));
-		experiments.add(new RIBudgetStudy(100));
-		experiments.add(new RIBudgetStudy(500));
-		experiments.add(new RIBudgetStudy(1000));
+//		experiments.add(new RIBudgetStudy(10));
+//		experiments.add(new RIBudgetStudy(50));
+//		experiments.add(new RIBudgetStudy(100));
+//		experiments.add(new RIBudgetStudy(500));
+//		experiments.add(new RIBudgetStudy(1000));
+		
+		experiments.add(new HyperSPAM(10));
+		
+		experiments.add(new HyperSPAM(30));
+		
+		experiments.add(new HyperSPAM(50));
 		
 		//@@@@@@
 	
