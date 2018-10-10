@@ -248,9 +248,18 @@ public abstract class Experiment
 	*/
 	public void shortDescription()
 	{
-		System.out.println("This experiment contains "+getNrAlgorithms()+" optimisers and "+getNrProblems()+" problems with dimension value "+getProblemDimension());
-		System.out.println("(Runs,"+getNrRuns()+" for each optimisation process, are spread over "+nrProc+" available processors)");
-		System.out.println();
+		if(MT)
+			{
+			System.out.println("This experiment contains "+getNrAlgorithms()+" optimisers and "+getNrProblems()+" problems with dimension value "+getProblemDimension());
+			System.out.println("(Runs,"+getNrRuns()+" for each optimisation process, are spread over "+nrProc+" available processors)");
+			System.out.println();
+			}
+		else
+			{
+			System.out.println("This experiment contains "+getNrAlgorithms()+" optimisers and "+getNrProblems()+" problems with dimension value "+getProblemDimension());
+			System.out.println("("+getNrRuns()+" runs are performed for each optimisation process)");
+			System.out.println();
+			}
 	}
 	/**
 	 * Display on screen the first row of the results table.
