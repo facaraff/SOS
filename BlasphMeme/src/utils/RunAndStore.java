@@ -68,7 +68,7 @@ public class RunAndStore
 	
 	
 	/**
-	 * This class contains the mothods for running experiments.
+	 * This class contains the methods for running MULTITHREAD experiments.
 	*/	
 	public static class AlgorithmRepetitionThread implements Callable<AlgorithmResult>
 	{
@@ -181,6 +181,9 @@ public class RunAndStore
 		return FT.getF(n-1);
 		}		
 	}
+	
+
+
 	
 	//----------------------------------//
 	/**

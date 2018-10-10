@@ -46,9 +46,13 @@ import java.util.concurrent.ExecutorCompletionService; ///< High-performance thr
 import java.util.concurrent.ExecutorService; ///< High-performance threading utility.
 import java.util.concurrent.Executors; ///< High-performance threading utility.
 import java.util.concurrent.Future; ///< High-performance threading utility.
+
+import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
+
 import interfaces.Algorithm; ///< A generic optimisers .
 import interfaces.Problem; ///< A generic problem.
 import interfaces.Experiment;
+import utils.MatLab;
 import utils.RunAndStore; ///< Utilities for runnig algorithms and storing results.
 import utils.RunAndStore.AlgorithmRepetitionThread; ///< Execure a single run in a thread.
 import utils.RunAndStore.AlgorithmResult; ///< Utilities .
@@ -304,10 +308,11 @@ public abstract class Experiment
 		}
 	}
 	/**
-	 * This method runs an experiment.
+	 * This method runs experiments. These can be multi-thread or single-thread be carefully not to mix them if possible.
+	 * E.G. It is suggested to optimise all BBOB2010 problems in single-thread mode.
 	 * 
 	*/
-	public void startExperiment() throws Exception
+	public void startExperiment(boolean MT) throws Exception
 	{
 		
 		setUniqueIDs();
@@ -315,6 +320,20 @@ public abstract class Experiment
 		tableHeader();
 		createExperimentFolders();
 		
+		if(MT) 
+			startMTExperiment();
+		else
+			startSTExperiment();
+		
+	}
+	
+	
+	/**
+	 * These methods start Multi-Thread experiments. 
+	 */
+	
+	public void startMTExperiment() throws Exception
+	{
 		double[][] finalValues;
 		
 		ExecutorService threadPool = Executors.newFixedThreadPool(nrProc);
@@ -356,8 +375,74 @@ public abstract class Experiment
 		System.out.println();
 	}
 	
+	public void startExperiment() throws Exception {startExperiment(true);} 
+	
+	
+	
 	/**
-	 * This method runs an experiment without printing on screen partial results on the fly .
+	 * These methods start Multi-Thread experiments. 
+	 */
+	
+	public void startSTExperiment()  throws Exception
+	{
+		
+		
+
+		int algorithmIndex = 0;
+
+			double[][] finalValues;
+			AlgorithmRepetitionThread a;
+			MannWhitneyUTest mannWhitneyUTest = new MannWhitneyUTest();
+
+			int problemIndex = 0;
+			for (Problem problem: problems)
+			{	
+				System.out.print("f" + (problemIndex+1) + "\t");
+
+				finalValues = new double[algorithms.size()][nrRuns];
+				algorithmIndex = 0;
+				for (Algorithm algorithm : algorithms)
+				{
+					for (int i = 0; i < nrRuns; i++)
+					{
+						a = new AlgorithmRepetitionThread(algorithm, problem, i, budgetFactor, saveRowData, expFolder);
+						finalValues[algorithmIndex][i] = a.runAlgorithmRepetition(algorithm, problem,  i);
+					}
+
+
+					String mean = RunAndStore.format(MatLab.mean(finalValues[algorithmIndex]));
+					String std = RunAndStore.format(MatLab.std(finalValues[algorithmIndex]));
+					System.out.print(mean + " \u00b1 " + std + "\t");
+					if (algorithmIndex > 0)
+					{			
+						double pValue = mannWhitneyUTest.mannWhitneyUTest(finalValues[0], finalValues[algorithmIndex]);
+						char w = '=';
+						if (pValue < 0.05)
+						{
+							if (MatLab.mean(finalValues[0]) < MatLab.mean(finalValues[algorithmIndex]))
+								w = '+';
+							else
+								w = '-';
+						}
+						System.out.print(w + "\t");
+			
+						if (showPValue) 
+							System.out.print(RunAndStore.format(pValue) + "\t");
+				}
+				algorithmIndex++;
+			}
+
+				System.out.println();
+				problemIndex++;
+			}
+	}
+		
+
+	
+	
+	
+	/**
+	 * This method runs an MT experiment without printing on screen partial results on the fly .
 	 * 
 	*/
 	public void startBlindExperiment() throws Exception
@@ -401,6 +486,8 @@ public abstract class Experiment
 	}
 	
 }
+
+
 
 
 

@@ -89,7 +89,7 @@ public class RunExperiments
 		for(Experiment experiment : experiments)
 		{
 			//experiment.setShowPValue(true);
-			experiment.startExperiment();
+			experiment.startExperiment(false);
 			System.out.println();
 			experiment = null;
 		}
