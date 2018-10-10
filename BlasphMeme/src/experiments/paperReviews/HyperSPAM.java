@@ -45,7 +45,8 @@ public class HyperSPAM extends Experiment
 	public HyperSPAM(int probDim) throws Exception
 	{
 		super("HYPER");
-		setNrRuns(30);	
+		setNrRuns(30);
+		setMT(false);
 		
 		Algorithm a;// ///< A generic optimiser.
 	    

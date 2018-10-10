@@ -75,7 +75,7 @@ public abstract class Experiment
 	private boolean showPValue = false; ///< If true, then p-value is displayed
 	//private boolean showPValue = false; se lo vuoi impostare fai un meto startExperiment sulla classe che eredita perche' tanto capita raramente.. 
 	private int nrProc = Runtime.getRuntime().availableProcessors();
-	
+	private boolean MT = true; //Multithread exoperiments
 	
 	//CONSTRUCTORS
 	/**
@@ -124,6 +124,12 @@ public abstract class Experiment
 	*/
 	public void showPValue(boolean showPValue){this.showPValue = showPValue;}
 	//GETTERS AND SETTERS
+	/**
+	 * This method sets the experiment execution mode: multi-thread or single-trhread.
+	 * 
+	 * @param MT multi-thread mode flag.
+	*/
+	public void setMT(boolean MT){this.MT = MT;}
 	/**
 	 * This method sets the number of runs for the whole experiment.
 	 * 
@@ -309,10 +315,10 @@ public abstract class Experiment
 	}
 	/**
 	 * This method runs experiments. These can be multi-thread or single-thread be carefully not to mix them if possible.
-	 * E.G. It is suggested to optimise all BBOB2010 problems in single-thread mode.
+	 * E.G. all BBOB2010 problems are run in single-thread mode unless differently specified with setMT().
 	 * 
 	*/
-	public void startExperiment(boolean MT) throws Exception
+	public void startExperiment() throws Exception
 	{
 		
 		setUniqueIDs();
@@ -329,10 +335,10 @@ public abstract class Experiment
 	
 	
 	/**
-	 * These methods start Multi-Thread experiments. 
+	 * These method starts a Multi-Thread experiments. 
 	 */
 	
-	public void startMTExperiment() throws Exception
+	protected void startMTExperiment() throws Exception
 	{
 		double[][] finalValues;
 		
@@ -375,15 +381,13 @@ public abstract class Experiment
 		System.out.println();
 	}
 	
-	public void startExperiment() throws Exception {startExperiment(true);} 
-	
 	
 	
 	/**
 	 * These methods start Multi-Thread experiments. 
 	 */
 	
-	public void startSTExperiment()  throws Exception
+	protected void startSTExperiment()  throws Exception
 	{
 		
 		

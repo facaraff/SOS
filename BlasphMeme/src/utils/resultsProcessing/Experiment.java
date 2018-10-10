@@ -50,7 +50,7 @@ public class Experiment
 	private int samples = 100; //fitness trend samples number
 	private boolean trendsFolderFlag = true;
 	private boolean FVDistrFolderFlag = true;
-	
+
 
 	//methods
 	public void setTrendsFlag(boolean trends, boolean error, boolean finalValues){this.trendsFlag = trends; this.errorTrendsFlag = error; this.FVDistributionFlag = finalValues;}
