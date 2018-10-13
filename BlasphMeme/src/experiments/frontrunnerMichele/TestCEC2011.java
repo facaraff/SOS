@@ -63,10 +63,10 @@ public class TestCEC2011 extends Experiment
 	    
 		p = new P1();
 		add(p);//add it to the list
-//		
+		
 //		p = new P7();
 //		add(p);//add it to the list
-		
+//		
 		p = new P2(30);
 		add(p);//add it to the list
 //		p = new P2(60);

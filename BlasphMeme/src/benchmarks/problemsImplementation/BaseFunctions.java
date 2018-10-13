@@ -301,6 +301,68 @@ public class BaseFunctions
 		}
 	}
 	
+	/**
+	 * Schwefel function.
+//	 * 
+//	 * References:
+//	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2530.htm" > Ref 1 </a>
+//	 * <a href="http://www.it.lut.fi/ip/evo/functions/node11.html" > Ref 2 </a>
+	 */
+	public static class Schwefel extends Problem
+	{
+		/**
+		 * Schwefel function.
+		//	 * 
+		//	 * References:
+		//	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2530.htm" > Ref 1 </a>
+		//	 * <a href="http://www.it.lut.fi/ip/evo/functions/node11.html" > Ref 2 </a>
+		 */
+		
+		/**
+		* Constructor for the Sphere function defined within the specified upper and lower bounds.
+		*/
+		public Schwefel(int dimension){ super(dimension, new double[] {-500, 500} );}
+		/**
+		* Constructor for the Sphere function defined within a hyper-cube.
+		*/
+		public Schwefel(int dimension, double[] bounds) { super(dimension, bounds); }
+		/**
+		* Constructor for the Sphere function defined within particular decision space.
+		*/
+		public Schwefel(int dimension, double[][] bounds) { super(dimension, bounds); }
+		/**
+		* This method implement the Sphere function.
+		* 
+		* @param x solution to be evaluated
+		*/
+		
+		public double f(double[] x)
+		{
+			int n = x.length;
+			double sum = 0;
+			
+			for (int i = 0; i < n; i++)
+				sum += -x[i] * Math.sin(Math.sqrt(Math.abs(x[i])));
+	
+			double y = 418.9829*n + sum;
+	
+			return y;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
 	
 	/**
 	 * Michalewicz function.
@@ -859,26 +921,7 @@ public class BaseFunctions
 //			return y;
 //		}
 //
-//		/**
-//		 * Schwefel function.
-//		 * 
-//		 * References:
-//		 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2530.htm" > Ref 1 </a>
-//		 * <a href="http://www.it.lut.fi/ip/evo/functions/node11.html" > Ref 2 </a>
-//		 */
-//		// bounds = [-500 500]
-//		public static double schwefel(double[] x)
-//		{
-//			int n = x.length;
-//			double sum = 0;
-//			
-//			for (int i = 0; i < n; i++)
-//				sum += -x[i] * Math.sin(Math.sqrt(Math.abs(x[i])));
-//
-//			double y = 418.9829*n + sum;
-//
-//			return y;
-//		}
+
 //		
 //		/**
 //		 * Schwefel function 1.2.

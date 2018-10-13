@@ -33,7 +33,11 @@ import interfaces.Algorithm;
 import algorithms.singleSolution.SPAMAOS2;
 import algorithms.paperReviews.HyperSPAMnoR;
 import algorithms.paperReviews.HyperSPAMnoSnoR;
-import benchmarks.CEC2014;
+//import benchmarks.CEC2014;
+import benchmarks.problemsImplementation.BaseFunctions.Ackley;
+import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
+import benchmarks.problemsImplementation.BaseFunctions.Schwefel;
+//import benchmarks.SISC2010;
 //import benchmarks.CEC2015;
 //import benchmarks.SISC2010;
 //import benchmarks.BBOB2010;
@@ -88,10 +92,20 @@ public class HyperSPAM extends Experiment
 //		for(int i = 1; i<=15; i++)
 //			add(new CEC2015(probDim, i));
 		
-		for(int i = 1; i<=30; i++)
-			add(new CEC2014(probDim, i));
+//		for(int i = 1; i<=30; i++)
+//			add(new CEC2014(probDim, i));
 		
 	
+//		for(int i = 1; i<=19; i++)
+//			add(new SISC2010(i, probDim));			
+   
+
+		
+	
+
+		add(new Ackley(probDim));//add it to the list
+		add(new Rastigin(probDim));
+		add(new Schwefel(probDim));
 		
 		
 	}

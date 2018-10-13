@@ -26,82 +26,63 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
+package experiments;
 
-
-
-/** @file RunExperiments.java
- *  
- *  @author Fabio Caraffini
-*/
-
-import java.util.Vector; 
 import interfaces.Experiment;
+import interfaces.Algorithm;
+import interfaces.Problem;
+import algorithms.singleSolution.NonUniformSA;
+import algorithms.singleSolution.VISPO;
+import applications.CEC2011.P1;
+import applications.CEC2011.P2;
 
-import static utils.RunAndStore.resultsFolder;
-//import experiments.*;
-import experiments.paperReviews.*;
-//import experiments.rotInvStudy.*;
-//import experiments.BenchmarksTesting.*;
 
-/** 
-* This class contains the main method and has to be used for launching experiments.
-*/
-public class RunExperiments
+public class TestCEC2011 extends Experiment
 {
+	public TestCEC2011()
+	{
+		super("STIGRANCAZZI");
+		setNrRuns(30);	
+		
+		Algorithm a;// ///< A generic optimiser.
+	    Problem p;// ///< A generic problem.
 	
-	
-	/** 
-	* Main method.
-	* This method has to be modified in order to launch a new experiment.
-	*/
-	public static void main(String[] args) throws Exception
-	{	
-		
-		// make sure that "results" folder exists
-		resultsFolder();
-	
-	
-		Vector<Experiment> experiments = new Vector<Experiment>();////!< List of problems 
-	
-			
-		//@@@ MODIFY THIS PART @@@		
-		
-//		 experiments.add(new CEC14(10));
-//		 experiments.add(new CEC14(50));
-//		 experiments.add(new CEC14(100));
-		 
-//		experiments.add(new RIBudgetStudy(10));
-//		experiments.add(new RIBudgetStudy(50));
-//		experiments.add(new RIBudgetStudy(100));
-//		experiments.add(new RIBudgetStudy(500));
-//		experiments.add(new RIBudgetStudy(1000));
-		
-		experiments.add(new HyperSPAM(10));
-		
-		experiments.add(new HyperSPAM(30));
-		
-		experiments.add(new HyperSPAM(50));
-		
-		experiments.add(new HyperSPAM(100));
+	    a = new VISPO();
+	    a.setParameter("p0",10.0);
+	    a.setParameter("p1", 30.0);
+	    a.setParameter("p2", 0.65);
+	    add(a);
 
+	    a = new NonUniformSA();
+	    a.setParameter("p0",5.0);
+	    a.setParameter("p1", 0.9);
+	    a.setParameter("p2", 3.0);
+	    a.setParameter("p3", 10.0);
+	    add(a);
+		
+	    
+		p = new P1();
+		add(p);//add it to the list
+//		
+//		p = new P7();
+//		add(p);//add it to the list
+		
+		p = new P2(30);
+		add(p);//add it to the list
+//		p = new P2(60);
+//		add(p);//add it to the list
+//		p = new P2(90);
+//		add(p);//add it to the list
+//		p = new P2(120);
+//		add(p);//add it to the list
+//		p = new P2(300);
+//		add(p);//add it to the list
+//		p = new P2(600);
+//		add(p);//add it to the list
+//		p = new P2(900);
+//		add(p);//add it to the list
 
 		
-	
-		
-		//@@@@@@
-	
-		for(Experiment experiment : experiments)
-		{
-			//experiment.setShowPValue(true);
-			experiment.startExperiment();
-			System.out.println();
-			experiment = null;
-		}
-	
-		
-		
+
 	}
-	
-	
-
 }
