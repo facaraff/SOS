@@ -77,12 +77,16 @@ public class RunExperiments
 //		experiments.add(new RIBudgetStudy(1000));
 		
 //		experiments.add(new HyperSPAM(10));
-//		
-//		experiments.add(new HyperSPAM(30));
-//		
-//		experiments.add(new HyperSPAM(50));
-
+		
+		experiments.add(new HyperSPAM(30));
+		
+		experiments.add(new HyperSPAM(50));
+		
 		experiments.add(new HyperSPAM(100));
+
+
+		
+	
 		
 		//@@@@@@
 	

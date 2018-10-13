@@ -30,10 +30,14 @@ package experiments.paperReviews;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
+import algorithms.singleSolution.SPAMAOS2;
 import algorithms.paperReviews.HyperSPAMnoR;
 import algorithms.paperReviews.HyperSPAMnoSnoR;
-import benchmarks.BBOB2010;
-import benchmarks.CEC2013;
+import benchmarks.CEC2014;
+//import benchmarks.CEC2015;
+//import benchmarks.SISC2010;
+//import benchmarks.BBOB2010;
+//import benchmarks.CEC2013;
 import algorithms.paperReviews.HyperSPAMnoS;
 
 
@@ -46,11 +50,24 @@ public class HyperSPAM extends Experiment
 	{
 		super("HYPER");
 		setNrRuns(30);
-		setMT(false);
+		setMT(true);
 		
 		Algorithm a;// ///< A generic optimiser.
 	    
 	    
+		
+		
+		a= new SPAMAOS2();
+		a.setID("hyperSPAM-MT");
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 0.4);
+		a.setParameter("p2", 150.0);
+		a.setParameter("p3", 2.0);
+		a.setParameter("p4", 0.5);
+		a.setParameter("p5", 0.00001);
+		a.setParameter("p6", 3.0);
+		add(a);
+		
 		a = new HyperSPAMnoSnoR();
 		add(a);
 			
@@ -65,8 +82,17 @@ public class HyperSPAM extends Experiment
 //		for(int i = 1; i<=28; i++)
 //			add(new CEC2013(i,probDim));	
 
-		for(int i = 5; i<=5; i++)
-			add(new BBOB2010(probDim, i));	
+//		for(int i = 5; i<=5; i++)
+//			add(new BBOB2010(probDim, i));	
 
+//		for(int i = 1; i<=15; i++)
+//			add(new CEC2015(probDim, i));
+		
+		for(int i = 1; i<=30; i++)
+			add(new CEC2014(probDim, i));
+		
+	
+		
+		
 	}
 }
