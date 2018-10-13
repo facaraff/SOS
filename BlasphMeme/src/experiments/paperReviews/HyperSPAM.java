@@ -33,7 +33,7 @@ import interfaces.Algorithm;
 import algorithms.paperReviews.HyperSPAMnoR;
 import algorithms.paperReviews.HyperSPAMnoSnoR;
 import benchmarks.BBOB2010;
-//import benchmarks.CEC2013;
+import benchmarks.CEC2013;
 import algorithms.paperReviews.HyperSPAMnoS;
 
 
@@ -61,11 +61,11 @@ public class HyperSPAM extends Experiment
 		add(a);
 			
 		
-	    
+//	    
 //		for(int i = 1; i<=28; i++)
 //			add(new CEC2013(i,probDim));	
 
-		for(int i = 1; i<=24; i++)
+		for(int i = 5; i<=5; i++)
 			add(new BBOB2010(probDim, i));	
 
 	}
