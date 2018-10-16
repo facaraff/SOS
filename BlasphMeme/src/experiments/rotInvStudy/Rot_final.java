@@ -15,7 +15,7 @@ public class Rot_final extends Experiment
 	public Rot_final(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
-		super(probDim,5000,"testCEC14RIDE");
+		super(probDim,5000,"EVOF19");
 		setNrRuns(30);
 
 

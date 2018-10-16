@@ -26,17 +26,16 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package EvoStar19;
+package experiments.evostart19;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
 import benchmarks.CEC2014RotInvStudy;
-import algorithms.RIDE;
+//import algorithms.RIDE;
+//import algorithms.MMCDE;
 import algorithms.inProgress.CMS;
 import algorithms.CMAES;
-import algorithms.DE;
 import algorithms.EigenDE;
-import algorithms.MMCDE;
 
 
 
@@ -53,8 +52,8 @@ public class UnrotCEC14 extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem p;// ///< A generic problem.
 		
-		
 		a = new CMS();
+//		a.setID("CMS");
 		a.setParameter("P0", 150.0);
 		a.setParameter("P1", 0.4);
 		a.setParameter("P2", 30.0);
@@ -63,6 +62,7 @@ public class UnrotCEC14 extends Experiment
 		add(a);
 		
 		a = new CMS();
+		a.setID("CMS-retart");
 		a.setParameter("P0", 150.0);
 		a.setParameter("P1", 0.4);
 		a.setParameter("P2", 30.0);
@@ -95,34 +95,34 @@ public class UnrotCEC14 extends Experiment
 		
 		
 		a = new CMAES();
-		a.setID("rotation");//N.B. this algorithm makes use of "generateRandomSolution" that has still to be implemented.
+//		a.setID("rotation");//N.B. this algorithm makes use of "generateRandomSolution" that has still to be implemented.
 		add(a);
 		
-		a = new MMCDE();
-		a.setID("rMMCDE");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.4); //F
-		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 0.3);//ALPHA
-		add(a);
-		
-		a = new RIDE();
-		a.setID("rRIDErand1bin");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.4); //F
-		a.setParameter("p2", 0.3); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 4.0);
-		add(a);
-		
-		a = new RIDE();
-		a.setID("rRIDErand1exp");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.4); //F
-		a.setParameter("p2", 0.3); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 5.0);
-		add(a);
+//		a = new MMCDE();
+//		a.setID("rMMCDE");
+//		a.setParameter("p0", (double)probDim);
+//		a.setParameter("p1", 0.4); //F
+//		a.setParameter("p2", -1.0); //CR
+//		a.setParameter("p3", 0.3);//ALPHA
+//		add(a);
+//		
+//		a = new RIDE();
+//		a.setID("rRIDErand1bin");
+//		a.setParameter("p0", (double)probDim);
+//		a.setParameter("p1", 0.4); //F
+//		a.setParameter("p2", 0.3); //CR
+//		a.setParameter("p3", 1.0);
+//		a.setParameter("p4", 4.0);
+//		add(a);
+//		
+//		a = new RIDE();
+//		a.setID("rRIDErand1exp");
+//		a.setParameter("p0", (double)probDim);
+//		a.setParameter("p1", 0.4); //F
+//		a.setParameter("p2", 0.3); //CR
+//		a.setParameter("p3", 1.0);
+//		a.setParameter("p4", 5.0);
+//		add(a);
 		
 		
 		

@@ -38,6 +38,10 @@ import static utils.MatLab.multiply;
 import static utils.RunAndStore.FTrend;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
+import static utils.MatLab.sum;
+import static utils.MatLab.multiply;
+import static utils.MatLab.indexMin;
+
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
@@ -47,12 +51,12 @@ public class CMS extends Algorithm
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
- 
-		int deepLSSteps = getParameter("p0").intValue(); //150;
-		double deepLSRadius = getParameter("p1").doubleValue();//0.4;
-		int samples = getParameter("p2").intValue();//30;
-		double samplingRadius = getParameter("P3").doubleValue();//0.1
-		boolean restart = getParameter("P4").intValue()!=0;// 0---> no restart  1---> restart
+		
+		int deepLSSteps = 150;//etParameter("p0").intValue();  //150;
+		double deepLSRadius = 0.4;//getParameter("p1").doubleValue();//0.4;
+		int samplesNr = 30;//getParameter("p2").intValue();//30;
+		double samplingRadius = 0.2;//getParameter("P3").doubleValue();//0.1
+
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -62,8 +66,6 @@ public class CMS extends Algorithm
 		// current FT
 		double[] best = new double[problemDimension];
 		double fBest;
-		
-		double[][] population = new double[samples][problemDimension]; 
 
 		int i = 0;
 		if (initialSolution != null)
@@ -79,61 +81,63 @@ public class CMS extends Algorithm
 		}
 	
 		
+		
+		double[] SR = new double[problemDimension];
+		for (int k = 0; k < problemDimension; k++)
+			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+		
 		while (i < maxEvaluations)
 		{
 		
-			double[] SR = new double[problemDimension];
-			for (int k = 0; k < problemDimension; k++)
-				SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
 			boolean improve = true;
 			int j = 0;
 			
 			
 			double[] temp = new double[problemDimension];
 			double fTemp = Double.NaN;
+
+			int popSize = samplesNr/2;
+			double[][] samples = new double[samplesNr][problemDimension]; 
+			double[] samplesFitnesses = new double[samplesNr];
+			double[][] population = new double[popSize][problemDimension]; 
 			
-					
-			//Generate the point to use to centre the hypercube 
-			if(restart)
+
+			//Sampling
+			for(int k=0; k<samplesNr && i<maxEvaluations;k++)
 			{
-				temp = Misc.generateRandomSolution(bounds, problemDimension);
-				fTemp = problem.f(temp);
+				samples[k] = intermediatePerturbation(bounds, best, samplingRadius);
+				samplesFitnesses[k] = problem.f(samples[k]);
 				i++;
-				if (fTemp < fBest)
+				if (samplesFitnesses[k] < fBest)
 				{
-					fBest = fTemp;
+					fBest = samplesFitnesses[k];
 					for (int n = 0; n < problemDimension; n++)
-						best[n] = temp[n];
+						best[n] = samples[k][n];
 				}
-				
 			}
-			else
+			
+			//extracting the population
+			for(int k=0;k<popSize;k++)
 			{
-				for (int k = 0; k < problemDimension; k++)
-					temp[k] = best[k];
-				fTemp = fBest;
+				int minIndex = indexMin(samplesFitnesses);
+				samplesFitnesses[minIndex] = Double.MAX_VALUE;
+				population[k] = samples[minIndex];
 			}
 			
-			
-			
-			//the centre of the hypercube is the first individual 
-			for(int k=0; k<problemDimension;k++)
-				population[0][k] = temp[k];
-			
-		
-			//Sample the population	
-			for(int k=1; k<samples-1 && i<maxEvaluations;k++)
-				population[k] = intermediatePerturbation(bounds, temp, samplingRadius);
-			
-			
-			
-			//rotate the search radius
+			//generate the P matrix and free memory
 			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov(population)));
 			population = null;
+			samples = null;
+			samplesFitnesses = null;
 			double[][] P = E.getV().getData();
-			double[] rSR = multiply(P,SR);
-			E = null; P = null;
 			
+			//scale P columns with the corresponding perturbation radius
+			for(int c=0;c<problemDimension;c++)
+				for(int r=0;r<problemDimension; r++)
+					P[r][c] = P[r][c]*SR[c];
+			
+			//ORA MANCA DI FARE P Traposto e le righe sono i perturbation vectors da aggiungere ad X su S
+
 			//Execute S along rotated axes
 			while ((j < deepLSSteps) && (i < maxEvaluations))
 			{
@@ -148,7 +152,7 @@ public class CMS extends Algorithm
 				if (!improve)
 				{
 					for (int k = 0; k < problemDimension; k++)
-						rSR[k] = rSR[k]/2;
+						SR[k] = SR[k]/2;
 				}
 				improve = false;
 				int k = 0;
@@ -186,8 +190,6 @@ public class CMS extends Algorithm
 						}
 						else
 							Xk[k] = Xk_orig[k];
-						
-						
 					}
 					
 					k++;
@@ -195,7 +197,7 @@ public class CMS extends Algorithm
 				
 				j++;
 			}
-			rSR = null;
+			SR = null;
 		}
 
 		finalBest = best;

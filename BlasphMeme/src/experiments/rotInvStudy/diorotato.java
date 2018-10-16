@@ -13,7 +13,7 @@ public class diorotato extends Experiment
 	public diorotato(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
-		super(probDim,5000,"testCEC14RIDE");
+		super(probDim,5000,"EvoF19");
 		setNrRuns(30);
 
 

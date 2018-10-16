@@ -26,14 +26,14 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package EvoStar19;
+package experiments.evostart19;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
 import benchmarks.CEC2014RotInvStudy;
-import algorithms.RIDE;
+//import algorithms.RIDE;
+//import algorithms.MMCDE;
 import algorithms.EigenDE;
-import algorithms.MMCDE;
 import algorithms.CMAES;
 import algorithms.inProgress.CMS;
 
@@ -45,8 +45,9 @@ public class RotCEC14 extends Experiment
 	public RotCEC14(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
-		super(probDim,5000,"rotated_final");
+		super(probDim,5000,"EvoF");
 		setNrRuns(30);
+//		setMT(false);
 
 
 		Algorithm a;// ///< A generic optimiser.
@@ -54,21 +55,20 @@ public class RotCEC14 extends Experiment
 		
 		
 		a = new CMS();
-//		a.setID("CMS");
-		a.setParameter("P0", 150.0);
-		a.setParameter("P1", 0.4);
-		a.setParameter("P2", 30.0);
-		a.setParameter("P3", 0.1);
-		a.setParameter("P4", 0.0);
+//		a.setParameter("P0", 150.0);
+//		a.setParameter("P1", 0.4);
+//		a.setParameter("P2", 30.0);
+//		a.setParameter("P3", 0.1);
+//		a.setParameter("P4", 0.0);
 		add(a);
 		
 		a = new CMS();
-		a.setID("CMS-retart");
-		a.setParameter("P0", 150.0);
-		a.setParameter("P1", 0.4);
-		a.setParameter("P2", 30.0);
-		a.setParameter("P3", 0.1);
-		a.setParameter("P4", 1.0);
+//		a.setID("CMS-retart");
+//		a.setParameter("P0", 150.0);
+//		a.setParameter("P1", 0.4);
+//		a.setParameter("P2", 30.0);
+//		a.setParameter("P3", 0.1);
+//		a.setParameter("P4", 1.0);
 		add(a);
 		
 		
