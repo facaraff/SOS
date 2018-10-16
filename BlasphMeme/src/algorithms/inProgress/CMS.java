@@ -26,17 +26,23 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package algorithms.singleSolution;
+package algorithms.inProgress;
 
 
 import utils.algorithms.Misc;
 
 import interfaces.Algorithm;
 import interfaces.Problem;
+
+import static utils.MatLab.multiply;
 import static utils.RunAndStore.FTrend;
+import static utils.algorithms.Misc.Cov;
+import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.EigenDecomposition;
 
-public class S extends Algorithm
+public class CMS extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -44,7 +50,9 @@ public class S extends Algorithm
  
 		int deepLSSteps = getParameter("p0").intValue(); //150;
 		double deepLSRadius = getParameter("p1").doubleValue();//0.4;
-		boolean restart = false;
+		int samples = getParameter("p2").intValue();//30;
+		double samplingRadius = getParameter("P3").doubleValue();//0.1
+		boolean restart = getParameter("P4").intValue()!=0;// 0---> no restart  1---> restart
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -54,6 +62,8 @@ public class S extends Algorithm
 		// current FT
 		double[] best = new double[problemDimension];
 		double fBest;
+		
+		double[][] population = new double[samples][problemDimension]; 
 
 		int i = 0;
 		if (initialSolution != null)
@@ -67,7 +77,7 @@ public class S extends Algorithm
 			fBest = problem.f(best);
 			i++;
 		}
-		
+	
 		
 		while (i < maxEvaluations)
 		{
@@ -78,9 +88,12 @@ public class S extends Algorithm
 			boolean improve = true;
 			int j = 0;
 			
+			
 			double[] temp = new double[problemDimension];
 			double fTemp = Double.NaN;
 			
+					
+			//Generate the point to use to centre the hypercube 
 			if(restart)
 			{
 				temp = Misc.generateRandomSolution(bounds, problemDimension);
@@ -92,16 +105,36 @@ public class S extends Algorithm
 					for (int n = 0; n < problemDimension; n++)
 						best[n] = temp[n];
 				}
+				
 			}
 			else
 			{
 				for (int k = 0; k < problemDimension; k++)
 					temp[k] = best[k];
 				fTemp = fBest;
-				
 			}
-				
 			
+			
+			
+			//the centre of the hypercube is the first individual 
+			for(int k=0; k<problemDimension;k++)
+				population[0][k] = temp[k];
+			
+		
+			//Sample the population	
+			for(int k=1; k<samples-1 && i<maxEvaluations;k++)
+				population[k] = intermediatePerturbation(bounds, temp, samplingRadius);
+			
+			
+			
+			//rotate the search radius
+			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov(population)));
+			population = null;
+			double[][] P = E.getV().getData();
+			double[] rSR = multiply(P,SR);
+			E = null; P = null;
+			
+			//Execute S along rotated axes
 			while ((j < deepLSSteps) && (i < maxEvaluations))
 			{
 				double[] Xk = new double[problemDimension];
@@ -115,7 +148,7 @@ public class S extends Algorithm
 				if (!improve)
 				{
 					for (int k = 0; k < problemDimension; k++)
-						SR[k] = SR[k]/2;
+						rSR[k] = rSR[k]/2;
 				}
 				improve = false;
 				int k = 0;
@@ -162,6 +195,7 @@ public class S extends Algorithm
 				
 				j++;
 			}
+			rSR = null;
 		}
 
 		finalBest = best;
