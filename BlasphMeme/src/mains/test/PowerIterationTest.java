@@ -1,11 +1,9 @@
 package mains.test;
 
-//import utils.powerIteration.methods.InverseIteration;
-import utils.powerIteration.methods.PowerIteration;
-import utils.powerIteration.methods.RegularIteration;
-//import utils.powerIteration.methods.ShiftedIteration;
-import utils.powerIteration.EigenValueVector;
-import utils.powerIteration.Matrix;
+import utils.linearAlgebra.EigenValueVector;
+import utils.linearAlgebra.Matrix;
+import utils.linearAlgebra.powerMethods.PowerIteration;
+import utils.linearAlgebra.powerMethods.RegularIteration;
 
 
  class PowerIterationTest {

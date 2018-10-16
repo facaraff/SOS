@@ -1,8 +1,8 @@
-package utils.powerIteration.methods;
+package utils.linearAlgebra.gramShmidtProcess;
 
-import utils.powerIteration.EigenValueVector;
-import utils.powerIteration.LUDecomposition;
-import utils.powerIteration.Matrix;
+import utils.linearAlgebra.EigenValueVector;
+import utils.linearAlgebra.LUDecomposition;
+import utils.linearAlgebra.Matrix;
 
 /*
  * Returns the smallest Eigenvalue

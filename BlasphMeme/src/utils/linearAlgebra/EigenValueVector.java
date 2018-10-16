@@ -1,4 +1,4 @@
-package utils.powerIteration;
+package utils.linearAlgebra;
 
 public class EigenValueVector {
 	public double eigenValue;

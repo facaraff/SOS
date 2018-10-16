@@ -1,9 +1,7 @@
-package utils.powerIteration.methods;
+package utils.linearAlgebra.powerMethods;
 
-//import java.util.Vector;
-
-import utils.powerIteration.EigenValueVector;
-import utils.powerIteration.Matrix;
+import utils.linearAlgebra.EigenValueVector;
+import utils.linearAlgebra.Matrix;
 
 /**
  * Regular Iteration find the largest EigenValue.

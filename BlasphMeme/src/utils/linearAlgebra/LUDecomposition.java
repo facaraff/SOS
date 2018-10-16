@@ -1,4 +1,4 @@
-package utils.powerIteration;
+package utils.linearAlgebra;
 /**
  * LU Decomposition.
  * 

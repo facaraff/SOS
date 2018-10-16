@@ -1,7 +1,7 @@
-package utils.powerIteration.methods;
+package utils.linearAlgebra.powerMethods;
 
-import utils.powerIteration.EigenValueVector;
-import utils.powerIteration.Matrix;
+import utils.linearAlgebra.EigenValueVector;
+import utils.linearAlgebra.Matrix;
 /*
  * Interface to use in PowerIteration methods
  *  */

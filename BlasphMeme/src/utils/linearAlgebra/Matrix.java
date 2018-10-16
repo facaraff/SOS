@@ -1,4 +1,4 @@
-package utils.powerIteration;
+package utils.linearAlgebra;
 
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
