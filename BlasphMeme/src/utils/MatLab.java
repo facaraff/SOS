@@ -994,7 +994,7 @@ public class MatLab
 	 * Transpose a matrix x.
 	 * 
 	 * @param x
-	 * @return
+	 * @return x_t, i.e. transposed matrix of x
 	 */
 	public static double[][] transpose(double[][] x)
 	{

@@ -39,8 +39,10 @@ import static utils.RunAndStore.FTrend;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
 import static utils.MatLab.sum;
-import static utils.MatLab.multiply;
+import static utils.MatLab.subtract;
+import static utils.MatLab.transpose;
 import static utils.MatLab.indexMin;
+import static utils.algorithms.Misc.cloneArray;
 
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -92,10 +94,6 @@ public class CMS extends Algorithm
 			boolean improve = true;
 			int j = 0;
 			
-			
-			double[] temp = new double[problemDimension];
-			double fTemp = Double.NaN;
-
 			int popSize = samplesNr/2;
 			double[][] samples = new double[samplesNr][problemDimension]; 
 			double[] samplesFitnesses = new double[samplesNr];
@@ -130,13 +128,18 @@ public class CMS extends Algorithm
 			samples = null;
 			samplesFitnesses = null;
 			double[][] P = E.getV().getData();
+			E = null;
 			
 			//scale P columns with the corresponding perturbation radius
-			for(int c=0;c<problemDimension;c++)
-				for(int r=0;r<problemDimension; r++)
-					P[r][c] = P[r][c]*SR[c];
+			double[][] R = scale(P,SR);
 			
-			//ORA MANCA DI FARE P Traposto e le righe sono i perturbation vectors da aggiungere ad X su S
+			//transpose R so that rows can be selected to act as perturbation vectors
+			R = transpose(R);
+
+			
+//			//tmp solution
+//			double[] temp = Misc.clone(best);
+//			double fTemp = fBest;
 
 			//Execute S along rotated axes
 			while ((j < deepLSSteps) && (i < maxEvaluations))
@@ -145,20 +148,23 @@ public class CMS extends Algorithm
 				double[] Xk_orig = new double[problemDimension];
 				for (int k = 0; k < problemDimension; k++)
 				{
-					Xk[k] = temp[k];
-					Xk_orig[k] = temp[k];
+					Xk[k] = best[k];//temp[k];
+					Xk_orig[k] = best[k];//temp[k];
 				}
 
 				if (!improve)
 				{
 					for (int k = 0; k < problemDimension; k++)
 						SR[k] = SR[k]/2;
+					R = scale(P,SR);
+					R = transpose(R);
 				}
+				
 				improve = false;
 				int k = 0;
 				while ((k < problemDimension) && (i < maxEvaluations))
 				{
-					Xk[k] = Xk[k] - SR[k];
+					Xk = subtract(Xk,R[k]);
 					Xk = Misc.toro(Xk, bounds);
 					double fXk = problem.f(Xk);
 					i++;
@@ -173,9 +179,9 @@ public class CMS extends Algorithm
 					}
 					else if(i<maxEvaluations)
 					{
-						
-						Xk[k] = Xk_orig[k];
-						Xk[k] = Xk[k] + 0.5*SR[k];
+						Xk = cloneArray(Xk_orig);
+						//Xk[k] = Xk[k] + 0.5*SR[k];
+						Xk = sum(Xk,multiply(0.5, R[k]));
 						Xk = Misc.toro(Xk, bounds);
 						fXk = problem.f(Xk);
 						//dCounter++;
@@ -204,4 +210,19 @@ public class CMS extends Algorithm
 		FT.add(i,fBest);
 		return FT;
 	}
+	
+	
+	protected double[][] scale(double[][] P, double[] SR) 
+	{
+		double[][] R = new double[SR.length][SR.length];
+		
+		for(int c=0;c<SR.length;c++)
+			for(int r=0;r<SR.length; r++)
+				R[r][c] = P[r][c]*SR[c];
+		
+		return R;
+		
+	}
+	
+	
 }
