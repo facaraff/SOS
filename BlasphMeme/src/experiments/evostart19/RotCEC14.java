@@ -62,16 +62,6 @@ public class RotCEC14 extends Experiment
 //		a.setParameter("P4", 0.0);
 		add(a);
 		
-		a = new CMS();
-//		a.setID("CMS-retart");
-//		a.setParameter("P0", 150.0);
-//		a.setParameter("P1", 0.4);
-//		a.setParameter("P2", 30.0);
-//		a.setParameter("P3", 0.1);
-//		a.setParameter("P4", 1.0);
-		add(a);
-		
-		
 		a = new EigenDE();
 		a.setID("rEigenDEr1bin");
 		a.setParameter("p0", (double)probDim);

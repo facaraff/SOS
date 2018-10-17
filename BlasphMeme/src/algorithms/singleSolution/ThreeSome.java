@@ -89,8 +89,6 @@ public class ThreeSome extends Algorithm
 
 				while ((j < intermediateLSSteps) && (i < maxEvaluations))
 				{
-
-
 					solution = intermediatePerturbation(bounds, best, intermediateLSRadius);
 					solution = crossOverExp(best, solution, intermediateCR);
 					solution = toro(solution, bounds);

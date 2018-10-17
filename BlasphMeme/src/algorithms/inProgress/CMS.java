@@ -85,12 +85,15 @@ public class CMS extends Algorithm
 		
 		
 		double[] SR = new double[problemDimension];
-		for (int k = 0; k < problemDimension; k++)
-			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
-		
+//		for (int k = 0; k < problemDimension; k++)
+//			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+//		
 		while (i < maxEvaluations)
 		{
 		
+			for (int k = 0; k < problemDimension; k++)
+				SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+			
 			boolean improve = true;
 			int j = 0;
 			
@@ -130,16 +133,13 @@ public class CMS extends Algorithm
 			double[][] P = E.getV().getData();
 			E = null;
 			
+//			System.out.println("P "+P.length);
+//			System.out.println("SR "+SR.length);
 			//scale P columns with the corresponding perturbation radius
 			double[][] R = scale(P,SR);
 			
 			//transpose R so that rows can be selected to act as perturbation vectors
 			R = transpose(R);
-
-			
-//			//tmp solution
-//			double[] temp = Misc.clone(best);
-//			double fTemp = fBest;
 
 			//Execute S along rotated axes
 			while ((j < deepLSSteps) && (i < maxEvaluations))
@@ -152,12 +152,10 @@ public class CMS extends Algorithm
 					Xk_orig[k] = best[k];//temp[k];
 				}
 
-				if (!improve)
+				if (!improve) //@fabio this can be done on each dimension 
 				{
-					for (int k = 0; k < problemDimension; k++)
-						SR[k] = SR[k]/2;
-					R = scale(P,SR);
-					R = transpose(R);
+					for(int k=0;k<problemDimension;k++)
+						half(R,k);
 				}
 				
 				improve = false;
@@ -169,33 +167,33 @@ public class CMS extends Algorithm
 					double fXk = problem.f(Xk);
 					i++;
 					// FT update
-					if (fXk < fBest)
+					if (fXk < fBest) //< or <= ?????????
 					{
 						fBest = fXk;
-						for (int n = 0; n < problemDimension; n++)
-							best[n] = Xk[n];
+//						for (int n = 0; n < problemDimension; n++)
+//							best[n] = Xk[n];
+						best = cloneArray(Xk);
+						Xk_orig = cloneArray(Xk);
 						
 						improve = true;
 					}
 					else if(i<maxEvaluations)
 					{
 						Xk = cloneArray(Xk_orig);
-						//Xk[k] = Xk[k] + 0.5*SR[k];
 						Xk = sum(Xk,multiply(0.5, R[k]));
 						Xk = Misc.toro(Xk, bounds);
 						fXk = problem.f(Xk);
-						//dCounter++;
 						i++;
 						// FT update
 						if (fXk < fBest)
 						{
 							fBest = fXk;
-							for (int n = 0; n < problemDimension; n++)
-								best[n] = Xk[n];
+							best = cloneArray(Xk);
+							Xk_orig = cloneArray(Xk);
 							improve = true;
 						}
 						else
-							Xk[k] = Xk_orig[k];
+							Xk = cloneArray(Xk_orig);
 					}
 					
 					k++;
@@ -222,6 +220,12 @@ public class CMS extends Algorithm
 		
 		return R;
 		
+	}
+	
+	protected void half(double[][] PT, int k) 
+	{
+		for(int c=0;c<PT.length;c++)
+			PT[k][c] = PT[k][c]/2;
 	}
 	
 	
