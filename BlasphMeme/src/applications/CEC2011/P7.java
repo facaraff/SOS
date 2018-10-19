@@ -69,7 +69,6 @@ public class P7 extends Problem { //Spread Spectrum Radar Polyphase Code Design
 				}
 				else
 				{
-
 					int i =kk/2;
 					hsum[kk-1]=0;
 				

@@ -63,8 +63,7 @@ public class CMS extends Algorithm
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
-
-
+		
 		// current FT
 		double[] best = new double[problemDimension];
 		double fBest;
@@ -87,7 +86,7 @@ public class CMS extends Algorithm
 		double[] SR = new double[problemDimension];
 //		for (int k = 0; k < problemDimension; k++)
 //			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
-//		
+		
 		while (i < maxEvaluations)
 		{
 		
@@ -201,7 +200,7 @@ public class CMS extends Algorithm
 				
 				j++;
 			}
-			SR = null;
+			
 		}
 
 		finalBest = best;
