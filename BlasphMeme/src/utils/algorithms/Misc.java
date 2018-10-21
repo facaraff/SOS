@@ -259,8 +259,8 @@ public class Misc
 	 */
 	public static double[][] Cov(double[][] p)
 	{
-		int n=p[0].length;System.out.println("dimension "+n);
-		int ps = p.length;System.out.println(ps);
+		int n=p[0].length;//System.out.println("dimension "+n);
+		int ps = p.length;//System.out.println(ps);
 		double[][] Cov = new double[n][n];
 		double[] xBar = AVGDesignVar(p);
 		try{

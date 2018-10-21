@@ -64,7 +64,7 @@ public class RotCEC14 extends Experiment
 		
 		a = new EigenDE();
 		a.setID("rEigenDEr1bin");
-		a.setParameter("p0", 30.0);
+		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", 0.3); //CR
 		a.setParameter("p3", 1.0);
