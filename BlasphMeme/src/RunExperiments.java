@@ -43,6 +43,7 @@ import static utils.RunAndStore.resultsFolder;
 //import experiments.rotInvStudy.*;
 //import experiments.BenchmarksTesting.*;
 import experiments.evostart19.RotCEC14;
+//import experiments.evostart19.contros;
 
 /** 
 * This class contains the main method and has to be used for launching experiments.
@@ -82,6 +83,7 @@ public class RunExperiments
 //		experiments.add(new HyperSPAM(50));
 //		experiments.add(new HyperSPAM(100));
 		
+//		experiments.add(new contros(10));
 		experiments.add(new RotCEC14(10));
 		experiments.add(new RotCEC14(50));
 		experiments.add(new RotCEC14(100));
