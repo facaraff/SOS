@@ -240,7 +240,7 @@ public class Misc
 		int ps = p.length;
 		double[] avgInd = new double[n];
 		try{
-			for(int i =0; i<n; i++)
+			for(int i=0; i<n; i++)
 			{
 				for(int j=0; j<ps; j++) 
 				{
@@ -259,8 +259,8 @@ public class Misc
 	 */
 	public static double[][] Cov(double[][] p)
 	{
-		int n=p[0].length;
-		int ps = p.length-1;
+		int n=p[0].length;System.out.println("dimension "+n);
+		int ps = p.length;System.out.println(ps);
 		double[][] Cov = new double[n][n];
 		double[] xBar = AVGDesignVar(p);
 		try{
@@ -274,8 +274,7 @@ public class Misc
 					{
 						temp += ((p[i][j]-xBar[j])*(p[i][k]-xBar[k]));
 					}
-					Cov[j][k] = (1.0/ps)*(temp);
-					
+					Cov[j][k] = (1.0/(ps-1))*(temp);
 				}
 			}
 		}catch(Exception ex){
