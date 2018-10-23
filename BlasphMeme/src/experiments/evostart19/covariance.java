@@ -30,27 +30,28 @@ package experiments.evostart19;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import benchmarks.CEC2014RotInvStudy;
+//import benchmarks.CEC2014RotInvStudy;
+import benchmarks.problemsImplementation.BaseFunctions.Sphere;
 //import algorithms.RIDE;
 //import algorithms.MMCDE;
 //import algorithms.EigenDE;
 //import algorithms.CMAES;
 //import algorithms.inProgress.CMS;
-import algorithms.inProgress.CMAES_RIS2;
-//import algorithms.inProgress.CMAES_PRE;
-import algorithms.CMAES_RIS;
+//import algorithms.inProgress.CMAES_RIS2;
+import algorithms.inProgress.CMAES_PRE;
+//import algorithms.CMAES_RIS;
 
 
 
 
-public class RotCEC14 extends Experiment
+public class covariance extends Experiment
 {
 	
-	public RotCEC14(int probDim) throws Exception
+	public covariance(int probDim) throws Exception
 	{
 		//super(probDim,"cec2015allDim");
 		super(probDim,5000,"EvoF");
-		setNrRuns(30);
+		setNrRuns(1);
 //		setMT(false);
 
 
@@ -60,79 +61,55 @@ public class RotCEC14 extends Experiment
 		
 		
 		
-		
-		a = new CMAES_RIS2();
-		a.setParameter("p0",0.5); 		
-		a.setParameter("p1",0.0000001);
-		a.setParameter("p2",0.2);
-		add(a);
-		
-		a = new CMAES_RIS();
-		a.setParameter("p0",0.5); 		
-		a.setParameter("p1",0.2);
-		a.setParameter("p2",0.0000001);
-		add(a);
-		
+//		
+//		a = new CMAES_RIS2();
+//		a.setParameter("p0",0.5); 		
+//		a.setParameter("p1",0.0000001);
+//		a.setParameter("p2",0.2);
+//		add(a);
+//		
+//		a = new CMAES_RIS();
+//		a.setParameter("p0",0.5); 		
+//		a.setParameter("p1",0.2);
+//		a.setParameter("p2",0.0000001);
+//		add(a);
+//		
 //		a = new CMAES_PRE();
 //		add(a);
-		
-//		a = new EigenDE();
-//		a.setID("rEigenDEr1bin");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.7);//F
-//		a.setParameter("p2", 0.3); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", Double.NaN);//ALPHA
-//		a.setParameter("p6", 0.5);//PR
-//		add(a);
 //		
-//		a = new EigenDE();
-//		a.setID("rEigenDEr1exp");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.7);//F
-//		a.setParameter("p2", -1.0); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 2.0);
-//		a.setParameter("p5", 0.3);//ALPHA
-//		a.setParameter("p6", 0.5);//PR
-//		add(a);
-//		
-//		
-//		a = new CMAES();
-////		a.setID("rotation");//N.B. this algorithm makes use of "generateRandomSolution" that has still to be implemented.
-//		add(a);
-		
-//		a = new MMCDE();
-//		a.setID("rMMCDE");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.4); //F
-//		a.setParameter("p2", -1.0); //CR
-//		a.setParameter("p3", 0.3);//ALPHA
-//		add(a);
-//		
-//		a = new RIDE();
-//		a.setID("rRIDErand1bin");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.4); //F
-//		a.setParameter("p2", 0.3); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 4.0);
-//		add(a);
-//		
-//		a = new RIDE();
-//		a.setID("rRIDErand1exp");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.4); //F
-//		a.setParameter("p2", 0.3); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 5.0);
-//		add(a);
-		
-		
-		for(int i = 1; i<=30; i++)
-				add(new CEC2014RotInvStudy(probDim, i));
 
+		
+		
+		a = new CMAES_PRE();
+		a.setID("CMAES10");
+		a.setParameter("p0", 0.1);
+		add(a);
+		
+		a = new CMAES_PRE();
+		a.setID("CMAES20");
+		a.setParameter("p0", 0.2);
+		add(a);
+		
+		a = new CMAES_PRE();
+		a.setID("CMAES30");
+		a.setParameter("p0", 0.3);
+		add(a);
+		
+		a = new CMAES_PRE();
+		a.setID("CMAES50");
+		a.setParameter("p0", 0.5);
+		add(a);
+		
+		a = new CMAES_PRE();
+		a.setID("CMAE80");
+		a.setParameter("p0", 0.8);
+		add(a);
+		
+		
+//		for(int i = 25; i<=25; i++)
+//				add(new CEC2014RotInvStudy(probDim, i));
+		
+		add(new Sphere(probDim));
 
 
 

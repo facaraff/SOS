@@ -173,7 +173,7 @@ public class CMS extends Algorithm
 //							best[n] = Xk[n];
 						best = cloneArray(Xk);
 						Xk_orig = cloneArray(Xk);
-						
+						FT.add(i,fBest);
 						improve = true;
 					}
 					else if(i<maxEvaluations)
@@ -190,6 +190,7 @@ public class CMS extends Algorithm
 							best = cloneArray(Xk);
 							Xk_orig = cloneArray(Xk);
 							improve = true;
+							FT.add(i,fBest);
 						}
 						else
 							Xk = cloneArray(Xk_orig);

@@ -126,15 +126,15 @@ public class BaseFunctions
 	public static class Rosenbrock extends Problem
 	{
 		/**
-		* Constructor for  the  sphere function defined within the specified upper and lower bounds.
+		* Constructor for  Rosenbrock function defined within the specified upper and lower bounds.
 		*/
 		public Rosenbrock(int dimension){ super(dimension, new double[] {-100, 100});}
 		/**
-		* Constructor the  the  sphere function defined within a hyper-cube.
+		* Constructor the Rosenbrock function defined within a hyper-cube.
 		*/
 		public Rosenbrock(int dimension, double[] bounds) { super(dimension, bounds); }
 		/**
-		* Constructor for the Rosenbrock function defined within particular decision space.
+		* Constructor for Rosenbrock function defined within particular decision space.
 		*/
 		public Rosenbrock(int dimension, double[][] bounds) { super(dimension, bounds); }
 		/**

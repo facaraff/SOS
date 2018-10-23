@@ -29,13 +29,10 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.inProgress;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
-//import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
-import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 
-import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.cloneArray;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
@@ -46,7 +43,6 @@ import utils.algorithms.cmaes.CMAEvolutionStrategy;
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-import static utils.MatLab.indexMin;
 import static utils.MatLab.multiply;
 import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
@@ -61,9 +57,15 @@ public class CMAES_RIS2 extends Algorithm
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
+		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
+		
+		double globalAlpha = getParameter("p0").doubleValue(); // 0.5
+		double precision = getParameter("p1").doubleValue(); // 0.0000001
+		double CR = Math.pow(0.5, (1/(problemDimension*globalAlpha)));
+		double deepLSRadius = getParameter("p2").doubleValue();//0.4;
 
 		double[] best = new double[problemDimension];
 		if (initialSolution != null)
@@ -83,9 +85,6 @@ public class CMAES_RIS2 extends Algorithm
 		cma.options.writeDisplayToFile = -1;
 		// initialize cma and get fitness array to fill in later
 		double[] fitness = cma.init();
-		
-		//System.out.println(problemDimension);
-		//System.out.println(cma.getDataC());
 		
 		// iteration loop
 		int j = 0; 
@@ -120,15 +119,8 @@ public class CMAES_RIS2 extends Algorithm
 		}
 		
 		
-		double globalAlpha = getParameter("p0").doubleValue(); // 0.5
-//		double radius = getParameter("p1").doubleValue(); // 0.2
-		double precision = getParameter("p1").doubleValue(); // 0.0000001
-		double CR = Math.pow(0.5, (1/(problemDimension*globalAlpha)));
-//		int deepLSSteps = getParameter("p2").intValue();  //150;
-		double deepLSRadius = getParameter("p3").doubleValue();//0.4;
-		int samplesNr = getParameter("p4").intValue();//30;
-		double samplingRadius = getParameter("P5").doubleValue();//0.1
-			
+		//System.out.println(cma.getDataC());
+		double[][] cov = cma.getRho(); cma = null;		
 		double[] temp;
 		
 		int i = 0;
@@ -166,45 +158,11 @@ public class CMAES_RIS2 extends Algorithm
 			
 			boolean improve = true;
 	
-			
-			int popSize = samplesNr/2;
-			double[][] samples = new double[samplesNr][problemDimension]; 
-			double[] samplesFitnesses = new double[samplesNr];
-			double[][] population = new double[popSize][problemDimension]; 
-			
-
-			//Sampling
-			for(int k=0; k<samplesNr && i<maxEvaluations;k++)
-			{
-				samples[k] = intermediatePerturbation(bounds, best, samplingRadius);
-				samplesFitnesses[k] = problem.f(samples[k]);
-				i++;
-				if (samplesFitnesses[k] < fBest)
-				{
-					fBest = samplesFitnesses[k];
-					for (int n = 0; n < problemDimension; n++)
-						best[n] = samples[k][n];
-				}
-			}
-			
-			//extracting the population
-			for(int k=0;k<popSize;k++)
-			{
-				int minIndex = indexMin(samplesFitnesses);
-				samplesFitnesses[minIndex] = Double.MAX_VALUE;
-				population[k] = samples[minIndex];
-			}
-			
 			//generate the P matrix and free memory
-			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov(population)));
-			population = null;
-			samples = null;
-			samplesFitnesses = null;
+			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(cov));
 			double[][] P = E.getV().getData();
-			E = null;
+			//E = null;
 			
-//			System.out.println("P "+P.length);
-//			System.out.println("SR "+SR.length);
 			//scale P columns with the corresponding perturbation radius
 			double[][] R = scale(P,SR);
 			
@@ -212,14 +170,14 @@ public class CMAES_RIS2 extends Algorithm
 			R = transpose(R);
 
 			//Execute S along rotated axes
-			while ((MatLab.max(SR) > precision) && (j < maxEvaluations))
+			while ((MatLab.max(SR) > precision) && (i < maxEvaluations))
 			{
 				double[] Xk = new double[problemDimension];
 				double[] Xk_orig = new double[problemDimension];
 				for (int k = 0; k < problemDimension; k++)
 				{
-					Xk[k] = best[k];//temp[k];
-					Xk_orig[k] = best[k];//temp[k];
+					Xk[k] =x[k];
+					Xk_orig[k] = x[k];
 				}
 
 				if (!improve) //@fabio this can be done on each dimension 
@@ -230,36 +188,47 @@ public class CMAES_RIS2 extends Algorithm
 				
 				improve = false;
 				int k = 0;
-				while ((k < problemDimension) && (j < maxEvaluations))
+				while ((k < problemDimension) && (i < maxEvaluations))
 				{
 					Xk = subtract(Xk,R[k]);
 					Xk = Misc.toro(Xk, bounds);
 					double fXk = problem.f(Xk);
-					j++;
+					i++;
 					// FT update
-					if (fXk < fBest) //< or <= ?????????
+					if (fXk < fx) 
 					{
-						fBest = fXk;
-//						for (int n = 0; n < problemDimension; n++)
-//							best[n] = Xk[n];
-						best = cloneArray(Xk);
-						Xk_orig = cloneArray(Xk);
-						
+						fx = fXk;
+						x = cloneArray(Xk);
+						Xk_orig = cloneArray(x);
+						if (fx < fBest) 
+						{
+							fBest = fx;
+							best = cloneArray(x);
+							FT.add(i, fBest);
+						}
+			
 						improve = true;
 					}
-					else if(j<maxEvaluations)
+					else if(i<maxEvaluations)
 					{
 						Xk = cloneArray(Xk_orig);
 						Xk = sum(Xk,multiply(0.5, R[k]));
 						Xk = Misc.toro(Xk, bounds);
 						fXk = problem.f(Xk);
-						j++;
+						i++;
 						// FT update
-						if (fXk < fBest)
+						if (fXk < fx) 
 						{
-							fBest = fXk;
-							best = cloneArray(Xk);
-							Xk_orig = cloneArray(Xk);
+							fx = fXk;
+							x = cloneArray(Xk);
+							Xk_orig = cloneArray(x);
+							if (fx < fBest) 
+							{
+								fBest = fx;
+								best = cloneArray(x);
+								FT.add(i, fBest);
+							}
+				
 							improve = true;
 						}
 						else
