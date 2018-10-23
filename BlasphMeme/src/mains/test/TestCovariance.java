@@ -67,7 +67,7 @@ public class TestCovariance
 			
 		//@@@ MODIFY THIS PART @@@		
 		 
-		experiments.add(new covariance(10));
+		experiments.add(new covariance(5));
 		
 		//@@@@@@
 	

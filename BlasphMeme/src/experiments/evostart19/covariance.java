@@ -32,6 +32,8 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 //import benchmarks.CEC2014RotInvStudy;
 import benchmarks.problemsImplementation.BaseFunctions.Sphere;
+import benchmarks.problemsImplementation.BaseFunctions.Ackley;
+import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
 //import algorithms.RIDE;
 //import algorithms.MMCDE;
 //import algorithms.EigenDE;
@@ -110,6 +112,8 @@ public class covariance extends Experiment
 //				add(new CEC2014RotInvStudy(probDim, i));
 		
 		add(new Sphere(probDim));
+		add(new Ackley(probDim));
+		add(new Rastigin(probDim));
 
 
 

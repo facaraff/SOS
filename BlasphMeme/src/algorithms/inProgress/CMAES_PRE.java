@@ -61,9 +61,9 @@ public class CMAES_PRE extends Algorithm
 		double[][] bounds = problem.getBounds();
 		
 		double budgetFactor = getParameter("p0");
-		
-		String name = "covariance-"+budgetFactor+".txt";
-		String nameP = "P-"+budgetFactor+".txt";
+		String problemName = problem.getClass().getSimpleName();
+		String name = "covariance-"+budgetFactor+"-"+problemName+".txt";
+		String nameP = "P-"+budgetFactor+"-"+problemName+".txt";
 		
 		
 		double[] best = new double[problemDimension];
