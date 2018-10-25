@@ -30,9 +30,14 @@ package algorithms.inProgress;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 
+import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.cloneArray;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
@@ -48,6 +53,7 @@ import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
 import static utils.MatLab.transpose;
 import static utils.RunAndStore.FTrend;
+import static utils.RunAndStore.slash;
 
 /*
  * Covariance Matrix Adaptation Evolutionary Strategy 
@@ -61,11 +67,17 @@ public class CMAES_RIS2 extends Algorithm
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
+		System.out.println("bounds "+bounds);
+		boolean debug = false;
 		
-		double globalAlpha = getParameter("p0").doubleValue(); // 0.5
-		double precision = getParameter("p1").doubleValue(); // 0.0000001
-		double CR = Math.pow(0.5, (1/(problemDimension*globalAlpha)));
+		String problemName = problem.getClass().getSimpleName();
+		
+		double budgetFactor = getParameter("p0");
+		double globalAlpha = getParameter("p1").doubleValue(); // 0.5
 		double deepLSRadius = getParameter("p2").doubleValue();//0.4;
+		double precision = getParameter("p3").doubleValue(); // 0.0000001
+		double CR = Math.pow(0.5, (1/(problemDimension*globalAlpha)));
+		
 
 		double[] best = new double[problemDimension];
 		if (initialSolution != null)
@@ -88,17 +100,16 @@ public class CMAES_RIS2 extends Algorithm
 		
 		// iteration loop
 		int j = 0; 
-		int budget = 3*maxEvaluations/10;
+		int budget = (int)(budgetFactor*maxEvaluations);
 		while (j < budget)
 		{
 			// get a new population of solutions
-			double[][] pop = cma.samplePopulation();
-			
+			double[][] pop = cma.samplePopulation();				
 			for(int i = 0; i < pop.length && j < maxEvaluations; ++i)
 			{ 
-				// saturate solution inside bounds 
+				// saturate solution inside bounds
 				pop[i] = toro(pop[i], bounds);
-				
+						
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
 				
@@ -110,27 +121,73 @@ public class CMAES_RIS2 extends Algorithm
 						best[n] = pop[i][n];
 					FT.add(j, fBest);
 				}
-				
-				j++;
-			}
-
+									j++;
+			}	
 			// pass fitness array to update search distribution
 			cma.updateDistribution(fitness);
 		}
+				
+		double[][] pop = cma.samplePopulation();
+		double[][] cov = Cov(pop);
+				
+		//generate the P matrix and free memory
+		EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(cov));
+		double[][] P = E.getV().getData();
 		
-		
-		//System.out.println(cma.getDataC());
-		double[][] cov = cma.getRho(); cma = null;		
+		cma = null;
+		pop = null;
+				
+			if(debug)
+		{		
+				String C = "";
+				String PP = "";
+				for(int i=0; i<problemDimension; i++)
+				{
+					for(int k=0; k<problemDimension; k++)
+					{
+						C += cov[i][k]+"\t"; 
+						PP += P[i][k]+"\t"; 
+					}
+					C +="\n"; 	
+				}
+				
+	
+			String name = "covariance-"+budgetFactor+"-"+problemName+".txt";
+			String nameP = "P-"+budgetFactor+"-"+problemName+".txt";
+				
+			File file = new File("." +slash()+name);
+			// if file doesn't exists, then create it
+			if (!file.exists()) 
+				file.createNewFile();
+
+			//		C = cma.getDataC();
+				
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(C);
+			bw.close();
+
+
+			file = new File("." +slash()+nameP);
+			// if file doesn't exists, then create it
+			if (!file.exists()) 
+			file.createNewFile();
+			fw = new FileWriter(file.getAbsoluteFile());
+			bw = new BufferedWriter(fw);
+			bw.write(PP);
+			bw.close();
+		}
+			
 		double[] temp;
 		
 		int i = 0;
 		double[] x = new double[problemDimension];
 		for(int k=0; k < problemDimension; k++)
-		  x[k] = best[k];
+			x[k] = best[k];
 		
-		while (i < maxEvaluations)
-		{
-			if(i==0)
+			while (i < maxEvaluations)
+			{
+				if(i==0)
 			{
 				i = j;
 				//for(int n=0;n<problemDimension;n++)
@@ -157,11 +214,6 @@ public class CMAES_RIS2 extends Algorithm
 				SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
 			
 			boolean improve = true;
-	
-			//generate the P matrix and free memory
-			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(cov));
-			double[][] P = E.getV().getData();
-			//E = null;
 			
 			//scale P columns with the corresponding perturbation radius
 			double[][] R = scale(P,SR);

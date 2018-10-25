@@ -3,6 +3,8 @@
 */
 package benchmarks.problemsImplementation;
 
+import static utils.benchmarks.ProblemsTransformations.sr_func;
+
 import interfaces.Problem;
 
 /**
@@ -204,6 +206,80 @@ public class BaseFunctions
 			return y;
 		}
 	}
+	
+	
+	/**
+	 * Rotated Ill-condinioted Sphere function.
+	 * 
+	 * References:
+	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1113.htm" > Ref 1 </a>
+	 * <a href="http://www.it.lut.fi/ip/evo/functions/node2.html" > Ref 2 </a>
+	*/
+	public static class Ellipsoid extends Problem
+	{
+		private int s_flag = 0;
+		private int r_flag = 0;
+		private double[] S = null;
+		private double[] R = null;
+		
+		/**
+		* Constructor for shifted and/or rotated Ellipsoid function with boundaries (borrowed from IEEE CEC2014 with 10^6 ill conditioning).
+		*/
+		public Ellipsoid(int dimension, double[] bounds, double[] S, double[] R) { super(dimension, bounds); this.s_flag = 1; this.r_flag = 1; this.S = S; this.R = R;}
+		/**
+		* Constructor for shifted and/or rotated Ellipsoid function (borrowed from IEEE CEC2014 with 10^6 ill conditioning).
+		*/
+		public Ellipsoid(int dimension, double[] S, double[] R) { super(dimension, new double[] {-100, 100}); this.S = S;  this.R = R;}
+		/**
+		* Constructor for the Ellipsoid function defined within the specified upper and lower bounds.
+		*/
+		public Ellipsoid(int dimension){ super(dimension, new double[] {-100, 100} );}
+		/**
+		* Constructor for the Ellipsoid function defined within a hyper-cube.
+		*/
+		public Ellipsoid(int dimension, double[] bounds) { super(dimension, bounds); }
+		/**
+		* Constructor for the Ellipsoid function defined within particular decision space.
+		*/
+		public Ellipsoid(int dimension, double[][] bounds) { super(dimension, bounds); }
+		/**
+		* This method implement the Ellipsoid function.
+		* 
+		* @param x solution to be evaluated
+		*/
+		public double f(double[] x)
+		{
+			final int n = x.length;
+			double y = 0;
+		
+			if(this.getDimension()!= n)
+			{
+				y=Double.NaN;
+				System.out.println("WARNING: the design variable does not match the dimensionality of the problem!");
+			}
+			else
+			{
+				int i;
+				double[] z=new double[n];
+				sr_func(x,z,n,S,R,1.0,s_flag,r_flag);/*shift and rotate*/
+				for (i=0; i<n; i++)
+					y += Math.pow(10.0,6.0*i/(n-1))*z[i]*z[i];
+			}
+			return y;
+		}
+	}
+	double ellips_func (double[] x, int nx, double[] Os,double[] Mr,int s_flag,int r_flag) /* Ellipsoidal */
+	{
+		int i;
+		double f = 0.0;
+		double[] z=new double[nx];
+		sr_func(x,z,nx,Os,Mr,1.0,s_flag,r_flag);/*shift and rotate*/
+		for (i=0; i<nx; i++)
+			f += Math.pow(10.0,6.0*i/(nx-1))*z[i]*z[i];
+		return f;
+	}
+
+	
 	
 	/**
 	 * Schwefel function.

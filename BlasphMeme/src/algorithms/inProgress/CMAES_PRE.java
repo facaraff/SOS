@@ -138,6 +138,7 @@ public class CMAES_PRE extends Algorithm
 				PP += P[i][k]+"\t"; 
 			}
 			C +="\n"; 	
+			PP+="\n";
 		}
 		
 		

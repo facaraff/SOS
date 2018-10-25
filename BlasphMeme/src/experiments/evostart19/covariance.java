@@ -31,17 +31,19 @@ package experiments.evostart19;
 import interfaces.Experiment;
 import interfaces.Algorithm;
 //import benchmarks.CEC2014RotInvStudy;
-import benchmarks.problemsImplementation.BaseFunctions.Sphere;
-import benchmarks.problemsImplementation.BaseFunctions.Ackley;
-import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
-//import algorithms.RIDE;
+//import benchmarks.problemsImplementation.BaseFunctions.Sphere;
+import benchmarks.problemsImplementation.BaseFunctions.Ellipsoid;
+//import benchmarks.problemsImplementation.BaseFunctions.Ackley;
+//import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
+////import algorithms.RIDE;
 //import algorithms.MMCDE;
 //import algorithms.EigenDE;
 //import algorithms.CMAES;
 //import algorithms.inProgress.CMS;
 //import algorithms.inProgress.CMAES_RIS2;
-import algorithms.inProgress.CMAES_PRE;
 //import algorithms.CMAES_RIS;
+import algorithms.inProgress.CMAES_PRE;
+
 
 
 
@@ -65,9 +67,10 @@ public class covariance extends Experiment
 		
 //		
 //		a = new CMAES_RIS2();
-//		a.setParameter("p0",0.5); 		
-//		a.setParameter("p1",0.0000001);
+//		a.setParameter("p0",(3.0/10.0));
+//		a.setParameter("p1",0.5); 		
 //		a.setParameter("p2",0.2);
+//		a.setParameter("p3",0.0000001);
 //		add(a);
 //		
 //		a = new CMAES_RIS();
@@ -81,39 +84,43 @@ public class covariance extends Experiment
 //		
 
 		
-		
+//		
 		a = new CMAES_PRE();
 		a.setID("CMAES10");
 		a.setParameter("p0", 0.1);
 		add(a);
+//		
+//		a = new CMAES_PRE();
+//		a.setID("CMAES20");
+//		a.setParameter("p0", 0.2);
+//		add(a);
+//		
+//		a = new CMAES_PRE();
+//		a.setID("CMAES30");
+//		a.setParameter("p0", 0.3);
+//		add(a);
+//		
+//		a = new CMAES_PRE();
+//		a.setID("CMAES50");
+//		a.setParameter("p0", 0.5);
+//		add(a);
+//		
+//		a = new CMAES_PRE();
+//		a.setID("CMAE80");
+//		a.setParameter("p0", 0.8);
+//		add(a);
+//		
+//		
+//		add(new Sphere(probDim));
+//		add(new Ackley(probDim));
+//		add(new Rastigin(probDim));
 		
-		a = new CMAES_PRE();
-		a.setID("CMAES20");
-		a.setParameter("p0", 0.2);
-		add(a);
-		
-		a = new CMAES_PRE();
-		a.setID("CMAES30");
-		a.setParameter("p0", 0.3);
-		add(a);
-		
-		a = new CMAES_PRE();
-		a.setID("CMAES50");
-		a.setParameter("p0", 0.5);
-		add(a);
-		
-		a = new CMAES_PRE();
-		a.setID("CMAE80");
-		a.setParameter("p0", 0.8);
-		add(a);
-		
-		
-//		for(int i = 25; i<=25; i++)
+//		add(new Ellipsoid(probDim, new double[] {0,0}, new double[] {Math.cos(Math.PI/6), -Math.sin(Math.PI/6), Math.sin(Math.PI/6), Math.cos(Math.PI/6)}));
+		add(new Ellipsoid(probDim));
+			
+//		for(int i = 1; i<=25; i++)
 //				add(new CEC2014RotInvStudy(probDim, i));
 		
-		add(new Sphere(probDim));
-		add(new Ackley(probDim));
-		add(new Rastigin(probDim));
 
 
 
