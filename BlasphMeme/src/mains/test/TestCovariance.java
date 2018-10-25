@@ -37,11 +37,12 @@ either expressed or implied, of the FreeBSD Project.
  *  @author Fabio Caraffini
 */
 
-import java.util.Vector; 
+import java.util.Vector;
+
+import experiments.evostar19.covariance;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
-import experiments.evostart19.covariance;
 
 
 /** 

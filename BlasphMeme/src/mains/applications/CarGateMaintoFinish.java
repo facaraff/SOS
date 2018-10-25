@@ -1,4 +1,4 @@
-//package mains.applications;
+package mains.applications;
 //
 //import java.io.BufferedReader;
 //import java.io.FileReader;
@@ -18,8 +18,8 @@
 //import algorithms.CMAES;
 //
 //
-//public class CarGateMaintoFinish
-//{
+public class CarGateMaintoFinish
+{
 //	// penalty factor
 //	private static int penaltyFactor = 0; // 500 ok, 1000 not ok
 //
@@ -565,4 +565,4 @@
 //		
 //		threadPool.shutdownNow();
 //	}
-//}
+}

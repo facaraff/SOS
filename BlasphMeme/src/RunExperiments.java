@@ -34,16 +34,12 @@ either expressed or implied, of the FreeBSD Project.
  *  @author Fabio Caraffini
 */
 
-import java.util.Vector; 
+import java.util.Vector;
+
+import experiments.RIAPP;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
-//import experiments.*;
-//import experiments.paperReviews.*;
-//import experiments.rotInvStudy.*;
-//import experiments.BenchmarksTesting.*;
-import experiments.evostart19.RotCEC14;
-//import experiments.evostart19.contros;
 
 /** 
 * This class contains the main method and has to be used for launching experiments.
@@ -71,22 +67,17 @@ public class RunExperiments
 //		 experiments.add(new CEC14(10));
 //		 experiments.add(new CEC14(50));
 //		 experiments.add(new CEC14(100));
-		 
-		
-//		experiments.add(new HyperSPAM(10));
-//		experiments.add(new HyperSPAM(30));
-//		experiments.add(new HyperSPAM(50));
-//		experiments.add(new HyperSPAM(100));
-
-//		experiments.add(new HyperSPAM(10));
-//		experiments.add(new HyperSPAM(30));
-//		experiments.add(new HyperSPAM(50));
-//		experiments.add(new HyperSPAM(100));
 		
 //		experiments.add(new contros(10));
-		experiments.add(new RotCEC14(10));
-		experiments.add(new RotCEC14(50));
-		experiments.add(new RotCEC14(100));
+//		experiments.add(new RotCEC14(10));
+//		experiments.add(new RotCEC14(50));
+//		experiments.add(new RotCEC14(100));//		
+		
+		experiments.add(new RIAPP(30));
+		experiments.add(new RIAPP(300));
+		experiments.add(new RIAPP(3000));
+		
+		
 	
 	
 		

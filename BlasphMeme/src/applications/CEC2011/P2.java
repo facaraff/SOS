@@ -30,12 +30,12 @@ public class P2 extends Problem { //LENNARD-JONES POTENTIAL PROBLEM
 			
 		for (int i = 3; i < probDim; i++)
 		{
-			//bounds[i][0] = -4 - 0.25*Math.floor((i-3)/3);
-			//bounds[i][1] =  4 + 0.25*Math.floor((i-3)/3);
+			bounds[i][0] = -4 - 0.25*Math.floor((i-3)/3);
+			bounds[i][1] =  4 + 0.25*Math.floor((i-3)/3);
 			
-			// Bound equations CEC2011 Report Pag. 6
-			bounds[i][0] = -4 - 0.25*Math.floor((i-4)/3);
-			bounds[i][1] =  4 + 0.25*Math.floor((i-4)/3);
+			// Bound equations CEC2011 Report Pag. 6 TO CHECK!
+//			bounds[i][0] = -4 - 0.25*Math.floor((i-4)/3);
+//			bounds[i][1] =  4 + 0.25*Math.floor((i-4)/3);
 		}
 			
 		return bounds;
