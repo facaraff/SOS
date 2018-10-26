@@ -604,7 +604,7 @@ public class MatLab
 	/** 
 	 * Returns a copy of A after applying the absolute value to each element.
 	 * @param A array of array of real numbers in double precision.
-	 * @return B output arrya of array of real numbers in double precision.
+	 * @return B output array of array of real numbers in double precision.
 	 */
 	public static double[][] abs(double[][] A)
 	{
@@ -613,7 +613,7 @@ public class MatLab
 		double[][] B = new double[n][m];
 		for(int i=0;i<n;i++)
 			for(int j=0;j<m;j++)
-				B[i][m] = Math.abs(A[i][m]);
+				B[i][j] = Math.abs(A[i][j]);
 	
 		return B;
 	}

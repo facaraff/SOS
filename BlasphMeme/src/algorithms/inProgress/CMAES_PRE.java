@@ -39,7 +39,9 @@ import java.io.FileWriter;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 
+
 import static utils.MatLab.min;
+import static utils.MatLab.abs;
 import static utils.MatLab.multiply;
 
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
@@ -63,11 +65,11 @@ public class CMAES_PRE extends Algorithm
 		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 		
-		double budgetFactor = getParameter("p0");
+		double budgetFactor = getParameter("p0"); 
 		String problemName = problem.getClass().getSimpleName();
-		String name = "covariance-"+budgetFactor+"-"+problemName+".txt";
-		String nameP = "P-"+budgetFactor+"-"+problemName+".txt";
-		
+		String name = "covariance-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
+		String nameP = "P-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
+		String mean = "mean-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		
 		double[] best = new double[problemDimension];
 		if (initialSolution != null)
@@ -122,8 +124,10 @@ public class CMAES_PRE extends Algorithm
 		
 		double[][] pop = cma.samplePopulation();
 		double[][] cov = Cov(pop);
+
 		
-		double small = min(cov);
+		double small = min(abs(cov));
+		
 		double[][] PC = multiply(1/small,cov);
 	
 		
@@ -132,6 +136,7 @@ public class CMAES_PRE extends Algorithm
 		EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(PC));
 		double[][] P = E.getV().getData();
 		
+		double[] mu = cma.getMeanX();
 		
 //		double[] eigen1 = E.getEigenvector(0).toArray(); 
 //		for(int n=0;n<eigen1.length;n++)
@@ -143,6 +148,7 @@ public class CMAES_PRE extends Algorithm
 		String C = "";
 		String PP = "";
 		String PPC = "";
+		String MU = "";
 		for(int i=0; i<problemDimension; i++)
 		{
 			for(int k=0; k<problemDimension; k++)
@@ -151,6 +157,7 @@ public class CMAES_PRE extends Algorithm
 				PPC += PC[i][k]+"\t";
 				PP += P[i][k]+"\t"; 
 			}
+			MU+=mu[i];
 			C +="\n"; 	
 			PP+="\n";
 		}
@@ -193,7 +200,15 @@ public class CMAES_PRE extends Algorithm
 		bw.write(PP);
 		bw.close();
 
-		
+		file = new File("." +slash()+mean);
+		// if file doesn't exists, then create it
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+		bw.write(MU);
+		bw.close();
+
 		
 		finalBest = best;
 
