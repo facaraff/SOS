@@ -57,11 +57,10 @@ public class P2 extends Problem { //LENNARD-JONES POTENTIAL PROBLEM
 			for(int j=i+1; j<n; j++)
 			{
 				r = norm2(subtract(X[i],X[j])); //XXX can be equal to 0?
-				if(r==0) 
-					v += Double.MAX_VALUE; //System.out.println("r "+r);
-				//if(r!=0) 
+				if(r==0 || v == Double.MAX_VALUE) 
+					v = Double.MAX_VALUE; 
 				else
-				   v += (Math.pow(r,-12) -2*Math.pow(r, -6)); //System.out.println("v "+v);
+				   v += (Math.pow(r,-12) -2*Math.pow(r, -6));
 			}
 		return v;
 	}

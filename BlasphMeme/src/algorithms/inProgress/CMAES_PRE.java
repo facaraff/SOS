@@ -39,6 +39,9 @@ import java.io.FileWriter;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 
+import static utils.MatLab.min;
+import static utils.MatLab.multiply;
+
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
 import interfaces.Algorithm;
 import interfaces.Problem;
@@ -120,21 +123,32 @@ public class CMAES_PRE extends Algorithm
 		double[][] pop = cma.samplePopulation();
 		double[][] cov = Cov(pop);
 		
+		double small = min(cov);
+		double[][] PC = multiply(1/small,cov);
+	
+		
+		
 		//generate the P matrix and free memory
-		EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(cov));
+		EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(PC));
 		double[][] P = E.getV().getData();
 		
+		
+//		double[] eigen1 = E.getEigenvector(0).toArray(); 
+//		for(int n=0;n<eigen1.length;n++)
+//			System.out.println(eigen1[n]+" ");
 		
 		cma = null;		
 		
 		
 		String C = "";
 		String PP = "";
+		String PPC = "";
 		for(int i=0; i<problemDimension; i++)
 		{
 			for(int k=0; k<problemDimension; k++)
 			{
-				C += cov[i][k]+"\t"; 
+				C += cov[i][k]+"\t";
+				PPC += PC[i][k]+"\t";
 				PP += P[i][k]+"\t"; 
 			}
 			C +="\n"; 	
@@ -154,6 +168,20 @@ public class CMAES_PRE extends Algorithm
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(C);
 		bw.close();
+		
+		
+		file = new File("." +slash()+"processed-"+name);
+		// if file doesn't exists, then create it
+		if (!file.exists()) 
+			file.createNewFile();
+
+//				C = cma.getDataC();
+		
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+		bw.write(PPC);
+		bw.close();
+		
 
 
 		file = new File("." +slash()+nameP);

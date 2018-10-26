@@ -78,15 +78,19 @@ public class RegularIteration implements PowerIteration {
 
 	@Override
 	public void printCommandLine(EigenValueVector ev) {
+		int n = ev.eigenVector.length;
 		System.out.println("Regular Iteration find the largest EigenValue.");
 		System.out.println("Eigen Value:" + ev.eigenValue);
 		System.out.println("Eigen Vector:");
 		Matrix.vectorToMatrix(ev.eigenVector).transpose().print(4,7);
 		
 		System.out.println("Parametrized Results");
-		System.out.println(ev.eigenVector[0]/ev.eigenVector[2]);
-		System.out.println(ev.eigenVector[1]/ev.eigenVector[2]);
-		System.out.println(ev.eigenVector[2]/ev.eigenVector[2]);
+		for(int i=0; i<n;i++)
+			System.out.println(ev.eigenVector[i]/ev.eigenVector[n-1]);
+		
+//		System.out.println(ev.eigenVector[0]/ev.eigenVector[2]);
+//		System.out.println(ev.eigenVector[1]/ev.eigenVector[2]);
+//		System.out.println(ev.eigenVector[2]/ev.eigenVector[2]);
 		
 	}
 }

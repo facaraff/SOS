@@ -31,8 +31,9 @@ package experiments.evostar19;
 import interfaces.Experiment;
 import interfaces.Algorithm;
 //import benchmarks.CEC2014RotInvStudy;
+import benchmarks.problemsImplementation.BaseFunctions.*;
 //import benchmarks.problemsImplementation.BaseFunctions.Sphere;
-import benchmarks.problemsImplementation.BaseFunctions.Ellipsoid;
+//import benchmarks.problemsImplementation.BaseFunctions.Ellipsoid;
 //import benchmarks.problemsImplementation.BaseFunctions.Ackley;
 //import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
 ////import algorithms.RIDE;
@@ -84,11 +85,16 @@ public class covariance extends Experiment
 //		
 
 		
-//		
 		a = new CMAES_PRE();
 		a.setID("CMAES10");
-		a.setParameter("p0", 0.1);
+		a.setParameter("p0", 0.05);
 		add(a);
+		
+//		
+//		a = new CMAES_PRE();
+//		a.setID("CMAES10");
+//		a.setParameter("p0", 0.1);
+//		add(a);
 //		
 //		a = new CMAES_PRE();
 //		a.setID("CMAES20");
@@ -111,12 +117,12 @@ public class covariance extends Experiment
 //		add(a);
 //		
 //		
-//		add(new Sphere(probDim));
+		add(new Sphere(probDim));
 //		add(new Ackley(probDim));
 //		add(new Rastigin(probDim));
 		
 //		add(new Ellipsoid(probDim, new double[] {0,0}, new double[] {Math.cos(Math.PI/6), -Math.sin(Math.PI/6), Math.sin(Math.PI/6), Math.cos(Math.PI/6)}));
-		add(new Ellipsoid(probDim));
+		//add(new Ellipsoid(probDim));
 			
 //		for(int i = 1; i<=25; i++)
 //				add(new CEC2014RotInvStudy(probDim, i));
