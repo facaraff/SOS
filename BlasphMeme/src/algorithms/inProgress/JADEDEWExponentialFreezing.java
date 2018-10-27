@@ -1,6 +1,6 @@
-package algorithms;
+package algorithms.inProgress;
 
-import SearchProblem.SimpleAgentSearchProblem;
+import applications.SearchProblem.SimpleAgentSearchProblem;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.MatLab;
