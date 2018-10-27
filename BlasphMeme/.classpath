@@ -5,5 +5,6 @@
 	<classpathentry exported="true" kind="lib" path="jars/org.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/jsc.jar"/>
 	<classpathentry kind="lib" path="jars/SurfacePlot.jar"/>
+	<classpathentry kind="lib" path="jars/sysnet-registration-1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
