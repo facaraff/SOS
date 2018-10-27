@@ -1,9 +1,8 @@
 package applications.SearchProblem.PathDrawer;
 
-import SearchProblem.Particle;
-import SearchProblem.SimpleAgentSearchProblem;
-import algorithms.JADEDEWExponentialFreezing;
-import algorithms.SimulatedAnnealing;
+import applications.SearchProblem.Particle;
+import applications.SearchProblem.SimpleAgentSearchProblem;
+import algorithms.inProgress.JADEDEWExponentialFreezing;
 import interfaces.Algorithm;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -33,12 +32,12 @@ public class ZoomAndScrollApplication extends Application {
     @Override
     public void start(Stage stage) {
 
-        SimpleAgentSearchProblem problem = SimpleAgentSearchProblem.CreateSearchProblem2(70, 500, 500, 100, 1000);
-        Algorithm a = new SimulatedAnnealing();
-        a.setParameter("initTemp", 1.0e9);
-        a.setParameter("minTemp", 0.00);
-        a.setParameter("expCoolingFactor", 0.8);
-        a.setParameter("perturbationFactor", 0.4);
+//        SimpleAgentSearchProblem problem = SimpleAgentSearchProblem.CreateSearchProblem2(70, 500, 500, 100, 1000);
+//        Algorithm a = new SimulatedAnnealing();
+//        a.setParameter("initTemp", 1.0e9);
+//        a.setParameter("minTemp", 0.00);
+//        a.setParameter("expCoolingFactor", 0.8);
+//        a.setParameter("perturbationFactor", 0.4);
 
        // a = new CMAES();
 //        a = new ISPO();
