@@ -160,14 +160,19 @@ public class CMAES_PRE extends Algorithm
 				C += cov[i][k]+"\t";
 				PPC += PC[i][k]+"\t";
 				PP += P[i][k]+"\t";
-				POP += pop[i][k]+"\t";
 			}
 			MU+=mu[i]+" ";
 			myMU+=myMu[i]+" ";
 			C +="\n"; 	
 			PP+="\n";
+		}
+		for(int i=0; i<pop.length; i++)
+		{
+			for(int k=0; k<problemDimension; k++)
+				POP += pop[i][k]+"\t";
 			POP+="\n";
 		}
+		
 		
 		MU="cmaes mu = "+MU+"\n my mu = "+myMU;
 		
