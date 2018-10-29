@@ -29,6 +29,7 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.inProgress;
 
 import static utils.algorithms.Misc.Cov;
+import static utils.algorithms.Misc.AVGDesignVar;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
 
@@ -70,6 +71,7 @@ public class CMAES_PRE extends Algorithm
 		String name = "covariance-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String nameP = "P-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String mean = "mean-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
+		String spop = "sampledPopulation-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		
 		double[] best = new double[problemDimension];
 		if (initialSolution != null)
@@ -124,7 +126,7 @@ public class CMAES_PRE extends Algorithm
 		
 		double[][] pop = cma.samplePopulation();
 		double[][] cov = Cov(pop);
-
+		double[] myMu = AVGDesignVar(pop);
 		
 		double small = min(abs(cov));
 		
@@ -149,20 +151,25 @@ public class CMAES_PRE extends Algorithm
 		String PP = "";
 		String PPC = "";
 		String MU = "";
+		String myMU = "";
+		String POP = "";
 		for(int i=0; i<problemDimension; i++)
 		{
 			for(int k=0; k<problemDimension; k++)
 			{
 				C += cov[i][k]+"\t";
 				PPC += PC[i][k]+"\t";
-				PP += P[i][k]+"\t"; 
+				PP += P[i][k]+"\t";
+				POP += pop[i][k]+"\t";
 			}
-			MU+=mu[i];
+			MU+=mu[i]+" ";
+			myMU+=myMu[i]+" ";
 			C +="\n"; 	
 			PP+="\n";
+			POP+="\n";
 		}
 		
-		
+		MU="cmaes mu = "+MU+"\n my mu = "+myMU;
 		
 		File file = new File("." +slash()+name);
 		// if file doesn't exists, then create it
@@ -209,6 +216,15 @@ public class CMAES_PRE extends Algorithm
 		bw.write(MU);
 		bw.close();
 
+		
+		file = new File("." +slash()+spop);
+		// if file doesn't exists, then create it
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+		bw.write(POP);
+		bw.close();
 		
 		finalBest = best;
 
