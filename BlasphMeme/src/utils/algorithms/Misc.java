@@ -230,7 +230,7 @@ public class Misc
 		return (int) ((x >= 0) ? Math.floor(x) : Math.ceil(x));  
 	}
 	/**
-	 * Return an individual whose design variables are the AVG of the design variables of the individuals of the inuput population.
+	 * Return an individual whose design variables are the AVG of the design variables of the individuals of the input population.
 	 * @param p population.
 	 * @return avgInd individual with averaged design variables.
 	 */
@@ -244,7 +244,7 @@ public class Misc
 			{
 				for(int j=0; j<ps; j++) 
 				{
-					avgInd[i] += ((1/ps)*(p[j][i]));
+					avgInd[i] += ((1.0/ps)*(p[j][i]));
 				}
 			}
 		}catch(Exception ex){

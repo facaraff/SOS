@@ -76,8 +76,6 @@ public class RunExperiments
 //		experiments.add(new RIAPP(30));
 		experiments.add(new RIAPP(300));
 		experiments.add(new RIAPP(3000));
-		
-		
 	
 	
 		
