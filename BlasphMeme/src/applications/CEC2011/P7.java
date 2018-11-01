@@ -62,7 +62,7 @@ public class P7 extends Problem { //Spread Spectrum Radar Polyphase Code Design
 						double summ = 0;
 						
 						for(int i1=Math.abs(2*i-j-1)+1; i1<=j; i1++)
-							summ=x[i1- 1]+summ;
+							summ=x[i1-1]+summ;
                   		
 						hsum[kk-1]= Math.cos(summ)+hsum[kk-1];
 					}

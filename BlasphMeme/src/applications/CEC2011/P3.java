@@ -46,7 +46,7 @@ public class P3 extends Problem implements FirstOrderDifferentialEquations{ // B
 		return y[6]*1000;
 	}
 	
-	public int getDimension() {
+	public int getDimension() {//XXX (Fabio) this overrided method can be removed as the dimensionaliy if hte peoblem is fixed and therefore can be specified at constructor level
 		return 7;
 	}
 			
