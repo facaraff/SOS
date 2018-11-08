@@ -2,7 +2,7 @@ package applications.CEC2011;
 
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
-import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
+//import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 
 
@@ -31,7 +31,7 @@ public class P3 extends Problem { // Bifunctional Catalyst Blend Optimal Control
 				
 		intgr.integrate(DE, 0, y, 0.78, yDot);
 		
-		return yDot[6]*1000;
+		return -yDot[6]*1000;
 	}
 	
 	private class DiffEquations implements FirstOrderDifferentialEquations {
@@ -74,8 +74,7 @@ public class P3 extends Problem { // Bifunctional Catalyst Blend Optimal Control
 			yDot[3]= -k[5]*y[3] + k[4]*y[4];
 			yDot[4]= -k[2]*y[1] + k[5]*y[3] - (k[3] + k[4] + k[7] + k[8])*y[4] + k[6]*y[5] + k[9]*y[6];
 			yDot[5]= k[7]*y[4] - k[6]*y[5];
-			yDot[6]= k[8]*y[4] - k[9]*y[6];
-			
+			yDot[6]= k[8]*y[4] - k[9]*y[6];	
 		}
 		
 	}
