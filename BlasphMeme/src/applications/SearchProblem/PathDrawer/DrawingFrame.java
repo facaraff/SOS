@@ -19,14 +19,14 @@ public class DrawingFrame extends Application {
 
     private Group root;
     private Scene theScene;
-    private Stage theStage;
+//    private Stage theStage;
     private Canvas canvas;
     double xTrans,yTrans;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        theStage = primaryStage;
+//        theStage = primaryStage;
 
         primaryStage.setTitle("Route Viewer");
 
@@ -38,7 +38,8 @@ public class DrawingFrame extends Application {
 
         theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void handle(KeyEvent event) {
+            public void handle(KeyEvent event) 
+            {
                 switch (event.getCode()) {
                     case UP:
                         yTrans = -50; xTrans=0;
@@ -52,6 +53,8 @@ public class DrawingFrame extends Application {
                     case RIGHT:
                         xTrans = 50; yTrans=0;
                         break;
+				default:
+					break;
                 }
                 redraw();
             }
