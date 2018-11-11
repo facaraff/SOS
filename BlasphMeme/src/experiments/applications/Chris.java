@@ -61,7 +61,7 @@ public class Chris extends Experiment
 	    add(a);
 		
 	   
-		p = new SimpleAgentSearchProblem(probDim, new double[] {-10,10},10,1.0,1.0,10);
+		p = new SimpleAgentSearchProblem(probDim, new double[] {-10,10},10,1.0,1.0,1);
 		add(p);//add it to the list
 //		
 //		p = new P7();
