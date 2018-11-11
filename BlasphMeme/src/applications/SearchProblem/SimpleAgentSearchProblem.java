@@ -17,7 +17,7 @@ public class SimpleAgentSearchProblem extends Problem {
     public double waypointDistance = 100;
 
     public SimpleAgentSearchProblem(int numberOfWaypoints, double[] bounds, int numberOfParticles, double startXPos, double startYPos, int problemNumber) {
-        super(numberOfWaypoints, bounds);
+        super(numberOfWaypoints, bounds);//@fabio move boundaries inside
 //        this.numberOfWaypoints = numberOfWaypoints;
         this.startXPos = startXPos;
         this.startYPos = startYPos;
