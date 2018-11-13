@@ -138,9 +138,5 @@ public class RIAPP extends Experiment
 		p = new P2(probDim);
 		add(p);
 
-		
-
-
-
 	}
 }
