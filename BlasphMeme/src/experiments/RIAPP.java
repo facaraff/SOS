@@ -32,6 +32,12 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 import algorithms.compact.*;
 import applications.CEC2011.P2;
+//import applications.CEC2011.P1;
+//import applications.CEC2011.P3;
+//import applications.CEC2011.P4;
+//import applications.CEC2011.P5;
+//import applications.CEC2011.P6;
+//import applications.CEC2011.P7;
 
 import interfaces.Problem;
 
@@ -137,6 +143,23 @@ public class RIAPP extends Experiment
 		
 		p = new P2(probDim);
 		add(p);
+		
+//		p = new P1();
+//		add(p);
+//		
+//		p = new P3();
+//		add(p);
+//		
+//		p = new P4();
+//		add(p);
+//		
+//		p = new P5(probDim);
+//		add(p);
+//		
+//		p = new P6(probDim);
+//		add(p);
+//		p = new P7();
+//		add(p);
 
 	}
 }

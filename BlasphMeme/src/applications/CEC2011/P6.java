@@ -8,10 +8,10 @@ import static utils.MatLab.transpose;
 
 import interfaces.Problem;
 
-public class p5 extends Problem { //Tersoff Potential Function Si(B) Minimization Problem
+public class P6 extends Problem { //Tersoff Potential Function Si(C) Minimization Problem
 
 	
-	public p5(int probDim) //throws Exception
+	public P6(int probDim) //throws Exception
 	{
 		super(probDim); 
 		
@@ -49,12 +49,12 @@ public class p5 extends Problem { //Tersoff Potential Function Si(B) Minimizatio
 	private static double evaluatePotential(double[] x)
 	{
 		//Parameters
-		double R=3.0; 			double D=0.2;
-		double A=3264.7; 		double B=95.373;
-		double lamda1=3.2394; 	double lamda2=1.3258; 	double lamda3=1.3258;
-		double c=4.8381; 		double d=2.0417; double h=0;
-		double n1=22.956;
-		double gamma=0.33675;
+		double R=2.85; 			double D=0.15;
+		double A=1830.8; 		double B=471.18;
+		double lamda1=2.4799; 	double lamda2=1.7322; 	double lamda3=1.7322;
+		double c=100390;		double d=16.218; double h=-0.59826;
+		double n1=0.78734;
+		double gamma=1.0999E-6;
 		
 		
 		int n = x.length/3;

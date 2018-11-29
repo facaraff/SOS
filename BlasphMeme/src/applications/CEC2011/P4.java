@@ -68,7 +68,7 @@ public class P4 extends Problem { // Optimal Control of a Non-Linear Stirred Tan
 	    	double   told= interpolator.getPreviousTime();
 	    	double[] y = interpolator.getInterpolatedState();
 	        
-	        //Evaluate Continuously The Integration usin Riemann (Code Matlab non lo fanno)
+	        //Evaluate Continuously The Integration using Riemann (IEEE Matlab implementation lacks of this part)
 	        yInt=yInt+(Math.pow(y[0],2)+Math.pow(y[1],2)+0.1*Math.pow(u,2))*(t-told);
 	        
 	    }
