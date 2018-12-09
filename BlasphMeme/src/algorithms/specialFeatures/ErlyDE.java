@@ -2,6 +2,7 @@ package algorithms.specialFeatures;
 
 import  utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Misc.diversity;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -26,6 +27,7 @@ public class ErlyDE extends Algorithm
 		double alpha = getParameter("p5").doubleValue();
 
 		FTrend FT = new FTrend(true);
+		
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
@@ -58,6 +60,8 @@ public class ErlyDE extends Algorithm
 			
 			i++;
 		}
+		
+		FT.add(diversity(population));
 
 		// temp variables
 		double[] currPt = new double[problemDimension];
@@ -148,6 +152,7 @@ public class ErlyDE extends Algorithm
 			}
 			
 			population = newPop;
+			FT.add(diversity(population));
 			newPop = null;
 		}
 		
