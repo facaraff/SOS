@@ -2552,6 +2552,19 @@ public class CMAEvolutionStrategy implements java.io.Serializable {
         return s;
     }
     
+    /***************************************************************************
+     * Build up the covariance matrix (Fabio)
+     */
+    public double[][] getCovMat() 
+    {
+	int i, j;
+	double[][] CovMat = new double[N][N];
+        for (i = 0; i < N; i++) 
+        	for (j = 0; j <= i; j++)  
+        		CovMat[i][j] = sigma * sigma * C[i][j];
+        return CovMat;
+    }
+    
     private String[] fileswritten = new String[]{""}; // also (re-)initialized in init()
     /** writes a string to a file, overwrites first, appends afterwards. 
      * <p>Example: cma.writeToFile("cmaescorr.dat", cma.writeC()); 

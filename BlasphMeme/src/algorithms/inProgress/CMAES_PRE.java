@@ -69,6 +69,7 @@ public class CMAES_PRE extends Algorithm
 		double budgetFactor = getParameter("p0"); 
 		String problemName = problem.getClass().getSimpleName();
 		String name = "covariance-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
+		String nameIntCov = "CMAES-INTERNAL-COV-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String nameP = "P-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String mean = "mean-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String spop = "sampledPopulation-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
@@ -144,6 +145,9 @@ public class CMAES_PRE extends Algorithm
 //		for(int n=0;n<eigen1.length;n++)
 //			System.out.println(eigen1[n]+" ");
 		
+		
+		double[][] InternalC = cma.getCovMat();
+		
 		cma = null;		
 		
 		
@@ -153,17 +157,20 @@ public class CMAES_PRE extends Algorithm
 		String MU = "";
 		String myMU = "";
 		String POP = "";
+		String cmaesC = "";
 		for(int i=0; i<problemDimension; i++)
 		{
 			for(int k=0; k<problemDimension; k++)
 			{
 				C += cov[i][k]+"\t";
+				cmaesC += InternalC[i][k]+"\t";
 				PPC += PC[i][k]+"\t";
 				PP += P[i][k]+"\t";
 			}
 			MU+=mu[i]+" ";
 			myMU+=myMu[i]+" ";
-			C +="\n"; 	
+			C +="\n"; 
+			cmaesC+="\n";
 			PP+="\n";
 		}
 		for(int i=0; i<pop.length; i++)
@@ -186,6 +193,16 @@ public class CMAES_PRE extends Algorithm
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(C);
+		bw.close();
+		
+		
+		file = new File("." +slash()+nameIntCov);
+		// if file doesn't exists, then create it
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+		bw.write(cmaesC);
 		bw.close();
 		
 		
