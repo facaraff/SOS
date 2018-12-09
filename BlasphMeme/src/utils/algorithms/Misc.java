@@ -369,10 +369,28 @@ public class Misc
 	 */
 	public static double diversity(double[][] pop)
 	{
+		int n = pop[0].length;
+		int NP = pop.length;
 		
-		//*PORCODIO FINISCIMI E SUBITO PRCAMADONNA
+		double[] delta = new double[n];
+		
+		for(int j=0;j<n;j++)
+		{
+			double min = pop[0][j];
+			double max = pop[0][j];
 			
-		return 666.0;
+			for(int i=1;i<NP;i++)
+			{
+				if(pop[i][j]<=min)
+					min = pop[i][j];
+				else if(pop[i][j]>max)
+					max = pop[i][j];
+			}
+			
+			delta[j] = max - min;
+		}
+		
+		return max(delta);
 	}
 	
 	
