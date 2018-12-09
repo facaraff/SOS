@@ -198,13 +198,22 @@ public class RunAndStore
 	private int extraInt;
 	private double extraDouble;
 	
-	//private Vector<Double> extra; PUO' SERVIRE IN FUTURO! IN TOERIA SI POSSONO SALVARE ANCHE STRINGHE STILE ANNA KONONOVA
+	private Vector<Double> extraValues;
 	//double sepindex; non necessariamente un dvector usa questa classe per salvarci la peggio merda
 	
 	/**
-	* Constructor.
+	* Constructor I.
 	*/
-	public FTrend(){this.fValue = new Vector<Double>(); this.index =  new Vector<Integer>();}
+	public FTrend(){this.fValue = new Vector<Double>(); this.index =  new Vector<Integer>(); this.extraValues =  null;}
+	/**
+	* Constructor II.
+	*/
+	public FTrend(boolean extra)
+	{
+		super();
+		if(extra)
+			this.extraValues =  new Vector<Double>();
+	}
 	
 	/**
 	* Get the size of the FTrend object.
@@ -252,6 +261,24 @@ public class RunAndStore
 	* get extraDouble.
 	*/
 	public double getExtraDouble(){return this.extraDouble;}
+	/**
+	* Get the vector containing extra double values.
+	*/
+	public Vector<Double> getExtraValues(){return this.extraValues;}
+	/**
+	* Get the i-th extra double value.
+	*/
+	public double getExtraValue(int i){return this.extraValues.get(i);}
+	/**
+	* Get the last fitness value.
+	*/
+	public double getLastExtraValue(){return this.extraValues.get(this.extraValues.size()-1);}//or equivalently {return this.fValue.lastElement;}
+	/**
+	* add an extra value
+	* 
+	* @param fitness value at i-th FE. 
+	*/
+	public void add(double extra){ this.extraValues.add(extra);}
 	/**
 	* add a new couple <i,f>
 	* 

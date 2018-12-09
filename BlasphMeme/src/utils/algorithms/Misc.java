@@ -362,6 +362,20 @@ public class Misc
 		return x;
 	}
 	
+	/**
+	 * Return diversity measure as defined in Yaman 2018 (Early convergence in DE paper at LeGO18)
+	 * @param pop.
+	 * @return diversity.
+	 */
+	public static double diversity(double[][] pop)
+	{
+		
+		//*PORCODIO FINISCIMI E SUBITO PRCAMADONNA
+			
+		return 666.0;
+	}
+	
+	
 //	/**
 //	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
 //	 * introduce a penalty factor for solutions outside the bounds. 
