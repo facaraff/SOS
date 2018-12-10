@@ -383,7 +383,7 @@ public class RunAndStore
 				s+="extras";
 				for(int i = 0; i<this.extraValues.size()-1; i++)
 					s+=extraValues.get(i)+ "\n";
-				s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO? ci doveva essere un motivo)
+				s+=extraValues.get(this.extraValues.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO? ci doveva essere un motivo)
 			}
 		}
 		else

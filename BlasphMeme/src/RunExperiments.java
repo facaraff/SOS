@@ -71,7 +71,7 @@ public class RunExperiments
 //		experiments.add(new contros(10));
 //		experiments.add(new RotCEC14(10));
 //		experiments.add(new RotCEC14(50));
-//		experiments.add(new RotCEC14(100));//		
+//		experiments.add(new RotCEC14(100));
 		
 //		experiments.add(new RIAPP(60));
 //		experiments.add(new RIAPP(300));
