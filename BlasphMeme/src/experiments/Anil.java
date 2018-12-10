@@ -40,7 +40,7 @@ public class Anil extends Experiment
 	public Anil(int probDim) throws Exception
 	{
 
-		super(probDim,5000,"Anil");
+		super(probDim,5,"Anil");
 		setNrRuns(30);
 
 

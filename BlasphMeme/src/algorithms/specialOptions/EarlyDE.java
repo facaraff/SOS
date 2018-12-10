@@ -160,6 +160,7 @@ public class EarlyDE extends Algorithm
 		
 		finalBest = best;
 		
+		FT.addExtra(diversity(population));
 		FT.add(i, fBest);
 		return FT;
 		
