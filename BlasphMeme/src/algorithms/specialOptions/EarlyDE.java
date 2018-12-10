@@ -1,4 +1,4 @@
-package algorithms.specialFeatures;
+package algorithms.specialOptions;
 
 import  utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.toro;
@@ -14,7 +14,7 @@ import utils.RunAndStore.FTrend;
 /**
  * Differential Evolution (standard version, rand/1/bin)
  */
-public class ErlyDE extends Algorithm
+public class EarlyDE extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -27,6 +27,7 @@ public class ErlyDE extends Algorithm
 		double alpha = getParameter("p5").doubleValue();
 
 		FTrend FT = new FTrend(true);
+		
 		
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
@@ -41,10 +42,11 @@ public class ErlyDE extends Algorithm
 		double fBest = Double.NaN;
 		
 		int i = 0;
-		
+	
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
 		{
+			
 			double[] tmp = generateRandomSolution(bounds, problemDimension);
 			for (int n = 0; n < problemDimension; n++)
 				population[j][n] = tmp[n];
@@ -55,13 +57,13 @@ public class ErlyDE extends Algorithm
 				fBest = fitnesses[j];
 				for (int n = 0; n < problemDimension; n++)
 					best[n] = population[j][n];
-					FT.add(i, fBest);
+				FT.add(i, fBest);
 			}
 			
 			i++;
 		}
 		
-		FT.add(diversity(population));
+		FT.addExtra(diversity(population));
 
 		// temp variables
 		double[] currPt = new double[problemDimension];
@@ -152,7 +154,7 @@ public class ErlyDE extends Algorithm
 			}
 			
 			population = newPop;
-			FT.add(diversity(population));
+			FT.addExtra(diversity(population));
 			newPop = null;
 		}
 		

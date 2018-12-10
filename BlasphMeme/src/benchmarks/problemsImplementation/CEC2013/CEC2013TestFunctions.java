@@ -1177,6 +1177,7 @@ public class CEC2013TestFunctions {
 				f = new F28(dim); break;			
 			default:
 				System.out.println("\nError: There are only 28 test functions in this test suite!");
+				f = null;
 				break;
 			}
 				

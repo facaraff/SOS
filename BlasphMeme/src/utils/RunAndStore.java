@@ -199,6 +199,8 @@ public class RunAndStore
 	private double extraDouble;
 	
 	private Vector<Double> extraValues;
+	private boolean together = false; //side by side
+	
 	//double sepindex; non necessariamente un dvector usa questa classe per salvarci la peggio merda
 	
 	/**
@@ -210,9 +212,12 @@ public class RunAndStore
 	*/
 	public FTrend(boolean extra)
 	{
-		super();
+		this.fValue = new Vector<Double>(); 
+		this.index =  new Vector<Integer>();
 		if(extra)
 			this.extraValues =  new Vector<Double>();
+		else
+			 this.extraValues =  null;
 	}
 	
 	/**
@@ -258,6 +263,11 @@ public class RunAndStore
 	*/
 	public void setExtraDouble(double n){this.extraDouble=n;}
 	/**
+	* set together.
+	* @param together
+	*/
+	public void setTogether(boolean together){this.together=together;}
+	/**
 	* get extraDouble.
 	*/
 	public double getExtraDouble(){return this.extraDouble;}
@@ -278,7 +288,17 @@ public class RunAndStore
 	* 
 	* @param fitness value at i-th FE. 
 	*/
-	public void add(double extra){ this.extraValues.add(extra);}
+	public void addExtra(double extra){ this.extraValues.add(extra);}
+	/**
+	* check if the extra values vector is initialised (N.B. it could be empty!)
+	* 
+	*/
+	public boolean hasExtraValues() { return extraValues!=null;}
+	/**
+	* check if fitness and extra values need to be saved side by side or in separate files
+	*  
+	*/
+	public boolean separateFile() { return hasExtraValues() && !together;}
 	/**
 	* add a new couple <i,f>
 	* 
@@ -340,18 +360,52 @@ public class RunAndStore
 	}
 
 	/**
-	* Store the fitnes trend into a string.
+	* Store the fitness trend and/or extra values into a string.
 	* 
-	* @return s fitnes trend.
+	* @return s fitness trend.
 	*/
 	public String toString()
 	{
 		String s = new String();
-		for(int i = 0; i<this.index.size()-1; i++)
-			s+=this.index.get(i) + "\t" + fValue.get(i) + "\n";
-		s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1);
+		
+		if(hasExtraValues())
+		{
+			if(together) // WHEN THE EXTRA VALUE IS NEEDED NEXT TO FITNESS FUNCTION (IF NT PRESENT A NON NUMERICAL VALUE MUST BE ADDED!!!)
+			{
+				for(int i = 0; i<this.index.size()-1; i++)
+					s+=this.index.get(i) + "\t" + fValue.get(i)+ "\t" +extraValues.get(i) + "\n";
+				s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1)+ "\t" +extraValues.get(this.index.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO?)
+			}
+			else
+			{
+				s = calssicToString();
+//				s+= "\n extras\n";
+				s+="extras";
+				for(int i = 0; i<this.extraValues.size()-1; i++)
+					s+=extraValues.get(i)+ "\n";
+				s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO? ci doveva essere un motivo)
+			}
+		}
+		else
+			s = calssicToString();
+			
 		return s;
 	}
+	
+	/**
+	* Store the fitness trend into a string.
+	* 
+	* @return s fitness trend.
+	*/
+	public String calssicToString() 
+	{
+		String s = new String();
+		for(int i = 0; i<this.index.size()-1; i++)
+			s+=this.index.get(i) + "\t" + fValue.get(i) + "\n";
+		s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!!
+		return s;
+	}
+	
 	/**
 	* Store the i-th line of the fitness trend into a String.
 	* 
@@ -484,15 +538,31 @@ public class RunAndStore
 			// save results to file
 			if (saveAsText)
 			{
+				
+				
 				FileWriter fileWriter = new FileWriter(fileName + ".txt");
 				fileWriter.write("#");
 				for(int i=0; i<bestSolution.length; i++)
 					fileWriter.write(" "+format(bestSolution[i]));
 				fileWriter.write("\n");
-				//for (Best best : bests)
-					//fileWriter.write(Integer.toString(best.getI()) + "\t" + Double.toString(best.getfBest()) + "\n");
-					fileWriter.write(FT.toString());
-					fileWriter.close();
+				
+				String s = FT.toString();
+				
+				if(FT.separateFile())
+				{
+					String[] parts = s.split("extras");	
+                   s = parts[0];
+                   
+                   FileWriter FWriter = new FileWriter(fileName+"-Extras" + ".txt");
+                   FWriter.write(parts[1]);	
+                   FWriter.close();
+                }
+				
+				fileWriter.write(s);		
+				fileWriter.close();
+					
+					
+						
 			}
 			else // TO DO
 			{
