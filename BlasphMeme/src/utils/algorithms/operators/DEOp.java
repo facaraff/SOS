@@ -151,6 +151,23 @@ public class DEOp
 			
 			return newPt;
 		}
+		
+		/**
+		* cur-to-best/1 mutation scheme, alternative method
+		* 
+		* @param population set of candidate solutions/ individuals.
+		* @param bestPt best individual.
+		* @param j index of the current individual.
+		* @param F scale factor.
+		* @return newPt mutant individual.
+		*/
+		public static double[] currentToBest1(double[] fitnesses, double[][] population, int j, double F)
+		{
+			int bestIndex = indexMin(fitnesses);
+			double[] bestPt = population[bestIndex];
+			
+			return currentToBest1(population, bestPt, j, F);
+		}
 	
 	   /**
 		* current-to-best/1 mutation scheme
@@ -229,6 +246,37 @@ public class DEOp
 
 			return newPt;
 		}
+		 /**
+		* rand-to-best/1 mutation scheme, alternative method
+		* 
+		* @param population set of candidate solutions/individuals.
+		* @param bestPt best individual.
+		* @param F scale factor.
+		* @return newPt mutant indvidual.
+		*/
+		public static double[] randToBest1(double[] fitnesses, double[][] population, double F)
+		{
+			int problemDimension = population[0].length;
+			int populationSize = population.length;
+		
+			int bestIndex = indexMin(fitnesses);
+			double[] bestPt = population[bestIndex];
+			
+			int[] r = new int[populationSize];
+			for (int i = 0; i < populationSize; i++)
+				r[i] = i;
+			r = RandUtils.randomPermutation(r);
+		
+			int r1 = r[0];
+			int r2 = r[1];
+			int r3 = r[2];
+		
+			double[] newPt = new double[problemDimension];
+			for (int i = 0; i < problemDimension; i++)
+				newPt[i] = population[r3][i] + F*(bestPt[i]-population[r3][i]) + F*(population[r1][i]-population[r2][i]);
+
+			return newPt;
+		}
 	   /**
 		* rand-to-best/2 mutation scheme
 		* 
@@ -259,6 +307,22 @@ public class DEOp
 
 			return newPt;
 		}
+		 /**
+		* rand-to-best/2 mutation scheme, alternative method
+		* 
+		* @param population set of candidate solutions/individuals.
+		* @param bestPt best individual.
+		* @param F scale factor.
+		* @return newPt mutant indvidual.
+		*/
+		public static double[] randToBest2(double[] fitnesses, double[][] population, double F)
+		{
+			int bestIndex = indexMin(fitnesses);
+			double[] bestPt = population[bestIndex];
+			
+			return randToBest2(population, bestPt, F);
+		}
+		
 	   /**
 		* rand-to-best/2 mutation scheme, alternative method.
 		* 

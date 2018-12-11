@@ -77,7 +77,8 @@ public class EarlyDE extends Algorithm
 		{
 		
 			double[][] newPop = new double[populationSize][problemDimension];
-
+			double[] newFitnesses = new double[populationSize];
+			
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
 				for (int n = 0; n < problemDimension; n++)
@@ -88,31 +89,43 @@ public class EarlyDE extends Algorithm
 				switch (mutationStrategy)
 				{
 					case 1:
-						// DE/rand/1
-						newPt = DEOp.rand1(population, F);
-						break;
-					case 2:
-						// DE/cur-to-best/1
-						newPt = DEOp.currentToBest1(population, best, j, F);
-						break;
-					case 3:
-						// DE/rand/2
-						newPt = DEOp.rand2(population, F);
-						break;
-					case 4:
 						// DE/current-to-rand/1
 						crossPt = DEOp.currentToRand1(population, j, F);
 						break;
+					case 2:
+						// DE/rand/1
+						newPt = DEOp.rand1(population, F);
+						break;
+					case 3:
+						// DE/best/1
+						newPt = DEOp.best1(population, fitnesses, F); 
+						break;
+					case 4:
+						// DE/rand-to-best/1
+						newPt = DEOp.randToBest1(fitnesses,population,F);
+						break;
 					case 5:
+						// DE/cur-to-best/1
+						newPt = DEOp.currentToBest1(fitnesses, population, j, F);
+						break;
+					case 6:
+						// DE/rand/2
+						newPt = DEOp.rand2(population, F);
+						break;
+					case 7:
+						// DE/best/2
+						newPt = DEOp.best2(population, fitnesses, F);
+						break;
+					case 8:
 						// DE/rand-to-best/2
-						newPt = DEOp.randToBest2(population, best, F);
+						newPt = DEOp.randToBest2(population, fitnesses, F);
 						break;
 					default:
 						break;
 				}
 		
 				// crossover
-				if (mutationStrategy != 4)
+				if (mutationStrategy != 1)
 				{
 					if (crossoverStrategy == 1)
 						crossPt = DEOp.crossOverBin(currPt, newPt, CR);
@@ -132,7 +145,7 @@ public class EarlyDE extends Algorithm
 				{
 					for (int n = 0; n < problemDimension; n++)
 						newPop[j][n] = crossPt[n];
-					fitnesses[j] = crossFit;
+					newFitnesses[j] = crossFit;
 					
 					// best update
 					if (crossFit < fBest)
@@ -148,14 +161,15 @@ public class EarlyDE extends Algorithm
 				{
 					for (int n = 0; n < problemDimension; n++)
 						newPop[j][n] = currPt[n];
-					fitnesses[j] = currFit;
+					newFitnesses[j] = currFit;
 				}
 				crossPt = null; newPt = null;
 			}
 			
 			population = newPop;
+			fitnesses = newFitnesses;
 			FT.addExtra(diversity(population));
-			newPop = null;
+			newPop = null; newFitnesses = null;
 		}
 		
 		finalBest = best;

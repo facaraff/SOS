@@ -43,72 +43,171 @@ public class Anil extends Experiment
 		super(probDim,5000,"Anil");
 		setNrRuns(30);
 
-
-		Algorithm a;// ///< A generic optimiser.
-	    //Problem p;// ///< A generic problem.
+		double popSize = 30; //10;
+		String P = "P"+(int)popSize;
 		
-//		a = new DE();
-//		a.setID("rDEr1bin");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.7);//F
-//		a.setParameter("p2", -1.0); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 0.3);//ALPHA
-//		add(a);
-//		
+		Algorithm a;// ///< A generic optimiser.
+	    //Problem P);// ///< A generic problem.
+				
 		a = new EarlyDE();
-		a.setID("DEr1exp");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.7);//F
+		a.setID("DErob"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p3", 2.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DEroe"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 2.0);
+		a.setParameter("p3", 2.0);//mutation
+		a.setParameter("p4", 2.0);//crossover
+		a.setParameter("p5", 0.3);//ALPHA
+		add(a);
+		
+		a = new EarlyDE();
+		a.setID("DEcro"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", Double.NaN); //CR
+		a.setParameter("p3", 2.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+
+		a = new EarlyDE();
+		a.setID("DEbob"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p3", 3.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DEboe"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p3", 3.0);//mutation
+		a.setParameter("p4", 2.0);//crossover
+		a.setParameter("p5", 0.3);//ALPHA
+		add(a);
+		
+		a = new EarlyDE();
+		a.setID("DErbob"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p3", 4.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DErboe"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p3", 4.0);//mutation
+		a.setParameter("p4", 2.0);//crossover
+		a.setParameter("p5", 0.3);//ALPHA
+		add(a);
+		
+		a = new EarlyDE();
+		a.setID("DEcbob"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p3", 5.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DEcboe"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p3", 5.0);//mutation
+		a.setParameter("p4", 2.0);//crossover
 		a.setParameter("p5", 0.3);//ALPHA
 		add(a);
 		
 		
-//		a = new RIDE();
-//		a.setID("rRIDErand1bin");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.4); //F
-//		a.setParameter("p2", 0.3); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 4.0);
-//		a.setParameter("p5", Double.NaN);
-//		add(a);
-//		
-//		a = new RIDE();
-//		a.setID("rRIDErand1exp");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.4); //F
-//		a.setParameter("p2", -1.0); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 5.0);
-//		a.setParameter("p5", 0.3);
-//		add(a);
-//		
-//		a = new EigenDE();
-//		a.setID("rEigenDEr1bin");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.7);//F
-//		a.setParameter("p2", 0.3); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", Double.NaN);//ALPHA
-//		a.setParameter("p6", 1.0);//PR
-//		add(a);
-//		
-//		a = new EigenDE();
-//		a.setID("rEigenDEr1exp");
-//		a.setParameter("p0", (double)probDim);
-//		a.setParameter("p1", 0.7);//F
-//		a.setParameter("p2", -1.0); //CR
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 2.0);
-//		a.setParameter("p5", 0.3);//ALPHA
-//		a.setParameter("p6", 1.0);//PR
-//		add(a);
+		a = new EarlyDE();
+		a.setID("DErtb"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p3", 6.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DErte"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p3", 6.0);//mutation
+		a.setParameter("p4", 2.0);//crossover
+		a.setParameter("p5", 0.3);//ALPHA
+		add(a);
+		
+		a = new EarlyDE();
+		a.setID("DEbtb"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p3", 7.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DEbte"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p3", 7.0);//mutation
+		a.setParameter("p4", 2.0);//crossover
+		a.setParameter("p5", 0.3);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DErbtb"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.3); //CR
+		a.setParameter("p3", 8.0);//mutation
+		a.setParameter("p4", 1.0);//crossover
+		a.setParameter("p5", Double.NaN);//ALPHA
+		add(a);
+		
+		
+		a = new EarlyDE();
+		a.setID("DErbte"+P);
+		a.setParameter("p0", popSize);
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", -1.0); //CR
+		a.setParameter("p3", 8.0);//mutation
+		a.setParameter("p4", 2.0);//crossover
+		a.setParameter("p5", 0.3);//ALPHA
+		add(a);
+		
 
 		for(int i = 1; i<=28; i++)
 			add(new CEC2013(i, probDim));
