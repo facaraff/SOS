@@ -118,7 +118,7 @@ public class EarlyDE extends Algorithm
 						break;
 					case 8:
 						// DE/rand-to-best/2
-						newPt = DEOp.randToBest2(population, fitnesses, F);
+						newPt = DEOp.randToBest2(fitnesses, population, F);
 						break;
 					default:
 						break;
@@ -153,8 +153,8 @@ public class EarlyDE extends Algorithm
 						fBest = crossFit;
 						for (int n = 0; n < problemDimension; n++)
 							best[n] = crossPt[n];
-						//if(i==problemDimension)	
-						FT.add(i, fBest);
+						//if(problemDimension%i==0)	
+							FT.add(i, fBest);
 					}
 				}
 				else
@@ -163,8 +163,13 @@ public class EarlyDE extends Algorithm
 						newPop[j][n] = currPt[n];
 					newFitnesses[j] = currFit;
 				}
+				
+				
 				crossPt = null; newPt = null;
+//				if(problemDimension%i==0)	
+					//FT.add(i, fBest);
 			}
+			
 			
 			population = newPop;
 			fitnesses = newFitnesses;
