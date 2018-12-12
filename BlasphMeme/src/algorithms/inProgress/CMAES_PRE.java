@@ -70,6 +70,7 @@ public class CMAES_PRE extends Algorithm
 		String problemName = problem.getClass().getSimpleName();
 		String name = "covariance-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String nameIntCov = "CMAES-INTERNAL-COV-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
+		String nameIntNomCov = "CMAES-INTERNAL-NORMALISED-COV-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String nameP = "P-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String mean = "mean-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
 		String spop = "sampledPopulation-"+budgetFactor+"-"+problemName+problemDimension+"D"+".txt";
@@ -148,6 +149,18 @@ public class CMAES_PRE extends Algorithm
 		
 		double[][] InternalC = cma.getCovMat();
 		
+		
+		for(int i=1; i<problemDimension; i++) 
+			for(j=0; j<i; j++)
+				InternalC[j][i] = InternalC[i][j];
+		
+		
+		
+		double smallCmaes = min(abs(InternalC));//if we have a 0 then it would be a problem when performing the division!!!! I never go t0 though
+		double[][] InternalProcessedC = multiply(1/smallCmaes,InternalC);
+		
+		
+		
 		cma = null;		
 		
 		
@@ -158,11 +171,13 @@ public class CMAES_PRE extends Algorithm
 		String myMU = "";
 		String POP = "";
 		String cmaesC = "";
+		String cmaesProcessedC = "";
 		for(int i=0; i<problemDimension; i++)
 		{
 			for(int k=0; k<problemDimension; k++)
 			{
 				C += cov[i][k]+"\t";
+				cmaesProcessedC += InternalProcessedC[i][k]+"\t";
 				cmaesC += InternalC[i][k]+"\t";
 				PPC += PC[i][k]+"\t";
 				PP += P[i][k]+"\t";
@@ -172,7 +187,9 @@ public class CMAES_PRE extends Algorithm
 			C +="\n"; 
 			cmaesC+="\n";
 			PP+="\n";
+			cmaesProcessedC+="\n";
 		}
+		
 		for(int i=0; i<pop.length; i++)
 		{
 			for(int k=0; k<problemDimension; k++)
@@ -203,6 +220,15 @@ public class CMAES_PRE extends Algorithm
 		fw = new FileWriter(file.getAbsoluteFile());
 		bw = new BufferedWriter(fw);
 		bw.write(cmaesC);
+		bw.close();
+		
+		file = new File("." +slash()+nameIntNomCov);
+		// if file doesn't exists, then create it
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+		bw.write(cmaesProcessedC);
 		bw.close();
 		
 		
