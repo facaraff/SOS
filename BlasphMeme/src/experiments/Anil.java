@@ -43,7 +43,7 @@ public class Anil extends Experiment
 		super(probDim,5000,"Anil");
 		setNrRuns(30);
 
-		double popSize = 30;
+		double popSize = 100;
 		String P = "P"+(int)popSize;
 		
 		Algorithm a;// ///< A generic optimiser.
