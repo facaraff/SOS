@@ -52,6 +52,8 @@ public abstract class Algorithm
 	protected double[] finalBest;
 	protected double initialFitness;
 	protected String ID = null;
+	
+	protected int run; //ONLY USED IN OLD KONONOVA FILR... NEED REFACTORINMG AS I CAN GET RID OF THIS VARIABLE
 
 	/**
 	 * This method executes the algorithm on a specified problem. 
@@ -87,11 +89,11 @@ public abstract class Algorithm
 	 */
 	public void setInitialFitness(double initialFitness){this.initialFitness = initialFitness;}
 	/**
-	 * This method sets the value of the idetifier string equal to the class name.
+	 * This method sets the value of the identifier string equal to the class name.
 	 */
 	public void setID(){this.ID = this.getClass().getSimpleName();}
 	/**
-	 * This method allow to customise the value of the idetifier with a preferred name.
+	 * This method allow to customise the value of the identifier with a preferred name.
 	 * 
 	 * @param name custom unique ID name for the algorithm.
 	 * 
@@ -105,7 +107,7 @@ public abstract class Algorithm
 	 */
 	public String getID(){return this.ID;}
 	/**
-	 * This method return a String reporting the paramters setting.
+	 * This method return a String reporting the parameters setting.
 	 */
 	public String getParSetting()
 	{
@@ -114,4 +116,21 @@ public abstract class Algorithm
 			description+="("+name+" "+getParameter(name)+")";
 		return description;
 	}
+	
+	
+	/**
+	 * Store the "run" number.
+	 * 
+	 * @param run the number of the performed run.
+	 * 
+	 */
+	public void setRun(int run){this.run = run;}
+	/**
+	 * Get the "run" number.
+	 * 
+	 * @return  the number of the performed run.
+	 * 
+	 */
+	public int getRun(){return this.run;}
+	
 }

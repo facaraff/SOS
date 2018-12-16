@@ -1,0 +1,1 @@
+Si possono buttare... la differenza da quelli nuovi e' solo che hanno f0 invece che g0... ma ho deciso di cambiare tutto e lsciare solo f0... tanto la differenza sono solo i boiundaries che cambio  mia convenianeza poi rinomio il filecon ctr+f e cambio f0 in g0 o altre funzioni.
