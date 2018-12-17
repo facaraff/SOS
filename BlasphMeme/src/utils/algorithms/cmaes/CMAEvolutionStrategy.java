@@ -2531,6 +2531,7 @@ public class CMAEvolutionStrategy implements java.io.Serializable {
         }
         return rho;
     }
+    
     /** correlations and covariances of the search distribution. The
      * first, '%#'-commented row contains itertation number,
      * evaluation number, and sigma. In the remaining rows the upper
@@ -2560,10 +2561,41 @@ public class CMAEvolutionStrategy implements java.io.Serializable {
 	int i, j;
 	double[][] CovMat = new double[N][N];
         for (i = 0; i < N; i++) 
-        	for (j = N-1; j >= i; j--)  
-        		CovMat[i][j] = sigma * sigma * C[i][j];
+        	for (j = 0; j <= i; j++)  
+        		CovMat[i][j] = C[i][j];
         return CovMat;
     }
+    /***************************************************************************
+     * Print C matrix (Fabio)
+     */
+    public void printC() 
+    {
+	int i, j;
+	String s = "";
+        for (i = 0; i < N; i++) 
+        {
+        	for (j = 0; j < N; j++)  
+        		s+=C[i][j]+"\t";
+        	s+="\n";
+        }
+        System.out.println(s);
+    }
+    /*
+    * Print sigma C matrix (Fabio)
+    */
+   public void printSC() 
+   {
+	int i, j;
+	String s = "";
+       for (i = 0; i < N; i++) 
+       {
+       	for (j = 0; j < N; j++)  
+       		s+=sigma*sigma*C[i][j]+"\t";
+       	s+="\n";
+       }
+       System.out.println(s);
+   }
+   
     
     private String[] fileswritten = new String[]{""}; // also (re-)initialized in init()
     /** writes a string to a file, overwrites first, appends afterwards. 

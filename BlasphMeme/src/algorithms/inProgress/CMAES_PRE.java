@@ -142,12 +142,19 @@ public class CMAES_PRE extends Algorithm
 		
 		double[] mu = cma.getMeanX();
 		
+		
+		cma.printC();
+		
+		cma.printSC();
+		
+		
 //		double[] eigen1 = E.getEigenvector(0).toArray(); 
 //		for(int n=0;n<eigen1.length;n++)
 //			System.out.println(eigen1[n]+" ");
 		
 		
 		double[][] InternalC = cma.getCovMat();
+		
 		
 		
 		for(int i=1; i<problemDimension; i++) 

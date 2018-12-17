@@ -85,9 +85,14 @@ public class covariance extends Experiment
 //		
 
 		
+//		a = new CMAES_PRE();
+//		a.setID("CMAES10");
+//		a.setParameter("p0", 0.05);
+//		add(a);
+		
 		a = new CMAES_PRE();
 		a.setID("CMAES10");
-		a.setParameter("p0", 0.05);
+		a.setParameter("p0", 1.0);
 		add(a);
 		
 //		
@@ -122,7 +127,7 @@ public class covariance extends Experiment
 //		add(new Rastigin(probDim));
 		
 //		add(new Ellipsoid(probDim, new double[] {0,0}, new double[] {Math.cos(Math.PI/6), -Math.sin(Math.PI/6), Math.sin(Math.PI/6), Math.cos(Math.PI/6)}));
-		//add(new Ellipsoid(probDim));
+//		add(new Ellipsoid(probDim));
 			
 //		for(int i = 1; i<=25; i++)
 //				add(new CEC2014RotInvStudy(probDim, i));
