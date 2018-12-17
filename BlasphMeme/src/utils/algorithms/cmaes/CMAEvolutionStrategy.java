@@ -2541,7 +2541,7 @@ public class CMAEvolutionStrategy implements java.io.Serializable {
 	int i, j;
         String s = new String();    
         s = "%# " + countiter + " " + counteval + " " + sigma + "\n";
-        for (i = 0; i < N; ++i) 
+        for (i = 0; i < N; ++i)
         {
         	for (j = 0; j < i; ++j) // ouput correlation in the lower half
         		s += C[i][j] / Math.sqrt(C[i][i] * C[j][j]) + " ";
@@ -2560,7 +2560,7 @@ public class CMAEvolutionStrategy implements java.io.Serializable {
 	int i, j;
 	double[][] CovMat = new double[N][N];
         for (i = 0; i < N; i++) 
-        	for (j = 0; j <= i; j++)  
+        	for (j = N-1; j >= i; j--)  
         		CovMat[i][j] = sigma * sigma * C[i][j];
         return CovMat;
     }
