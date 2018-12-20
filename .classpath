@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="BlasphMeme/jars/jsc.jar"/>
 	<classpathentry kind="lib" path="BlasphMeme/jars/org.jar"/>
 	<classpathentry kind="lib" path="BlasphMeme/jars/sysnet-registration-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Badddobaby/git/BlasphMeme/BlasphMeme/jars/SurfacePlot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
