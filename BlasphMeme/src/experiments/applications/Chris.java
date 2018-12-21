@@ -60,8 +60,10 @@ public class Chris extends Experiment
 	    a.setParameter("p3", 10.0);
 	    add(a);
 		
-	   
-		p = new SimpleAgentSearchProblem(probDim, new double[] {-10,10},10,1.0,1.0,1);
+	   	// bounds are of maximum turn in radians (roughly 60 degrees)
+		// the number of particles parameter probably wants to be quite high as they are used
+		// to approximate 5 different Gaussian distributions in this example
+		p = new SimpleAgentSearchProblem(probDim, new double[] {-1.05,1.05},500,500.0,500.0,1);
 		add(p);//add it to the list
 //		
 //		p = new P7();

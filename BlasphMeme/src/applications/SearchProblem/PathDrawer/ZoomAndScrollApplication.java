@@ -33,27 +33,9 @@ public class ZoomAndScrollApplication extends Application {
     @Override
     public void start(Stage stage) {
 
-        SimpleAgentSearchProblem problem = SimpleAgentSearchProblem.CreateSearchProblem2(70, 500, 500, 100, 1000);
-//        Algorithm a = new SimulatedAnnealing();
-//        a.setParameter("initTemp", 1.0e9);
-//        a.setParameter("minTemp", 0.00);
-//        a.setParameter("expCoolingFactor", 0.8);
-//        a.setParameter("perturbationFactor", 0.4);
+        SimpleAgentSearchProblem problem = new SimpleAgentSearchProblem(50, new double[] {-1.05,1.05},500,500.0,500.0,1);///SimpleAgentSearchProblem.CreateSearchProblem2(70, 500, 500, 100, 1000);
 
-       // a = new CMAES();
-//        a = new ISPO();
-//        a.setParameter("p0", 1.0);
-//        a.setParameter("p1", 10.0);
-//        a.setParameter("p2", 2.0);
-//        a.setParameter("p3", 4.0);
-//        a.setParameter("p4", 1e-5);
-//        a.setParameter("p5", 30.0);
 
-//        a = new ClassicDifferentialEvolution();
-//        a.setParameter("PopulationSize", 500.0);
-//        a.setParameter("F", 0.75);
-//        a.setParameter("CR", 0.9);
-//
         Algorithm a = new JADEDEWExponentialFreezing();
         //a = new JADE();
         a.setParameter("PopulationSize", 500.0);
@@ -81,18 +63,14 @@ public class ZoomAndScrollApplication extends Application {
         canvas.setTranslateX(-drawingOffsetX);
         canvas.setTranslateY(-drawingOffsetY);
 
-        //Line line = new Line(50,49,92,400);
-        //line.setStrokeWidth(3);
-        //line.setStroke(Color.YELLOWGREEN);
-        //Rectangle rect = new Rectangle(drawingOffsetX,drawingOffsetY,1000,1000);
-        //rect.setStroke(Color.CYAN);
-        //rect.setFill(Color.CYAN);
-        //rect.setStrokeWidth(5);
-        //canvas.getChildren().add(rect);
-        
+        try {
+            a.execute(problem, 5000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        
-        double[] route = new double[]{-1.047,0.06446,0.2039,1.031,1.031,1.031,-1.047,0.01618,0.01613,0.01609,0.01604,0.01599,-1.047,-1.047,-1.047,-0.7674,0.0,0.0,0.0,-4.441E-16,4.441E-16,-4.441E-16,0.0,4.441E-16,1.047,1.047,1.047,1.047,1.047,-1.047,-1.047,-1.047,-1.047,-1.047,0.1799,0.1899,0.4022,1.047,1.047,1.047,0.8214,0.0,0.0,-0.2727,-0.2834,-0.7113,-1.047,-1.047,-1.008,0.0,8.882E-16,0.3611,1.047,1.047,1.047,1.047,0.4437,-1.036,-0.4432,-0.4554,-1.047,-1.047,-1.047,-0.136,-4.441E-16,0.5302,0.543,1.047,1.047,1.047,0.5516,0.0,-0.6222,-0.6358,-0.6495,-0.6633,-0.6772,-1.047,-0.7918,0.0,1.332E-15,0.7484,1.047,1.047,1.047,1.047,0.1111,-1.047,-1.047,-1.047,-1.047,0.8999,1.047,1.047,-1.045,-0.9641,1.047,1.007,-1.047,-1.047};
+        double[] route = a.getFinalBest();
+
         drawParticles(problem.getParticles());
         drawRoute(problem.anglesToWaypoints(route));
         try {
