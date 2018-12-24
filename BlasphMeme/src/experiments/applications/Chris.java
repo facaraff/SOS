@@ -31,8 +31,15 @@ package experiments.applications;
 import interfaces.Experiment;
 import interfaces.Algorithm;
 import interfaces.Problem;
-import algorithms.singleSolution.NonUniformSA;
-import algorithms.singleSolution.VISPO;
+import algorithms.CCPSO2;
+import algorithms.CLPSO;
+import algorithms.JADE;
+import algorithms.MADE;
+import algorithms.MS_CAP;
+import algorithms.SADE;
+import algorithms.CMAES;
+//import algorithms.singleSolution.NonUniformSA;
+//import algorithms.singleSolution.VISPO;
 import applications.SearchProblem.SimpleAgentSearchProblem;
 
 
@@ -47,18 +54,57 @@ public class Chris extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 	    Problem p;// ///< A generic problem.
 	
-	    a = new VISPO();
-	    a.setParameter("p0",10.0);
-	    a.setParameter("p1", 30.0);
-	    a.setParameter("p2", 0.65);
-	    add(a);
-
-	    a = new NonUniformSA();
-	    a.setParameter("p0",5.0);
-	    a.setParameter("p1", 0.9);
+	    a = new MS_CAP();
+	    a.setParameter("p0",50.0);
+	    a.setParameter("p1", 1e-6);
 	    a.setParameter("p2", 3.0);
-	    a.setParameter("p3", 10.0);
 	    add(a);
+	    
+	    a = new MADE();
+	    a.setParameter("p0",50.0);
+	    a.setParameter("p1", 50.0);
+	    a.setParameter("p2", 0.5);
+	    a.setParameter("p3", 0.7);
+	    a.setParameter("p4", 0.02);
+	    a.setParameter("p5", 1.0);
+	    add(a);
+	    
+	    a = new JADE();
+	    a.setParameter("p0",60.0);
+	    a.setParameter("p1", 0.05);
+	    a.setParameter("p2", 0.1);
+	    add(a);
+	    
+	    a = new SADE();
+	    a.setParameter("p0",50.0);
+	    a.setParameter("p1", 4.0);
+	    a.setParameter("p2", 20.0);
+	    add(a);
+	    
+	    a = new CLPSO();
+	    a.setParameter("p0",60.0);
+	    add(a);
+	    
+	    a = new CCPSO2();
+	    a.setParameter("p0",30.0);
+	    a.setParameter("p1",0.5);
+	    add(a);
+	    
+	    a = new CMAES();
+	    add(a);
+	    
+//	    a = new VISPO();
+//	    a.setParameter("p0",10.0);
+//	    a.setParameter("p1", 30.0);
+//	    a.setParameter("p2", 0.65);
+//	    add(a);
+//
+//	    a = new NonUniformSA();
+//	    a.setParameter("p0",5.0);
+//	    a.setParameter("p1", 0.9);
+//	    a.setParameter("p2", 3.0);
+//	    a.setParameter("p3", 10.0);
+//	    add(a);
 		
 	   	// bounds are of maximum turn in radians (roughly 60 degrees)
 		// the number of particles parameter probably wants to be quite high as they are used
