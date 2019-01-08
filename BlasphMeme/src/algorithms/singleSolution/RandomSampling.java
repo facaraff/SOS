@@ -2,8 +2,6 @@ package algorithms.singleSolution;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import interfaces.Algorithm;
 import interfaces.Problem;
@@ -48,7 +46,7 @@ public class RandomSampling extends Algorithm
 		{
 			solution = generateRandomSolution(bounds, problemDimension);
 			fSolution = problem.f(solution);
-
+			i++;
 			// best update
 			if (fSolution < fBest)
 			{
@@ -62,10 +60,6 @@ public class RandomSampling extends Algorithm
 		finalBest = best;
 
 		FT.add(i,fBest);
-		NumberFormat decimalFormat = DecimalFormat.getInstance();
-		decimalFormat.setMaximumFractionDigits(2);
-		decimalFormat.setMinimumFractionDigits(2);
-
 
 		return FT;
 	}

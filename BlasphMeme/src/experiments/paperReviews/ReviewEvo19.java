@@ -26,81 +26,70 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
+package experiments.paperReviews;
 
-
-
-/** @file RunExperiments.java
- *  
- *  @author Fabio Caraffini
-*/
-
-import java.util.Vector;
-
-import experiments.paperReviews.ReviewEvo19;
 import interfaces.Experiment;
+import interfaces.Algorithm;
+import algorithms.singleSolution.RandomSampling;
+import algorithms.compact.review.RecDE_light;
+//import algorithms.inProgress.VACCABOIA4;
+//import algorithms.inProgress.VACCABOIA;
+//import algorithms.inProgress.VACCABOIA2;
+//import algorithms.inProgress.VACCABOIA3;
+//import algorithms.compact.cDE_exp_light;
+//import algorithms.compact.memeticCDE;
+//import algorithms.inProgress.CMO;
+//import algorithms.singleSolution.Powell;
+//import algorithms.singleSolution.Powell_toro;
+//import algorithms.singleSolution.Rosenbrock;
+import benchmarks.CEC2014;
 
-import static utils.RunAndStore.resultsFolder;
 
-/** 
-* This class contains the main method and has to be used for launching experiments.
-*/
-public class RunExperiments
+public class ReviewEvo19 extends Experiment
 {
 	
-	
-	/** 
-	* Main method.
-	* This method has to be modified in order to launch a new experiment.
-	*/
-	public static void main(String[] args) throws Exception
-	{	
-		
-		// make sure that "results" folder exists
-		resultsFolder();
-	
-	
-		Vector<Experiment> experiments = new Vector<Experiment>();////!< List of problems 
-	
-			
-		//@@@ MODIFY THIS PART @@@		
-		
-//		 experiments.add(new CEC14(10));
-//		 experiments.add(new CEC14(50));
-//		 experiments.add(new CEC14(100));
-		
-//		experiments.add(new contros(10));
-//		experiments.add(new RotCEC14(10));
-//		experiments.add(new RotCEC14(50));
-//		experiments.add(new RotCEC14(100));
-		
-//		experiments.add(new RIAPP(60));
-//		experiments.add(new RIAPP(300));
-//		experiments.add(new RIAPP(3000));
-//		experiments.add(new RIAPP(900));	
-	
-//		experiments.add(new Anil(10));
-//		experiments.add(new Anil(50));
-//		experiments.add(new Anil(100));
+	public ReviewEvo19(int probDim) throws Exception
+	{
+		//super(probDim,"cec2015allDim");
+		super(probDim,5000,"testCEC14");
+		setNrRuns(30);
 
-		
-		experiments.add(new ReviewEvo19(10));
-		experiments.add(new ReviewEvo19(50));
-		experiments.add(new ReviewEvo19(100));
 
-		//@@@@@@
-	
-		for(Experiment experiment : experiments)
-		{
-			//experiment.setShowPValue(true);
-			experiment.startExperiment();
-			System.out.println();
-			experiment = null;
-		}
-	
+		Algorithm a;// ///< A generic optimiser.
+	    //Problem p;// ///< A generic problem.
+		
+
+		a = new RandomSampling();
+		add(a);
 		
 		
+		a = new RecDE_light();
+		a.setParameter("p0", 0.25);
+		add(a);	
+		
+		
+//		
+//		a = new RIcGA();
+//		a.setParameter("p0", 0.95);
+//		a.setParameter("p1", 0.25);
+//		add(a);	
+//		
+//		a = new RIcBFO();
+//		a.setParameter("p0", 0.95);
+//		a.setParameter("p1", 0.25);
+//		add(a);	
+//		
+//		a = new RIcPSO();
+//		a.setParameter("p0", 0.95);
+//		a.setParameter("p1", 0.25);
+//		add(a);	
+		
+
+		for(int i = 1; i<=30; i++)
+			add(new CEC2014(probDim, i));
+
+
+
+
 	}
-	
-	
-
 }
