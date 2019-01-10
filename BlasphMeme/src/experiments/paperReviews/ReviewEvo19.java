@@ -30,8 +30,11 @@ package experiments.paperReviews;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.singleSolution.RandomSampling;
-import algorithms.compact.review.RecDE_light;
+//import algorithms.singleSolution.RandomSampling;
+//import algorithms.compact.review.RecDE_light;
+import algorithms.compact.review.RecGA;
+import algorithms.compact.review.RecBFO;
+import algorithms.compact.review.RecPSO;
 //import algorithms.inProgress.VACCABOIA4;
 //import algorithms.inProgress.VACCABOIA;
 //import algorithms.inProgress.VACCABOIA2;
@@ -59,11 +62,27 @@ public class ReviewEvo19 extends Experiment
 	    //Problem p;// ///< A generic problem.
 		
 
-		a = new RandomSampling();
-		add(a);
+//		a = new RandomSampling();
+//		add(a);
+		
+//		
+//		a = new RecDE_light();
+//		a.setParameter("p0", 0.25);
+//		add(a);	
+//		
 		
 		
-		a = new RecDE_light();
+		a = new RecGA();
+		a.setParameter("p0", 0.25);
+		add(a);	
+		
+		
+		a = new RecBFO();
+		a.setParameter("p0", 0.25);
+		add(a);	
+		
+		
+		a = new RecPSO();
 		a.setParameter("p0", 0.25);
 		add(a);	
 		
