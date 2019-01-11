@@ -1,6 +1,9 @@
 package algorithms.specialOptions.BIAS;
 
-
+import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Misc.saturate;
+import static utils.algorithms.Misc.discardAndResample;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,21 +12,19 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import utils.random.RandUtils;
+
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
-
-import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
-
-
 import interfaces.Algorithm;
 import interfaces.Problem;
-import static utils.RunAndStore.FTrend;
+import utils.RunAndStore.FTrend;
 
 /*
  * Covariance Matrix Adaptation Evolutionary Strategy 
  */
-public class CMAES extends Algorithm
+public class CMAESkono extends Algorithm
 {
+	
+	private char corrStrategy = 't';
 	
 private int run = 0;
 	
@@ -32,10 +33,14 @@ private int run = 0;
 		this.run = r;
 	}
 	
-	static String Dir = "/home/facaraff/Desktop/KONODATA/CMAES-disc/";
-//	static String Dir = "/home/facaraff/Desktop/KONODATA/CMAES-pen/";
-//	static String Dir = "/home/facaraff/Desktop/CMAES";
-	//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
+	public void setCorrectionStrategy(char c) {this.corrStrategy = c;}
+	
+	public CMAESkono() {super();}
+	public CMAESkono(char c) {super(); this.corrStrategy = c;}
+	
+	
+	
+	static String Dir = "/home/facaraff/Desktop/kylla/CMAES";
 	//static String Dir = "/home/fabio/Desktop/kylla/CMAES-SAT";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
@@ -77,9 +82,9 @@ private int run = 0;
 			rank[p]=-1;
 		//System.out.println(cma.getDataC());
 		
-		char correctionStrategy = 'd';  // t --> toroidal   s-->saturation  'e'--> penalty 'd'--->discard
-		String fileName = "CMAES"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
-		File file = new File(Dir+"/"+fileName);
+		
+		File file = new File(Dir+"/CMAES"+this.corrStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
+//		File file = new File(Dir+"/CMAES"+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
 		if (!file.exists()) 
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -103,44 +108,6 @@ private int run = 0;
 		// iteration loop
 		int g = 1;
 		int j = 0;
-		int ciccio = 0; 
-		double[] previousFit = new double[populationSize]; 
-		
-//		double[][] previousPop = cma.samplePopulation();
-//		if(correctionStrategy == 'd')
-//		{
-//			for(int p=0;p<populationSize;p++)
-//			{
-//				previousPop[p] = toro(previousPop[p], bounds);
-//				previousFit[p] = problem.f(previousPop[p]);
-//				System.out.println(previousFit[p]);
-//			}
-//		}
-//		else
-//		{
-//			previousFit = null;
-//			previousPop = null;
-//		}
-		
-		
-		
-		double[][] previousPop = new double[populationSize][problemDimension];
-		if(correctionStrategy == 'd')
-		{
-			for(int p=0;p<populationSize;p++)
-			{
-				previousPop[p] = generateRandomSolution(bounds, problemDimension);
-				previousFit[p] = problem.f(previousPop[p]);
-				//System.out.println(previousFit[p]);
-			}
-		}
-		else
-		{
-			previousFit = null;
-			previousPop = null;
-		}
-		
-		
 		while (j < maxEvaluations)
 		{
             // --- core iteration step ---
@@ -150,69 +117,12 @@ private int run = 0;
 			for(int i = 0; i < pop.length && j < maxEvaluations; ++i)
 			{ 
 				// saturate solution inside bounds 
-				//pop[i] = toro(pop[i], bounds);//RIMPIAZZZA SAT KONO
+				pop[i] = correction(pop[i], bounds);//RIMPIAZZZA SAT KONO
 				//pop[i] = saturation(pop[i],bounds);
 				
 				// compute fitness/objective value	
-				//fitness[i] = problem.f(pop[i]);
-				double[] output = new double[problemDimension];
-				if(correctionStrategy == 't')
-				{
-					//System.out.println("TORO");
-					output = toro(pop[i], bounds);
-					
-					if(!Arrays.equals(output, pop[i]))
-					{
-						pop[i] = output;
-						ciccio++;
-					}
-					fitness[i] = problem.f(pop[i]);
-				}
-				else if(correctionStrategy== 's')
-				{
-					//System.out.println("SAT");
-					output = saturation(pop[i], bounds);
-					
-					if(!Arrays.equals(output, pop[i]))
-					{
-						pop[i] = output;
-						ciccio++;
-					}
-					fitness[i] = problem.f(pop[i]);
-				}
-				else if(correctionStrategy== 'e')
-				{
-					output = saturation(pop[i], bounds);
-					if(!Arrays.equals(output, pop[i]))
-					{
-						ciccio++;
-						fitness[i] = 2;
-					}
-				}
-				else if(correctionStrategy == 'd')
-				{
-					//System.out.println("madonna berra");
-					output = toro(pop[i], bounds);
-//					if(!Arrays.equals(output, pop[i]))
-					if(!equal(output, pop[i]) || infinity(pop[i]))
-					{
-						ciccio++;
-//						for(int n=0;n<problemDimension; n++)
-//							System.out.print(previousPop[i][n]+" "); System.out.println("");
-							for(int n=0;n<problemDimension; n++)
-								pop[i][n]=previousPop[i][n];
-						fitness[i] = previousFit[i];
-					}
-					else
-					{
-						//System.out.println(infinity(pop[i]));
-						for(int n=0;n<problemDimension; n++)
-							previousPop[i][n]=pop[i][n];
-					}
-
-				}
-				else
-					System.out.println("No bounds handling shceme seleceted");
+				fitness[i] = problem.f(pop[i]);
+				
 				// save best
 				if (j == 0 || fitness[i] < fBest)
 				{
@@ -249,19 +159,6 @@ private int run = 0;
 			//bw.write(s);
 			//s = null;
 			//s = new String();
-			
-//			if(correctionStrategy=='d')
-//			{
-//				for(int p=0;p<populationSize;p++)
-//					for(int n=0;n<problemDimension;n++)
-//						previousPop[p][n]=pop[p][n];
-//				//previousPop = pop;
-//				//pop = null;
-//				for(int p=0;p<populationSize;p++)
-//					previousFit[p] = fitness[p];
-//				
-//			}
-			
 		}
 		
 		bw.close();
@@ -270,7 +167,7 @@ private int run = 0;
 
 		FT.add(j, fBest);
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitness, correctionStrategy);
+		
 		return FT;
 	}
 	
@@ -316,55 +213,12 @@ private int run = 0;
 		return xs;
 	}
 	
-	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
+	public double[] correction (double[] x, double[][] bounds)
 	{
-		File f = new File(Dir+"corrections.txt");
-		if(!f.exists()) 
-			f.createNewFile();
-		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
-		BufferedWriter BW = new BufferedWriter(FW);
-		BW.write(name+" "+percentage+"\n");
-		BW.close();
-	}
-	
-	public void wrtiteCorrectionsPercentage(String name, double percentage, double[] finalFitnesses, char boundaHendler) throws Exception
-	{
-		if(boundaHendler != 'e')
-			wrtiteCorrectionsPercentage(name, percentage);
-		else
-		{
-			int counter = 0;
-			for(int n=0; n<finalFitnesses.length; n++)
-				if(finalFitnesses[n]==2)
-					counter++;
-			File f = new File(Dir+"corrections.txt");
-			if(!f.exists()) 
-				f.createNewFile();
-			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
-			BufferedWriter BW = new BufferedWriter(FW);
-			BW.write(name+" "+percentage+" "+formatter((double)counter/finalFitnesses.length)+"\n");
-			BW.close();
-		}
-	}
-	
-	public boolean equal(double[] A, double[] B)
-	{
-		boolean equal = true;
-		
-		for(int n=0;n<A.length;n++)
-			if(A[n]!=B[n])
-				equal = false;
-		
-		return equal;
-	}
-	
-	public boolean infinity(double[] x)
-	{
-		boolean inf = false;
-		for(int n=0;n<x.length;n++)
-			if(x[n]==Double.NEGATIVE_INFINITY || x[n]==Double.POSITIVE_INFINITY)
-				inf =true;
-		return inf;
+		if(corrStrategy=='t') { x = toro(x,bounds);System.out.print("CAZZO");}
+		else if(corrStrategy=='s') {x = saturate(x,bounds);System.out.print("FIGA");}
+		else if(corrStrategy=='d') x = discardAndResample(x,bounds);
+		return x;
 	}
 	
 }

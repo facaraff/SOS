@@ -132,6 +132,23 @@ public class Misc
 		return x_tor;
 	}
 	/**
+	 * Discard and re-sample within the search space.
+	 * 
+	 * @param x solution to be saturated.
+	 * @param bounds search space boundaries.
+	 * @return x_res corrected solution.
+	 */
+	public static double[] discardAndResample(double[] x, double[][] bounds)
+	{
+		int n = x.length;
+		int i  = 0;
+		while(i<n && x[i]>=bounds[0][i] && x[i]<=bounds[1][i])
+			i++;
+		if(i!=n)
+			x = generateRandomSolution(bounds, n);
+		return x;
+	}
+	/**
 	 * Clone a solution.
 	 * 
 	 * @param x solution to be duplicated.
