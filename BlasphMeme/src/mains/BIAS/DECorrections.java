@@ -50,6 +50,15 @@ public class DECorrections
 //		 F \in {0.05, 0.2, 0.4, 0.7, 0.9}
 //		CR \in {0.05, 0.4, 0.7, 0.9 0.99} 
 
+		
+		
+//		F: 0.05 min 2 max with step 1.95/8
+//		Cr: min 0.05 max 0.99 step 0.95/4
+//		I am fine with F
+//		but for Cr should not it be step = 0.94/4?
+		
+		
+		
 		double[] bias = null;	
 		
 //		setDEbob(algorithms);	
@@ -2274,5 +2283,24 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				a.setParameter("p2",0.99);
 				algorithms.add(a);
 				
+			}
+			
+			void generateNewConfiguration(Algorithm a)
+			{
+				char[] corrections = {'t','s','e'};
+				
+//				Fsteps = .FTrend.class
+//						Crsteps...
+				
+//				for correction 
+//						
+//				for F 
+//				fro cr 
+				
+//				a = new DEbob(correction);
+//					a.setParameter("p0",100.0);
+//					a.setParameter("p1",0.9);
+//					a.setParameter("p2",0.99);
+//					algorithms.add(a);
 			}
 }
