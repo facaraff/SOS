@@ -61,36 +61,36 @@ public class kononovaCMAEStest
 		algorithms.add(a);
 		
 		
-		a = new CMAESkono('s');
-		a.setParameter("p0",5.0);
-		algorithms.add(a);
-		
-		a = new CMAESkono('s');
-		a.setParameter("p0",20.0);
-		algorithms.add(a);
-		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
-
-		a = new CMAESkono('s');
-		a.setParameter("p0",100.0);
-		//a.setParameter("p1",0.01);
-		//a.setParameter("p2",0.25);
-		algorithms.add(a);
-		
-		
-		a = new CMAESkono('d');
-		a.setParameter("p0",5.0);
-		algorithms.add(a);
-		
-		a = new CMAESkono('d');
-		a.setParameter("p0",20.0);
-		algorithms.add(a);
-		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
-
-		a = new CMAESkono('d');
-		a.setParameter("p0",100.0);
-		//a.setParameter("p1",0.01);
-		//a.setParameter("p2",0.25);
-		algorithms.add(a);
+//		a = new CMAESkono('s');
+//		a.setParameter("p0",5.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAESkono('s');
+//		a.setParameter("p0",20.0);
+//		algorithms.add(a);
+//		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
+//
+//		a = new CMAESkono('s');
+//		a.setParameter("p0",100.0);
+//		//a.setParameter("p1",0.01);
+//		//a.setParameter("p2",0.25);
+//		algorithms.add(a);
+//		
+//		
+//		a = new CMAESkono('d');
+//		a.setParameter("p0",5.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAESkono('d');
+//		a.setParameter("p0",20.0);
+//		algorithms.add(a);
+//		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
+//
+//		a = new CMAESkono('d');
+//		a.setParameter("p0",100.0);
+//		//a.setParameter("p1",0.01);
+//		//a.setParameter("p2",0.25);
+//		algorithms.add(a);
 		
 		
 		double[][] bounds = new double[problemDimension][2];

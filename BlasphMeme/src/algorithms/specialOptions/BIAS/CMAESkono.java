@@ -40,7 +40,7 @@ private int run = 0;
 	
 	
 	
-	static String Dir = "/home/facaraff/Desktop/kylla/CMAES";
+	static String Dir = "/home/facaraff/kylla/CMAES";
 	//static String Dir = "/home/fabio/Desktop/kylla/CMAES-SAT";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
