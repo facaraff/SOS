@@ -215,8 +215,8 @@ private int run = 0;
 	
 	public double[] correction (double[] x, double[][] bounds)
 	{
-		if(corrStrategy=='t') { x = toro(x,bounds);System.out.print("CAZZO");}
-		else if(corrStrategy=='s') {x = saturate(x,bounds);System.out.print("FIGA");}
+		if(corrStrategy=='t') x = toro(x,bounds);
+		else if(corrStrategy=='s') x = saturate(x,bounds);
 		else if(corrStrategy=='d') x = discardAndResample(x,bounds);
 		return x;
 	}

@@ -16,20 +16,21 @@ import java.util.concurrent.Future;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 	
 
-//import test.utils.RunAndStore.CEC2005;
+//import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;
 import algorithms.specialOptions.BIAS.CMAESkono;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+
 	
 public class kononovaCMAEStest
 {
 	// number of repetitions and budget factor
 	static int nrRepetitions = 50;
-	static int budgetFactor =  1000;//10000;
-	static int problemDimension = 100;//= 30;
+	static int budgetFactor = 1000;//10000;
+	static int problemDimension = 100;//30;
 	
 	static boolean debug = false;
 	static boolean showPValue = false;
@@ -45,53 +46,50 @@ public class kononovaCMAEStest
 		Problem p;
 		
 		double[] bias = null;
-		a = new CMAESkono('t');
+//		a = new CMAESkono('t');
+//		a.setParameter("p0",5.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAESkono('t');
+//		a.setParameter("p0",20.0);
+//		algorithms.add(a);
+//		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
+//
+//		a = new CMAESkono('t');
+//		a.setParameter("p0",100.0);
+//		//a.setParameter("p1",0.01);
+//		//a.setParameter("p2",0.25);
+//		algorithms.add(a);
+		
+		a = new CMAESkono('s');
 		a.setParameter("p0",5.0);
 		algorithms.add(a);
 		
-		a = new CMAESkono('t');
+		a = new CMAESkono('s');
 		a.setParameter("p0",20.0);
 		algorithms.add(a);
 		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
 
-		a = new CMAESkono('t');
+		a = new CMAESkono('s');
 		a.setParameter("p0",100.0);
 		//a.setParameter("p1",0.01);
 		//a.setParameter("p2",0.25);
 		algorithms.add(a);
 		
+		a = new CMAESkono('d');
+		a.setParameter("p0",5.0);
+		algorithms.add(a);
 		
-//		a = new CMAESkono('s');
-//		a.setParameter("p0",5.0);
-//		algorithms.add(a);
-//		
-//		a = new CMAESkono('s');
-//		a.setParameter("p0",20.0);
-//		algorithms.add(a);
-//		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
-//
-//		a = new CMAESkono('s');
-//		a.setParameter("p0",100.0);
-//		//a.setParameter("p1",0.01);
-//		//a.setParameter("p2",0.25);
-//		algorithms.add(a);
-//		
-//		
-//		a = new CMAESkono('d');
-//		a.setParameter("p0",5.0);
-//		algorithms.add(a);
-//		
-//		a = new CMAESkono('d');
-//		a.setParameter("p0",20.0);
-//		algorithms.add(a);
-//		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
-//
-//		a = new CMAESkono('d');
-//		a.setParameter("p0",100.0);
-//		//a.setParameter("p1",0.01);
-//		//a.setParameter("p2",0.25);
-//		algorithms.add(a);
-		
+		a = new CMAESkono('d');
+		a.setParameter("p0",20.0);
+		algorithms.add(a);
+		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
+
+		a = new CMAESkono('d');
+		a.setParameter("p0",100.0);
+		//a.setParameter("p1",0.01);
+		//a.setParameter("p2",0.25);
+		algorithms.add(a);
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)
@@ -226,7 +224,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				Algorithm algorithm;
 				Problem problem;
 				int repNr;
-//			int index;
+//				int index;
 
 				public AlgorithmRepetitionThread(Algorithm algorithm, Problem problem, int repNr, int problemIndex)
 				{
@@ -249,7 +247,10 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 			private static double runAlgorithmRepetition(Algorithm algorithm, Problem problem) throws Exception
 			{
 				FTrend FT = algorithm.execute(problem, budgetFactor*problem.getDimension());
+
 				return FT.getLastF();
+			
+			
 			}
 				
 			
