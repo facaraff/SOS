@@ -2285,11 +2285,16 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				
 			}
 			
+//			F: 0.05 min 2 max with step 1.95/8
+//			Cr: min 0.05 max 0.99 step 0.95/4
+//			I am fine with F
+//			but for Cr should not it be step = 0.94/4?
+			
 			void generateNewConfiguration(Algorithm a)
 			{
 				char[] corrections = {'t','s','e'};
 				
-//				Fsteps = .FTrend.class
+				double[] Fsteps = {0.05, (0.05+(1.95/9.0)), (0.05+2*(1.95/9.0)), (0.05+3*(1.95/9.0)), (0.05+4*(1.95/9.0)),(0.05+5*(1.95/9.0)),(0.05+6*(1.95/9.0)),(0.05+7*(1.95/9.0)),(0.05+8*(1.95/9.0)),(0.05+9*(1.95/9.0))};
 //						Crsteps...
 				
 //				for correction 
