@@ -11,14 +11,17 @@ import java.util.concurrent.Future;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 	
 import utils.MatLab;
-//import algorithms.specialOptions.BIAS.corrections.DEcbob;
-//import algorithms.specialOptions.BIAS.corrections.DErtb;
-//import algorithms.specialOptions.BIAS.corrections.DEboe;
-//import algorithms.specialOptions.BIAS.corrections.DEroe;
-import algorithms.specialOptions.BIAS.corrections.DErob;
-import algorithms.specialOptions.BIAS.corrections.DErte;
+import algorithms.specialOptions.BIAS.corrections.DEcbob;
 import algorithms.specialOptions.BIAS.corrections.DEcboe;
+import algorithms.specialOptions.BIAS.corrections.DEroe;
+import algorithms.specialOptions.BIAS.corrections.DErob;
+import algorithms.specialOptions.BIAS.corrections.DErtb;
+import algorithms.specialOptions.BIAS.corrections.DErte;
 import algorithms.specialOptions.BIAS.corrections.DEbob;
+import algorithms.specialOptions.BIAS.corrections.DEboe;
+
+//import benchmarks.problemsImplementation.CEC2010.BenchmarkCEC2010_C;
+
 import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
@@ -66,22 +69,38 @@ public class DECorrections
 //		setDEboe(algorithms);
 //		setDEroe(algorithms);
 		
-		setDErob(algorithms,'e');
-		setDErob(algorithms,'s');
-		setDErob(algorithms,'t');
+//		setDErob(algorithms,'e');
+//		setDErob(algorithms,'s');
+//		setDErob(algorithms,'t');
+//		
+//		setDErte(algorithms, 'e');
+//		setDErte(algorithms, 's');
+//		setDErte(algorithms, 't');
+//		
+//		setDEcboe(algorithms, 'e');
+//		setDEcboe(algorithms, 's');
+//		setDEcboe(algorithms, 't');
+//		
+//		setDEbob(algorithms, 'e');
+//		setDEbob(algorithms, 's');
+//		setDEbob(algorithms, 't');
 		
-		setDErte(algorithms, 'e');
-		setDErte(algorithms, 's');
-		setDErte(algorithms, 't');
+		//*********NEW METHOD 2018************************
 		
-		setDEcboe(algorithms, 'e');
-		setDEcboe(algorithms, 's');
-		setDEcboe(algorithms, 't');
+		int[] DEVariants = {1,2,3,4,5,6,7,8};
 		
-		setDEbob(algorithms, 'e');
-		setDEbob(algorithms, 's');
-		setDEbob(algorithms, 't');
+		char[] corrections = {'t','s','e'};
 		
+		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};
+//		
+		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
+		
+		int[] popSizes = {5,20,100};
+		
+		generateNewConfiguration(algorithms, DEVariants, FSteps, CRSteps, popSizes, corrections);
+		
+		
+		//********************************************************
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)
@@ -258,2054 +277,2091 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 			
 		/*****************************************************************************/
 		
-			
-/*****************************************************************************/
-		
-			
-			private static void setDErob(Vector<Algorithm> algorithms, char correction)
-			{
-				Algorithm a;
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-			
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				/************************************************/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				
+			static protected Algorithm initialiseDEVariant(int v, char correction)
+			{		
+				switch (v) 
+				{
+				case 1:
+					return new DEcbob(correction);
+				case 2:
+					return new DEcboe(correction);
+				case 3:
+					return new DEroe(correction);
+				case 4:
+					return new DErob(correction);
+				case 5:
+					return new DErtb(correction);
+				case 6:
+					return new DErte(correction);
+				case 7:
+					return new DEbob(correction);
+				case 8:
+					return new DEboe(correction);
+				default:
+					return null;
+				}
 				
 			}
 			
 			
-			
-			
-			
-			private static void setDErte(Vector<Algorithm> algorithms, char correction)
-			{
-				Algorithm a;
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-			
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				/************************************************/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DErte(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DErte(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DErte(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-			}
-			
-			
-			private static void setDEcboe(Vector<Algorithm> algorithms, char correction)
-			{
-				Algorithm a;
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-			
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				/************************************************/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEcboe(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEcboe(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-			}
-			
-			private static void setDEbob(Vector<Algorithm> algorithms, char correction)
-			{
-				Algorithm a;
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-			
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.05);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				/************************************************/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.2);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.4);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.7);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-		/************************************************/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.05);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.4);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.7);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.9);
-				algorithms.add(a);
-				
-				/*********/
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",5.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-				a = new DEbob(correction);
-				a.setParameter("p0",20.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-
-				a = new DEbob(correction);
-				a.setParameter("p0",100.0);
-				a.setParameter("p1",0.9);
-				a.setParameter("p2",0.99);
-				algorithms.add(a);
-				
-			}
 			
 //			F: 0.05 min 2 max with step 1.95/8
 //			Cr: min 0.05 max 0.99 step 0.95/4
 //			I am fine with F
-//			but for Cr should not it be step = 0.94/4?
+//			but for Cr should not it be step = 0.94/4.0?
 			
-			void generateNewConfiguration(Algorithm a)
+			static void generateNewConfiguration( Vector<Algorithm> algorithms, int[] DEVariants,  double[] FSteps, double[] CRSteps, int[] popSizes, char[] corrections)
 			{
-				char[] corrections = {'t','s','e'};
 				
-				double[] Fsteps = {0.05, (0.05+(1.95/9.0)), (0.05+2*(1.95/9.0)), (0.05+3*(1.95/9.0)), (0.05+4*(1.95/9.0)),(0.05+5*(1.95/9.0)),(0.05+6*(1.95/9.0)),(0.05+7*(1.95/9.0)),(0.05+8*(1.95/9.0)),(0.05+9*(1.95/9.0))};
-//						Crsteps...
+				int FStepsNr = FSteps.length;
+				int CRStepsNr = CRSteps.length;
+				int popSizesNr = popSizes.length;
+				int correctionsNr = corrections.length;
+				int DEVariantsNr = DEVariants.length;
 				
-//				for correction 
-//						
-//				for F 
-//				fro cr 
+				Algorithm a = null;
 				
-//				a = new DEbob(correction);
-//					a.setParameter("p0",100.0);
-//					a.setParameter("p1",0.9);
-//					a.setParameter("p2",0.99);
-//					algorithms.add(a);
+				for(int devar = 0; devar < DEVariantsNr; devar++)
+					for(int f = 0; f < FStepsNr; f++)
+						for(int cr = 0; cr < CRStepsNr; cr++)
+							for(int ps = 0; ps < popSizesNr; ps++)
+								for(int corr = 0; corr < correctionsNr; corr++) 
+								{
+									a = initialiseDEVariant(DEVariants[devar],corrections[corr]);
+									a.setParameter("p0",(double)popSizes[ps]);
+									a.setParameter("p1",FSteps[f]);
+									a.setParameter("p2",CRSteps[cr]);
+									algorithms.add(a);
+								}
 			}
+			
+			
+			
+/*****************************************************************************/
+//OLD METHODS IS COMMENTED OUT FOR NOW... I WIL REMOVE IT		
+			
+//			private static void setDErob(Vector<Algorithm> algorithms, char correction)
+//			{
+//				Algorithm a;
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//			
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				/************************************************/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				
+//				
+//			}
+//			
+//			
+//			
+//			
+//			
+//			private static void setDErte(Vector<Algorithm> algorithms, char correction)
+//			{
+//				Algorithm a;
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//			
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				/************************************************/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DErte(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DErte(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//			}
+//			
+//			
+//			private static void setDEcboe(Vector<Algorithm> algorithms, char correction)
+//			{
+//				Algorithm a;
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//			
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				/************************************************/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEcboe(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//			}
+//			
+//			private static void setDEbob(Vector<Algorithm> algorithms, char correction)
+//			{
+//				Algorithm a;
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//			
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.05);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				/************************************************/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.2);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.4);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.7);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//		/************************************************/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.05);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.4);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.7);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.9);
+//				algorithms.add(a);
+//				
+//				/*********/
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",5.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//				a = new DEbob(correction);
+//				a.setParameter("p0",20.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//
+//				a = new DEbob(correction);
+//				a.setParameter("p0",100.0);
+//				a.setParameter("p1",0.9);
+//				a.setParameter("p2",0.99);
+//				algorithms.add(a);
+//				
+//			}
+			
+
 }

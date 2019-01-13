@@ -30,13 +30,18 @@ public class DEroe extends Algorithm
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	FTrend FT = new FTrend();
 	
+	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty
+	
+	public DEroe(char correction){super(); this.correctionStrategy = correction;}
+	
+	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
+//		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
 		String fileName = "DEroe"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
 	
