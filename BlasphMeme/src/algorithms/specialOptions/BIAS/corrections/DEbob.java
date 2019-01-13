@@ -22,7 +22,8 @@ import static utils.RunAndStore.FTrend;
 public class DEbob extends Algorithm
 {
 
-	static String Dir = "C:\\Users\\Badddobaby\\Desktop\\KONONOVA\\";
+	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String Dir = "C:\\Users\\Badddobaby\\Desktop\\KONONOVA\\";
 //	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	//static String Dir = "/home/facaraff/Desktop/KONODATA/";
 	

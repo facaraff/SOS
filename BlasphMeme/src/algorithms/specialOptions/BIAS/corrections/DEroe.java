@@ -17,14 +17,14 @@ import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
-import static utils.RunAndStore.slash;
+//import static utils.RunAndStore.slash;
 
 
 public class DEroe extends Algorithm
 {
 	
-		
-	static String Dir = "/home/facaraff/Desktop/KONODATA/2018"+slash();
+	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String Dir = "/home/facaraff/Desktop/KONODATA/2018"+slash();
 	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
