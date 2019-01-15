@@ -43,7 +43,8 @@ public class TablesGenerator
 //			workingDir ="../../results/testCEC14";
 //			workingDir ="C:\\Users\\Badddobaby\\git\\BlasphMeme\\BlasphMeme\\results\\TESTCEC2011";
 //			workingDir ="C:\\Users\\fcaraf00\\Desktop\\RIAPP";
-			workingDir ="/home/facaraff/Desktop/evo19Review";
+//			workingDir ="/home/facaraff/Desktop/evo19Review";
+			workingDir ="/home/facaraff/Desktop/MAGUARDATE/RandomCazzo";
 			//workingDir ="/home/facaraff/Desktop/FINAL/ROT";
 			//workingDir ="/home/orzobimbo/Desktop/APP";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
@@ -84,7 +85,7 @@ public class TablesGenerator
 //		
 
 		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
-		T4.setErrorFlag(false);
+		T4.setErrorFlag(true);
 		T4.setReferenceAlgorithm();
 		T4.execute();
 	}
