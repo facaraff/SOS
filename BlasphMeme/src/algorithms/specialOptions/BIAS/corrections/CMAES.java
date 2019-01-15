@@ -270,7 +270,8 @@ private int run = 0;
 
 		FT.add(j, fBest);
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitness, correctionStrategy);
+		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
+//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitness, correctionStrategy);
 		return FT;
 	}
 	
