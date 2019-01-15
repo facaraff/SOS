@@ -89,7 +89,7 @@ public class DECorrections
 		
 		int[] DEVariants = {1,2,3,4,5,6,7,8};
 		
-		char[] corrections = {'t','s','e'};
+		char[] corrections = {'m','t','s','e'};
 		
 		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};
 //		
@@ -321,6 +321,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				
 				Algorithm a = null;
 				
+				//for(int devar = 2; devar < 3; devar++)
 				for(int devar = 0; devar < DEVariantsNr; devar++)
 					for(int f = 0; f < FStepsNr; f++)
 						for(int cr = 0; cr < CRStepsNr; cr++)

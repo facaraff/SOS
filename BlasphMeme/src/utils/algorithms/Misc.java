@@ -65,7 +65,53 @@ public class Misc
 	 * @param bounds
 	 * @return
 	 */
-	public static double[] mirroring(double[] x, double[][] bounds){double[] x_mirr = new double[666]; System.out.println("IMPLEMENTAMI!"); return x_mirr;}
+	public static double[] mirroring(double[] x, double[][] bounds)
+	{
+		int n = x.length;
+		double[] x_mirrored = new double[n];
+		for (int i = 0; i < n; i++)
+			x_mirrored[i] = mirror_recursive(x[i], bounds[i][0],bounds[i][1]); 	
+		return x_mirrored;
+	}
+	//%%%%%
+	protected static boolean inDomain(double x, double lb, double up) {return (x<=up && x>=lb);}
+	protected static double reflect(double x, double lb, double up)
+	{
+		double x_ref = Double.NaN;
+		if(x>up) x_ref = up - (x-up);
+		if(x<lb) x_ref = lb + (lb-x);
+		return x_ref;
+	}
+	protected static double mirror(double x, double lb, double ub) 
+	{
+		double x_mirr = Double.NaN;
+		if(inDomain(x,lb,ub)) 
+			x_mirr = x;
+		else
+		{
+			x_mirr = reflect(x, lb, ub);
+			while(!inDomain(x_mirr,lb,ub))
+					x_mirr = reflect(x_mirr, lb, ub);
+				
+		}
+		return x_mirr;
+	}
+	protected static double mirror_recursive(double x, double lb, double ub) 
+	{
+		double x_mirr = Double.NaN;
+		if(inDomain(x,lb,ub)) 
+			x_mirr = x;
+		else
+		{
+			x_mirr = reflect(x, lb, ub);
+			x_mirr = mirror_recursive(x_mirr, lb, ub); 
+		
+				
+		}
+		return x_mirr;
+	}
+	
+	//%%%
 	/**
 	 * Saturation on bounds of the search space.
 	 * 

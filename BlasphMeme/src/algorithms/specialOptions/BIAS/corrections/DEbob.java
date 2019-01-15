@@ -2,6 +2,7 @@ package algorithms.specialOptions.BIAS.corrections;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.mirroring;
 import static utils.algorithms.Misc.toro;
 
 import java.util.Arrays;
@@ -146,6 +147,15 @@ public class DEbob extends Algorithm
 					{
 						ciccio++;
 						crossFit = 2;
+					}
+				}
+				else if(correctionStrategy== 'm')
+				{
+					output = mirroring(crossPt, bounds);
+					if(!Arrays.equals(output, crossPt))
+					{
+						ciccio++;
+						crossPt = output;
 					}
 				}
 				else

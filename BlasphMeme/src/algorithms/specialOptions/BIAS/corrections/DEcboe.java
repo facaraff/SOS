@@ -2,6 +2,7 @@ package algorithms.specialOptions.BIAS.corrections;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.mirroring;
 import static utils.algorithms.Misc.toro;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ public class DEcboe extends Algorithm
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
-	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty
+	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty 'm'---> mirroring
 	
 	public DEcboe(char correction){super(); this.correctionStrategy = correction;}
 	
@@ -155,6 +156,15 @@ public class DEcboe extends Algorithm
 					{
 						ciccio++;
 						crossFit = 2;
+					}
+				}
+				else if(correctionStrategy== 'm')
+				{
+					output = mirroring(crossPt, bounds);
+					if(!Arrays.equals(output, crossPt))
+					{
+						ciccio++;
+						crossPt = output;
 					}
 				}
 				else

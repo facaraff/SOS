@@ -2,6 +2,7 @@ package algorithms.specialOptions.BIAS.corrections;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.mirroring;
 import static utils.algorithms.Misc.toro;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class DErtb extends Algorithm
 	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
 	
-	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty	
+	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty	'm'-----> mirroring
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
@@ -144,6 +145,15 @@ public class DErtb extends Algorithm
 					{
 						ciccio++;
 						crossFit = 2;
+					}
+				}
+				else if(correctionStrategy== 'm')
+				{
+					output = mirroring(crossPt, bounds);
+					if(!Arrays.equals(output, crossPt))
+					{
+						ciccio++;
+						crossPt = output;
 					}
 				}
 				else

@@ -3,6 +3,7 @@ package algorithms.specialOptions.BIAS.corrections;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Misc.mirroring;
 
 import java.util.Arrays;
 
@@ -21,7 +22,7 @@ import static utils.RunAndStore.FTrend;
 public class DErte extends Algorithm
 {
 	
-	char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
+	char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty 'm'------> mirroring
 	
 	public DErte(char correction)
 	{
@@ -152,6 +153,15 @@ public class DErte extends Algorithm
 					{
 						ciccio++;
 						crossFit = 2;
+					}
+				}
+				else if(correctionStrategy== 'm')
+				{
+					output = mirroring(crossPt, bounds);
+					if(!Arrays.equals(output, crossPt))
+					{
+						ciccio++;
+						crossPt = output;
 					}
 				}
 				else

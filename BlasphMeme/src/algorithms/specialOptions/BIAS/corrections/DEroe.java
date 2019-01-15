@@ -4,6 +4,7 @@ package algorithms.specialOptions.BIAS.corrections;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.mirroring;
 import static utils.algorithms.Misc.toro;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class DEroe extends Algorithm
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	FTrend FT = new FTrend();
 	
-	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty
+	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty 'm'----> mirroring
 	
 	public DEroe(char correction){super(); this.correctionStrategy = correction;}
 	
@@ -145,6 +146,15 @@ public class DEroe extends Algorithm
 					{
 						ciccio++;
 						crossFit = 2;
+					}
+				}
+				else if(correctionStrategy== 'm')
+				{
+					output = mirroring(crossPt, bounds);
+					if(!Arrays.equals(output, crossPt))
+					{
+						ciccio++;
+						crossPt = output;
 					}
 				}
 				else
