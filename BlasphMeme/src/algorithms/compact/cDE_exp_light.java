@@ -194,7 +194,7 @@ public class cDE_exp_light extends Algorithm
 			if (mutationStrategy != 4)
 			{
 				if (crossoverStrategy == 1)
-					b = crossOverBin(best, b, CR);
+					b = crossOverBin(best, b, alpha);
 				else if (crossoverStrategy == 2)
 					b = crossOverExp(best, b, CR);
 				// XXX (gio) reviewer's suggestion about "fast" exponential crossover

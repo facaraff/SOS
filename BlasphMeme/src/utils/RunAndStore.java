@@ -355,6 +355,7 @@ public class RunAndStore
 //				System.out.println("internal improvement index="+FT.getI(i));
 //				System.out.println("added="+(startI+FT.getI(i)+1)+","+currentFitness);
 				add(startI+FT.getI(i), currentFitness);
+				currentBestFitness = currentFitness;
 			}
 		}
 	}
