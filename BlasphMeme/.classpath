@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="jars/SurfacePlot.jar"/>
 	<classpathentry kind="lib" path="jars/sysnet-registration-1.0.1.jar"/>
 	<classpathentry kind="lib" path="jars/jFuzzyLogic_v3.0.jar"/>
+	<classpathentry kind="lib" path="jars/jzy3d/pyzy3d-1.0.2.jar"/>
+	<classpathentry kind="lib" path="jars/jzy3d/jzy3d-bigpicture-1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

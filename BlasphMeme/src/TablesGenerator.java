@@ -44,7 +44,8 @@ public class TablesGenerator
 //			workingDir ="C:\\Users\\Badddobaby\\git\\BlasphMeme\\BlasphMeme\\results\\TESTCEC2011";
 //			workingDir ="C:\\Users\\fcaraf00\\Desktop\\RIAPP";
 //			workingDir ="/home/facaraff/Desktop/evo19Review";
-			workingDir ="/home/facaraff/Desktop/MAGUARDATE/RandomCazzo";
+//			workingDir ="/home/facaraff/Desktop/MAGUARDATE/RandomCazzo";
+			workingDir ="/home/facaraff/Desktop/TORAUS/exp";
 			//workingDir ="/home/facaraff/Desktop/FINAL/ROT";
 			//workingDir ="/home/orzobimbo/Desktop/APP";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
