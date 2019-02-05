@@ -1726,5 +1726,315 @@ public class MemesLibrary
 		double[] out = {fit, numEval};
 		return out;
 	}
+	
+	//*************************** OLD STYLE FOR ILPO'S CODE**************************************
+	
+	/** 3SOME's short distance searcher **/
+	/** Standard settings: deepLSRadius = 0.4, deepLSSteps = 150 **/
+	public static double[] ThreeSome_ShortDistance(double[] sol, double fit, double deepLSRadius, int deepLSSteps, 
+			Problem prob, int totalBudget, int iter) throws Exception
+	{
+		int numEval = 0;
+		int problemDimension = prob.getDimension();
+		double[][] bounds = prob.getBounds();
+
+		double[] SR = new double[problemDimension];
+		for (int k = 0; k < problemDimension; k++)
+			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+
+		boolean improve = true;
+		int j = 0;
+		while ((j < deepLSSteps) && (iter < totalBudget))
+		{	
+			double[] Xk = new double[problemDimension];
+			double[] Xk_orig = new double[problemDimension];
+			for (int k = 0; k < problemDimension; k++)
+			{
+				Xk[k] = sol[k];
+				Xk_orig[k] = sol[k];
+			}
+
+			double fXk_orig = fit;
+
+			
+			if (!improve)
+			{
+				for (int k = 0; k < problemDimension; k++)
+					SR[k] = SR[k]/2;
+			}
+
+			improve = false;
+			int k = 0;
+			while ((k < problemDimension) && (iter < totalBudget))
+			{
+				Xk[k] = Xk[k] - SR[k];
+				Xk = Misc.toro(Xk, bounds);
+				double fXk = prob.f(Xk);
+				iter++; numEval++;
+
+				// best update
+				if (fXk < fit)
+				{
+					fit = fXk;
+					for (int n = 0; n < problemDimension; n++)
+						sol[n] = Xk[n];
+				}
+
+				if (iter < totalBudget)
+				{
+					if (fXk == fXk_orig)
+					{
+						for (int n = 0; n < problemDimension; n++)
+							Xk[n] = Xk_orig[n];
+					}
+					else
+					{
+						if (fXk > fXk_orig)
+						{
+							Xk[k] = Xk_orig[k];
+							Xk[k] = Xk[k] + 0.5*SR[k];
+							Xk = Misc.toro(Xk, bounds);
+							fXk = prob.f(Xk);
+							iter++; numEval++;
+
+							// best update
+							if (fXk < fit)
+							{
+								fit = fXk;
+								for (int n = 0; n < problemDimension; n++)
+									sol[n] = Xk[n];
+							}
+
+							if (fXk >= fXk_orig)
+								Xk[k] = Xk_orig[k];
+							else
+								improve = true;
+						}
+						else
+							improve = true;
+					}
+				}
+
+				k++;
+			}
+
+			j++;
+		}
+
+		double[] out = {fit, numEval};
+		return out;
+	}
+
+	/** 3SOME's short distance searcher with stop criterion **/
+	/** Standard settings: deepLSRadius = 0.4, precision = 10^-6 **/
+	public static double[] ThreeSome_ShortDistance(double[] sol, double fit, double deepLSRadius, double precision, 
+			Problem prob, int totalBudget, int iter) throws Exception
+	{
+		int numEval = 0;
+		int problemDimension = prob.getDimension();
+		double[][] bounds = prob.getBounds();
+
+		double[] SR = new double[problemDimension];
+		for (int k = 0; k < problemDimension; k++)
+			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+
+		boolean improve = true;
+
+		//while ((SR[0] > precision) && (iter < totalBudget))
+		while ((MatLab.max(SR) > precision) && (iter < totalBudget))
+		{	
+			double[] Xk = new double[problemDimension];
+			double[] Xk_orig = new double[problemDimension];
+			for (int k = 0; k < problemDimension; k++)
+			{
+				Xk[k] = sol[k];
+				Xk_orig[k] = sol[k];
+			}
+
+			double fXk_orig = fit;
+
+			if (!improve)
+			{
+				for (int k = 0; k < problemDimension; k++)
+					SR[k] = SR[k]/2;
+			}
+
+			improve = false;
+			int k = 0;
+			while ((k < problemDimension) && (iter < totalBudget))
+			{
+				Xk[k] = Xk[k] - SR[k];
+				Xk = Misc.toro(Xk, bounds);
+				double fXk = prob.f(Xk);
+				iter++; numEval++;
+
+				// best update
+				if (fXk < fit)
+				{
+					fit = fXk;
+					for (int n = 0; n < problemDimension; n++)
+						sol[n] = Xk[n];
+				}
+
+				if (iter < totalBudget)
+				{
+					if (fXk == fXk_orig)
+					{
+						for (int n = 0; n < problemDimension; n++)
+							Xk[n] = Xk_orig[n];
+					}
+					else
+					{
+						if (fXk > fXk_orig)
+						{
+							Xk[k] = Xk_orig[k];
+							Xk[k] = Xk[k] + 0.5*SR[k];
+							Xk = Misc.toro(Xk, bounds);
+							fXk = prob.f(Xk);
+							iter++; numEval++;
+
+							// best update
+							if (fXk < fit)
+							{
+								fit = fXk;
+								for (int n = 0; n < problemDimension; n++)
+									sol[n] = Xk[n];
+							}
+
+							if (fXk >= fXk_orig)
+								Xk[k] = Xk_orig[k];
+							else
+								improve = true;
+						}
+						else
+							improve = true;
+					}
+				}
+
+				k++;
+			}
+
+		}
+
+		double[] out = {fit, numEval};
+		return out;
+	}
+
+	/** ROSENBROCK METHOD **/
+	/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
+	public static double[] Rosenbrock(double[] sol, double fit, double eps, double alpha, double beta, 
+			Problem problem, int totalBudget, int iter) throws Exception
+	{		
+		int n = problem.getDimension(); 
+		double[][] bounds = problem.getBounds();
+
+		double[][] xi = MatLab.eye(n);
+		double[][] A = MatLab.zeros(n);
+		double[] lambda = new double[n];
+		double[] xCurrent = new double[n];
+		double[] t = new double[n];
+		double[] xk = new double[n];
+		double[] d = new double[n];
+		double[] x = new double[n];
+		for (int i=0; i<n; i++)
+			x[i] = sol[i];
+		
+		double yFirstFirst = fit;
+		double yFirst = yFirstFirst;
+		double yBest = yFirst;
+		double yCurrent;
+		for (int i=0; i<n; i++)
+		{
+			d[i] = 0.1;
+			xk[i] = x[i];
+		}
+	
+		boolean restart = true;
+		double mini; double div;
+		int numEval = 0;
+		do
+		{
+			yBest = yFirstFirst;
+			do
+			{
+				yFirst = yBest;
+				for (int i = 0; (i < n) && (iter < totalBudget);i++)
+				{
+					for (int j=0;j<n;j++)
+						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
+					xCurrent = Misc.toro(xCurrent, bounds);
+					yCurrent = problem.f(xCurrent);
+					iter++;
+					numEval++;
+
+		            if (yCurrent < yBest)
+		            {
+		            	lambda[i] += d[i];
+		            	d[i] *= alpha;
+		            	yBest = yCurrent;
+		            	for (int j=0;j<n;j++)
+		            	{
+		            		xk[j] = xCurrent[j];
+		            		sol[j] = xCurrent[j];
+		            	}
+		            }
+		            else
+		            	d[i] *= -beta;
+				}
+			}
+			while ((yBest < yFirst) && (iter < totalBudget));
+			
+			mini = MatLab.min(MatLab.abs(d));
+			restart = mini>eps;
+			
+			if ((yBest < yFirstFirst) && (iter < totalBudget))
+			{ 
+				mini = MatLab.min(MatLab.abs(MatLab.subtract(xk,x)));
+				restart = restart || (mini > eps);
+				
+				if (restart)
+				{ 
+					for (int i=0;i<n;i++)
+						A[n-1][i] = lambda[n-1]*xi[n-1][i];
+					for (int k=n-2; k>=0;k--)
+					{
+						for (int i=0;i<n;i++)
+							A[k][i] = A[k+1][i] + lambda[i]*xi[k][i];
+					}
+
+					t[n-1] = lambda[n-1]*lambda[n-1];
+
+					for (int i=n-2; i>=0;i--)
+						t[i] = t[i+1] + lambda[i]*lambda[i];
+					
+					for (int i=n-1;i>0;i--)
+					{
+						div = Math.sqrt(t[i-1]*t[i]);
+						if (div != 0)
+							for (int j=0;j<n;j++)
+								xi[i][j] = (lambda[i-1]*A[i][j]-xi[i-1][j]*t[i])/div;
+					}
+					div = Math.sqrt(t[0]);
+					for (int i=0; i<n;i++)
+					{
+						if (div != 0)
+							xi[0][i] = A[0][i]/div;	
+						x[i] = xk[i];
+						lambda[i] = 0;
+						d[i] = 0.1;
+					}
+					yFirstFirst = yBest;
+				}
+			}
+		}
+		while (iter < totalBudget);
+
+		double[] out = {yBest, numEval};
+		return out;
+	}
+
+	
+	
+	
 
 }
