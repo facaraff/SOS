@@ -180,30 +180,6 @@ public class P8 extends Problem {
 			this.cost=cost;
 			this.overloads=overloads;
 		}
-		
-		public void update(int no, int from, int to, double x, int nLine, double pijmax, double cost, int overloads)
-		{
-			this.no=no;
-			this.from=from;
-			this.to=to;
-			this.x=x;
-			this.nLine=nLine;
-			this.pijmax=pijmax;
-			this.cost=cost;
-			this.overloads=overloads;
-		}
-		
-		public void update(line c) 
-		{
-			this.no=c.no;
-			this.from=c.from;
-			this.to=c.to;
-			this.x=c.x;
-			this.nLine=c.nLine;
-			this.pijmax=c.pijmax;
-			this.cost=c.cost;
-			this.overloads=c.overloads;
-		}
 	}
 
 }
