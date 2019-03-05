@@ -56,6 +56,8 @@ public class P8 extends Problem {
 		candidates[12]= new line(12,3,4,0.63,0,0.75,63,0);
 		candidates[13]= new line(13,3,5,0.30,0,1,30,0);
 		candidates[14]= new line(14,4,5,0.61,0,0.78,61,0);	
+		
+		this.setBounds(generateBounds(getDimension()));
 	
 	}
 	
