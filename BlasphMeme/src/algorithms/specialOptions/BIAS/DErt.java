@@ -26,7 +26,8 @@ public class DErt extends Algorithm
 	}
 	
 	
-	static String Dir = "/home/facaraff/Desktop/KONODATA/DErt/";
+//	static String Dir = "/home/facaraff/Desktop/KONODATA/DErt/";
+	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DErt\\";
 
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
@@ -251,7 +252,8 @@ public class DErt extends Algorithm
 		bw.close();
 		
 //		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy);
+		//wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy);
+		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
 		return FT;
 	}
 	
@@ -317,6 +319,17 @@ public class DErt extends Algorithm
 		return output;
 	}
 */	
+	
+	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
+	{
+		File f = new File(Dir+"corrections.txt");
+		if(!f.exists()) 
+			f.createNewFile();
+		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
+		BufferedWriter BW = new BufferedWriter(FW);
+		BW.write(name+" "+percentage+" "+F_value+" "+CR_value+" "+SEED+"\n");
+		BW.close();
+	}
 	
 	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
 	{

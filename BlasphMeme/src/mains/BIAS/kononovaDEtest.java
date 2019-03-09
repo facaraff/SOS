@@ -21,9 +21,9 @@ import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 //import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;
-//import algorithms.DEro;
-//import algorithms.DEbo;
-//import algorithms.DEcbo;
+import algorithms.specialOptions.BIAS.DEro;
+import algorithms.specialOptions.BIAS.DEbo;
+import algorithms.specialOptions.BIAS.DEcbo;
 import algorithms.specialOptions.BIAS.DErt;
 import interfaces.Algorithm;
 import interfaces.Problem;
@@ -50,7 +50,7 @@ public class kononovaDEtest
 		Problem p;
 		
 //		double[] bias = null;
-//		a = new DEro();
+		a = new DEro();
 //		a.setParameter("p0",5.0);
 //		a.setParameter("p1",0.1);
 //		a.setParameter("p2",0.2);

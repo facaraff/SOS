@@ -1,26 +1,37 @@
 package algorithms.specialOptions.BIAS;
 
+
 import utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
+//import static algorithms.utils.AlgorithmUtils.crossOverBin;
+//import static algorithms.utils.AlgorithmUtils.crossOverExp;
+//import static algorithms.utils.AlgorithmUtils.currentToBest1;
+//import static algorithms.utils.AlgorithmUtils.currentToRand1;
+//import static algorithms.utils.AlgorithmUtils.generateRandomSolution;
+//import static algorithms.utils.AlgorithmUtils.rand1;
+//import static algorithms.utils.AlgorithmUtils.rand2;
+//import static algorithms.utils.AlgorithmUtils.randToBest2;
+//import static algorithms.utils.AlgorithmUtils.saturateToro;
 
 import java.util.Arrays;
+
+import utils.MatLab;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
+
 
 import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 /*
- * 
+ * Differential Evolution (standard version, best/1/)
  */
-/*
- * Differential Evolution (standard version, rand/1/bin)
- */
-public class DEro extends Algorithm
+public class DEbo extends Algorithm
 {
 	
 	private int run = 0;
@@ -31,10 +42,11 @@ public class DEro extends Algorithm
 	}
 	
 	
-	//static String Dir = "/home/facaraff/Desktop/KONODATA/DEro/";
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DEro\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DEbo/";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
+	
+	
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -42,10 +54,9 @@ public class DEro extends Algorithm
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		char crossoverStrategy = 'b'; //e-->exponential  b-->binomial
+		char crossoverStrategy = 'e'; //e-->exponential  b-->binomial
 		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
-		String fileName = "DEro"+crossoverStrategy+""+correctionStrategy; 
-		
+		String fileName = "DEbo"+crossoverStrategy+""+correctionStrategy; 
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -81,7 +92,7 @@ public class DEro extends Algorithm
 		line = new String();
 		//bw.close();
 		
-		
+		int bestID = -1;
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
 		{
@@ -91,9 +102,20 @@ public class DEro extends Algorithm
 			fitnesses[j] = problem.f(population[j]);
 			
 			i++;
+				
 			newID++;
 			ids[j] = newID;
-			line =""+ids[j]+" -1 "+"-1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
+			
+			if (j == 0 || fitnesses[j] < fBest)
+			{
+				bestID = ids[j];
+				fBest = fitnesses[j];
+				for (int n = 0; n < problemDimension; n++)
+					best[n] = population[j][n];
+				FT.add(i, fBest);
+			}
+			
+			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
 			for(int n = 0; n < problemDimension; n++)
 				line+=" "+formatter(population[j][n]);
 			line+="\n";
@@ -101,14 +123,6 @@ public class DEro extends Algorithm
 			line = null;
 			line = new String();
 			//this.file+=line;
-			
-			if (j == 0 || fitnesses[j] < fBest)
-			{
-				fBest = fitnesses[j];
-				for (int n = 0; n < problemDimension; n++)
-					best[n] = population[j][n];
-				FT.add(i, fBest);
-			}
 			
 			//i++;
 		}
@@ -134,21 +148,21 @@ public class DEro extends Algorithm
 					currPt[n] = population[j][n];
 				currFit = fitnesses[j];
 				
-				// Mutation DE/rand/1
-			    //newPt = rand1(population, F);
-					
-				int[] r = new int[populationSize];
-				for (int n = 0; n < populationSize; n++)
-					r[n] = n;
+				// Mutation Best/rand/1
+				
+				int indexBest = MatLab.indexMin(fitnesses);
+				int[] r = new int[populationSize-1];
+				for (int n = 0; n < populationSize-1; n++)
+					if(n != indexBest)
+						r[n] = n;
 				r = RandUtils.randomPermutation(r); 
 				
-				int r1 = r[0];
-				int r2 = r[1];
-				int r3 = r[2];
-				
+				int r2 = r[0];
+				int r3 = r[1];
+
 				for (int n = 0; n < problemDimension; n++)
-					newPt[n] = population[r1][n] + F*(population[r2][n]-population[r3][n]);
-		
+					newPt[n] = population[indexBest][n] + F*(population[r2][n]-population[r3][n]);
+							
 				// crossover
 				if (crossoverStrategy == 'b')
 					crossPt = DEOp.crossOverBin(currPt, newPt, CR);
@@ -167,7 +181,7 @@ public class DEro extends Algorithm
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;//incCorrected();
+						ciccio++;
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -179,7 +193,7 @@ public class DEro extends Algorithm
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;//incCorrected();
+						ciccio++;
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -198,7 +212,7 @@ public class DEro extends Algorithm
 //				if(!Arrays.equals(output, crossPt))
 //				{
 //					crossPt = output;
-//					ciccio++;//incCorrected();
+//					ciccio++;
 //				}
 //				crossFit = problem.f(crossPt);
 				i++;
@@ -222,7 +236,7 @@ public class DEro extends Algorithm
 						//population[j][n] = crossPt[n];
 					temp2[j] = crossFit;
 					idsTemp[j] = newID;
-					line =""+newID+" "+ids[r2]+" "+ids[r3]+" "+ids[r1]+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
+					line =""+newID+" "+ids[r2]+" "+ids[r3]+" "+ids[indexBest]+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
 					for(int n = 0; n < problemDimension; n++)
 						line+=" "+formatter(population[j][n]);
 					line+="\n";
@@ -254,7 +268,7 @@ public class DEro extends Algorithm
 		FT.add(i, fBest);
 		bw.close();
 		
-//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
+		//wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
 //		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy);
 		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
 		return FT;
@@ -304,7 +318,7 @@ public class DEro extends Algorithm
 		if(correctionType=='t')
 		{
 			//System.out.println("TORO");
-			output = toro(x, bounds);
+			output = saturateToro(x, bounds);
 		}
 		else
 		{
@@ -364,7 +378,27 @@ public class DEro extends Algorithm
 	}	
 	
 	
-	
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				
