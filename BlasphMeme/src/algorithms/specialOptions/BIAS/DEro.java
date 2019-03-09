@@ -31,8 +31,8 @@ public class DEro extends Algorithm
 	}
 	
 	
-	//static String Dir = "/home/facaraff/Desktop/KONODATA/DEro/";
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DEro\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DEro/";
+	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DEro\\";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	

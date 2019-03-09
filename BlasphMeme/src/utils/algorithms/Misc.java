@@ -58,6 +58,51 @@ import interfaces.Problem;
 public class Misc
 {
 	/**
+	 * Check if a design variable needs to be corrected
+	 * 
+	 * @param x (design variable)
+	 * @param lb (lower bound of x)
+	 * @param lb (lower bound of x)
+	 * @return return true if the design variable x is inside the search space, false otherwise
+	 */
+	protected static boolean inDomain(double x, double lb, double up) {return (x<=up && x>=lb);}
+	/**
+	 * complete one tailed normal correction
+	 * 
+	 * implement complete one tailed normal correction.
+	 * 
+	 * @param x
+	 * @param bounds
+	 * @return corrected x
+	 */
+	public static double[] completeOneTailedNormal(double[] x, double[][] bounds, double scaleFactor)
+	{
+		int n = x.length;
+		double[] x_complete = new double[n];
+		for (int i = 0; i < n; i++)
+			x_complete[i] = completeOneTailedNormalRecursive(x[i], bounds[i][0],bounds[i][1], scaleFactor); 
+		return x_complete;
+	}
+	protected static double completeOneTailedNormalRecursive(double x, double lb, double ub, double scaleFactor) 
+	{
+		double x_complete = Double.NaN;
+		if(inDomain(x,lb,ub)) 
+			x_complete = x;
+		else
+		{
+			x_complete = generateOneTailedNormalValue(x, lb, ub, scaleFactor);
+			while(!inDomain(x_complete,lb,ub))
+					x_complete = generateOneTailedNormalValue(x_complete, lb, ub, scaleFactor);
+				
+		}
+		return x_complete;
+	}
+	protected static double generateOneTailedNormalValue(double x, double lb, double up, double scaleFactor)//N.B. to use after inDomain()!!!
+	{
+		double r = Math.abs(RandUtils.gaussian(0, (up-lb)/scaleFactor));
+		return (x<lb) ? (lb+r) : (up-r);
+	}
+	/**
 	 * mirroring correction
 	 * 
 	 * @todo implement mirrroring.
@@ -74,7 +119,6 @@ public class Misc
 		return x_mirrored;
 	}
 	//%%%%%
-	protected static boolean inDomain(double x, double lb, double up) {return (x<=up && x>=lb);}
 	protected static double reflect(double x, double lb, double up)
 	{
 		double x_ref = Double.NaN;

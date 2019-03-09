@@ -26,8 +26,8 @@ public class DErt extends Algorithm
 	}
 	
 	
-//	static String Dir = "/home/facaraff/Desktop/KONODATA/DErt/";
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DErt\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DErt/";
+//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DErt\\";
 
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");

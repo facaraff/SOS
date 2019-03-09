@@ -3,26 +3,22 @@ package algorithms.specialOptions.BIAS;
 
 import utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
-
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.mirroring;
 import static utils.algorithms.Misc.toro;
 
 import java.util.Arrays;
 
-import utils.MathUtils;
+import utils.MatLab;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-//import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.Vector;
 
 import utils.random.RandUtils;
-import algorithms.interfaces.Algorithm;
-import algorithms.interfaces.Problem;
-import algorithms.utils.Best;
+import interfaces.Algorithm;
+import interfaces.Problem;
+import utils.RunAndStore.FTrend;
 
 public class DEcbo extends Algorithm
 {
@@ -41,17 +37,17 @@ public class DEcbo extends Algorithm
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
 	@Override
-	public Vector<Best> execute(Problem problem, int maxEvaluations) throws Exception
+	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = pullParameter("p0").intValue(); 
-		double F = pullParameter("p1").doubleValue();
-		double CR = pullParameter("p2").doubleValue();
+		int populationSize = getParameter("p0").intValue(); 
+		double F = getParameter("p1").doubleValue();
+		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'e'; //e-->exponential  b-->binary
-		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
+		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation c---> complete
 		String fileName = "DEcbo"+crossoverStrategy+""+correctionStrategy; 
 		
 		
-		Vector<Best> bests = new Vector<Best>();
+		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 
@@ -105,7 +101,7 @@ public class DEcbo extends Algorithm
 				fBest = fitnesses[j];
 				for (int n = 0; n < problemDimension; n++)
 					best[n] = population[j][n];
-				bests.add(new Best(i, fBest));
+				FT.add(i, fBest);
 			}
 			
 			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
@@ -143,7 +139,7 @@ public class DEcbo extends Algorithm
 				
 				// Mutation current-t0-Best/rand/1
 				
-				int indexBest = MathUtils.indexMin(fitnesses);
+				int indexBest = MatLab.indexMin(fitnesses);
 				int[] r = new int[populationSize-1];
 				for (int n = 0; n < populationSize-1; n++)
 					if(n != indexBest)
@@ -160,18 +156,53 @@ public class DEcbo extends Algorithm
 							
 				// crossover
 				if (crossoverStrategy == 'b')
-					crossPt = crossOverBin(currPt, newPt, CR);
+					crossPt = DEOp.crossOverBin(currPt, newPt, CR);
 				else if (crossoverStrategy == 'e')
-					crossPt = crossOverExp(currPt, newPt, CR);
+					crossPt = DEOp.crossOverExp(currPt, newPt, CR);
 				else
 					System.out.println("Crossover is not used");
 				
 				//crossPt = correction(crossPt, bounds, correctionStrategy);ciccio++; incCorrected();
 				double[] output = new double[problemDimension];
+//				if(correctionStrategy == 't')
+//				{
+//					//System.out.println("TORO");
+//					output = toro(crossPt, bounds);
+//					
+//					if(!Arrays.equals(output, crossPt))
+//					{
+//						crossPt = output;
+//						ciccio++;
+//					}
+//					crossFit = problem.f(crossPt);
+//				}
+//				else if(correctionStrategy== 's')
+//				{
+//					//System.out.println("SAT");
+//					output = saturation(crossPt, bounds);
+//					
+//					if(!Arrays.equals(output, crossPt))
+//					{
+//						crossPt = output;
+//						ciccio++;
+//					}
+//					crossFit = problem.f(crossPt);
+//				}
+//				else if(correctionStrategy== 'e')
+//				{
+//					output = saturation(crossPt, bounds);
+//					if(!Arrays.equals(output, crossPt))
+//					{
+//						ciccio++;
+//						crossFit = 2;
+//					}
+//				}
+//				else
+//					System.out.println("No bounds handling shceme seleceted");
 				if(correctionStrategy == 't')
 				{
 					//System.out.println("TORO");
-					output = saturateToro(crossPt, bounds);
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -191,6 +222,7 @@ public class DEcbo extends Algorithm
 						ciccio++;
 					}
 					crossFit = problem.f(crossPt);
+					
 				}
 				else if(correctionStrategy== 'e')
 				{
@@ -199,6 +231,15 @@ public class DEcbo extends Algorithm
 					{
 						ciccio++;
 						crossFit = 2;
+					}
+				}
+				else if(correctionStrategy== 'm')
+				{
+					output = mirroring(crossPt, bounds);
+					if(!Arrays.equals(output, crossPt))
+					{
+						ciccio++;
+						crossPt = output;
 					}
 				}
 				else
@@ -219,7 +260,7 @@ public class DEcbo extends Algorithm
 					fBest = crossFit;
 					for (int n = 0; n < problemDimension; n++)
 						best[n] = crossPt[n];
-					bests.add(new Best(i, fBest));
+					FT.add(i, fBest);
 				}
 
 				// replacement
@@ -260,13 +301,13 @@ public class DEcbo extends Algorithm
 		
 		finalBest = best;
 		
-		bests.add(new Best(i, fBest));
+		FT.add(i, fBest);
 		bw.close();
 		
 //		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
 //		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy);
 		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
-		return bests;
+		return FT;
 	}
 	
 	
@@ -313,7 +354,7 @@ public class DEcbo extends Algorithm
 		if(correctionType=='t')
 		{
 			//System.out.println("TORO");
-			output = saturateToro(x, bounds);
+			output = toro(x, bounds);
 		}
 		else
 		{
