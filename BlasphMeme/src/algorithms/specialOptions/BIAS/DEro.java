@@ -45,7 +45,7 @@ public class DEro extends Algorithm
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'b'; //e-->exponential  b-->binomial
-		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
+		char correctionStrategy = 'c';  // t --> toroidal   s-->saturation 'e'--->penalty
 		String fileName = "DEro"+crossoverStrategy+""+correctionStrategy; 
 		
 		

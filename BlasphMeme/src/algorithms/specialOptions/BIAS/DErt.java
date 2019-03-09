@@ -40,8 +40,8 @@ public class DErt extends Algorithm
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		char crossoverStrategy = 'e'; //e-->exponential  b-->binary
-		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
+		char crossoverStrategy = 'b'; //e-->exponential  b-->binary
+		char correctionStrategy = 'c';  // t --> toroidal   s-->saturation
 		String fileName = "DErt"+crossoverStrategy+""+correctionStrategy; 
 		
 		

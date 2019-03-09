@@ -56,8 +56,8 @@ public class DEbo extends Algorithm
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		char crossoverStrategy = 'e'; //e-->exponential  b-->binomial
-		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
+		char crossoverStrategy = 'b'; //e-->exponential  b-->binomial
+		char correctionStrategy = 'c';  // t --> toroidal   s-->saturation 'e'--->penalty
 		String fileName = "DEbo"+crossoverStrategy+""+correctionStrategy; 
 		
 		FTrend FT = new FTrend();
