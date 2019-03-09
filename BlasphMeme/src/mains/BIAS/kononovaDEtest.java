@@ -49,26 +49,25 @@ public class kononovaDEtest
 		Algorithm a;
 		Problem p;
 		
-//		double[] bias = null;
-		a = new DEro();
-//		a.setParameter("p0",5.0);
-//		a.setParameter("p1",0.1);
-//		a.setParameter("p2",0.2);
-//		algorithms.add(a);
-//		
-//		a = new DEro();
-//		a.setParameter("p0",20.0);
-//		a.setParameter("p1",0.1);
-//		a.setParameter("p2",0.2);
-//		algorithms.add(a);
-//
-//		a = new DEro();
-//		a.setParameter("p0",100.0);
-//		a.setParameter("p1",0.1);
-//		a.setParameter("p2",0.2);
-//		algorithms.add(a);
-		
 		double[] bias = null;
+		a = new DEro();
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+		
+		a = new DEro();
+		a.setParameter("p0",20.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+
+		a = new DEro();
+		a.setParameter("p0",100.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+		//double[] bias = null;
 		//a = new DEro();
 		//a = new DEbo();
 //		a = new DEcbo();
@@ -77,7 +76,6 @@ public class kononovaDEtest
 		a.setParameter("p1",0.1);
 		a.setParameter("p2",0.2);
 		algorithms.add(a);
-
 //		a = new DEro();
 //		a = new DEbo();
 //		a = new DEcbo();
@@ -86,7 +84,6 @@ public class kononovaDEtest
 		a.setParameter("p1",0.1);
 		a.setParameter("p2",0.2);
 		algorithms.add(a);
-
 //		a = new DEro();
 //		a = new DEbo();
 //		a = new DEcbo();
@@ -96,6 +93,46 @@ public class kononovaDEtest
 		a.setParameter("p2",0.2);
 		algorithms.add(a);
 
+		
+		a = new DEbo();
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+		
+		a = new DEbo();
+		a.setParameter("p0",20.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+
+		a = new DEbo();
+		a.setParameter("p0",100.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+		
+		
+		
+		
+		
+		a = new DEcbo();
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+		
+		a = new DEcbo();
+		a.setParameter("p0",20.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
+
+		a = new DEcbo();
+		a.setParameter("p0",100.0);
+		a.setParameter("p1",0.1);
+		a.setParameter("p2",0.2);
+		algorithms.add(a);
 		
 
 		
