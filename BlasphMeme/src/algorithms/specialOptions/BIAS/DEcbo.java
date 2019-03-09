@@ -4,6 +4,7 @@ package algorithms.specialOptions.BIAS;
 import utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.mirroring;
+import static utils.algorithms.Misc.completeOneTailedNormal;
 import static utils.algorithms.Misc.toro;
 
 import java.util.Arrays;
@@ -241,6 +242,17 @@ public class DEcbo extends Algorithm
 						ciccio++;
 						crossPt = output;
 					}
+				}
+				else if(correctionStrategy == 'c')
+				{
+					output = completeOneTailedNormal(crossPt, bounds, 3.0);
+					
+					if(!Arrays.equals(output, crossPt))
+					{
+						crossPt = output;
+						ciccio++;
+					}
+					crossFit = problem.f(crossPt);
 				}
 				else
 					System.out.println("No bounds handling shceme seleceted");

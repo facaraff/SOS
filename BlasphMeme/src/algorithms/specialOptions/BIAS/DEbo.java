@@ -2,6 +2,8 @@ package algorithms.specialOptions.BIAS;
 
 
 import utils.algorithms.operators.DEOp;
+
+import static utils.algorithms.Misc.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
 //import static algorithms.utils.AlgorithmUtils.crossOverBin;
@@ -206,8 +208,20 @@ public class DEbo extends Algorithm
 						crossFit = 2;
 					}
 				}
+				else if(correctionStrategy == 'c')
+				{
+					output = completeOneTailedNormal(crossPt, bounds, 3.0);
+					
+					if(!Arrays.equals(output, crossPt))
+					{
+						crossPt = output;
+						ciccio++;
+					}
+					crossFit = problem.f(crossPt);
+				}
 				else
 					System.out.println("No bounds handling shceme seleceted");
+				
 				
 //				if(!Arrays.equals(output, crossPt))
 //				{
