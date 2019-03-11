@@ -34,7 +34,7 @@ import interfaces.Problem;
 import algorithms.singleSolution.NonUniformSA;
 import algorithms.singleSolution.VISPO;
 import applications.CEC2011.P1;
-import applications.CEC2011.P2;
+import applications.CEC2011.P9;
 
 
 public class TestCEC2011 extends Experiment
@@ -61,14 +61,14 @@ public class TestCEC2011 extends Experiment
 	    add(a);
 		
 	    
-		p = new P1();
+		p = new P9();
 		add(p);//add it to the list
 		
 //		p = new P7();
 //		add(p);//add it to the list
 //		
-		p = new P2(30);
-		add(p);//add it to the list
+//		p = new P2(30);
+//		add(p);//add it to the list
 //		p = new P2(60);
 //		add(p);//add it to the list
 //		p = new P2(90);
