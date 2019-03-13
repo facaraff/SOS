@@ -33,7 +33,7 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import algorithms.singleSolution.NonUniformSA;
 import algorithms.singleSolution.VISPO;
-import applications.CEC2011.P1;
+//import applications.CEC2011.P1;
 import applications.CEC2011.P9;
 
 
