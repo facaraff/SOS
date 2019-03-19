@@ -89,6 +89,7 @@ public class RunExperiments
 //		experiments.add(new ReviewEvo19(100));
 		
 		experiments.add(new Bbob2018(10));
+		experiments.add(new Bbob2018(20));
 
 		//@@@@@@
 	
