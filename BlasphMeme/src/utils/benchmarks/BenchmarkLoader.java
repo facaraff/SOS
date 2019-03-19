@@ -215,7 +215,7 @@ public class BenchmarkLoader
 					// read the native library from jar file
 					//in = loader.getResourceAsStream("benchmarks"+File.separator+"problemsImplementation"+File.separator+"lib"+ File.separator + archLibDir + File.separator + name);
 					in = loader.getResourceAsStream("utils"+File.separator+"benchmarks"+File.separator+"nativeLibraries"+ File.separator + archLibDir + File.separator + name);
-
+					//System.out.println("utils"+File.separator+"benchmarks"+File.separator+"nativeLibraries"+ File.separator + archLibDir + File.separator + name);
 					// save the native library to the temporary file
 					fos = new FileOutputStream(temp);
 					
@@ -235,6 +235,7 @@ public class BenchmarkLoader
 					try
 					{
 						System.load(temp.getAbsolutePath());
+						System.out.println(temp.getAbsolutePath());
 						libraryLoaded = true;
 					}
 					catch (UnsatisfiedLinkError ule)
@@ -270,5 +271,6 @@ public class BenchmarkLoader
 
 			i++;
 		}
+		//System.out.println(architecture);
 	}
 }

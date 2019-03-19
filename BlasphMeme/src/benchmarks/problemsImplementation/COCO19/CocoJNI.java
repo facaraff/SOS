@@ -1,24 +1,24 @@
 package benchmarks.problemsImplementation.COCO19;
 
-//import utils.benchmarks.BenchmarkLoader;
+import utils.benchmarks.BenchmarkLoader;
 
 /**
  * This class contains the declaration of all the CocoJNI functions. 
  */
 public class CocoJNI {
 
-	//	
-//	/** Load the library, the system-specific filename extension is added by the JVM. */
-//	static {
-//		try
-//		{
-//			BenchmarkLoader.loadNativeLibraryFromJar("CocoJNI");
-//		}
-//		catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		}
-//	}
+		
+	/** Load the library, the system-specific filename extension is added by the JVM. */
+	static {
+		try
+		{
+			BenchmarkLoader.loadNativeLibraryFromJar("libCocoJNI");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
@@ -30,17 +30,17 @@ public class CocoJNI {
 
 	
 	/* Load the library */
-	static {
-		try {
-	    	
-			 System.loadLibrary("CocoJNI");
-		    	
-		    } catch (UnsatisfiedLinkError e) {
-		      System.err.println("Native code library failed to load.\n" + e);
-		      System.exit(1);
-		    }
-		
-	}
+//	static {
+//		try {
+//	    	
+//			 System.loadLibrary("CocoJNI");
+//		    	
+//		    } catch (UnsatisfiedLinkError e) {
+//		      System.err.println("Native code library failed to load.\n" + e);
+//		      System.exit(1);
+//		    }
+//		
+//	}
 	
 	 
 	
