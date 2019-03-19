@@ -29,7 +29,7 @@ public class Timing {
 	 * Keeps track of the total number of evaluations and elapsed time. Produces an output string when the
 	 * current problem is of a different dimension than the previous one or when null.
 	 */
-	void timeProblem(Problem problem) {
+	void timeProblem(CocoProblem problem) {
 
 		if ((problem == null) || (this.previousDimension != CocoJNI.cocoProblemGetDimension(problem.getPointer()))) {
 

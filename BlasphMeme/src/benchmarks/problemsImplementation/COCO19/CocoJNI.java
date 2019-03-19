@@ -19,29 +19,6 @@ public class CocoJNI {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-//	/* Load the library */
-//	static {
-//		System.loadLibrary("CocoJNI");
-//	}
-
-	
-	/* Load the library */
-//	static {
-//		try {
-//	    	
-//			 System.loadLibrary("CocoJNI");
-//		    	
-//		    } catch (UnsatisfiedLinkError e) {
-//		      System.err.println("Native code library failed to load.\n" + e);
-//		      System.exit(1);
-//		    }
-//		
-//	}
-	
 	 
 	
 	/* Native methods */

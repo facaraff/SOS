@@ -21,7 +21,7 @@ public class Benchmark {
 	 * @return the next problem in the suite or null when there is no next problem  
 	 * @throws Exception 
 	 */
-	public Problem getNextProblem() throws Exception {
+	public CocoProblem getNextProblem() throws Exception {
 		
 		try {		
 			long problemPointer = CocoJNI.cocoSuiteGetNextProblem(suite.getPointer(), observer.getPointer());
@@ -29,7 +29,7 @@ public class Benchmark {
 			if (problemPointer == 0)
 				return null;
 			
-			return new Problem(problemPointer);
+			return new CocoProblem(problemPointer);
 		} catch (Exception e) {
 			throw new Exception("Fetching of next problem failed.\n" + e.toString());
 		}

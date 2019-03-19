@@ -30,7 +30,7 @@ public class ExampleExperiment {
 	 * The problem to be optimized (needed in order to simplify the interface between the optimization
 	 * algorithm and the COCO platform).
 	 */
-	public static Problem PROBLEM;
+	public static CocoProblem PROBLEM;
 	
 	/**
 	 * Interface for function evaluation.
@@ -108,7 +108,9 @@ public class ExampleExperiment {
              * For more details on how to change the default options, see
              * http://numbbo.github.io/coco-doc/C/#suite-parameters and
              * http://numbbo.github.io/coco-doc/C/#observer-parameters. */
-			Suite suite = new Suite(suiteName, "", "");
+			//Suite suite = new Suite(suiteName, "", "");
+//			Suite suite = new Suite(suiteName, "year: 2018", "dimensions: 40 instance_indices:1-4");//4 runs!
+			Suite suite = new Suite(suiteName, "year: 2018", "dimensions: 40 function_indices: 1");
 			Observer observer = new Observer(observerName, observerOptions);
 			Benchmark benchmark = new Benchmark(suite, observer);
 
@@ -180,6 +182,8 @@ public class ExampleExperiment {
 		double[] y = new double[numberOfObjectives];
 		double[] z = new double[numberOfConstraints];
 		double range;
+		
+//		z[0]=z[0]; y[0]=y[0];
 		
 		for (int i = 0; i < maxBudget; i++) {
 			

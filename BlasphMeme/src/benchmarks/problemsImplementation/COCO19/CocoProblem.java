@@ -4,7 +4,7 @@ package benchmarks.problemsImplementation.COCO19;
  * The problem contains some basic properties of the coco_problem_t structure that can be accessed
  * through its getter functions.
  */
-public class Problem {
+public class CocoProblem {
 
 	private long pointer; // Pointer to the coco_problem_t object
 	
@@ -25,7 +25,7 @@ public class Problem {
 	 * @param pointer pointer to the coco_problem_t object
 	 * @throws Exception
 	 */
-	public Problem(long pointer) throws Exception {
+	public CocoProblem(long pointer) throws Exception {
 
 		super();
 		try {		
