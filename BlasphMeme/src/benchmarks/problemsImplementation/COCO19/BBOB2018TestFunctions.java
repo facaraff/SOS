@@ -5,7 +5,7 @@ package benchmarks.problemsImplementation.COCO19;
  * Benchmark Functions defined in the Real-Parameter Black-Box 
  * Optimization Benchmarking (BBOB 2019).
  */
-public class BBOB2019TestFunctions 
+public class BBOB2018TestFunctions 
 {
 
 	//TODO check biases for bbob2018!!!!!
@@ -15,27 +15,28 @@ public class BBOB2019TestFunctions
 	 * The problem to be optimized (needed in order to simplify the interface between the optimization
 	 * algorithm and the COCO platform).
 	 */
-	public static CocoProblem PROBLEM;
+	protected static CocoProblem PROBLEM;
 	
-	
-	Suite suite; 
-	Observer observer; 
-	Benchmark benchmark = new Benchmark(suite, observer);
 
-	
+	protected	Suite suite; 
+	protected	Observer observer; 
+	protected	Benchmark benchmark;
 	/* Initialize the suite and observer.
      * For more details on how to change the default options, see
      * http://numbbo.github.io/coco-doc/C/#suite-parameters and
      * http://numbbo.github.io/coco-doc/C/#observer-parameters. */
-	BBOB2019TestFunctions(int fNr, int dim) throws Exception
+	public BBOB2018TestFunctions(int fNr, int dim) throws Exception
 	{	
 		suite = new Suite("bbob", "year: 2018", "dimensions: "+dim+" function_indices: "+fNr);
-		observer =  new Observer("", "");
+		observer =  new Observer("no_observer", "");
+		benchmark = new Benchmark(suite, observer);
+		PROBLEM = benchmark.getNextProblem();
 	}
 	
 
+	
     protected double[] evaluateFunctions(double[] x) {return PROBLEM.evaluateFunction(x);}
-    public static double evaluateFunction(double[] x) {return PROBLEM.evaluateFunction(x)[0];}
+    public double evaluateFunction(double[] x) {return PROBLEM.evaluateFunction(x)[0];}
 	
     public static int getDimension() {return PROBLEM.getDimension();}
     
@@ -43,7 +44,7 @@ public class BBOB2019TestFunctions
     public  double[] getUpperBounds() {return PROBLEM.getLargestValuesOfInterest();}
     protected  static double getLowerBound(int i) {return PROBLEM.getSmallestValueOfInterest(i);}
     protected  static double getUpperBound(int i) {return PROBLEM.getLargestValueOfInterest(i);}
-    public static double[][] getBounds()
+    public double[][] getBounds()
     {
     	int dim = getDimension();
     	double[][] bounds = new double[dim][2];

@@ -36,7 +36,8 @@ either expressed or implied, of the FreeBSD Project.
 
 import java.util.Vector;
 
-import experiments.paperReviews.ReviewEvo19;
+//import experiments.paperReviews.ReviewEvo19;
+import experiments.BenchmarksTesting.Bbob2018;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
@@ -83,9 +84,11 @@ public class RunExperiments
 //		experiments.add(new Anil(100));
 
 		
-		experiments.add(new ReviewEvo19(10));
-		experiments.add(new ReviewEvo19(50));
-		experiments.add(new ReviewEvo19(100));
+//		experiments.add(new ReviewEvo19(10));
+//		experiments.add(new ReviewEvo19(50));
+//		experiments.add(new ReviewEvo19(100));
+		
+		experiments.add(new Bbob2018(10));
 
 		//@@@@@@
 	

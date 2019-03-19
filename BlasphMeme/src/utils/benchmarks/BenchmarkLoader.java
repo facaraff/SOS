@@ -235,7 +235,7 @@ public class BenchmarkLoader
 					try
 					{
 						System.load(temp.getAbsolutePath());
-						System.out.println(temp.getAbsolutePath());
+//						System.out.println(temp.getAbsolutePath());
 						libraryLoaded = true;
 					}
 					catch (UnsatisfiedLinkError ule)

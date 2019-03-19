@@ -181,9 +181,12 @@ public class ExampleExperiment {
 		double[] x = new double[dimension];
 		double[] y = new double[numberOfObjectives];
 		double[] z = new double[numberOfConstraints];
+		
+		for (int j = 0; j <numberOfConstraints; j++) z[j]= Double.NaN;
+		for (int j = 0; j < numberOfObjectives; j++) y[j]= Double.NaN;
+		
 		double range;
 		
-//		z[0]=z[0]; y[0]=y[0];
 		
 		for (int i = 0; i < maxBudget; i++) {
 			
