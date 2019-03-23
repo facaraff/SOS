@@ -199,9 +199,16 @@ public class RunAndStore
 	private double extraDouble;
 	
 	private Vector<Double> extraValues;
-	private boolean together = false; //side by side
+	/**
+	* private boooan together: if true fitness and extra values are printed side by side in the same file
+	*/
+	private boolean together = false;
+	/**
+	* private int extraValuesColumns: if = 1 the extra values file is printed into a txt file displaying all extra values in one column vector, otherwise the latter column vector is reshaped in a matrix of 'extraValuesColumns>1' columns
+	*/
+	private int extraValuesColumns = 1;
 	
-	//double sepindex; non necessariamente un dvector usa questa classe per salvarci la peggio merda
+	//double sepindex; non necessariamente un vector usa questa classe per salvarci la peggio merda
 	
 	/**
 	* Constructor I.
@@ -263,6 +270,11 @@ public class RunAndStore
 	*/
 	public void setExtraDouble(double n){this.extraDouble=n;}
 	/**
+	* set extraValuesColumns.
+	* @param extraValuesColumns
+	*/
+	public void setExtraValuesColumns(int n){this.extraValuesColumns=n;}
+	/**
 	* set together.
 	* @param together
 	*/
@@ -299,6 +311,46 @@ public class RunAndStore
 	*  
 	*/
 	public boolean separateFile() { return hasExtraValues() && !together;}
+	/**
+	* reshape extra (Double) values into a (String) matrix of n columns 
+	*  
+	*/
+	public String[] reshapeExtraValues(Vector<Double> extra, int n) 
+	{
+		String s = ""; 
+		for(int i=0; i<extra.size(); i++)
+			s+=extra.get(i)+"\t";
+
+		String[] array = s.split("\t");
+		s = null; s = "";
+		int counter = 0;
+		for(String temp : array)
+		{
+			counter++;
+			if(counter%n!=0)
+				s+=temp+"\t";
+			else
+				s+=temp+"\n";	
+		}
+
+		array = s.split("\n");
+		
+		return removeNaN(array);
+	}
+	/**
+	* Remove NaN from double extra values (USED WHEN EXTRA VALUES ARE ADDED NEXT TO FITNESSES but there are less extra values that fitness values) 
+	*  
+	*/
+	protected String[] removeNaN(String[] s)
+	{
+		for(int i=0; i<s.length; i++)
+			if(s[i].contains("NaN"))
+				s[i]="";
+		return s;
+	}
+	
+	
+	
 	/**
 	* add a new couple <i,f>
 	* 
@@ -371,24 +423,46 @@ public class RunAndStore
 		
 		if(hasExtraValues())
 		{
-			if(together) // WHEN THE EXTRA VALUE IS NEEDED NEXT TO FITNESS FUNCTION (IF NT PRESENT A NON NUMERICAL VALUE MUST BE ADDED!!!)
+			if(together) 
 			{
-				for(int i = 0; i<this.index.size()-1; i++)
-					s+=this.index.get(i) + "\t" + fValue.get(i)+ "\t" +extraValues.get(i) + "\n";
-				s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1)+ "\t" +extraValues.get(this.index.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO?)
+				try {
+					//NB: in the algorithm you need to add as many extra value lines as fitness values... if not needed that many estradouble values that add Double.NaN!
+					String[] extra = reshapeExtraValues(extraValues,extraValuesColumns);
+					
+					for(int i = 0; i<this.index.size()-1; i++)
+						s+=this.index.get(i) + "\t" + fValue.get(i)+ "\t" +extra[i] + "\n"; 
+					s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1)+ "\t" +extra[this.index.size()-1];
+					}
+					catch(Exception e) {
+					  System.out.println("NB: in the algorithm you need to add as many extra value lines as fitness values... if not needed that many estradouble values that add Double.NaN!");
+					}
+					
+//					
+//				for(int i = 0; i<this.index.size()-1; i++)
+//					s+=this.index.get(i) + "\t" + fValue.get(i)+ "\t" +extraValues.get(i) + "\n";
+//				s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1)+ "\t" +extraValues.get(this.index.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO?)
+
 			}
 			else
 			{
-				s = calssicToString();
-//				s+= "\n extras\n";
+				s = classicToString();
+				
 				s+="extras";
-				for(int i = 0; i<this.extraValues.size()-1; i++)
-					s+=extraValues.get(i)+ "\n";
-				s+=extraValues.get(this.extraValues.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO? ci doveva essere un motivo)
+				
+				String[] extra = reshapeExtraValues(extraValues,extraValuesColumns);
+					
+				for(int i = 0; i<extra.length-1; i++)
+					s+=extra[i]+ "\n";
+				s+=extra[extra.length-1];
+				
+//				for(int i = 0; i<this.extraValues.size()-1; i++)
+//					s+=extraValues.get(i)+ "\n";
+//				s+=extraValues.get(this.extraValues.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO? ci doveva essere un motivo)
 			}
+			
 		}
 		else
-			s = calssicToString();
+			s = classicToString();
 			
 		return s;
 	}
@@ -398,7 +472,7 @@ public class RunAndStore
 	* 
 	* @return s fitness trend.
 	*/
-	public String calssicToString() 
+	public String classicToString() 
 	{
 		String s = new String();
 		for(int i = 0; i<this.index.size()-1; i++)

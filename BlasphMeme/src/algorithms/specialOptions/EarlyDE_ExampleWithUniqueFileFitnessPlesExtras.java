@@ -15,7 +15,7 @@ import utils.RunAndStore.FTrend;
 /**
  * Differential Evolution (standard version, rand/1/bin)
  */
-public class EarlyDE extends Algorithm
+public class EarlyDE_ExampleWithUniqueFileFitnessPlesExtras extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -29,13 +29,14 @@ public class EarlyDE extends Algorithm
 
 		FTrend FT = new FTrend(true);
 		FT.setExtraValuesColumns(2);
+		FT.setTogether(true);
 		
 		
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
 		if(CR==-1)
-			CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
+			CR = 1.0/Math.pow(0.2,1.0/(problemDimension*alpha));
 		
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
@@ -60,13 +61,14 @@ public class EarlyDE extends Algorithm
 				for (int n = 0; n < problemDimension; n++)
 					best[n] = population[j][n];
 				FT.add(i, fBest);
+				FT.addExtra(Double.NaN);FT.addExtra(Double.NaN);
 			}
 			
 			i++;
 		}
 		
-		FT.addExtra(populationDiversity1(population));
-		FT.addExtra(populationDiversity2(population));
+//		FT.addExtra(populationDiversity1(population));
+//		FT.addExtra(populationDiversity2(population));
 
 		// temp variables
 		double[] currPt = new double[problemDimension];
@@ -158,6 +160,7 @@ public class EarlyDE extends Algorithm
 							best[n] = crossPt[n];
 						//if(problemDimension%i==0)	
 							FT.add(i, fBest);
+							FT.addExtra(populationDiversity1(population));FT.addExtra(populationDiversity1(population));
 					}
 				}
 				else
@@ -176,8 +179,8 @@ public class EarlyDE extends Algorithm
 			
 			population = newPop;
 			fitnesses = newFitnesses;
-			FT.addExtra(populationDiversity1(population));
-			FT.addExtra(populationDiversity2(population));
+//			FT.addExtra(populationDiversity1(population));
+//			FT.addExtra(populationDiversity2(population));
 			newPop = null; newFitnesses = null;
 		}
 		

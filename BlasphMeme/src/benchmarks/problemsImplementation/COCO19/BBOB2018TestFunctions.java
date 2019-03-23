@@ -27,6 +27,7 @@ public class BBOB2018TestFunctions
      * http://numbbo.github.io/coco-doc/C/#observer-parameters. */
 	public BBOB2018TestFunctions(int fNr, int dim) throws Exception
 	{	
+		CocoJNI.cocoSetLogLevel("warning");
 		suite = new Suite("bbob", "year: 2018", "dimensions: "+dim+" function_indices: "+fNr);
 		observer =  new Observer("no_observer", "");
 		benchmark = new Benchmark(suite, observer);
