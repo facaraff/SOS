@@ -90,7 +90,7 @@ public class RunExperiments
 		//experiments.add(new Bbob2018(10));
 		
 		
-		experiments.add(new AnilBBOB2018(10));
+		experiments.add(new AnilBBOB2018(10, 10));
 
 		//@@@@@@
 	

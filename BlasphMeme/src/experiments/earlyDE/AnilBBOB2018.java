@@ -37,13 +37,13 @@ import benchmarks.BBOB2018;
 public class AnilBBOB2018 extends Experiment
 {
 	
-	public AnilBBOB2018(int probDim) throws Exception
+	public AnilBBOB2018(int probDim, int popSize) throws Exception
 	{
 
 		super(probDim,5000,"AnilBBOB18");
 		setNrRuns(30);
 
-		double popSize = 100;
+		//double popSize = 10;
 		String P = "P"+(int)popSize;
 		
 		Algorithm a;// ///< A generic optimiser.
