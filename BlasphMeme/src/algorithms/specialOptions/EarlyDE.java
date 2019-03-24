@@ -4,6 +4,9 @@ import  utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.populationDiversity1;
 import static utils.algorithms.Misc.populationDiversity2;
+import static utils.algorithms.Misc.populationDiversity3;
+import static utils.algorithms.Misc.genotypicStd;
+import static utils.algorithms.Misc.getNormalisedQuantile;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -28,7 +31,7 @@ public class EarlyDE extends Algorithm
 		double alpha = getParameter("p5").doubleValue();
 
 		FTrend FT = new FTrend(true);
-		FT.setExtraValuesColumns(2);
+		FT.setExtraValuesColumns(8);
 		
 		
 		int problemDimension = problem.getDimension(); 
@@ -67,7 +70,13 @@ public class EarlyDE extends Algorithm
 		
 		FT.addExtra(populationDiversity1(population));
 		FT.addExtra(populationDiversity2(population));
-
+		FT.addExtra(populationDiversity3(population));
+		FT.addExtra(genotypicStd(population,null,'c'));
+		FT.addExtra(genotypicStd(population,best,'b'));
+		FT.addExtra(getNormalisedQuantile(fitnesses,50));
+		FT.addExtra(getNormalisedQuantile(fitnesses,25));
+		FT.addExtra(getNormalisedQuantile(fitnesses,75));
+		
 		// temp variables
 		double[] currPt = new double[problemDimension];
 		double[] newPt = new double[problemDimension];
@@ -178,6 +187,12 @@ public class EarlyDE extends Algorithm
 			fitnesses = newFitnesses;
 			FT.addExtra(populationDiversity1(population));
 			FT.addExtra(populationDiversity2(population));
+			FT.addExtra(populationDiversity3(population));
+			FT.addExtra(genotypicStd(population,null,'c'));
+			FT.addExtra(genotypicStd(population,best,'b'));
+			FT.addExtra(getNormalisedQuantile(fitnesses,50));
+			FT.addExtra(getNormalisedQuantile(fitnesses,25));
+			FT.addExtra(getNormalisedQuantile(fitnesses,75));
 			newPop = null; newFitnesses = null;
 		}
 		
@@ -186,6 +201,13 @@ public class EarlyDE extends Algorithm
 		FT.add(i, fBest);
 		FT.addExtra(populationDiversity1(population));
 		FT.addExtra(populationDiversity2(population));
+		FT.addExtra(populationDiversity3(population));
+		FT.addExtra(genotypicStd(population,null,'c'));
+		FT.addExtra(genotypicStd(population,best,'b'));
+		FT.addExtra(getNormalisedQuantile(fitnesses,50));
+		FT.addExtra(getNormalisedQuantile(fitnesses,25));
+		FT.addExtra(getNormalisedQuantile(fitnesses,75));
+
 		return FT;
 		
 		

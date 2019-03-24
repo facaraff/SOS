@@ -39,6 +39,8 @@ either expressed or implied, of the FreeBSD Project.
 
 package utils;
 
+import org.apache.commons.math3.stat.descriptive.rank.Percentile;
+
 import utils.random.RandUtils;
 import java.text.DecimalFormat;
 import java.util.Vector;
@@ -728,10 +730,42 @@ public class MatLab
 			return xSorted[(n-1)/2];
 	}
 	
-
+	/**
+	 * Return the p-th quantile of the values given as input in the form of an array 
+	 * (i.e. P=50--> Median; P=25-->Lower quartile; P=75--> Upper quartile; etc.) 
+	 * @param values.
+	 * @param p (0<p<=100).
+	 * @return median.
+	 */
+	public static double getQuantile(double[] values, int p)
+	{
+		Arrays.sort(values);
+		Percentile P = new Percentile(p);
+		P.setData(values);
+		
+		
+		return P.evaluate();
+	}
 	
-
-
+	
+	/**
+	 * Linear normalisation of the element of an array in [0,1]
+	 * 
+	 * @param values
+	 * @return normalised
+	 */
+	public static double[] linearNormalisation(double[] values)
+	{
+		int n = values.length;
+		double[] normalised = new double[n];
+		double min = min(values);
+		double delta = max(values)-min;
+		
+		for(int i=0; i<n; i++)
+			normalised[i]+=((values[i]-min)/delta);
+			
+		return normalised;
+	}
 	
 	/**
 	 * Index of the minimum element of array.
