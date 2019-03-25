@@ -37,7 +37,7 @@ import benchmarks.BBOB2018;
 public class AnilBBOB2018 extends Experiment
 {
 	
-	public AnilBBOB2018(int probDim, int popSize) throws Exception
+	public AnilBBOB2018(int probDim, double popSize) throws Exception
 	{
 
 		super(probDim,5000,"AnilBBOB18");
