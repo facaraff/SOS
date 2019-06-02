@@ -68,7 +68,7 @@ public class RunMoTest
 			
 		//@@@ MODIFY THIS PART @@@		
 		 
-		experiments.add(new MoTest(2));
+		//experiments.add(new MoTest(2));
 		
 		experiments.add(new MoTest(10));
 		

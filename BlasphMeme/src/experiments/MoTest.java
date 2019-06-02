@@ -32,6 +32,7 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 //import benchmarks.CEC2014RotInvStudy;
 import benchmarks.problemsImplementation.BaseFunctions.*;
+import benchmarks.BBOB2018;
 //import benchmarks.problemsImplementation.BaseFunctions.Sphere;
 //import benchmarks.problemsImplementation.BaseFunctions.Ellipsoid;
 //import benchmarks.problemsImplementation.BaseFunctions.Ackley;
@@ -74,6 +75,9 @@ public class MoTest extends Experiment
 			
 //		for(int i = 1; i<=25; i++)
 //				add(new CEC2014RotInvStudy(probDim, i));
+		
+		for(int i = 1; i<=24; i++)
+			add(new BBOB2018(i, probDim));
 		
 
 
