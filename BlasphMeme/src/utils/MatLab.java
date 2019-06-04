@@ -797,11 +797,26 @@ public class MatLab
 	{
 		return (a <= b) ? a : b;
 	}
+	/**
+	 * Minimum element of pair of integer numbers.
+	 */
+	public static int min(int a, int b)
+	{
+		return (a <= b) ? a : b;
+	}
 	
 	/**
 	 * Maximum element of pair of real numbers in double precision.
 	 */
 	public static double max(double a, double b)
+	{
+		return (a > b) ? a : b;
+	}
+	
+	/**
+	 * Maximum element of pair of integer numbers.
+	 */
+	public static int max(int a, int b)
 	{
 		return (a > b) ? a : b;
 	}

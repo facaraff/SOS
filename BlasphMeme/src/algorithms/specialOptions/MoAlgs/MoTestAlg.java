@@ -4,6 +4,7 @@ package algorithms.specialOptions.MoAlgs;
 //import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.Misc.toro;
 import static utils.algorithms.TestModality.basinEstimate;
+import static utils.MatLab.min;
 
 import java.util.Arrays;
 
@@ -12,7 +13,7 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 /*
- * J(anez) Self-Adaptive Differential Evolution
+ * MoTest
  */
 public class MoTestAlg extends Algorithm
 {
@@ -40,11 +41,18 @@ public class MoTestAlg extends Algorithm
 		//Evaluate function modality
 		int modality = -1;
 		int modalityEvaluations = maxEvaluations/3; //33%
+		modalityEvaluations = min(modalityEvaluations, maxEvaluations-i);
 		int repeatsSaved = 0;
 		double[][] returnMatrix = basinEstimate(problem, modalityPopulation, repeatsSaved, modalityEvaluations);
-		//i = i + modalityEvaluations;
+		i = i + modalityEvaluations;
 		modality = returnMatrix.length;
 		System.out.println("modality = "+modality);
+		
+		
+		
+		
+		
+		
 		
 		
 		

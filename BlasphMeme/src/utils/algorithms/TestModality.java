@@ -27,8 +27,9 @@ import interfaces.Problem;
 
 public class TestModality {
 	
-	@SuppressWarnings("unused")
-	public static double[][] basinEstimate(Problem prob, int repeats, int repeatsSaved , int localBudget) throws Exception {
+	//@SuppressWarnings("unused")
+	public static double[][] basinEstimate(Problem prob, int repeats, int repeatsSaved , int localBudget) throws Exception 
+	{
 
 		double[][] bounds = prob.getBounds();
 		int problemDimension = prob.getDimension();
@@ -93,18 +94,23 @@ public class TestModality {
 		int modality = -1;
 		double bestsilhouette = 1;
 		double silhouette;
-		double[][] bestCentroids = new double[10][problemDimension];
+		//double[][] bestCentroids = new double[10][problemDimension];
 		//List<Cluster<EuclideanDoublePoint>> bestClustering = null;
 				
-		if (MatLab.std(fitnesses) < 1e-01) { //better solution needed here! (its problem dependant quantity)
+		if (MatLab.std(fitnesses) < 1e-01) 
+		{ //better solution needed here! (its problem dependant quantity)
 			modality = 1;
 		}		
-		else {
-			for (int k = 2; k < 10; k++) {	//detect 2-10 basins (cluster centers in this case)
-				for (int n = 0; n < 10; n++) { //iterations to mitigate random initialization of centroids
+		else 
+		{
+			for (int k = 2; k < 10; k++) 
+			{	//detect 2-10 basins (cluster centers in this case)
+				for (int n = 0; n < 10; n++) 
+				{ //iterations to mitigate random initialization of centroids
 					List<Cluster<EuclideanDoublePoint>> clusters = kmeans(population, k, 1000);
 					silhouette = AvgSilhouette(clusters);
-					if (silhouette < bestsilhouette) {
+					if (silhouette < bestsilhouette) 
+					{
 						//bestClustering = copyClusters(clusters);
 						modality = k;
 						bestsilhouette = silhouette;
@@ -116,13 +122,16 @@ public class TestModality {
 		
 		//get bestpoints from each cluster
 		double [][] clusterBests = new double[modality][problemDimension + 1]; //extra slot for fitness
-		if (modality == 1) {
+		if (modality == 1) 
+		{
 			for (int j = 0; j < problemDimension; j++) {
 				clusterBests[0][j] = population[0][j];
 			}
 			clusterBests[0][problemDimension] = fitnesses[0];
-		} else {
-			for (int j = 0; j < bestClustering.size(); j++) {
+		} else 
+			{
+			for (int j = 0; j < bestClustering.size(); j++) 
+			{
 				clusterBests[j] = getBestPointFromCluster(bestClustering.get(j), prob).clone();
 			}
 		}
@@ -285,4 +294,59 @@ public class TestModality {
 		}
 		return ProximityMatrix;
 	}
+	
+	
+	
+	
+	
+	public static ArrayList<Double> Silhouettes(List<Cluster<EuclideanDoublePoint>> clusters) {
+    	ArrayList<Double> silhouettes = new ArrayList<Double>();
+    	ArrayList<Double> betaranges = new ArrayList<Double>();
+
+    	double alpha = 0; //a(i)
+    	double beta = 0;  //b(i)
+    	double temp = 0;
+    	
+    	for (int i = 0; i < clusters.size(); i++) 
+    	{
+    		int clusterSize = clusters.get(i).getPoints().size();
+    		for (int j = 0; j < clusterSize; j++) 
+    		{
+    			betaranges.clear();
+    			alpha = 0;
+    			beta = 0;
+    			//calculate avgdistance within home cluster points
+    			for (int k = 0; k < clusterSize; k++) 
+    				if (k != j) 
+    					alpha = alpha + clusters.get(i).getPoints().get(j).distanceFrom(clusters.get(i).getPoints().get(k));
+    				
+    			if (alpha != 0) 
+    				alpha = alpha/(clusterSize-1);
+    		
+    			//calculate avgdistances to other clusters points 
+    			for (int k = 0; k < clusters.size(); k++) 
+    			{
+    				if (k != i) 
+    				{
+    					for (int n = 0; n < clusters.get(k).getPoints().size(); n++) 
+    						temp = temp + clusters.get(i).getPoints().get(j).distanceFrom(clusters.get(k).getPoints().get(n));
+    					
+    					betaranges.add(temp/clusters.get(k).getPoints().size());
+    					temp = 0;
+    				}
+    			}
+    			//pick smallest
+    			Collections.sort(betaranges);
+    			beta = betaranges.get(0); 
+    			//calculate silhouette value of j
+    			silhouettes.add((beta - alpha)/Math.max(alpha, beta));
+    		}
+    		
+    	}
+
+    	return silhouettes;
+    }
+	
+	
+	
 }
