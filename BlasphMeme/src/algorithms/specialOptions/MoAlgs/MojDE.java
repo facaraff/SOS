@@ -3,7 +3,7 @@ package algorithms.specialOptions.MoAlgs;
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.Misc.toro;
-import static utils.algorithms.TestModality.basinEstimate;
+import static utils.algorithms.Modality.TestModalityOld.basinEstimate;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package utils.algorithms;
+package utils.algorithms.Modality;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 
@@ -12,6 +12,8 @@ import java.util.Random;
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.operators.MemesLibrary.Rosenbrock;
 
+import static utils.MatLab.min;
+
 import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.EuclideanDoublePoint;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
@@ -22,78 +24,81 @@ import interfaces.Problem;
 /* Analyses problem modality in a scale of 1 to 10 (basins of attraction)
  *  uses LocalSearcher and Kmeans clustering and avgSilhouette for analysis.
  *  
- *  work in progress..
  */
 
 public class TestModality {
 	
-	//@SuppressWarnings("unused")
-	public static double[][] basinEstimate(Problem prob, int repeats, int repeatsSaved , int localBudget) throws Exception 
+	protected Basins b = new Basins();
+	
+	public int getModality() {return this.getModality();}
+	
+	public void basinEstimate(Problem prob, int repeats, int repeatsSaved , int searchersNumber, int localBudget) throws Exception 
 	{
 
 		double[][] bounds = prob.getBounds();
 		int problemDimension = prob.getDimension();
 		double[] fitnesses = new double[repeats];
 		double[][] population = new double[repeats][problemDimension];
-		//double[][] returnMatrix = new double[repeatsSaved + modality + 1][problemDimension + 1];
 		
-		/* returnMatrix
-		 * 
-		 *    repeatsSaved + 1
-		 *     ____________________
-		 * d  | x x x x x x m c c c| 
-		 * i  | x x x x x x   c c c|
-		 * m  | x x x x x x   c c c| 
-		 * +  | x x x x x x   c c c|
-		 * 1  | z z z z z z        |
-		 * 
-		 *
-		 * x: x_i = solution
-		 * z: z = fitness of solution
-		 * m: m = estimated modality of landscape (1-10)
-		 * c: c_i = centroid (from 2 to 10 centroids or 0 in case of unimodal) // this can also be best points of clusters etc.
-		 */
 		
+		//if(searchersNumber!=1 && searchersNumber!=1) System.out.println("searchersNumber must either be 1 or 2");
 	
-		int i = 0;
+		int i = 0;	
 		
 		for (int j = 0; j < repeats; j++)
 		{
-			double[] tmp = generateRandomSolution(bounds, problemDimension);
-			for (int n = 0; n < problemDimension; n++)
-				population[j][n] = tmp[n];
+			population[j] = generateRandomSolution(bounds, problemDimension);
 			fitnesses[j] = prob.f(population[j]);									
 			i++;
 		}
 		
-		//double[][] proximityMatrixStart = ProximityMatrix(population);
+		
+		
 		double[] point = new double[problemDimension];
-		int numberOfSearchers = 2; //how many LS: rosenbrock + S-some
+		int numberOfSearchers = searchersNumber; //how many LS: rosenbrock + S-3some
 		int LSbudget = localBudget/repeats/numberOfSearchers;
 		
 		while (i < localBudget)
 		{		
-			for (int j = 0; j < repeats; j++) {
+			for (int j = 0; j < repeats; j++) 
+			{
 				point = population[j].clone();
 				
-				
-				double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, LSbudget, 0);
-				fitnesses[j] = temp[0];
-				i += temp[1];
-				
-				temp = Rosenbrock(point, fitnesses[j], 10e-5, 2, 0.5, prob, LSbudget, 0);
-				fitnesses[j] = temp[0];
-				i += temp[1];
-				for (int k = 0; k < problemDimension; k++) {
-					population[j][k] = point[k];
+				if(searchersNumber == 1)
+				{
+					int bg = min(LSbudget, localBudget-i);
+					
+					double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, bg, 0);
+					fitnesses[j] = temp[0];
+					i += temp[1];
+					
 				}
+				else if(searchersNumber == 2)
+				{
+					int bg = min(LSbudget, localBudget-i);
+					
+					double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, bg, 0);
+					fitnesses[j] = temp[0];
+					i += temp[1];
+					
+					 bg = min(LSbudget, localBudget-i);
+					
+					temp = Rosenbrock(point, fitnesses[j], 10e-5, 2, 0.5, prob, bg, 0);
+					fitnesses[j] = temp[0];
+					i += temp[1];
+				}
+				else
+					System.out.println("searchersNumber must either be 1 or 2");
+				
+				for (int k = 0; k < problemDimension; k++) 
+					population[j][k] = point[k];	
 			}
 		}
 		
-		//double[][] proximityMatrixEnd = ProximityMatrix(population);
+	
 		int modality = -1;
-		double bestsilhouette = 1;
-		double silhouette;
+		double bestAvgSilhouette = 1;
+		//double silhouette;
 		//double[][] bestCentroids = new double[10][problemDimension];
 		//List<Cluster<EuclideanDoublePoint>> bestClustering = null;
 				
@@ -107,85 +112,27 @@ public class TestModality {
 			{	//detect 2-10 basins (cluster centers in this case)
 				for (int n = 0; n < 10; n++) 
 				{ //iterations to mitigate random initialization of centroids
-					List<Cluster<EuclideanDoublePoint>> clusters = kmeans(population, k, 1000);
-					silhouette = AvgSilhouette(clusters);
-					if (silhouette < bestsilhouette) 
+					b.setClusters(kmeans(population, k, 1000));
+					double tmpSilhouette = AvgSilhouette(b.getClusters());
+					b.setAvgSilhouette(tmpSilhouette); 
+					if (tmpSilhouette < bestAvgSilhouette) 
 					{
-						//bestClustering = copyClusters(clusters);
 						modality = k;
-						bestsilhouette = silhouette;
+						bestAvgSilhouette = tmpSilhouette;
 					}
 				}
 			}
 		}
+		
+		
+		b.setModality(modality);
+		
+		
 		List<Cluster<EuclideanDoublePoint>> bestClustering = kmeans(population, modality, 100);
 		
-		//get bestpoints from each cluster
-		double [][] clusterBests = new double[modality][problemDimension + 1]; //extra slot for fitness
-		if (modality == 1) 
-		{
-			for (int j = 0; j < problemDimension; j++) {
-				clusterBests[0][j] = population[0][j];
-			}
-			clusterBests[0][problemDimension] = fitnesses[0];
-		} else 
-			{
-			for (int j = 0; j < bestClustering.size(); j++) 
-			{
-				clusterBests[j] = getBestPointFromCluster(bestClustering.get(j), prob).clone();
-			}
-		}
-		//k-th order statistics (brute force implementation for now)
-		double[] tempFitness = new double[repeats];
-		for (int j = 0; j < fitnesses.length; j++) {
-			tempFitness[j] = fitnesses[j];
-		}
-		Arrays.sort(tempFitness);
-		
-		double[][] returnMatrix = new double[modality][problemDimension + 1];
-		
-		
-		//prep returnMatrix with solutions, fitnesses, centroids and modality.
-		//copy n-best solutions
-		/*
-		for (int k = 0; k < repeatsSaved; k++) { 
-			for (int j = 0; j < fitnesses.length; j++) {
-				if (tempFitness[k] == fitnesses[j]) {
-					for (int n = 0; n < problemDimension; n++) {
-						returnMatrix[k][n] = population[j][n];
-					}
-					returnMatrix[k][problemDimension] = tempFitness[k];
-					break;
-				}
-			}
-		}
-		*/
-		
-		//copy centroids
-		/*
-		if (modality > 1) {
-			for (int k = repeatsSaved + 1; k < repeatsSaved + modality + 1; k++) {
-				for (int j = 0; j < problemDimension; j++) {
-					returnMatrix[k][j] = bestCentroids[k - repeatsSaved - 1][j];
-				}
-			}
-		}
-		*/
-		//copy best cluster points
-//		if (modality > 1) {
-			for (int k = 0; k < modality; k++) {
-				for (int j = 0; j < problemDimension + 1; j++) {
-					//returnMatrix[k][j] = bestCentroids[k - repeatsSaved - 1][j];
-					returnMatrix[k][j] = clusterBests[k][j];
-				}
-			}
-//		} else {
-//			for (int j = 0; j < problemDimension + 1; j++) {
-//				returnMatrix[0][j] = population[0][j];
-//			}
-//			returnMatrix[0][problemDimension + 1] = fitnesses[0];
-//		}
-		return returnMatrix;		
+		b.setClusters(bestClustering);
+			
+		//return b;		
 	}
 	
 	public static double[] getBestPointFromCluster (Cluster<EuclideanDoublePoint> cluster, Problem prob) throws Exception {
@@ -205,22 +152,13 @@ public class TestModality {
 		return point;
 	}
 	
-	public static List<Cluster<EuclideanDoublePoint>> copyClusters(List<Cluster<EuclideanDoublePoint>> clusterList) {
-		List<Cluster<EuclideanDoublePoint>> temp = clusterList;
-		for (int i = 0; i < clusterList.size(); i++) {
-			System.out.println(clusterList.size());
-			temp.add(clusterList.get(i));			
-		}
-		return temp;
-	}
 
 	
-	public static List<Cluster<EuclideanDoublePoint>> kmeans(double[][] population, int expectedClusters, int iterations) {
+	protected  List<Cluster<EuclideanDoublePoint>> kmeans(double[][] population, int expectedClusters, int iterations) {
         int populationSize = population.length;
         KMeansPlusPlusClusterer<EuclideanDoublePoint> transformer =
             new KMeansPlusPlusClusterer<EuclideanDoublePoint>(new Random());
-            //new KMeansPlusPlusClusterer<EuclideanDoublePoint>(new Random(1746432956321l));
-       
+            
         EuclideanDoublePoint[] points = new EuclideanDoublePoint[populationSize];
        
         for (int i=0; i < populationSize; i++) {
@@ -231,7 +169,13 @@ public class TestModality {
         return clusters;
 	}
 	
-	public static double AvgSilhouette(List<Cluster<EuclideanDoublePoint>> clusters) {
+	
+	
+	
+	
+	
+	/** Return AVG silhouette (fabio to check) **/
+	protected  double AvgSilhouette(List<Cluster<EuclideanDoublePoint>> clusters) {
     	ArrayList<Double> silhouettes = new ArrayList<Double>();
     	ArrayList<Double> betaranges = new ArrayList<Double>();
     	double silhouetteAvg = -1;
@@ -280,26 +224,11 @@ public class TestModality {
     	return silhouetteAvg;
     }
 	
-	public static double[][] ProximityMatrix(double[][] population) {
-		int populationSize = population.length;
-		double[][] ProximityMatrix = new double[populationSize][populationSize];
-		
-		//initialize ProximityMatrix
-		for (int i = 0; i < populationSize; i++) {
-			for (int j = 0; j < populationSize; j++) {
-				if (i != j) {
-					ProximityMatrix[i][j] = MatLab.distance(population[i], population[j]);
-				} else ProximityMatrix[i][j] = 0;
-			}
-		}
-		return ProximityMatrix;
-	}
+
 	
 	
-	
-	
-	
-	public static ArrayList<Double> Silhouettes(List<Cluster<EuclideanDoublePoint>> clusters) {
+	/** Return Silhouettes **/
+	protected static ArrayList<Double> Silhouettes(List<Cluster<EuclideanDoublePoint>> clusters) {
     	ArrayList<Double> silhouettes = new ArrayList<Double>();
     	ArrayList<Double> betaranges = new ArrayList<Double>();
 
@@ -347,6 +276,50 @@ public class TestModality {
     	return silhouettes;
     }
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public class Basins
+	{
+		private double[][] basinsMatrix = null;
+		private double[] basinsFitnesses = null;
+		private List<Cluster<EuclideanDoublePoint>> clusters = null;
+		private double AvgSilhouette = Double.NaN;
+		private int modality = -1;
+		
+		public void setBasinsMatrix(double[][] BM) {this.basinsMatrix=BM;}
+		public void setBasinFitnnesses(double[] BF) {this.basinsFitnesses=BF;}
+		public void setClusters(List<Cluster<EuclideanDoublePoint>> clusters) {this.clusters=clusters;}
+		public void setAvgSilhouette(double avgs) {this.AvgSilhouette=avgs;}
+		public void setModality(int M) {this.modality=M;}
+		
+		public double[][] getBasinsMatrix() {printNull(); return this.basinsMatrix;}
+		public double[] getBasinFitnnesses() {printNull(); return this.basinsFitnesses;}
+		public List<Cluster<EuclideanDoublePoint>> getClusters() {printNull(); return this.clusters;}
+		public double getAvgSilhouette() {printNull(); return this.AvgSilhouette;}
+		public int getModality() {return this.modality;}
+		
+		public void printNull() 
+		{
+			if(this.basinsMatrix == null)
+				System.out.println("basinsMatrix is null");
+			
+			if(this.basinsFitnesses == null)
+				System.out.println("basinsFitnesses is null");
+			
+			if(this.clusters == null)
+				System.out.println("clusters is null");
+			
+			if(this.AvgSilhouette == Double.NaN)
+				System.out.println("AvgSilhouette is NaN");
+		}
+	}
 	
 	
 }
