@@ -30,9 +30,9 @@ public class TestModality {
 	
 	protected Basins b = new Basins();
 	
-	public int getModality() {return this.getModality();}
+	public int getModality() {return this.b.getModality();}
 	
-	public void basinEstimate(Problem prob, int repeats, int repeatsSaved , int searchersNumber, int localBudget) throws Exception 
+	public void basinEstimate(Problem prob, int repeats , int searchersNumber, int localBudget) throws Exception 
 	{
 
 		double[][] bounds = prob.getBounds();
@@ -98,9 +98,7 @@ public class TestModality {
 	
 		int modality = -1;
 		double bestAvgSilhouette = 1;
-		//double silhouette;
-		//double[][] bestCentroids = new double[10][problemDimension];
-		//List<Cluster<EuclideanDoublePoint>> bestClustering = null;
+
 				
 		if (MatLab.std(fitnesses) < 1e-01) 
 		{ //better solution needed here! (its problem dependant quantity)
@@ -174,7 +172,7 @@ public class TestModality {
 	
 	
 	
-	/** Return AVG silhouette (fabio to check) **/
+	/** Return AVG silhouette (ILPO version) **/
 	protected  double AvgSilhouette(List<Cluster<EuclideanDoublePoint>> clusters) {
     	ArrayList<Double> silhouettes = new ArrayList<Double>();
     	ArrayList<Double> betaranges = new ArrayList<Double>();

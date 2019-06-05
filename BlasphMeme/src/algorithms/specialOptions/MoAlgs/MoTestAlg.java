@@ -2,14 +2,14 @@ package algorithms.specialOptions.MoAlgs;
 
 //import static utils.algorithms.operators.DEOp.crossOverBin;
 //import static utils.algorithms.operators.DEOp.rand1;
-import static utils.algorithms.Misc.toro;
+//import static utils.algorithms.Misc.toro;
 //import utils.algorithms.Modality.TestModality.Basins;
 import utils.algorithms.Modality.TestModality;
 import static utils.MatLab.min;
 
-import java.util.Arrays;
-
-import utils.random.RandUtils;
+//import java.util.Arrays;
+//
+//import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -31,7 +31,7 @@ public class MoTestAlg extends Algorithm
 		
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
-		
+//		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
 		
@@ -43,9 +43,9 @@ public class MoTestAlg extends Algorithm
 		int modality = -1;
 		int modalityEvaluations = maxEvaluations/3; //33%
 		modalityEvaluations = min(modalityEvaluations, maxEvaluations-i);
-		int repeatsSaved = 0;
+
 		TestModality TM = new TestModality();
-		TM.basinEstimate(problem, modalityPopulation, repeatsSaved, 2, modalityEvaluations);
+		TM.basinEstimate(problem, modalityPopulation, 2, modalityEvaluations);
 		i = i + modalityEvaluations;
 		modality = TM.getModality();
 		System.out.println("modality = "+modality);

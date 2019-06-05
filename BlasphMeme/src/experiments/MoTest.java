@@ -76,8 +76,8 @@ public class MoTest extends Experiment
 //		for(int i = 1; i<=25; i++)
 //				add(new CEC2014RotInvStudy(probDim, i));
 		
-		for(int i = 1; i<=24; i++)
-			add(new BBOB2018(i, probDim));
+//		for(int i = 1; i<=24; i++)
+//			add(new BBOB2018(i, probDim));
 		
 
 

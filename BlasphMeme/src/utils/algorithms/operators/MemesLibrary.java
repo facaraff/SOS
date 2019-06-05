@@ -1727,7 +1727,11 @@ public class MemesLibrary
 		return out;
 	}
 	
+	
+	
+	//*******************************************************************************************
 	//*************************** OLD STYLE FOR ILPO'S CODE**************************************
+	//*******************************************************************************************
 	
 	/** 3SOME's short distance searcher **/
 	/** Standard settings: deepLSRadius = 0.4, deepLSSteps = 150 **/
@@ -1824,6 +1828,11 @@ public class MemesLibrary
 		double[] out = {fit, numEval};
 		return out;
 	}
+	
+	
+	//*******************************************************************************************
+	//*************************** OLD STYLE FOR ILPO'S CODE END**************************************
+	//*******************************************************************************************
 
 	/** 3SOME's short distance searcher with stop criterion **/
 	/** Standard settings: deepLSRadius = 0.4, precision = 10^-6 **/
