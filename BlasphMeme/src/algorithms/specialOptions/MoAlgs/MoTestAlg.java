@@ -21,16 +21,16 @@ public class MoTestAlg extends Algorithm
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = this.getParameter("p0").intValue();//50
+//		int populationSize = this.getParameter("p0").intValue();//50
 
 		int modalityPopulation = this.getParameter("p1").intValue();
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
-		double[][] bounds = problem.getBounds();
-		
-		double[][] population = new double[populationSize][problemDimension];
-		double[] fitnesses = new double[populationSize];
+//		double[][] bounds = problem.getBounds();
+//		
+//		double[][] population = new double[populationSize][problemDimension];
+//		double[] fitnesses = new double[populationSize];
 //		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;

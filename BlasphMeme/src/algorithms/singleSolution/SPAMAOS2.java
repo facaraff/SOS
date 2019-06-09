@@ -242,13 +242,13 @@ public class SPAMAOS2 extends Algorithm
 		double lambda = 0.99;
 
 		OperatorSelection AOS = null;
-		if (idx == 1) {
+		if (idx == 1) {//hyperSPAM-PM
 			AOS = new ProbMatching(numberOfArms, pmin, alphaAOS, RandUtils.getSeed());
-		} else if (idx == 2) {
+		} else if (idx == 2) {//hyperSPAM-AP
 			AOS = new AdaptPursuit(numberOfArms, pmin, alphaAOS, betaAOS, RandUtils.getSeed());
-		} else if (idx == 3) {
+		} else if (idx == 3) { //hyperSPAM-MT
 			AOS = new MultinomialTracking(numberOfArms, pmin, alphaAOS, RandUtils.getSeed(), lambda);
-		} else {
+		} else {//hyperSPAM-RS
 			AOS = new Uniform(numberOfArms, RandUtils.getSeed());
 		}
 

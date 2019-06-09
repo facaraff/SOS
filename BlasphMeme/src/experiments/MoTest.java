@@ -32,7 +32,7 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 //import benchmarks.CEC2014RotInvStudy;
 import benchmarks.problemsImplementation.BaseFunctions.*;
-import benchmarks.BBOB2018;
+//import benchmarks.BBOB2018;
 //import benchmarks.problemsImplementation.BaseFunctions.Sphere;
 //import benchmarks.problemsImplementation.BaseFunctions.Ellipsoid;
 //import benchmarks.problemsImplementation.BaseFunctions.Ackley;
