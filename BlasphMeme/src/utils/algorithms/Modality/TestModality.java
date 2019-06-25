@@ -150,6 +150,46 @@ public class TestModality {
 		return point;
 	}
 	
+	
+	public static double[] getClusterCentroid (Cluster<EuclideanDoublePoint> cluster) throws Exception {
+		 
+		int clusterSize = cluster.getPoints().size();
+		int problemDimension = cluster.getPoints().get(0).getPoint().length;
+		double[] centroid = new double[problemDimension]; 
+		double[] temp = null;
+		for (int i = 0; i < clusterSize; i++) 
+		{
+			temp = cluster.getPoints().get(i).getPoint();
+			for(int n = 0; n<problemDimension; n++)
+				centroid[n]+=temp[n];
+			centroid = MatLab.multiply((1.0/clusterSize),centroid);
+		}
+
+		return centroid; 
+	}
+	
+	
+	public double[][] getClusterCentroids () throws Exception {
+		
+		List<Cluster<EuclideanDoublePoint>> clusters =  this.b.getClusters();
+		
+		int numberOfClusters = clusters.size();
+		int probDimension = 0; 
+		double[][] centroids = null; 
+		if(numberOfClusters == 0)
+			System.out.println("There are 0 clusters!");
+		else
+		{
+			probDimension = clusters.get(0).getPoints().get(0).getPoint().length;
+			centroids = new double[numberOfClusters][probDimension];
+		}
+		
+		
+		for (int j = 0; j < numberOfClusters;  j++) 
+			centroids[j] =  getClusterCentroid(clusters.get(j));
+
+		return centroids; 
+	}
 
 	
 	protected  List<Cluster<EuclideanDoublePoint>> kmeans(double[][] population, int expectedClusters, int iterations) {
@@ -166,8 +206,6 @@ public class TestModality {
         List<Cluster<EuclideanDoublePoint>> clusters = transformer.cluster(Arrays.asList(points), expectedClusters, iterations);
         return clusters;
 	}
-	
-	
 	
 	
 	
@@ -285,10 +323,10 @@ public class TestModality {
 	
 	public class Basins
 	{
-		private double[][] basinsMatrix = null;
-		private double[] basinsFitnesses = null;
+		private double[][] basinsMatrix = null; //Never used (yet)
+		private double[] basinsFitnesses = null; //Never used (yet)
 		private List<Cluster<EuclideanDoublePoint>> clusters = null;
-		private double AvgSilhouette = Double.NaN;
+		private double AvgSilhouette = Double.NaN; //Never used (yet)
 		private int modality = -1;
 		
 		public void setBasinsMatrix(double[][] BM) {this.basinsMatrix=BM;}

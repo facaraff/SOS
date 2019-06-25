@@ -12,6 +12,7 @@ import static utils.MatLab.min;
 //import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
+//import utils.MatLab;
 import utils.RunAndStore.FTrend;
 /*
  * MoTest
@@ -50,7 +51,22 @@ public class MoTestAlg extends Algorithm
 		modality = TM.getModality();
 		System.out.println("modality = "+modality);
 		
+		double[][] centroids = TM.getClusterCentroids();
 		
+		System.out.println("Cluster = "+centroids.length);
+		
+		for (int ii = 0; ii < centroids.length; ii++) 
+		{
+			for (int j = 0; j < centroids[0].length; j++)
+				System.out.print(centroids[ii][j]+" ");
+			System.out.println(" ");
+		}
+			
+			
+
+		
+		
+ 
 		
 		
 
