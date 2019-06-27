@@ -76,7 +76,7 @@ public class SPSA extends Algorithm {
 			
 		}
 		
-		double[] theta = Misc.clone(best);
+		double[] theta = Misc.cloneArray(best);
 		double y = fBest;
 		
 		int stopcounter=0;
@@ -113,7 +113,7 @@ public class SPSA extends Algorithm {
 			{
 				DELTA = fBest - yFinal;
 				fBest = yFinal;
-				best = Misc.clone(theta);
+				best = Misc.cloneArray(theta);
 				FT.add(i, fBest);	
 			}
 			if(i>5)

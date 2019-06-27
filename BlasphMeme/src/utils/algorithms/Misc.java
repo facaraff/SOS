@@ -50,7 +50,6 @@ import static utils.MatLab.norm2;
 import static utils.MatLab.mean;
 import static utils.MatLab.getQuantile;
 import static utils.MatLab.linearNormalisation;
-import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.Problem;
 
@@ -259,40 +258,6 @@ public class Misc {
 	 *            solution to be duplicated.
 	 * @return xc cloned solution.
 	 */
-	public static double[] clone(double[] x) {
-		// int n=x.length;
-		// double[] xc = new double[n];
-		// for (int i = 0; i < n; i++)
-		// xc[i] = x[i];
-		// return xc;
-		return MatLab.clone(x);
-	}
-
-	/**
-	 * Clone a solution a 2d matrix.
-	 * 
-	 * @param x
-	 *            solution to be duplicated.
-	 * @return xc cloned solution.
-	 */
-	public static double[][] clone(double[][] x) {
-		// int n=x.length;
-		// int nn=x[0].length;
-		// double[][] xc = new double[n][nn];
-		// for (int i = 0; i < n; i++)
-		// for (int j = 0; j < nn; j++)
-		// xc[i][j] = x[i][j];
-		// return xc;
-		return MatLab.clone(x);
-	}
-
-	/**
-	 * Clone a solution.
-	 * 
-	 * @param x
-	 *            solution to be duplicated.
-	 * @return xc cloned solution.
-	 */
 	public static double[] cloneArray(double[] x) {
 		int n = x.length;
 		double[] xc = new double[n];
@@ -333,6 +298,15 @@ public class Misc {
 			r[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtils.random();
 		return r;
 	}
+	
+	public static double[] generateRandomSolution(Problem p) {
+		int n = p.getDimension();
+		double[][] bounds = p.getBounds();
+		double[] r = new double[n];
+		for (int i = 0; i < n; i++)
+			r[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtils.random();
+		return r;
+	}
 
 	/**
 	 * Random point in bounds.
@@ -343,7 +317,8 @@ public class Misc {
 	 *            problam dimension.
 	 * @return r randomly generated point.
 	 */
-	public static double[] generateRandomSolution(double[] bounds, int n) {
+	public static double[] generateRandomSolution(double[] bounds, int n) 
+	{
 		double[] r = new double[n];
 		for (int i = 0; i < n; i++)
 			r[i] = bounds[0] + (bounds[1] - bounds[0]) * RandUtils.random();
@@ -444,7 +419,7 @@ public class Misc {
 		double[][] b = new double[n][n];
 		try {
 			b[0] = multiply((1 / norm2(dirVec[0])), dirVec[0]);
-			coorVec[0] = clone(b[0]);
+			coorVec[0] = cloneArray(b[0]);
 			double[] innerb;
 			for (int i = 1; i < n; i++) {
 				innerb = new double[n];
@@ -452,7 +427,7 @@ public class Misc {
 					innerb = multiply(-sum(dot(dirVec[i], b[j])), b[j]);
 				double[] temp = sum(dirVec[i], innerb);
 				b[i] = multiply((1 / norm2(temp)), temp);
-				coorVec[i] = clone(b[i]);
+				coorVec[i] = cloneArray(b[i]);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

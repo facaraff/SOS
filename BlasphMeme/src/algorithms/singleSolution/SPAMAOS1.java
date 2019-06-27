@@ -175,7 +175,7 @@ public class SPAMAOS1 extends Algorithm
 
 		double[] temp;
 
-		double[] x = Misc.clone(best);
+		double[] x = Misc.cloneArray(best);
 		double fx = fBest;
 		boolean improved = true;
 
@@ -189,7 +189,7 @@ public class SPAMAOS1 extends Algorithm
 				fx = problem.f(x);
 				if(fx < fBest)
 				{
-					best = Misc.clone(x);
+					best = Misc.cloneArray(x);
 					fBest =fx;
 					FT.add(j, fBest);
 				}
@@ -230,7 +230,7 @@ public class SPAMAOS1 extends Algorithm
 			j += temp[1];
 			if(fx < fBest)
 			{
-				best = Misc.clone(x);
+				best = Misc.cloneArray(x);
 				fBest = fx;
 				FT.add(j, fBest);
 			}

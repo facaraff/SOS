@@ -891,7 +891,7 @@ public class MemesLibrary
 		double myEps= eps;
 		
 		int k=0; int numEval = 0;
-		double[] theta=Misc.clone(sol);
+		double[] theta=Misc.cloneArray(sol);
 		double yOld = fit;
 		int stopcounter=0;
 		int dim = prob.getDimension();
@@ -1055,7 +1055,7 @@ public class MemesLibrary
 		for (int k = 0; k < dim; k++)
 			SR[k] = 0.4*(bounds[k][1] - bounds[k][0]);
 
-		double[] Xk = Misc.clone(sol);
+		double[] Xk = Misc.cloneArray(sol);
 		double[] D = new double[dim];
 		double[] r = new double[dim];
 		double fXk = fit;
@@ -1089,15 +1089,15 @@ public class MemesLibrary
 				if(fXk < fit)
 				{
 					fit = fXk;
-					sol = Misc.clone(Xk);
+					sol = Misc.cloneArray(Xk);
 				}
 				if(fXk == fit)
-					Xk = Misc.clone(sol);
+					Xk = Misc.cloneArray(sol);
 				else if(iter < totalBudget)
 				{
 					if(fXk > fit)
 					{
-						Xk = Misc.clone(sol);
+						Xk = Misc.cloneArray(sol);
 						for(int i=0; i < dim; i++)
 							if(r[i] == 0)
 								Xk[i] = Xk[i] + 0.5*SR[i]*D[i];
@@ -1109,10 +1109,10 @@ public class MemesLibrary
 						if(fXk < fit)
 						{
 							fit = fXk;
-							sol = Misc.clone(Xk);
+							sol = Misc.cloneArray(Xk);
 						}
 						if(fXk >= fit)
-							Xk = Misc.clone(sol);
+							Xk = Misc.cloneArray(sol);
 						else
 							improve = true;
 					}
@@ -1829,100 +1829,6 @@ public class MemesLibrary
 		return out;
 	}
 	
-	
-	public static double[] ThreeSome_ShortDistanceFT(double[] sol, double fit, double deepLSRadius, int deepLSSteps, 
-			Problem prob, int totalBudget, int iter, FTrend FT) throws Exception
-	{
-		int numEval = 0;
-		int problemDimension = prob.getDimension();
-		double[][] bounds = prob.getBounds();
-
-		double[] SR = new double[problemDimension];
-		for (int k = 0; k < problemDimension; k++)
-			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
-
-		boolean improve = true;
-		int j = 0;
-		while ((j < deepLSSteps) && (iter < totalBudget))
-		{	
-			double[] Xk = new double[problemDimension];
-			double[] Xk_orig = new double[problemDimension];
-			for (int k = 0; k < problemDimension; k++)
-			{
-				Xk[k] = sol[k];
-				Xk_orig[k] = sol[k];
-			}
-
-			double fXk_orig = fit;
-
-			
-			if (!improve)
-			{
-				for (int k = 0; k < problemDimension; k++)
-					SR[k] = SR[k]/2;
-			}
-
-			improve = false;
-			int k = 0;
-			while ((k < problemDimension) && (iter < totalBudget))
-			{
-				Xk[k] = Xk[k] - SR[k];
-				Xk = Misc.toro(Xk, bounds);
-				double fXk = prob.f(Xk);
-				iter++; numEval++;
-
-				// best update
-				if (fXk < fit)
-				{
-					fit = fXk;
-					for (int n = 0; n < problemDimension; n++)
-						sol[n] = Xk[n];
-				}
-
-				if (iter < totalBudget)
-				{
-					if (fXk == fXk_orig)
-					{
-						for (int n = 0; n < problemDimension; n++)
-							Xk[n] = Xk_orig[n];
-					}
-					else
-					{
-						if (fXk > fXk_orig)
-						{
-							Xk[k] = Xk_orig[k];
-							Xk[k] = Xk[k] + 0.5*SR[k];
-							Xk = Misc.toro(Xk, bounds);
-							fXk = prob.f(Xk);
-							iter++; numEval++;
-
-							// best update
-							if (fXk < fit)
-							{
-								fit = fXk;
-								for (int n = 0; n < problemDimension; n++)
-									sol[n] = Xk[n];
-							}
-
-							if (fXk >= fXk_orig)
-								Xk[k] = Xk_orig[k];
-							else
-								improve = true;
-						}
-						else
-							improve = true;
-					}
-				}
-
-				k++;
-			}
-
-			j++;
-		}
-
-		double[] out = {fit, numEval};
-		return out;
-	}
 	
 	
 	//*******************************************************************************************

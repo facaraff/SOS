@@ -20,6 +20,7 @@ import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
 
 import utils.MatLab;
 import interfaces.Problem;
+import utils.RunAndStore.FTrend;
 
 /* Analyses problem modality in a scale of 1 to 10 (basins of attraction)
  *  uses LocalSearcher and Kmeans clustering and avgSilhouette for analysis.
@@ -30,7 +31,12 @@ public class TestModality {
 	
 	protected Basins b = new Basins();
 	
+	protected FTrend FT = null;
+	
 	public int getModality() {return this.b.getModality();}
+	
+	public void setFTrend(FTrend FT) {this.FT=FT;}
+	public FTrend getFTrend() {return this.FT;}
 	
 	public void basinEstimate(Problem prob, int repeats , int searchersNumber, int localBudget) throws Exception 
 	{
@@ -335,26 +341,37 @@ public class TestModality {
 		public void setAvgSilhouette(double avgs) {this.AvgSilhouette=avgs;}
 		public void setModality(int M) {this.modality=M;}
 		
-		public double[][] getBasinsMatrix() {printNull(); return this.basinsMatrix;}
-		public double[] getBasinFitnnesses() {printNull(); return this.basinsFitnesses;}
-		public List<Cluster<EuclideanDoublePoint>> getClusters() {printNull(); return this.clusters;}
-		public double getAvgSilhouette() {printNull(); return this.AvgSilhouette;}
+		public double[][] getBasinsMatrix() {printNull('m'); return this.basinsMatrix;}
+		public double[] getBasinFitnnesses() {printNull('f'); return this.basinsFitnesses;}
+		public List<Cluster<EuclideanDoublePoint>> getClusters() {printNull('c'); return this.clusters;}
+		public double getAvgSilhouette() {printNull('s'); return this.AvgSilhouette;}
 		public int getModality() {return this.modality;}
 		
-		public void printNull() 
+		public void printNull(char c)
 		{
-			if(this.basinsMatrix == null)
-				System.out.println("basinsMatrix is null");
 			
-			if(this.basinsFitnesses == null)
-				System.out.println("basinsFitnesses is null");
-			
-			if(this.clusters == null)
-				System.out.println("clusters is null");
-			
-			if(this.AvgSilhouette == Double.NaN)
-				System.out.println("AvgSilhouette is NaN");
+			switch(c) 
+			{
+			  case 'm':
+				  if(this.basinsMatrix == null)
+						System.out.println("basinsMatrix is null");
+			    break;
+			  case 'f':
+					if(this.basinsFitnesses == null)
+						System.out.println("basinsFitnesses is null");
+			    break;
+			  case 'c':
+				  if(this.clusters == null)
+						System.out.println("clusters is null");
+			  case 's':
+				  if(this.AvgSilhouette == Double.NaN)
+						System.out.println("AvgSilhouette is NaN");
+			  default:
+			    System.out.println("unrecognised char value");
+			    break;
+			}	
 		}
+		
 	}
 	
 	

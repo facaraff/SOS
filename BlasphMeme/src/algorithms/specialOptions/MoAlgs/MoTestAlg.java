@@ -6,7 +6,9 @@ package algorithms.specialOptions.MoAlgs;
 //import utils.algorithms.Modality.TestModality.Basins;
 import utils.algorithms.Modality.TestModality;
 import static utils.MatLab.min;
-
+import static utils.MatLab.cloneArray;
+import static utils.MatLab.indexMin;
+import static utils.algorithms.Misc.generateRandomSolution;
 //import java.util.Arrays;
 //
 //import utils.random.RandUtils;
@@ -28,7 +30,7 @@ public class MoTestAlg extends Algorithm
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
-//		double[][] bounds = problem.getBounds();
+		double[][] bounds = problem.getBounds();
 //		
 //		double[][] population = new double[populationSize][problemDimension];
 //		double[] fitnesses = new double[populationSize];
@@ -38,12 +40,17 @@ public class MoTestAlg extends Algorithm
 		
 		int i = 0;
 		
+		double[] sol = generateRandomSolution(bounds,problemDimension);
+		double solFitness = problem.f(sol);
+		best = cloneArray(sol); fBest =solFitness;
+		i++; FT.add(i, solFitness);
+		
 		//***MODALITY STUFF STARTS****
 		
 		//Evaluate function modality
 		int modality = -1;
 		int modalityEvaluations = maxEvaluations/3; //33%
-//		modalityEvaluations = min(modalityEvaluations, maxEvaluations-i);
+		modalityEvaluations = min(modalityEvaluations, maxEvaluations-i);
 
 		TestModality TM = new TestModality();
 		TM.basinEstimate(problem, modalityPopulation, 2, modalityEvaluations);
@@ -53,19 +60,30 @@ public class MoTestAlg extends Algorithm
 		
 		double[][] centroids = TM.getClusterCentroids();
 		
-		System.out.println("Cluster = "+centroids.length);
+		//System.out.println("Cluster = "+centroids.length);
 		
-		for (int ii = 0; ii < centroids.length; ii++) 
+//		for (int ii = 0; ii < centroids.length; ii++) 
+//		{
+//			for (int j = 0; j < centroids[0].length; j++)
+//				System.out.print(centroids[ii][j]+" ");
+//			System.out.println(" ");
+//		}
+		
+		double[] centroidFtness = new double[centroids.length];
+		for (int k = 0; k < centroids.length; k++) 
 		{
-			for (int j = 0; j < centroids[0].length; j++)
-				System.out.print(centroids[ii][j]+" ");
-			System.out.println(" ");
-		}
-			
-			
-
+			centroidFtness[k] = problem.f(centroids[k]);
+			i++;
+				
+		}		
 		
+		int index = indexMin(centroidFtness);
 		
+		best = cloneArray(centroids[index]);
+		fBest = centroidFtness[index];
+		FT.add(i,fBest);
+		
+		//create getBestCluster mthod
  
 		
 		

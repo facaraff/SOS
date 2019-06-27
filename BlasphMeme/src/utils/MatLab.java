@@ -1321,7 +1321,7 @@ public class MatLab
 	 * @param input array.
 	 * @return result a copy of the same array.
 	 */
-	public static double[] clone(double[] array)
+	public static double[] cloneArray(double[] array)
 	{
 		int n = array.length;
 		double[] clone = new double[n];
@@ -1339,7 +1339,7 @@ public class MatLab
 		 * @param matrix n-by-m array.
 		 * @return clone a copy of the same n-by-m array.
 		 */
-		public static double[][] clone(double[][] matrix)
+		public static double[][] cloneArray(double[][] matrix)
 		{
 			int rows = matrix.length;
 			int col = matrix[0].length;
