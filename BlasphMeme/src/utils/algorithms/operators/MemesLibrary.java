@@ -1830,6 +1830,101 @@ public class MemesLibrary
 	}
 	
 	
+	public static double[] ThreeSome_ShortDistanceFT(double[] sol, double fit, double deepLSRadius, int deepLSSteps, 
+			Problem prob, int totalBudget, int iter, FTrend FT) throws Exception
+	{
+		int numEval = 0;
+		int problemDimension = prob.getDimension();
+		double[][] bounds = prob.getBounds();
+
+		double[] SR = new double[problemDimension];
+		for (int k = 0; k < problemDimension; k++)
+			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+
+		boolean improve = true;
+		int j = 0;
+		while ((j < deepLSSteps) && (iter < totalBudget))
+		{	
+			double[] Xk = new double[problemDimension];
+			double[] Xk_orig = new double[problemDimension];
+			for (int k = 0; k < problemDimension; k++)
+			{
+				Xk[k] = sol[k];
+				Xk_orig[k] = sol[k];
+			}
+
+			double fXk_orig = fit;
+
+			
+			if (!improve)
+			{
+				for (int k = 0; k < problemDimension; k++)
+					SR[k] = SR[k]/2;
+			}
+
+			improve = false;
+			int k = 0;
+			while ((k < problemDimension) && (iter < totalBudget))
+			{
+				Xk[k] = Xk[k] - SR[k];
+				Xk = Misc.toro(Xk, bounds);
+				double fXk = prob.f(Xk);
+				iter++; numEval++;
+
+				// best update
+				if (fXk < fit)
+				{
+					fit = fXk;
+					for (int n = 0; n < problemDimension; n++)
+						sol[n] = Xk[n];
+				}
+
+				if (iter < totalBudget)
+				{
+					if (fXk == fXk_orig)
+					{
+						for (int n = 0; n < problemDimension; n++)
+							Xk[n] = Xk_orig[n];
+					}
+					else
+					{
+						if (fXk > fXk_orig)
+						{
+							Xk[k] = Xk_orig[k];
+							Xk[k] = Xk[k] + 0.5*SR[k];
+							Xk = Misc.toro(Xk, bounds);
+							fXk = prob.f(Xk);
+							iter++; numEval++;
+
+							// best update
+							if (fXk < fit)
+							{
+								fit = fXk;
+								for (int n = 0; n < problemDimension; n++)
+									sol[n] = Xk[n];
+							}
+
+							if (fXk >= fXk_orig)
+								Xk[k] = Xk_orig[k];
+							else
+								improve = true;
+						}
+						else
+							improve = true;
+					}
+				}
+
+				k++;
+			}
+
+			j++;
+		}
+
+		double[] out = {fit, numEval};
+		return out;
+	}
+	
+	
 	//*******************************************************************************************
 	//*************************** OLD STYLE FOR ILPO'S CODE END**************************************
 	//*******************************************************************************************

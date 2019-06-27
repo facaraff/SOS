@@ -36,14 +36,14 @@ public class MoTestAlg extends Algorithm
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
 		
-		int i = 1;
+		int i = 0;
 		
 		//***MODALITY STUFF STARTS****
 		
 		//Evaluate function modality
 		int modality = -1;
 		int modalityEvaluations = maxEvaluations/3; //33%
-		modalityEvaluations = min(modalityEvaluations, maxEvaluations-i);
+//		modalityEvaluations = min(modalityEvaluations, maxEvaluations-i);
 
 		TestModality TM = new TestModality();
 		TM.basinEstimate(problem, modalityPopulation, 2, modalityEvaluations);
