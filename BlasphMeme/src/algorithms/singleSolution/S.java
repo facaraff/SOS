@@ -34,7 +34,7 @@ import utils.algorithms.Misc;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
-import static utils.algorithms.Misc.cloneArray;
+import static utils.algorithms.Misc.cloneSolution;
 
 public class S extends Algorithm
 {
@@ -163,7 +163,7 @@ public class S extends Algorithm
 				if(!restart)
 				{
 					fTemp =fBest;
-					temp = cloneArray(best);
+					temp = cloneSolution(best);
 				}
 				
 				j++;
