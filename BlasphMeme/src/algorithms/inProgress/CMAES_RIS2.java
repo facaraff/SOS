@@ -38,7 +38,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 
 import static utils.algorithms.Misc.Cov;
-import static utils.algorithms.Misc.cloneArray;
+import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
 
@@ -250,12 +250,12 @@ public class CMAES_RIS2 extends Algorithm
 					if (fXk < fx) 
 					{
 						fx = fXk;
-						x = cloneArray(Xk);
-						Xk_orig = cloneArray(x);
+						x = cloneSolution(Xk);
+						Xk_orig = cloneSolution(x);
 						if (fx < fBest) 
 						{
 							fBest = fx;
-							best = cloneArray(x);
+							best = cloneSolution(x);
 							FT.add(i, fBest);
 						}
 			
@@ -263,7 +263,7 @@ public class CMAES_RIS2 extends Algorithm
 					}
 					else if(i<maxEvaluations)
 					{
-						Xk = cloneArray(Xk_orig);
+						Xk = cloneSolution(Xk_orig);
 						Xk = sum(Xk,multiply(0.5, R[k]));
 						Xk = Misc.toro(Xk, bounds);
 						fXk = problem.f(Xk);
@@ -272,19 +272,19 @@ public class CMAES_RIS2 extends Algorithm
 						if (fXk < fx) 
 						{
 							fx = fXk;
-							x = cloneArray(Xk);
-							Xk_orig = cloneArray(x);
+							x = cloneSolution(Xk);
+							Xk_orig = cloneSolution(x);
 							if (fx < fBest) 
 							{
 								fBest = fx;
-								best = cloneArray(x);
+								best = cloneSolution(x);
 								FT.add(i, fBest);
 							}
 				
 							improve = true;
 						}
 						else
-							Xk = cloneArray(Xk_orig);
+							Xk = cloneSolution(Xk_orig);
 					}
 					
 					k++;
