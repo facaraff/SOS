@@ -360,7 +360,7 @@ public class TestModality {
 		
 		public double[][] getBasinsMatrix() {printNull('m'); return this.basinsMatrix;}
 		public double[] getBasinFitnnesses() {printNull('f'); return this.basinsFitnesses;}
-		public List<Cluster<EuclideanDoublePoint>> getClusters() {printNull('c'); return this.clusters;}
+		public List<Cluster<EuclideanDoublePoint>> getClusters() {return this.clusters;}
 		public double getAvgSilhouette() {printNull('s'); return this.AvgSilhouette;}
 		public int getModality() {return this.modality;}
 		

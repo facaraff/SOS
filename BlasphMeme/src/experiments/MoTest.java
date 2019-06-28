@@ -51,7 +51,7 @@ public class MoTest extends Experiment
 		//super(probDim,"cec2015allDim");
 		super(probDim,5000,"ILPOAGAIN");
 		setNrRuns(1);
-//		setMT(false);
+		setMT(false);
 
 
 		Algorithm a;// ///< A generic optimiser.

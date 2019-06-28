@@ -28,7 +28,7 @@ either expressed or implied, of the FreeBSD Project.
 */
 package algorithms;
 
-import static utils.algorithms.Misc.cloneArray;
+import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
@@ -165,7 +165,7 @@ public class SPAM extends Algorithm
 		double[] temp;
 		
 		
-		double[] x = cloneArray(best);
+		double[] x = cloneSolution(best);
 		double fx = fBest;
 		boolean improved = true;
 		
@@ -179,7 +179,7 @@ public class SPAM extends Algorithm
 				 fx = problem.f(x);
 				 if(fx < fBest)
 					{
-						best = cloneArray(x);
+						best = cloneSolution(x);
 						fBest =fx;
 						FT.add(j, fBest);
 					}
@@ -203,7 +203,7 @@ public class SPAM extends Algorithm
 			j += temp[1];
 			if(fx < fBest)
 			{
-				best = cloneArray(x);
+				best = cloneSolution(x);
 				fBest = fx;
 				FT.add(j, fBest);
 			}
