@@ -577,7 +577,7 @@ public class DEOp
 			public static double[] riec(double[] x, double[] m, double CR, double[][] b)
 			{		
 				double[] y = subtract(m,x);
-				double[] x_off = MatLab.clone(x);
+				double[] x_off = MatLab.cloneArray(x);
 				
 				int n = x.length;
 				int j = RandUtils.randomInteger(n-1);
@@ -611,7 +611,7 @@ public class DEOp
 			public static double[] ribc(double[] x, double[] m, double CR, double[][] b)
 			{
 				double[] y = subtract(m,x);
-				double[] x_off = MatLab.clone(x);
+				double[] x_off = MatLab.cloneArray(x);
 				
 				int n = x.length;
 				int j = RandUtils.randomInteger(n-1);
@@ -646,7 +646,7 @@ public class DEOp
 					for(int i=0; i<probDim; i++) indeces[i]=i;
 					indeces = RandUtils.randomPermutation(indeces);
 					for(int i=0; i<probDim; i++) 
-						temp[i]=MatLab.clone(pop[indeces[i]]);
+						temp[i]=MatLab.cloneArray(pop[indeces[i]]);
 					for(int i=0;i<probDim; i++) 
 						temp[i]=subtract(temp[i],c);
 					
@@ -686,7 +686,7 @@ public class DEOp
 					for(int i=0; i<probDim; i++) indeces[i]=i;
 					indeces = RandUtils.randomPermutation(indeces);
 					for(int i=0; i<probDim; i++) 
-						temp[i]=MatLab.clone(pop[indeces[i]]);
+						temp[i]=MatLab.cloneArray(pop[indeces[i]]);
 					for(int i=0;i<probDim; i++) 
 						temp[i]=subtract(temp[i],c);
 										

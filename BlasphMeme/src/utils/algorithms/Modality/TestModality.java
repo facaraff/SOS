@@ -13,12 +13,15 @@ import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.operators.MemesLibrary.Rosenbrock;
 
 import static utils.MatLab.min;
+import static utils.MatLab.std;
+import static utils.MatLab.multiply;
+import static utils.MatLab.cloneArray;
 
 import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.EuclideanDoublePoint;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
 
-import utils.MatLab;
+
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
@@ -37,6 +40,20 @@ public class TestModality {
 	
 	public void setFTrend(FTrend FT) {this.FT=FT;}
 	public FTrend getFTrend() {return this.FT;}
+	
+	public Cluster<EuclideanDoublePoint> getCluster(int index) {return this.b.getClusters().get(index);}
+	public double[][] getArrayCluster(int index)
+	{
+		Cluster<EuclideanDoublePoint> c= getCluster(index);
+		int clusterSize = c.getPoints().size();
+		int dim = c.getPoints().get(0).getPoint().length;
+		double[][] cArray = new double[clusterSize][dim];
+		
+		for(int i=0; i<clusterSize; i++)
+			cArray[i] = cloneArray(c.getPoints().get(0).getPoint());
+			
+		return cArray;
+	}
 	
 	public void basinEstimate(Problem prob, int repeats , int searchersNumber, int localBudget) throws Exception 
 	{
@@ -106,7 +123,7 @@ public class TestModality {
 		double bestAvgSilhouette = 1;
 
 				
-		if (MatLab.std(fitnesses) < 1e-01) 
+		if (std(fitnesses) < 1e-01) 
 		{ //better solution needed here! (its problem dependant quantity)
 			modality = 1;
 		}		
@@ -168,7 +185,7 @@ public class TestModality {
 			temp = cluster.getPoints().get(i).getPoint();
 			for(int n = 0; n<problemDimension; n++)
 				centroid[n]+=temp[n];
-			centroid = MatLab.multiply((1.0/clusterSize),centroid);
+			centroid = multiply((1.0/clusterSize),centroid);
 		}
 
 		return centroid; 

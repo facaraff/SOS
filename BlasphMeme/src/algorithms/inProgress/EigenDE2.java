@@ -30,7 +30,7 @@ package algorithms.inProgress;
 
 import  utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.toro;
-import utils.algorithms.Misc;
+
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
@@ -38,7 +38,7 @@ import org.apache.commons.math3.linear.EigenDecomposition;
 import static utils.MatLab.multiply;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.generateRandomSolution;
-
+import static utils.algorithms.Misc.cloneSolution;
 //import java.util.Vector; serve?
 
 import interfaces.Algorithm;
@@ -95,7 +95,7 @@ public class EigenDE2 extends Algorithm
 
 		// temp variables
 		double[][] Pt = null;//
-		double[][] rotPop = Misc.clone(population);
+		double[][] rotPop = cloneSolution(population);
 		double[] currPt = new double[problemDimension];
 		double[] newPt = new double[problemDimension];
 		double[] crossPt = new double[problemDimension];

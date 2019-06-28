@@ -59,8 +59,7 @@ public class MoTest extends Experiment
 		
 		
 		a = new MoTestAlg();
-		a.setParameter("p0", 50.0);
-		a.setParameter("p1", 10.0);//??
+		a.setParameter("p0", 10.0);//Repeats
 		add(a);
 		
 

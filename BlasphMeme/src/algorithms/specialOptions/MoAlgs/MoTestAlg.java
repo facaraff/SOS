@@ -1,14 +1,27 @@
 package algorithms.specialOptions.MoAlgs;
 
+import utils.algorithms.Misc;
 //import static utils.algorithms.operators.DEOp.crossOverBin;
 //import static utils.algorithms.operators.DEOp.rand1;
 //import static utils.algorithms.Misc.toro;
 //import utils.algorithms.Modality.TestModality.Basins;
 import utils.algorithms.Modality.TestModality;
 import static utils.MatLab.min;
+import static utils.MatLab.multiply;
+import static utils.MatLab.subtract;
+import static utils.MatLab.sum;
+import static utils.MatLab.transpose;
 import static utils.MatLab.cloneArray;
 import static utils.MatLab.indexMin;
+import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.generateRandomSolution;
+//import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.EigenDecomposition;
+//import org.apache.commons.math3.stat.clustering.Cluster;
+//import org.apache.commons.math3.stat.clustering.EuclideanDoublePoint;
+
 //import java.util.Arrays;
 //
 //import utils.random.RandUtils;
@@ -26,7 +39,11 @@ public class MoTestAlg extends Algorithm
 	{
 //		int populationSize = this.getParameter("p0").intValue();//50
 
-		int modalityPopulation = this.getParameter("p1").intValue();
+		int modalityPopulation = this.getParameter("p0").intValue();
+		
+		int deepLSSteps = 150;//etParameter("p1").intValue();  //150;
+		double deepLSRadius = 0.4;//getParameter("p2").doubleValue();//0.4;
+		
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -70,7 +87,7 @@ public class MoTestAlg extends Algorithm
 //		}
 		
 		double[] centroidFtness = new double[centroids.length];
-		for (int k = 0; k < centroids.length; k++) 
+		for (int k = 0; k < centroids.length && i< maxEvaluations; k++) 
 		{
 			centroidFtness[k] = problem.f(centroids[k]);
 			i++;
@@ -82,17 +99,139 @@ public class MoTestAlg extends Algorithm
 		best = cloneArray(centroids[index]);
 		fBest = centroidFtness[index];
 		FT.add(i,fBest);
-		
-		//create getBestCluster mthod
  
+		//Cluster<EuclideanDoublePoint> bestCluster = TM.getCluster(index);
+		
+		double[][] samples = TM.getArrayCluster(index);
 		
 		
+		//ROTATED S BEGINS
+		
+		initialSolution = cloneArray(best);
+		initialFitness = fBest;
+		
+		
+		
+		double[] SR = new double[problemDimension];
+//		for (int k = 0; k < problemDimension; k++)
+//			SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+		
+		while (i < maxEvaluations)
+		{
+		
+			for (int k = 0; k < problemDimension; k++)
+				SR[k] = (bounds[k][1] - bounds[k][0]) * deepLSRadius;
+			
+			boolean improve = true;
+			int j = 0;
+			
+//			double[] samplesFitnesses = new double[samplesNr];				
+			
+			//generate the P matrix and free memory
+			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov(samples)));
+
+			double[][] P = E.getV().getData();
+			E = null;
+			
+
+			//scale P columns with the corresponding perturbation radius
+			double[][] R = scale(P,SR);
+			
+			//transpose R so that rows can be selected to act as perturbation vectors
+			R = transpose(R);
+
+			//Execute S along rotated axes
+			while ((j < deepLSSteps) && (i < maxEvaluations))
+			{
+				double[] Xk = new double[problemDimension];
+				double[] Xk_orig = new double[problemDimension];
+				for (int k = 0; k < problemDimension; k++)
+				{
+					Xk[k] = best[k];//temp[k];
+					Xk_orig[k] = best[k];//temp[k];
+				}
+
+				if (!improve) //@fabio this can be done on each dimension 
+				{
+					for(int k=0;k<problemDimension;k++)
+						half(R,k);
+				}
+				
+				improve = false;
+				int k = 0;
+				while ((k < problemDimension) && (i < maxEvaluations))
+				{
+					Xk = subtract(Xk,R[k]);
+					Xk = Misc.toro(Xk, bounds);
+					double fXk = problem.f(Xk);
+					i++;
+					
+					// FT update
+					if (fXk < fBest) //< or <= ?????????
+					{
+						fBest = fXk;
+						best = cloneArray(Xk);
+						Xk_orig = cloneArray(Xk);
+						FT.add(i,fBest);
+						improve = true;
+					}
+					else if(i<maxEvaluations)
+					{
+						Xk = cloneArray(Xk_orig);
+						Xk = sum(Xk,multiply(0.5, R[k]));
+						Xk = Misc.toro(Xk, bounds);
+						fXk = problem.f(Xk);
+						i++;
+						
+						// FT update
+						if (fXk < fBest)
+						{
+							fBest = fXk;
+							best = cloneArray(Xk);
+							Xk_orig = cloneArray(Xk);
+							improve = true;
+							FT.add(i,fBest);
+						}
+						else
+							Xk = cloneArray(Xk_orig);
+					}
+					
+					k++;
+				}
+				
+				j++;
+			}
+			
+		}
+
+
 
 
 		finalBest = best;
-		
 		FT.add(i, fBest);
-		
 		return FT;
 	}
+	
+	
+	//helpers methods
+	
+	protected double[][] scale(double[][] P, double[] SR) 
+	{
+		double[][] R = new double[SR.length][SR.length];
+		
+		for(int c=0;c<SR.length;c++)
+			for(int r=0;r<SR.length; r++)
+				R[r][c] = P[r][c]*SR[c];
+		
+		return R;
+		
+	}
+	
+	protected void half(double[][] PT, int k) 
+	{
+		for(int c=0;c<PT.length;c++)
+			PT[k][c] = PT[k][c]/2;
+	}
+	
+	
 }

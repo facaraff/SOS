@@ -28,9 +28,11 @@ either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.singleSolution;
 
-import  utils.algorithms.Misc;
+
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
+import  static utils.algorithms.Misc.cloneSolution;
+import  static utils.algorithms.Misc.toro;
 
 import static utils.algorithms.operators.MemesLibrary.Rosenbrock;
 import static utils.algorithms.operators.MemesLibrary.RosenbrockShortTime;
@@ -91,7 +93,7 @@ public class SPAMAOS1 extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = Misc.toro(pop[i], bounds);
+				pop[i] = toro(pop[i], bounds);
 
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -175,7 +177,7 @@ public class SPAMAOS1 extends Algorithm
 
 		double[] temp;
 
-		double[] x = Misc.cloneArray(best);
+		double[] x = cloneSolution(best);
 		double fx = fBest;
 		boolean improved = true;
 
@@ -189,7 +191,7 @@ public class SPAMAOS1 extends Algorithm
 				fx = problem.f(x);
 				if(fx < fBest)
 				{
-					best = Misc.cloneArray(x);
+					best = cloneSolution(x);
 					fBest =fx;
 					FT.add(j, fBest);
 				}
@@ -230,7 +232,7 @@ public class SPAMAOS1 extends Algorithm
 			j += temp[1];
 			if(fx < fBest)
 			{
-				best = Misc.cloneArray(x);
+				best = cloneSolution(x);
 				fBest = fx;
 				FT.add(j, fBest);
 			}

@@ -29,7 +29,9 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.singleSolution;
 
 
-import utils.algorithms.Misc;
+import static utils.algorithms.Misc.cloneSolution;
+import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.toro;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 
@@ -70,13 +72,13 @@ public class SPSA extends Algorithm {
 		}
 		else
 		{
-			best = Misc.generateRandomSolution(bounds, problemDimension);
+			best = generateRandomSolution(bounds, problemDimension);
 			fBest= problem.f(best);
 			i++;
 			
 		}
 		
-		double[] theta = Misc.cloneArray(best);
+		double[] theta = cloneSolution(best);
 		double y = fBest;
 		
 		int stopcounter=0;
@@ -88,15 +90,15 @@ public class SPSA extends Algorithm {
 			double[] delta = new double[problemDimension];
 			for(int j=0;j < problemDimension;j++)
 				delta[j] = (RandUtils.random() > 0.5) ? 1 : -1;
-			double[] thetaplus = Misc.toro(sum(theta,multiply(ck,delta)), bounds);
-			double[] thetaminus = Misc.toro(sum(theta,multiply(-ck,delta)), bounds);
+			double[] thetaplus = toro(sum(theta,multiply(ck,delta)), bounds);
+			double[] thetaminus = toro(sum(theta,multiply(-ck,delta)), bounds);
 			double yplus=problem.f(thetaplus);
 			double yminus=problem.f(thetaminus);
 			i +=2; 
 			double[] ghat= new double[problemDimension];
 			for(int j=0;j < problemDimension;j++)
 				ghat[j]=(yplus-yminus)/(2*ck*delta[j]);
-			theta = Misc.toro(sum(theta,multiply(-ak, ghat)), bounds);
+			theta = toro(sum(theta,multiply(-ak, ghat)), bounds);
 			y = problem.f(theta);
 			i++;
 			double[] ys={y, yplus, yminus};
@@ -113,7 +115,7 @@ public class SPSA extends Algorithm {
 			{
 				DELTA = fBest - yFinal;
 				fBest = yFinal;
-				best = Misc.cloneArray(theta);
+				best = cloneSolution(theta);
 				FT.add(i, fBest);	
 			}
 			if(i>5)

@@ -42,7 +42,7 @@ import static utils.MatLab.sum;
 import static utils.MatLab.subtract;
 import static utils.MatLab.transpose;
 import static utils.MatLab.indexMin;
-import static utils.algorithms.Misc.cloneArray;
+import static utils.algorithms.Misc.cloneSolution;
 
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -171,14 +171,14 @@ public class CMS extends Algorithm
 						fBest = fXk;
 //						for (int n = 0; n < problemDimension; n++)
 //							best[n] = Xk[n];
-						best = cloneArray(Xk);
-						Xk_orig = cloneArray(Xk);
+						best = cloneSolution(Xk);
+						Xk_orig = cloneSolution(Xk);
 						FT.add(i,fBest);
 						improve = true;
 					}
 					else if(i<maxEvaluations)
 					{
-						Xk = cloneArray(Xk_orig);
+						Xk = cloneSolution(Xk_orig);
 						Xk = sum(Xk,multiply(0.5, R[k]));
 						Xk = Misc.toro(Xk, bounds);
 						fXk = problem.f(Xk);
@@ -187,13 +187,13 @@ public class CMS extends Algorithm
 						if (fXk < fBest)
 						{
 							fBest = fXk;
-							best = cloneArray(Xk);
-							Xk_orig = cloneArray(Xk);
+							best = cloneSolution(Xk);
+							Xk_orig = cloneSolution(Xk);
 							improve = true;
 							FT.add(i,fBest);
 						}
 						else
-							Xk = cloneArray(Xk_orig);
+							Xk = cloneSolution(Xk_orig);
 					}
 					
 					k++;

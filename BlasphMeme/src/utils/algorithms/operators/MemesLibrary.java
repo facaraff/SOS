@@ -32,6 +32,7 @@ package utils.algorithms.operators;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.DEOp.currentToRand1;
 import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.cloneSolution;
 
 
 import java.util.Arrays;
@@ -891,7 +892,7 @@ public class MemesLibrary
 		double myEps= eps;
 		
 		int k=0; int numEval = 0;
-		double[] theta=Misc.cloneArray(sol);
+		double[] theta=cloneSolution(sol);
 		double yOld = fit;
 		int stopcounter=0;
 		int dim = prob.getDimension();
@@ -1055,7 +1056,7 @@ public class MemesLibrary
 		for (int k = 0; k < dim; k++)
 			SR[k] = 0.4*(bounds[k][1] - bounds[k][0]);
 
-		double[] Xk = Misc.cloneArray(sol);
+		double[] Xk = cloneSolution(sol);
 		double[] D = new double[dim];
 		double[] r = new double[dim];
 		double fXk = fit;
@@ -1089,15 +1090,15 @@ public class MemesLibrary
 				if(fXk < fit)
 				{
 					fit = fXk;
-					sol = Misc.cloneArray(Xk);
+					sol = cloneSolution(Xk);
 				}
 				if(fXk == fit)
-					Xk = Misc.cloneArray(sol);
+					Xk = cloneSolution(sol);
 				else if(iter < totalBudget)
 				{
 					if(fXk > fit)
 					{
-						Xk = Misc.cloneArray(sol);
+						Xk = cloneSolution(sol);
 						for(int i=0; i < dim; i++)
 							if(r[i] == 0)
 								Xk[i] = Xk[i] + 0.5*SR[i]*D[i];
@@ -1109,10 +1110,10 @@ public class MemesLibrary
 						if(fXk < fit)
 						{
 							fit = fXk;
-							sol = Misc.cloneArray(Xk);
+							sol = cloneSolution(Xk);
 						}
 						if(fXk >= fit)
-							Xk = Misc.cloneArray(sol);
+							Xk = cloneSolution(sol);
 						else
 							improve = true;
 					}

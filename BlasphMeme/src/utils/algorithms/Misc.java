@@ -50,6 +50,7 @@ import static utils.MatLab.norm2;
 import static utils.MatLab.mean;
 import static utils.MatLab.getQuantile;
 import static utils.MatLab.linearNormalisation;
+import static utils.MatLab.cloneArray;
 import utils.random.RandUtils;
 import interfaces.Problem;
 
@@ -258,13 +259,7 @@ public class Misc {
 	 *            solution to be duplicated.
 	 * @return xc cloned solution.
 	 */
-	public static double[] cloneArray(double[] x) {
-		int n = x.length;
-		double[] xc = new double[n];
-		for (int i = 0; i < n; i++)
-			xc[i] = x[i];
-		return xc;
-	}
+	public static double[] cloneSolution(double[] x) {return cloneArray(x);}
 
 	/**
 	 * Clone a solution a 2d matrix.
@@ -273,15 +268,7 @@ public class Misc {
 	 *            solution to be duplicated.
 	 * @return xc cloned solution.
 	 */
-	public static double[][] cloneArray(double[][] x) {
-		int n = x.length;
-		int nn = x[0].length;
-		double[][] xc = new double[n][nn];
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < nn; j++)
-				xc[i][j] = x[i][j];
-		return xc;
-	}
+	public static double[][] cloneSolution(double[][] x) {return cloneArray(x);}
 
 	/**
 	 * Random point in bounds.
