@@ -105,6 +105,14 @@ public class MoTestAlg extends Algorithm
 		double[][] samples = TM.getArrayCluster(index);
 		
 		
+		System.out.println(samples);
+		for(int m=0; m<samples.length; m++)
+		{
+			for(int q=0; q<samples[0].length; q++)
+				System.out.print(samples[m][q]+"\t");
+			System.out.println();
+		}
+		
 		//ROTATED S BEGINS
 		
 		initialSolution = cloneArray(best);
@@ -125,8 +133,17 @@ public class MoTestAlg extends Algorithm
 			boolean improve = true;
 			int j = 0;
 			
-//			double[] samplesFitnesses = new double[samplesNr];				
+//			double[] samplesFitnesses = new double[samplesNr];		
 			
+			
+//			double[][] cov = Cov(samples);
+//			for(int m=0; m<cov.length; m++)
+//			{
+//				for(int q=0; q<cov[0].length; q++)
+//					System.out.println(cov[m][q]);
+//				System.out.println();
+//			}
+//			
 			//generate the P matrix and free memory
 			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov(samples)));
 

@@ -70,7 +70,7 @@ public class RunMoTest
 		 
 		//experiments.add(new MoTest(2));
 		
-		experiments.add(new MoTest(10));
+		experiments.add(new MoTest(5));
 		
 
 		
