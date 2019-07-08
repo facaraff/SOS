@@ -103,9 +103,9 @@ public class MoTestAlg extends Algorithm
 		//Cluster<EuclideanDoublePoint> bestCluster = TM.getCluster(index);
 		
 		double[][] samples = TM.getArrayCluster(index);
+		System.out.println("samplesSize="+samples.length);
 		
-		
-		System.out.println(samples);
+		System.out.println("samples");
 		for(int m=0; m<samples.length; m++)
 		{
 			for(int q=0; q<samples[0].length; q++)
