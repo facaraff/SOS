@@ -40,6 +40,7 @@ either expressed or implied, of the FreeBSD Project.
 import java.util.Vector;
 
 import static utils.random.RandUtils.uniform;
+//import static utils.MatLab.transpose;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.linear.EigenDecomposition; 
 
@@ -56,7 +57,7 @@ public class TESTONE
 	/** 
 	* Main method.
 	*/
-	static double alpha = Math.PI;
+	final static double alpha = Math.PI;
 	public static void main(String[] args) throws Exception
 	{	
 		
@@ -68,7 +69,7 @@ public class TESTONE
 		{
 			x[0] = uniform(-10,10);
 			x[1] = uniform(-10,10);
-			if(fitFunc(x,2)<5)
+			if(fitFunc(x,1)<5)
 					levelX.add(x);	
 		}
 		
@@ -76,9 +77,10 @@ public class TESTONE
 		for(int i=0; i < levelX.size()-1; i++)
 			points[i] = levelX.get(i);
 		
+		
 		Covariance C = new Covariance(points);
 		levelX = null; points = null;
-//		System.out.println(C.getN());
+		//System.out.println(C.getN());
 		System.out.println(C.getCovarianceMatrix().toString());
 		
 		EigenDecomposition E = new EigenDecomposition(C.getCovarianceMatrix());
