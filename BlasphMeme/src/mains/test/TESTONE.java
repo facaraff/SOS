@@ -46,7 +46,6 @@ import org.apache.commons.math3.linear.EigenDecomposition;
 
 
 
-
 /** 
 * This class contains the main method and has to be used for launching experiments.
 */
@@ -65,13 +64,20 @@ public class TESTONE
 		Vector<double[]> levelX = new Vector<double[]>();////!< List of problems 
 		double[] x = new double[2];
 
+		int counter = 0;
 		for(int i=0; i < 200000; i++)
 		{
 			x[0] = uniform(-10,10);
 			x[1] = uniform(-10,10);
-			if(fitFunc(x,1)<5)
+			double f =fitFunc(x,1);
+			//System.out.println(f);
+			if(f<5)
+			{
 					levelX.add(x);	
+					counter++;
+			}
 		}
+		System.out.println(counter);
 		
 		double[][] points = new double[levelX.size()][levelX.get(0).length];
 		for(int i=0; i < levelX.size()-1; i++)
