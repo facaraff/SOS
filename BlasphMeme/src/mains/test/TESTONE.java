@@ -86,10 +86,14 @@ public class TESTONE
 		
 		Covariance C = new Covariance(points);
 		levelX = null; points = null;
-		//System.out.println(C.getN());
+		System.out.println("covariates number " + C.getN());
 		System.out.println(C.getCovarianceMatrix().toString());
 		
-		EigenDecomposition E = new EigenDecomposition(C.getCovarianceMatrix());
+//		C = new Covariance(new double[][] {{1,2},{10,5}});
+//		System.out.println(C.getCovarianceMatrix().toString());
+		
+		
+		EigenDecomposition E = new EigenDecomposition(C.getCovarianceMatrix().transpose());
 		System.out.println(E.getV().toString());
 
 		
