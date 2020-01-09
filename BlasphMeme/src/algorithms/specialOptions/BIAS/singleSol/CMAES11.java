@@ -27,22 +27,26 @@ public class CMAES11 extends Algorithm
 {
 private int run = 0;	
 private char correction = 0;
-//private char correction;
+
 	
 	public void setRun(int r)
 	{
 		this.run = r;
 	}
 	
-	public void setCorrection(char c)
-	{
-		this.correction = c;
-	}
+//	public void setCorrection(char c)
+//	{
+//		this.correction = c;
+//	}
 	
-	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/CMAES11/";
+
+	
+	public CMAES11(char c) {this.correction = c;}
+	
+	
 
 
-	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
 	@Override
@@ -74,7 +78,8 @@ private char correction = 0;
 
 		
 		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+"CMAES11/"+fileName+".txt");
+//		File file = new File(Dir+"CMAES11/"+fileName+".txt");
+		File file = new File(Dir+fileName+".txt");
 		if (!file.exists()) 
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
