@@ -117,7 +117,7 @@ private char correction = 0;
 			z=newZ(problemDimension);
 			Az = multiply(A,z);
 			x_offspring = sum(x_parent,multiply(sigma,Az));
-			//x_offspring = saturateToro(x_offspring, bounds);
+			//x_offspring = toro(x_offspring, bounds);
 			double[] output = new double[problemDimension];
 			if(correctionStrategy == 't')
 			{
