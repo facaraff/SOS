@@ -27,23 +27,15 @@ import java.text.DecimalFormat;
 
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 /*
  * Differential Evolution (standard version, best/1/)
  */
-public class DEbo extends Algorithm
+public class DEbo extends AlgorithmBias
 {
-	
-	private int run = 0;
-	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
-	
-	
+
 	static String Dir = "/home/facaraff/Desktop/KONODATA/DEbo/";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");

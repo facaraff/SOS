@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 import utils.random.RandUtils;
 
 
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 
-public class randomKO extends Algorithm
+public class randomKO extends AlgorithmBias
 {
 	static String Dir = "/home/fabio/Desktop/kylla/random";
 	

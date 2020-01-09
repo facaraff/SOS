@@ -14,16 +14,17 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 //import static utils.RunAndStore.slash;
 
 
-public class DErte extends Algorithm
+public class DErte extends AlgorithmBias
 {
 	
 	char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty 'm'------> mirroring
+	protected int run = 0;
 	
 	public DErte(char correction)
 	{

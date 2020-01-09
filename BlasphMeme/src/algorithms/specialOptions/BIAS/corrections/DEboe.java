@@ -14,14 +14,14 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import  utils.MatLab;
 import static utils.RunAndStore.FTrend;
 //import static utils.RunAndStore.slash;
 
 
-public class DEboe extends Algorithm
+public class DEboe extends AlgorithmBias
 {
 	
 	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
@@ -30,6 +30,8 @@ public class DEboe extends Algorithm
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
+	protected int run = 0;
+	
 	
 	public DEboe(char correction) { super(); this.correctionStrategy = correction;}
 	

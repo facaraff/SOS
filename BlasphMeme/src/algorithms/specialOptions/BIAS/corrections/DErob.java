@@ -16,7 +16,7 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 //import static utils.RunAndStore.slash;
@@ -24,13 +24,14 @@ import static utils.RunAndStore.FTrend;
 
 
 
-public class DErob extends Algorithm
+public class DErob extends AlgorithmBias
 {
 	
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty 'm'---->mirroring
 	
 	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
+	protected int run = 0;
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	FTrend FT = new FTrend();

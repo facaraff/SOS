@@ -12,11 +12,11 @@ import utils.random.RandUtils;
 import static utils.MatLab.subtract;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
-public class simplifiedGA extends Algorithm
+public class simplifiedGA extends AlgorithmBias
 {
 	
 	private int run = 0;

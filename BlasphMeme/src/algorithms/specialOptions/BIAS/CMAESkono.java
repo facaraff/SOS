@@ -14,29 +14,29 @@ import java.util.Arrays;
 import utils.random.RandUtils;
 
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
 /*
  * Covariance Matrix Adaptation Evolutionary Strategy 
  */
-public class CMAESkono extends Algorithm
+public class CMAESkono extends AlgorithmBias
 {
 	
-	private char corrStrategy = 't';
+
 	
-private int run = 0;
+
 	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
+//	public void setRun(int r)
+//	{
+//		this.run = r;
+//	}
 	
-	public void setCorrectionStrategy(char c) {this.corrStrategy = c;}
+	public void setCorrectionStrategy(char c) {this.setCorrection(c);}
 	
 	public CMAESkono() {super();}
-	public CMAESkono(char c) {super(); this.corrStrategy = c;}
+	public CMAESkono(char c) {super(); this.correction = c;}
 	
 	
 	
@@ -83,7 +83,7 @@ private int run = 0;
 		//System.out.println(cma.getDataC());
 		
 		
-		File file = new File(Dir+"/CMAES"+this.corrStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
+		File file = new File(Dir+"/CMAES"+this.correction+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
 //		File file = new File(Dir+"/CMAES"+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
 		if (!file.exists()) 
 			file.createNewFile();
@@ -215,9 +215,9 @@ private int run = 0;
 	
 	public double[] correction (double[] x, double[][] bounds)
 	{
-		if(corrStrategy=='t') x = toro(x,bounds);
-		else if(corrStrategy=='s') x = saturate(x,bounds);
-		else if(corrStrategy=='d') x = discardAndResample(x,bounds);
+		if(correction=='t') x = toro(x,bounds);
+		else if(correction=='s') x = saturate(x,bounds);
+		else if(correction=='d') x = discardAndResample(x,bounds);
 		return x;
 	}
 	

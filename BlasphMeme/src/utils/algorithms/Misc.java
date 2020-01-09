@@ -31,11 +31,9 @@ either expressed or implied, of the FreeBSD Project.
  *  
  *
  * MISCELLANEOUS
+ * 
  * A software platform for learning Computational Intelligence Optimisation
  * 
- * SCRIVICI QUEL CHE CAZZO TE PARE QUESTAA E@ LA DESCIZIONE PIU@ GENERICA CHE VA NELLA LISTA DEI FILES
- * LEGGI QUI https://www.cs.cmu.edu/~410/doc/doxygen.html#commands
- *  This file contains the kernel main() function.
  *  @author Fabio Caraffini
 */
 package utils.algorithms;

@@ -3,13 +3,15 @@ package mains.BIAS;
 
 import java.util.Vector;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
+
+import algorithms.specialOptions.BIAS.singleSolutions.CMAES11;
+import algorithms.specialOptions.BIAS.singleSolutions.ISPO;
+
 import utils.MatLab;
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
-
-import algorithms.specialOptions.BIAS.singleSol.CMAES11;
 	
 public class WCCI_SINGLE_SOL
 {
@@ -19,10 +21,10 @@ public class WCCI_SINGLE_SOL
 	
 	public static void main(String[] args) throws Exception
 	{	
-		Vector<Algorithm> algorithms = new Vector<Algorithm>();
+		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 		
-		Algorithm a;
+		AlgorithmBias a;
 		Problem p;
 		
 		double[] bias = null;
@@ -55,17 +57,67 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p3",1.0);
 		algorithms.add(a);
 		
+		a = new ISPO();
+		a.setCorrection('t');
+		a.setParameter("p0",1.0);
+		a.setParameter("p1",10.0);
+		a.setParameter("p2",2.0);
+		a.setParameter("p3",4.0);
+		a.setParameter("p4",0.000001);
+		a.setParameter("p5",30.0);
+		algorithms.add(a);
+		
+		a = new ISPO();
+		a.setCorrection('s');
+		a.setParameter("p0",1.0);
+		a.setParameter("p1",10.0);
+		a.setParameter("p2",2.0);
+		a.setParameter("p3",4.0);
+		a.setParameter("p4",0.000001);
+		a.setParameter("p5",30.0);
+		algorithms.add(a);
+		
+		a = new ISPO();
+		a.setCorrection('t');
+		a.setParameter("p0",1.0);
+		a.setParameter("p1",10.0);
+		a.setParameter("p2",2.0);
+		a.setParameter("p3",4.0);
+		a.setParameter("p4",0.000001);
+		a.setParameter("p5",30.0);
+		algorithms.add(a);
+		
+		a = new ISPO();
+		a.setCorrection('e');
+		a.setParameter("p0",1.0);
+		a.setParameter("p1",10.0);
+		a.setParameter("p2",2.0);
+		a.setParameter("p3",4.0);
+		a.setParameter("p4",0.000001);
+		a.setParameter("p5",30.0);
+		algorithms.add(a);
+		
+		a = new ISPO();
+		a.setCorrection('d');
+		a.setParameter("p0",1.0);
+		a.setParameter("p1",10.0);
+		a.setParameter("p2",2.0);
+		a.setParameter("p3",4.0);
+		a.setParameter("p4",0.000001);
+		a.setParameter("p5",30.0);
+		algorithms.add(a);
+		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)
 		{
 			bounds[i][0] = 0;
 			bounds[i][1] = 1;
 		}	
-		p = new Noise( problemDimension, bounds);
+		p = new Noise(problemDimension, bounds);
 		problems.add(p);	
 		
 		int algorithmIndex = 0;
-		for (Algorithm algorithm : algorithms)
+		for (AlgorithmBias algorithm : algorithms)
 		{
 			System.out.print("" + "\t");
 			String algName = algorithm.getClass().getSimpleName();
@@ -94,7 +146,7 @@ public class WCCI_SINGLE_SOL
 
 			finalValues = new double[algorithms.size()][nrRepetitions];
 			algorithmIndex = 0;
-			for (Algorithm algorithm : algorithms)
+			for (AlgorithmBias algorithm : algorithms)
 				{
 					for (int i = 0; i < nrRepetitions; i++)
 					{
@@ -107,7 +159,7 @@ public class WCCI_SINGLE_SOL
 							finalValues[algorithmIndex][i] = best;
 								
 					}
-					System.out.println("done");
+					System.out.print("done+\t");
 					String mean = utils.RunAndStore.format(MatLab.mean(finalValues[algorithmIndex]));
 					String std = utils.RunAndStore.format(MatLab.std(finalValues[algorithmIndex]));
 					System.out.print(mean + " \u00B1 " + std + "\t");
@@ -142,7 +194,7 @@ public class WCCI_SINGLE_SOL
 			}
 			
 
-			private static double runAlgorithmRepetition(Algorithm algorithm, Problem problem) throws Exception
+			private static double runAlgorithmRepetition(AlgorithmBias algorithm, Problem problem) throws Exception
 			{
 				FTrend FT = algorithm.execute(problem, budgetFactor*problem.getDimension());
 

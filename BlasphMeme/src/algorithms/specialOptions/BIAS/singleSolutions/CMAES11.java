@@ -1,4 +1,4 @@
-package algorithms.specialOptions.BIAS.singleSol;
+package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 
 import utils.RunAndStore.FTrend;
@@ -23,29 +23,11 @@ import utils.RunAndStore.FTrend;
 /*
  * Covariance Matrix Adaptation Evolutionary Strategy (1+1)
  */
-public class CMAES11 extends Algorithm
+public class CMAES11 extends AlgorithmBias
 {
-private int run = 0;	
-private char correction = 0;
-
-	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
-	
-//	public void setCorrection(char c)
-//	{
-//		this.correction = c;
-//	}
-	
 	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/CMAES11/";
 
-	
 	public CMAES11(char c) {this.correction = c;}
-	
-	
-
 
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	

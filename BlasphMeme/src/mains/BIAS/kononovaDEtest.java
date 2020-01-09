@@ -25,7 +25,7 @@ import algorithms.specialOptions.BIAS.DEro;
 import algorithms.specialOptions.BIAS.DEbo;
 import algorithms.specialOptions.BIAS.DEcbo;
 import algorithms.specialOptions.BIAS.DErt;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 	
@@ -43,10 +43,10 @@ public class kononovaDEtest
 	public static void main(String[] args) throws Exception
 	{	
 		// run the optimization algorithm
-		Vector<Algorithm> algorithms = new Vector<Algorithm>();
+		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 		
-		Algorithm a;
+		AlgorithmBias a;
 		Problem p;
 		
 		double[] bias = null;
@@ -146,7 +146,7 @@ public class kononovaDEtest
 		problems.add(p);	
 		
 		int algorithmIndex = 0;
-		for (Algorithm algorithm : algorithms)
+		for (AlgorithmBias algorithm : algorithms)
 		{
 			System.out.print("" + "\t");
 			String algName = algorithm.getClass().getSimpleName();
@@ -181,7 +181,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 
 					finalValues = new double[algorithms.size()][nrRepetitions];
 					algorithmIndex = 0;
-					for (Algorithm algorithm : algorithms)
+					for (AlgorithmBias algorithm : algorithms)
 					{
 						for (int i = 0; i < nrRepetitions; i++)
 						{
@@ -264,12 +264,12 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 
 			private static class AlgorithmRepetitionThread implements Callable<AlgorithmResult>
 			{
-				Algorithm algorithm;
+				AlgorithmBias algorithm;
 				Problem problem;
 				int repNr;
 //				int index;
 
-				public AlgorithmRepetitionThread(Algorithm algorithm, Problem problem, int repNr, int problemIndex)
+				public AlgorithmRepetitionThread(AlgorithmBias algorithm, Problem problem, int repNr, int problemIndex)
 				{
 					this.algorithm = algorithm;
 					this.problem = problem;
@@ -287,7 +287,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				}		
 			}
 
-			private static double runAlgorithmRepetition(Algorithm algorithm, Problem problem) throws Exception
+			private static double runAlgorithmRepetition(AlgorithmBias algorithm, Problem problem) throws Exception
 			{
 
 				FTrend FT = algorithm.execute(problem, budgetFactor*problem.getDimension());

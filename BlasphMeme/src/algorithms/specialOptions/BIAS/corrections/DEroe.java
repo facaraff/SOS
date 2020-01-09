@@ -16,13 +16,13 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 //import static utils.RunAndStore.slash;
 
 
-public class DEroe extends Algorithm
+public class DEroe extends AlgorithmBias
 {
 	
 	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
@@ -33,6 +33,7 @@ public class DEroe extends Algorithm
 	FTrend FT = new FTrend();
 	
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty 'm'----> mirroring
+	protected int run = 0;
 	
 	public DEroe(char correction){super(); this.correctionStrategy = correction;}
 	

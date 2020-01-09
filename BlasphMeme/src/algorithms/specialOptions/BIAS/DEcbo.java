@@ -17,20 +17,12 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
-public class DEcbo extends Algorithm
+public class DEcbo extends AlgorithmBias
 {
-	
-	private int run = 0;
-	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
-	
 	
 	static String Dir = "/home/facaraff/Desktop/KONODATA/DEcbo/";
 

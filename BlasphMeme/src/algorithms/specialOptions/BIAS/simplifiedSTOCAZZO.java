@@ -10,7 +10,7 @@ import utils.random.RandUtils;
 import static utils.MatLab.subtract;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 
-public class simplifiedSTOCAZZO extends Algorithm
+public class simplifiedSTOCAZZO extends AlgorithmBias
 {
 	
 	private int run = 0;

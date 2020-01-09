@@ -14,11 +14,11 @@ import static utils.MatLab.sum;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
-public class GA2 extends Algorithm
+public class GA2 extends AlgorithmBias
 {
 	private String file;
 	

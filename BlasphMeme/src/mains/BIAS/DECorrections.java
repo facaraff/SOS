@@ -22,7 +22,7 @@ import algorithms.specialOptions.BIAS.corrections.DEboe;
 
 //import benchmarks.problemsImplementation.CEC2010.BenchmarkCEC2010_C;
 
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 import static utils.RunAndStore.format;
@@ -41,7 +41,7 @@ public class DECorrections
 	public static void main(String[] args) throws Exception
 	{	
 		// run the optimization algorithm
-		Vector<Algorithm> algorithms = new Vector<Algorithm>();
+		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 		
 //		Algorithm a;
@@ -116,7 +116,7 @@ public class DECorrections
 		problems.add(p);	
 		
 		int algorithmIndex = 0;
-		for (Algorithm algorithm : algorithms)
+		for (AlgorithmBias algorithm : algorithms)
 		{
 			System.out.print("" + "\t");
 			String algName = algorithm.getClass().getSimpleName();
@@ -151,15 +151,11 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 
 					finalValues = new double[algorithms.size()][nrRepetitions];
 					algorithmIndex = 0;
-					for (Algorithm algorithm : algorithms)
+					for (AlgorithmBias algorithm : algorithms)
 					{
 						for (int i = 0; i < nrRepetitions; i++)
 						{
-//							DEro pippo = (DEro)algorithm;
-//							DEbo pippo = (DEbo)algorithm;
-//							DEcbo pippo = (DEcbo)algorithm;
-//							DErt pippo = (DErt)algorithm;
-//							pippo.setRun(i); pippo =null;
+
 							algorithm.setRun(i);
 							if (multiThread)
 							{
@@ -237,14 +233,14 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 
 			private static class AlgorithmRepetitionThread implements Callable<AlgorithmResult>
 			{
-				Algorithm algorithm;
+				AlgorithmBias algorithm;
 				Problem problem;
 				int repNr;
 				@SuppressWarnings("unused")
 				int index;
 				
 
-				public AlgorithmRepetitionThread(Algorithm algorithm, Problem problem, int repNr, int problemIndex)
+				public AlgorithmRepetitionThread(AlgorithmBias algorithm, Problem problem, int repNr, int problemIndex)
 				{
 					this.algorithm = algorithm;
 					this.problem = problem;
@@ -262,7 +258,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				}		
 			}
 
-			private static double runAlgorithmRepetition(Algorithm algorithm, Problem problem) throws Exception
+			private static double runAlgorithmRepetition(AlgorithmBias algorithm, Problem problem) throws Exception
 			{
 //				long t0, t1;
 
@@ -279,7 +275,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 			
 		/*****************************************************************************/
 		
-			static protected Algorithm initialiseDEVariant(int v, char correction)
+			static protected AlgorithmBias initialiseDEVariant(int v, char correction)
 			{		
 				switch (v) 
 				{
@@ -312,7 +308,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 //			I am fine with F
 //			but for Cr should not it be step = 0.94/4.0?
 			
-			static void generateNewConfiguration( Vector<Algorithm> algorithms, int[] DEVariants,  double[] FSteps, double[] CRSteps, int[] popSizes, char[] corrections)
+			static void generateNewConfiguration( Vector<AlgorithmBias> algorithms, int[] DEVariants,  double[] FSteps, double[] CRSteps, int[] popSizes, char[] corrections)
 			{
 				
 				int FStepsNr = FSteps.length;
@@ -321,7 +317,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				int correctionsNr = corrections.length;
 				int DEVariantsNr = DEVariants.length;
 				
-				Algorithm a = null;
+				AlgorithmBias a = null;
 				
 				//for(int devar = 2; devar < 3; devar++)
 				for(int devar = 0; devar < DEVariantsNr; devar++)

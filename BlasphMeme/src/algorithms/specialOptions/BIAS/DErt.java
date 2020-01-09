@@ -13,20 +13,12 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
-public class DErt extends Algorithm
+public class DErt extends AlgorithmBias
 {
-	
-	private int run = 0;
-	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
-	
 	
 	static String Dir = "/home/facaraff/Desktop/KONODATA/DErt/";
 //	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DErt\\";

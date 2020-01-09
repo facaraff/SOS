@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
 
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
@@ -28,15 +28,8 @@ import utils.MatLab;
 /**
  * A Nelder-Mead simplex search.
  */
-public final class NelderMeadKono extends Algorithm {
+public final class NelderMeadKono extends AlgorithmBias {
 
-	private int run = 0;
-	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
-	
 	static String Dir = "/home/facaraff/Desktop/KONODATA/NelderMead/";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");	

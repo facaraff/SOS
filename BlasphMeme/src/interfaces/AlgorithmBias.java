@@ -45,13 +45,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import utils.RunAndStore.FTrend;
-public abstract class Algorithm
+public abstract class AlgorithmBias
 {	
 	private Map<String, Double> parameters = new HashMap<String, Double>();
 	protected double[] initialSolution;
 	protected double[] finalBest;
 	protected double initialFitness;
 	protected String ID = null;
+	
+	protected int run; 
+	protected char correction; 
+	
 
 	/**
 	 * This method executes the algorithm on a specified problem. 
@@ -116,4 +120,33 @@ public abstract class Algorithm
 	}
 	
 	
+	/**
+	 * Store the "run" number.
+	 * 
+	 * @param run the number of the performed run.
+	 * 
+	 */
+	public void setRun(int run){this.run = run;}
+	/**
+	 * Get the "run" number.
+	 * 
+	 * @return  the number of the performed run.
+	 * 
+	 */
+	public int getRun(){return this.run;}
+	
+	/**
+	 * Set the correction strategy.
+	 * 
+	 * @param run the number of the performed run.
+	 * 
+	 */
+	public void setCorrection(char correction){this.correction = correction;}
+	/**
+	 * Get the correction strategy.
+	 * 
+	 * @return  the correction strategy identifier.
+	 * 
+	 */
+	public char getcorrection(){return this.correction;}
 }

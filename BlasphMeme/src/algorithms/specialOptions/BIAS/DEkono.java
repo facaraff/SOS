@@ -11,21 +11,14 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 /*
  * Differential Evolution (standard version, rand/1/bin)
  */
-public class DEkono extends Algorithm
+public class DEkono extends AlgorithmBias
 {
-	
-	private int run = 0;
-	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
 	
 	static String Dir = "/home/facaraff/Desktop/KONODATA/DEroe";
 	

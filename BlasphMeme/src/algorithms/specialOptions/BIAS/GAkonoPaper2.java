@@ -12,11 +12,11 @@ import java.text.DecimalFormat;
 import utils.random.RandUtils;
 import static utils.MatLab.indexMin;
 import static utils.MatLab.indexMax;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
-public class GAkonoPaper2 extends Algorithm
+public class GAkonoPaper2 extends AlgorithmBias
 {	
 	private int run = 0;
 	

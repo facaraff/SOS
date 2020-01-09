@@ -14,18 +14,19 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import  utils.MatLab;
 import static utils.RunAndStore.FTrend;
 
 
-public class DEcboe extends Algorithm
+public class DEcboe extends AlgorithmBias
 {
 	
 
 	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 //	static String Dir = "/home/facaraff/Desktop/KONODATA/2018/";
+	protected int run = 0;
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	

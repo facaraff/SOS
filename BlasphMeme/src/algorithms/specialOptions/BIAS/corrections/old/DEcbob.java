@@ -14,12 +14,12 @@ import java.text.DecimalFormat;
 
 import utils.MatLab;
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 import static utils.RunAndStore.slash;
 
-public class DEcbob extends Algorithm
+public class DEcbob extends AlgorithmBias
 {
 	
 //	private int run = 0;
@@ -32,6 +32,7 @@ public class DEcbob extends Algorithm
 	
 	//static String Dir = "/home/facaraff/Desktop/KONODATA/";
 	static String Dir = "/home/facaraff/Dropbox/AnnaFabio"+slash();
+	protected int run = 0;
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	FTrend FT = new FTrend();

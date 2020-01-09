@@ -16,14 +16,14 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 import static utils.RunAndStore.slash;
 
-public class DEboe extends Algorithm
+public class DEboe extends AlgorithmBias
 {
-	
+	protected int run = 0;
 	//static String Dir = "/home/facaraff/Desktop/KONODATA/";
 	static String Dir = slash()+"home"+slash()+"facaraff"+slash()+"Dropbox/AnnaFabio"+slash();
 	

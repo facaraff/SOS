@@ -14,16 +14,17 @@ import java.io.FileWriter;
 import java.text.DecimalFormat;
 
 import utils.random.RandUtils;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import  utils.MatLab;
 import static utils.RunAndStore.FTrend;
 
 
-public class DEcbob extends Algorithm
+public class DEcbob extends AlgorithmBias
 {
 	
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty 'm'---->mirroring
+	protected int run = 0;
 	
 	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
