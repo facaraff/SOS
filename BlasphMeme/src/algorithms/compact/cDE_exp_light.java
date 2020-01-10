@@ -16,7 +16,6 @@ import static utils.algorithms.Misc.toro;
 
 import java.io.FileWriter;
 import java.io.IOException;
-//import java.util.Vector;
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -202,7 +201,7 @@ public class cDE_exp_light extends Algorithm
 					b = crossOverExpFast(best, b, CR);
 			}
 			
-			//b = saturateToro(b, normalizedBounds);
+			
 			b = toro(b, normalizedBounds);
 			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);

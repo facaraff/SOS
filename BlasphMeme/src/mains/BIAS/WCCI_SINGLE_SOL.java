@@ -131,45 +131,57 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p2",0.000001);
 //		a.setCorrection('d');
 //		algorithms.add(a);
-		
-		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
-		a.setCorrection('t');
-		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.9);
-		a.setParameter("p2",3.0);
-		a.setParameter("p3",10.0);
-		algorithms.add(a);
-		
-		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
-		a.setCorrection('s');
-		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.9);
-		a.setParameter("p2",3.0);
-		a.setParameter("p3",10.0);
-		algorithms.add(a);
-		
-		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
-		a.setCorrection('d');
-		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.9);
-		a.setParameter("p2",3.0);
-		a.setParameter("p3",10.0);
-		algorithms.add(a);
-		
-		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
-		a.setCorrection('e');
-		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.9);
-		a.setParameter("p2",3.0);
-		a.setParameter("p3",10.0);
-		algorithms.add(a);
+//		
+//		a = new NonUniformSA();
+//		a.setDir(dir+"NUSA"+slash());
+//		a.setCorrection('t');
+//		a.setParameter("p0",5.0);
+//		a.setParameter("p1",0.9);
+//		a.setParameter("p2",3.0);
+//		a.setParameter("p3",10.0);
+//		algorithms.add(a);
+//		
+//		a = new NonUniformSA();
+//		a.setDir(dir+"NUSA"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0",5.0);
+//		a.setParameter("p1",0.9);
+//		a.setParameter("p2",3.0);
+//		a.setParameter("p3",10.0);
+//		algorithms.add(a);
+//		
+//		a = new NonUniformSA();
+//		a.setDir(dir+"NUSA"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0",5.0);
+//		a.setParameter("p1",0.9);
+//		a.setParameter("p2",3.0);
+//		a.setParameter("p3",10.0);
+//		algorithms.add(a);
+//		
+//		a = new NonUniformSA();
+//		a.setDir(dir+"NUSA"+slash());
+//		a.setCorrection('e');
+//		a.setParameter("p0",5.0);
+//		a.setParameter("p1",0.9);
+//		a.setParameter("p2",3.0);
+//		a.setParameter("p3",10.0);
+//		algorithms.add(a);
+//
+//		a = new cDE_exp_light();
+//		a.setDir(dir+"CDEl"+slash());
+//		a.setParameter("p0",300.0);
+//		a.setParameter("p1",0.25);
+//		a.setParameter("p2",0.5);
+//		a.setCorrection('x');
+//		algorithms.add(a);
 
-
-
+		a = new cGA_real();
+		a.setDir(dir+"CGA"+slash());
+		a.setParameter("p0",300.0);
+		a.setParameter("p1",200.0);
+		a.setCorrection('x');
+		algorithms.add(a);
 
 
 		

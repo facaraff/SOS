@@ -190,7 +190,7 @@ public class NonUniformSA extends AlgorithmBias
 				}
 				else
 					fNew=problem.f(newPt);
-				
+						
 					
 
 				i++;

@@ -186,7 +186,7 @@ public class CMAES11 extends AlgorithmBias
 		FT.add(i, f_parent);
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
+		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations,"correctionsSingleSol");
 
 		return FT;
 	}
