@@ -55,7 +55,7 @@ import static utils.MatLab.mean;
 
 
 /**
- * This class contains static methods for dispaying infromation and 3 static classses for running the optiisation process throgh the availale processors, collecting the reults and save them.
+ * This class contains static methods for displaying information and 3 static classes for running the optimisation process through the available processors, collecting the results and save them.
 */	
 public class RunAndStore
 {

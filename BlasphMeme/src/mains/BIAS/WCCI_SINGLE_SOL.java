@@ -6,6 +6,7 @@ import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
 import algorithms.specialOptions.BIAS.singleSolutions.CMAES11;
 import algorithms.specialOptions.BIAS.singleSolutions.ISPO;
+import algorithms.specialOptions.BIAS.singleSolutions.RIS;
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -29,83 +30,105 @@ public class WCCI_SINGLE_SOL
 		
 		double[] bias = null;
 		
-		a = new CMAES11('t');
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
+//		a = new CMAES11('t');
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAES11('s');
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);	
+//		
+//		a = new CMAES11('e');
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAES11('d');
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
+//		
+//		a = new ISPO();
+//		a.setCorrection('t');
+//		a.setParameter("p0",1.0);
+//		a.setParameter("p1",10.0);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3",4.0);
+//		a.setParameter("p4",0.000001);
+//		a.setParameter("p5",30.0);
+//		algorithms.add(a);
+//		
+//		a = new ISPO();
+//		a.setCorrection('s');
+//		a.setParameter("p0",1.0);
+//		a.setParameter("p1",10.0);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3",4.0);
+//		a.setParameter("p4",0.000001);
+//		a.setParameter("p5",30.0);
+//		algorithms.add(a);
+//		
+//		a = new ISPO();
+//		a.setCorrection('t');
+//		a.setParameter("p0",1.0);
+//		a.setParameter("p1",10.0);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3",4.0);
+//		a.setParameter("p4",0.000001);
+//		a.setParameter("p5",30.0);
+//		algorithms.add(a);
+//		
+//		a = new ISPO();
+//		a.setCorrection('e');
+//		a.setParameter("p0",1.0);
+//		a.setParameter("p1",10.0);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3",4.0);
+//		a.setParameter("p4",0.000001);
+//		a.setParameter("p5",30.0);
+//		algorithms.add(a);
+//		
+//		a = new ISPO();
+//		a.setCorrection('d');
+//		a.setParameter("p0",1.0);
+//		a.setParameter("p1",10.0);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3",4.0);
+//		a.setParameter("p4",0.000001);
+//		a.setParameter("p5",30.0);
+//		algorithms.add(a);
 		
-		a = new CMAES11('s');
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);	
+//		a = new RIS();
+//		a.setParameter("p0",0.5);
+//		a.setParameter("p1",0.4);
+//		a.setParameter("p2",0.000001);
+//		a.setCorrection('s');
+//		algorithms.add(a);
+//		
+//		a = new RIS();
+//		a.setParameter("p0",0.5);
+//		a.setParameter("p1",0.4);
+//		a.setParameter("p2",0.000001);
+//		a.setCorrection('t');
+//		algorithms.add(a);
 		
-		a = new CMAES11('e');
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
-		
-		a = new CMAES11('d');
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
-		
-		a = new ISPO();
-		a.setCorrection('t');
-		a.setParameter("p0",1.0);
-		a.setParameter("p1",10.0);
-		a.setParameter("p2",2.0);
-		a.setParameter("p3",4.0);
-		a.setParameter("p4",0.000001);
-		a.setParameter("p5",30.0);
-		algorithms.add(a);
-		
-		a = new ISPO();
-		a.setCorrection('s');
-		a.setParameter("p0",1.0);
-		a.setParameter("p1",10.0);
-		a.setParameter("p2",2.0);
-		a.setParameter("p3",4.0);
-		a.setParameter("p4",0.000001);
-		a.setParameter("p5",30.0);
-		algorithms.add(a);
-		
-		a = new ISPO();
-		a.setCorrection('t');
-		a.setParameter("p0",1.0);
-		a.setParameter("p1",10.0);
-		a.setParameter("p2",2.0);
-		a.setParameter("p3",4.0);
-		a.setParameter("p4",0.000001);
-		a.setParameter("p5",30.0);
-		algorithms.add(a);
-		
-		a = new ISPO();
-		a.setCorrection('e');
-		a.setParameter("p0",1.0);
-		a.setParameter("p1",10.0);
-		a.setParameter("p2",2.0);
-		a.setParameter("p3",4.0);
-		a.setParameter("p4",0.000001);
-		a.setParameter("p5",30.0);
-		algorithms.add(a);
-		
-		a = new ISPO();
+		a = new RIS();
+		a.setParameter("p0",0.5);
+		a.setParameter("p1",0.4);
+		a.setParameter("p2",0.000001);
 		a.setCorrection('d');
-		a.setParameter("p0",1.0);
-		a.setParameter("p1",10.0);
-		a.setParameter("p2",2.0);
-		a.setParameter("p3",4.0);
-		a.setParameter("p4",0.000001);
-		a.setParameter("p5",30.0);
 		algorithms.add(a);
+
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)

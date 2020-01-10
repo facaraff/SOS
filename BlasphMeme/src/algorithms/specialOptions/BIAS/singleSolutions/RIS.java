@@ -1,0 +1,368 @@
+package algorithms.specialOptions.BIAS.singleSolutions;
+import static utils.algorithms.Misc.cloneSolution;
+import static utils.algorithms.operators.DEOp.crossOverExp;
+import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.toro;
+import static utils.MatLab.max;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+
+import utils.random.RandUtils;
+import interfaces.AlgorithmBias;
+import interfaces.Problem;
+import utils.RunAndStore.FTrend;
+
+public class RIS extends AlgorithmBias
+{	
+
+//	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
+	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\RIS\\";
+		
+	DecimalFormat DF = new DecimalFormat("0.00000000E00");
+	@Override
+	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
+	{
+		int problemDimension = problem.getDimension();
+		double[][] bounds = problem.getBounds();
+		FTrend FT = new FTrend();
+		double globalAlpha = getParameter("p0").doubleValue(); // 0.5
+		double radius = getParameter("p1").doubleValue(); // 0.4
+		double xi = getParameter("p2").doubleValue(); // 0.000001
+		double CR = Math.pow(0.5, (1/(problemDimension*globalAlpha)));
+			
+		double[] best; 
+		double fBest;
+		double[] temp;
+		
+		
+		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
+		String fileName = "RIS"+correctionStrategy; 
+		
+		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
+		File file = new File(Dir+fileName+".txt");
+		if (!file.exists()) 
+			file.createNewFile();
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		int i = 0;
+		int prevID = -1;
+		int newID = 0;
+		int ciccio = 0;
+		long seed = System.currentTimeMillis();
+		RandUtils.setSeed(seed);	
+		String line = "# function 0 dim "+problemDimension+" globalAlpha "+globalAlpha+" radius "+radius+" xi "+xi+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
+		bw.write(line);
+		line = null;
+		line = new String();
+		
+		
+		best = generateRandomSolution(bounds, problemDimension);
+		fBest = problem.f(best);
+		FT.add(0, fBest);
+		i++; newID++;
+		double[] x = new double[problemDimension];
+		for(int k=0; k < problemDimension; k++)
+		  x[k] = best[k];
+			
+		line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
+		for(int n = 0; n < problemDimension; n++)
+			line+=" "+formatter(best[n]);
+		line+="\n";
+		bw.write(line);
+		line = null;
+		line = new String();
+		prevID = newID;
+		
+		
+	
+		
+		
+		while (i < maxEvaluations)
+		{
+			temp = generateRandomSolution(bounds, problemDimension);
+			x = crossOverExp(best, temp, CR);
+			
+			double fx = problem.f(x);
+
+			i++; 
+//			newID++;
+						
+			if(fx < fBest)
+			{
+				fBest = fx;
+				for(int n=0;n<problemDimension;n++)
+					best[n] = x[n];
+				FT.add(i, fBest);
+				
+				newID++;
+				
+				line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
+				for(int n = 0; n < problemDimension; n++)
+					line+=" "+formatter(best[n]);
+				line+="\n";
+				bw.write(line);
+				line = null;
+				line = new String();
+				prevID = newID;
+			}
+			
+			//System.out.print(best[0]+" ");System.out.print(best[1]+" "); System.out.println(best[2]+" ");
+			
+			
+					
+			//temp = ThreeSome_ShortDistance(x, fx, radius, xi, problem, maxEvaluations,i);#
+		
+
+			double[] SR = new double[problemDimension];
+			for (int k = 0; k < problemDimension; k++)
+				SR[k] = (bounds[k][1] - bounds[k][0])*radius;
+
+			boolean improve = true;
+
+			//while ((SR[0] > precision) && (iter < totalBudget))
+			while ((max(SR) > xi) && (i < maxEvaluations))
+			{	
+				double[] Xk = new double[problemDimension];
+				double[] Xk_orig = new double[problemDimension];
+				for (int k = 0; k < problemDimension; k++)
+				{
+					Xk[k] = x[k];
+					Xk_orig[k] = x[k];
+				}
+
+				double fXk_orig = fx;
+
+				if (!improve)
+				{
+					for (int k = 0; k < problemDimension; k++)
+						SR[k] = SR[k]/2;
+				}
+
+				improve = false;
+				int k = 0;
+				while ((k < problemDimension) && (i < maxEvaluations))
+				{
+					Xk[k] = Xk[k] - SR[k];
+					
+					
+					//Xk = saturateToro(Xk, bounds);
+					double[] output = new double[problemDimension];
+					if(correctionStrategy == 't')
+					{
+						//System.out.println("TORO");
+						output = toro(Xk, bounds);
+					}
+					else if(correctionStrategy== 's')
+					{
+						//System.out.println("SAT");
+						output = saturation(Xk, bounds);
+					}
+					else if(correctionStrategy== 'd')
+					{
+						output = toro(Xk, bounds);
+						if(!Arrays.equals(output, Xk))
+						{
+							output = cloneSolution(Xk);
+							output[k] = Xk_orig[k]; 
+						}
+							
+					}
+					else
+						System.out.println("No bounds handling shceme seleceted");
+					
+					if(!Arrays.equals(output, Xk))
+					{
+						Xk = output;
+						output = null;
+						ciccio++;
+					}
+					
+					
+					double fXk = problem.f(Xk);
+					i++; 
+
+					// best update
+					if (fXk < fx)
+					{
+						fx = fXk;
+						for (int n = 0; n < problemDimension; n++)
+							x[n] = Xk[n];
+						
+						if (fXk < fBest)
+						{
+							newID++;
+							
+							fBest = fx;
+							for(int n=0;n<problemDimension;n++)
+								best[n] = x[n];
+							FT.add(i, fBest);
+							
+							line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
+							for(int n = 0; n < problemDimension; n++)
+								line+=" "+formatter(best[n]);
+							line+="\n";
+							bw.write(line);
+							line = null;
+							line = new String();
+							prevID = newID;
+						}
+
+					}
+
+					if (i < maxEvaluations)
+					{
+						if (fXk == fXk_orig)
+						{
+							for (int n = 0; n < problemDimension; n++)
+							{
+								Xk[n] = Xk_orig[n];
+								//x[n] = Xk_orig[n];
+							}
+						}
+						else
+						{
+							if (fXk > fXk_orig)
+							{
+								Xk[k] = Xk_orig[k];
+								Xk[k] = Xk[k] + 0.5*SR[k];
+								
+								
+								//Xk = saturateToro(Xk, bounds);
+								output = new double[problemDimension];
+								if(correctionStrategy == 't')
+								{
+									//System.out.println("TORO");
+									output = toro(Xk, bounds);
+								}
+								else if(correctionStrategy== 's')
+								{
+									//System.out.println("SAT");
+									output = saturation(Xk, bounds);
+								}
+								else if(correctionStrategy== 'd')
+								{
+									output = toro(Xk, bounds);
+									if(!Arrays.equals(output, Xk))
+									{
+										output = cloneSolution(Xk);
+										output[k] = Xk_orig[k];
+									}
+										
+								}
+								else
+									System.out.println("No bounds handling shceme seleceted");
+								
+								if(!Arrays.equals(output, Xk))
+								{
+									Xk = output;
+									output = null;
+									ciccio++;
+								}
+								
+								fXk = problem.f(Xk);
+								i++; 
+
+					
+								if (fXk < fx)
+								{
+									fx = fXk;
+									for (int n = 0; n < problemDimension; n++)
+										x[n] = Xk[n];
+									
+									if (fXk < fBest)
+									{
+										newID++;
+										
+										fBest = fx;
+										for(int n=0;n<problemDimension;n++)
+											best[n] = x[n];
+										FT.add(i, fBest);
+										
+										line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
+										for(int n = 0; n < problemDimension; n++)
+											line+=" "+formatter(best[n]);
+										line+="\n";
+										bw.write(line);
+										line = null;
+										line = new String();
+										prevID = newID;
+									}
+								}
+
+								if (fXk >= fXk_orig)
+								{
+									Xk[k] = Xk_orig[k];
+									//x[k] = Xk_orig[k];
+								}
+								else
+									improve = true;
+							}
+							else
+								improve = true;
+						}
+					}
+
+					k++;
+				}
+
+			}	
+							
+
+
+		}
+		
+		finalBest = best;
+		
+		FT.add(i, fBest);
+
+		bw.close();
+		
+		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
+		return FT;
+	}
+	
+	
+	public String formatter(double value)
+	{
+		String str =""+value;
+		str = this.DF.format(value).toLowerCase();
+		if (!str.contains("e-"))  
+			str = str.replace("e", "e+");
+		return str;
+	}
+	
+	
+	public double[] saturation(double[] x, double[][] bounds)
+	{
+		double[] xs = new double[x.length];
+		for(int i=0; i<x.length; i++)
+		{
+			if(x[i]>bounds[i][1])
+				xs[i] = bounds[i][1];
+			else if(x[i]<bounds[i][0])
+				xs[i] = bounds[i][0];
+			else
+				xs[i] = x[i];
+		}		
+		return xs;
+	}
+	
+
+	
+	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
+	{
+		File f = new File(Dir+"correctionsSingleSol.txt");
+		if(!f.exists()) 
+			f.createNewFile();
+		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
+		BufferedWriter BW = new BufferedWriter(FW);
+		BW.write(name+" "+percentage+"\n");
+		BW.close();
+	}
+	
+}
