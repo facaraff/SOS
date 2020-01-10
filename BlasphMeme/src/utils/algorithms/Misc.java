@@ -178,6 +178,30 @@ public class Misc {
 			x_sat[i] = min(max(x[i], bounds[i][0]), bounds[i][1]);
 		return x_sat;
 	}
+	
+	/**
+	 * Saturation for BIAS study. (to check if this is the same as Saturate!1!)
+	 * 
+	 * @param x
+	 *            solution to be saturated.
+	 * @param bounds
+	 *            search space boudaries.
+	 * @return x_tor corrected solution.
+	 */
+	public static double[] saturation(double[] x, double[][] bounds)
+	{
+		double[] xs = new double[x.length];
+		for(int i=0; i<x.length; i++)
+		{
+			if(x[i]>bounds[i][1])
+				xs[i] = bounds[i][1];
+			else if(x[i]<bounds[i][0])
+				xs[i] = bounds[i][0];
+			else
+				xs[i] = x[i];
+		}		
+		return xs;
+	}
 
 	/**
 	 * Toroidal correction within search space

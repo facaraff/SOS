@@ -2,6 +2,7 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Misc.saturation;
 import static utils.MatLab.norm2;
 import static utils.MatLab.columnXrow;
 import static utils.MatLab.eye;
@@ -11,7 +12,6 @@ import static utils.MatLab.sum;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import utils.random.RandUtils;
@@ -25,11 +25,11 @@ import utils.RunAndStore.FTrend;
  */
 public class CMAES11 extends AlgorithmBias
 {
-	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/CMAES11/";
+//	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/CMAES11/";
 
 	public CMAES11(char c) {this.correction = c;}
 
-	DecimalFormat DF = new DecimalFormat("0.00000000E00");
+//	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -218,34 +218,6 @@ public class CMAES11 extends AlgorithmBias
 		if (!str.contains("e-"))  
 			str = str.replace("e", "e+");
 		return str;
-	}
-	
-	
-	public double[] saturation(double[] x, double[][] bounds)
-	{
-		double[] xs = new double[x.length];
-		for(int i=0; i<x.length; i++)
-		{
-			if(x[i]>bounds[i][1])
-				xs[i] = bounds[i][1];
-			else if(x[i]<bounds[i][0])
-				xs[i] = bounds[i][0];
-			else
-				xs[i] = x[i];
-		}		
-		return xs;
-	}
-	
-	
-	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
-	{
-		File f = new File(Dir+"correctionsSingleSol.txt");
-		if(!f.exists()) 
-			f.createNewFile();
-		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
-		BufferedWriter BW = new BufferedWriter(FW);
-		BW.write(name+" "+percentage+"\n");
-		BW.close();
 	}
 
 }

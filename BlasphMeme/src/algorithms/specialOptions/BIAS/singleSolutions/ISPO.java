@@ -2,12 +2,12 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Misc.saturation;
 import static utils.algorithms.Misc.cloneSolution;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import utils.random.RandUtils;
@@ -21,9 +21,8 @@ import utils.RunAndStore.FTrend;
 public class ISPO extends AlgorithmBias
 {
 	
-	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/ISPO/";
+//	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/ISPO/";
 	
-	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
@@ -194,46 +193,7 @@ public class ISPO extends AlgorithmBias
 		FT.add(i, fParticle);
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
+		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations,"correctionsSingleSol");
 		return FT;
-	}
-	
-	
-	public String formatter(double value)
-	{
-		String str =""+value;
-		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
-			str = str.replace("e", "e+");
-		return str;
-	}
-	
-	
-	public double[] saturation(double[] x, double[][] bounds)
-	{
-		double[] xs = new double[x.length];
-		for(int i=0; i<x.length; i++)
-		{
-			if(x[i]>bounds[i][1])
-				xs[i] = bounds[i][1];
-			else if(x[i]<bounds[i][0])
-				xs[i] = bounds[i][0];
-			else
-				xs[i] = x[i];
-		}		
-		return xs;
-	}
-	
-
-	
-	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
-	{
-		File f = new File(Dir+"correctionsSingleSol.txt");
-		if(!f.exists()) 
-			f.createNewFile();
-		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
-		BufferedWriter BW = new BufferedWriter(FW);
-		BW.write(name+" "+percentage+"\n");
-		BW.close();
 	}
 }

@@ -41,9 +41,16 @@ either expressed or implied, of the FreeBSD Project.
 */
 package interfaces;
 
+
+
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-
+import static utils.RunAndStore.slash;
 import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
 {	
@@ -54,8 +61,10 @@ public abstract class AlgorithmBias
 	protected String ID = null;
 	
 	protected int run; 
-	protected char correction; 
+	protected char correction;
+	protected String Dir="."+slash(); 
 	
+	protected DecimalFormat DF = new DecimalFormat("0.00000000E00");
 
 	/**
 	 * This method executes the algorithm on a specified problem. 
@@ -65,6 +74,9 @@ public abstract class AlgorithmBias
 	 * @return a FTrend object containing fitness trend and, in case, extra data.
 	 */
 	public abstract FTrend execute(Problem problem, int maxEvaluations) throws Exception;
+
+	
+	
 	
 	/**
 	 * This method sets the value of a given parameter.
@@ -75,13 +87,13 @@ public abstract class AlgorithmBias
 	 */
 	public Double getParameter(String name){return parameters.get(name);}
 	/**
-	 * This method returns the best solution.
-	 */
-	public double[] getFinalBest(){return finalBest;}
-	/**
 	 * This method saves the final best solution.
 	 */
 	public void setFinalBest(double[] finalBest){this.finalBest = finalBest;}
+	/**
+	 * This method returns the best solution.
+	 */
+	public double[] getFinalBest(){return finalBest;}
 	/**
 	 * This method sets a specified initial guess.
 	 */
@@ -106,20 +118,17 @@ public abstract class AlgorithmBias
 	 * 
 	 * @return ID this value identifies the algorithm and is used to generate the result folder.
 	 * 
+	 * 
 	 */
-	public String getID(){return this.ID;}
+	public String getID(){return ID;}
 	/**
-	 * This method return a String reporting the parameters setting.
+	 * This method sets the path of the directory for storing BIAS results.
 	 */
-	public String getParSetting()
-	{
-		String description = getID()+":";
-		for(String name: this.parameters.keySet())
-			description+="("+name+" "+getParameter(name)+")";
-		return description;
-	}
-	
-	
+	public void setDir(String Dir){this.Dir=Dir;}
+	/**
+	 * This method returns the path of the directory for storing BIAS results.
+	 */
+	public String getDir(){return this.Dir;}
 	/**
 	 * Store the "run" number.
 	 * 
@@ -149,4 +158,47 @@ public abstract class AlgorithmBias
 	 * 
 	 */
 	public char getcorrection(){return this.correction;}
+	
+	
+	
+	//**   UTILS METHODS   **//
+	
+	/**
+	 * Generate the file "fileName".text containing 
+	 */
+	public void wrtiteCorrectionsPercentage(String algName, double percentage, String fileName) throws Exception
+	{
+		File f = new File(Dir+fileName+".txt");
+		if(!f.exists()) 
+			f.createNewFile();
+		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
+		BufferedWriter BW = new BufferedWriter(FW);
+		BW.write(algName+" "+percentage+"\n");
+		BW.close();
+	}
+	/**
+	 * Generate the file "fileName".text containing 
+	 */
+	public void wrtiteCorrectionsPercentage(String algName, double percentage) throws Exception {wrtiteCorrectionsPercentage(algName, percentage, "corrections");}
+	
+	
+	/**
+	 *Fixes the scientific notation format 
+	 */
+	public String formatter(double value)
+	{
+		String str =""+value;
+		str = this.DF.format(value).toLowerCase();
+		if (!str.contains("e-"))  
+			str = str.replace("e", "e+");
+		return str;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

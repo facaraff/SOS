@@ -4,21 +4,25 @@ package mains.BIAS;
 import java.util.Vector;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
-import algorithms.specialOptions.BIAS.singleSolutions.CMAES11;
-import algorithms.specialOptions.BIAS.singleSolutions.ISPO;
-import algorithms.specialOptions.BIAS.singleSolutions.RIS;
-
+//import algorithms.specialOptions.BIAS.singleSolutions.CMAES11;
+//import algorithms.specialOptions.BIAS.singleSolutions.ISPO;
+//import algorithms.specialOptions.BIAS.singleSolutions.RIS;
+import algorithms.specialOptions.BIAS.singleSolutions.*;
 import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import static utils.RunAndStore.slash;
 	
 public class WCCI_SINGLE_SOL
 {
 	static int nrRepetitions = 50;
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
+	
+//	static String dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
+	static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	
 	public static void main(String[] args) throws Exception
 	{	
@@ -31,6 +35,7 @@ public class WCCI_SINGLE_SOL
 		double[] bias = null;
 		
 //		a = new CMAES11('t');
+//		a.setDir(dir+"CMAES11"+slash());
 //		a.setParameter("p0",(2.0/11.0));
 //		a.setParameter("p1",(1.0/12.0));
 //		a.setParameter("p2",0.44);
@@ -38,6 +43,7 @@ public class WCCI_SINGLE_SOL
 //		algorithms.add(a);
 //		
 //		a = new CMAES11('s');
+//		a.setDir(dir+"CMAES11"+slash());
 //		a.setParameter("p0",(2.0/11.0));
 //		a.setParameter("p1",(1.0/12.0));
 //		a.setParameter("p2",0.44);
@@ -45,6 +51,7 @@ public class WCCI_SINGLE_SOL
 //		algorithms.add(a);	
 //		
 //		a = new CMAES11('e');
+//		a.setDir(dir+"CMAES11"+slash());
 //		a.setParameter("p0",(2.0/11.0));
 //		a.setParameter("p1",(1.0/12.0));
 //		a.setParameter("p2",0.44);
@@ -52,6 +59,7 @@ public class WCCI_SINGLE_SOL
 //		algorithms.add(a);
 //		
 //		a = new CMAES11('d');
+//		a.setDir(dir+"CMAES11"+slash());
 //		a.setParameter("p0",(2.0/11.0));
 //		a.setParameter("p1",(1.0/12.0));
 //		a.setParameter("p2",0.44);
@@ -69,6 +77,7 @@ public class WCCI_SINGLE_SOL
 //		algorithms.add(a);
 //		
 //		a = new ISPO();
+//		a.setDir(dir+"ISPO"+slash());
 //		a.setCorrection('s');
 //		a.setParameter("p0",1.0);
 //		a.setParameter("p1",10.0);
@@ -79,6 +88,7 @@ public class WCCI_SINGLE_SOL
 //		algorithms.add(a);
 //		
 //		a = new ISPO();
+//		a.setDir(dir+"ISPO"+slash());
 //		a.setCorrection('t');
 //		a.setParameter("p0",1.0);
 //		a.setParameter("p1",10.0);
@@ -89,16 +99,7 @@ public class WCCI_SINGLE_SOL
 //		algorithms.add(a);
 //		
 //		a = new ISPO();
-//		a.setCorrection('e');
-//		a.setParameter("p0",1.0);
-//		a.setParameter("p1",10.0);
-//		a.setParameter("p2",2.0);
-//		a.setParameter("p3",4.0);
-//		a.setParameter("p4",0.000001);
-//		a.setParameter("p5",30.0);
-//		algorithms.add(a);
-//		
-//		a = new ISPO();
+//		a.setDir(dir+"ISPO"+slash());
 //		a.setCorrection('d');
 //		a.setParameter("p0",1.0);
 //		a.setParameter("p1",10.0);
@@ -116,18 +117,60 @@ public class WCCI_SINGLE_SOL
 //		algorithms.add(a);
 //		
 //		a = new RIS();
+//		a.setDir(dir+"RIS"+slash());
 //		a.setParameter("p0",0.5);
 //		a.setParameter("p1",0.4);
 //		a.setParameter("p2",0.000001);
 //		a.setCorrection('t');
 //		algorithms.add(a);
+//		
+//		a = new RIS();
+//		a.setDir(dir+"RIS"+slash());
+//		a.setParameter("p0",0.5);
+//		a.setParameter("p1",0.4);
+//		a.setParameter("p2",0.000001);
+//		a.setCorrection('d');
+//		algorithms.add(a);
 		
-		a = new RIS();
-		a.setParameter("p0",0.5);
-		a.setParameter("p1",0.4);
-		a.setParameter("p2",0.000001);
-		a.setCorrection('d');
+		a = new NonUniformSA();
+		a.setDir(dir+"NUSA"+slash());
+		a.setCorrection('t');
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.9);
+		a.setParameter("p2",3.0);
+		a.setParameter("p3",10.0);
 		algorithms.add(a);
+		
+		a = new NonUniformSA();
+		a.setDir(dir+"NUSA"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.9);
+		a.setParameter("p2",3.0);
+		a.setParameter("p3",10.0);
+		algorithms.add(a);
+		
+		a = new NonUniformSA();
+		a.setDir(dir+"NUSA"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.9);
+		a.setParameter("p2",3.0);
+		a.setParameter("p3",10.0);
+		algorithms.add(a);
+		
+		a = new NonUniformSA();
+		a.setDir(dir+"NUSA"+slash());
+		a.setCorrection('e');
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.9);
+		a.setParameter("p2",3.0);
+		a.setParameter("p3",10.0);
+		algorithms.add(a);
+
+
+
+
 
 		
 		double[][] bounds = new double[problemDimension][2];
