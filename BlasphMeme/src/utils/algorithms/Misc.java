@@ -202,6 +202,19 @@ public class Misc {
 		}		
 		return xs;
 	}
+	/**
+	 * second version
+	 */
+	public static double[] saturation(double[] x, double[] bounds)
+	{
+		double[][] BOUNDS = new double[x.length][2];
+		for(int i=0; i<x.length; i++)
+		{
+			BOUNDS[i][1] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		return saturation(x, BOUNDS);
+	}
 
 	/**
 	 * Toroidal correction within search space

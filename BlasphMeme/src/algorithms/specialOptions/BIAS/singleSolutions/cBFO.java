@@ -1,12 +1,13 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
+import static utils.algorithms.Misc.saturation;
 import static utils.algorithms.Misc.toro;
 import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-import java.util.Vector;
+import java.util.Arrays;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -223,24 +224,36 @@ public class cBFO extends AlgorithmBias
 				
 				
 				
+				double[] output = new double[problemDimension];
+				if(this.correction == 't')
+				{
+					//System.out.println("TORO");
+					output = toro(a, normalizedBounds);
+				}
+				else if(this.correction== 's')
+				{
+					//System.out.println("SAT");
+					output = saturation(a, normalizedBounds);
+				}
+				else if(this.correction== 'd')
+				{
+					output = toro(a, normalizedBounds);
+					if(!Arrays.equals(output, a))
+						output = best;
+				}
+				else if(this.correction== 'e')
+				{
+					output = toro(a, normalizedBounds);
+				}
+				else
+					System.out.println("No bounds handling shceme seleceted");
 				
-				//SATURATSIONI
-				// bacteria health (fitness)
-				a = toro(a, normalizedBounds);
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				if(!Arrays.equals(output, a))
+				{
+					a = output;
+					output = null;
+					ciccio++;
+				}
 				
 				aScaled = scale(a, bounds, xc);
 				fA = problem.f(aScaled);
@@ -296,23 +309,36 @@ public class cBFO extends AlgorithmBias
 						J_last = fA;
 						for (int n = 0; n < problemDimension; n++)
 							a[n] = a[n] + C_i * delta[n]/stepNorm;
+
+						
+						output = new double[problemDimension];
+						if(this.correction == 't')
+						{
+							//System.out.println("TORO");
+							output = toro(a, normalizedBounds);
+						}
+						else if(this.correction== 's')
+						{
+							//System.out.println("SAT");
+							output = saturation(a, normalizedBounds);
+						}
+						else if(this.correction== 'd')
+						{
+							output = toro(a, normalizedBounds);
+							if(!Arrays.equals(output, a))
+								output = best;
+						}
+						else
+							System.out.println("No bounds handling shceme seleceted");
+						
+						if(!Arrays.equals(output, a))
+						{
+							a = output;
+							output = null;
+							ciccio++;
+						}
 						
 						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						// bacteria health (fitness)
-						a = toro(a, normalizedBounds);
 						aScaled = scale(a, bounds, xc);
 						fA = problem.f(aScaled);
 						
