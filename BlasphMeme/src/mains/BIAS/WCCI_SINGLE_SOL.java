@@ -251,66 +251,91 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p4", 1.0);
 //		a.setParameter("p5", 1.0);
 //		algorithms.add(a);
-
-		a = new cDE();
-		a.setDir(dir+"CDE"+slash());
+//
+//		a = new cDE();
+//		a.setDir(dir+"CDE"+slash());
+//		a.setCorrection('t');
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 1.0);//mutation
+//		a.setParameter("p4", 1.0);//xover (bin)
+//		algorithms.add(a);	
+//		
+//		a = new cDE();
+//		a.setDir(dir+"CDE"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 1.0);//mutation
+//		a.setParameter("p4", 1.0);//xover (bin)
+//		algorithms.add(a);
+//		
+//		a = new cDE();
+//		a.setDir(dir+"CDE"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 1.0);//mutation
+//		a.setParameter("p4", 1.0);//xover (bin)
+//		algorithms.add(a);
+//		
+//		a = new cDE();
+//		a.setDir(dir+"CDE"+slash());
+//		a.setCorrection('t');
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 1.0);//mutation
+//		a.setParameter("p4", 2.0);//xover (exp)
+//		algorithms.add(a);
+//		
+//		a = new cDE();
+//		a.setDir(dir+"CDE"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 1.0);//mutation
+//		a.setParameter("p4", 2.0);//xover (exp)
+//		algorithms.add(a);
+//		
+//		a = new cDE();
+//		a.setDir(dir+"CDE"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.25);
+//		a.setParameter("p2", 0.5);
+//		a.setParameter("p3", 1.0);//mutation
+//		a.setParameter("p4", 2.0);//xover (exp)
+//		algorithms.add(a);
+		
+		a = new Rosenbrock();
+		a.setDir(dir+"Rosenbrock"+slash());
 		a.setCorrection('t');
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
+		a.setParameter("p0", 10e-5);
+		a.setParameter("p1", 2.0); 
 		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 1.0);//mutation
-		a.setParameter("p4", 1.0);//xover (bin)
-		algorithms.add(a);	
+		algorithms.add(a);
 		
-		a = new cDE();
-		a.setDir(dir+"CDE"+slash());
+		a = new Rosenbrock();
+		a.setDir(dir+"Rosenbrock"+slash());
 		a.setCorrection('s');
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
+		a.setParameter("p0", 10e-5);
+		a.setParameter("p1", 2.0); 
 		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 1.0);//mutation
-		a.setParameter("p4", 1.0);//xover (bin)
 		algorithms.add(a);
 		
-		a = new cDE();
-		a.setDir(dir+"CDE"+slash());
+		a = new Rosenbrock();
+		a.setDir(dir+"Rosenbrock"+slash());
 		a.setCorrection('d');
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
+		a.setParameter("p0", 10e-5);
+		a.setParameter("p1", 2.0); 
 		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 1.0);//mutation
-		a.setParameter("p4", 1.0);//xover (bin)
 		algorithms.add(a);
 		
-		a = new cDE();
-		a.setDir(dir+"CDE"+slash());
-		a.setCorrection('t');
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
-		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 1.0);//mutation
-		a.setParameter("p4", 2.0);//xover (exp)
-		algorithms.add(a);
-		
-		a = new cDE();
-		a.setDir(dir+"CDE"+slash());
-		a.setCorrection('s');
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
-		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 1.0);//mutation
-		a.setParameter("p4", 2.0);//xover (exp)
-		algorithms.add(a);
-		
-		a = new cDE();
-		a.setDir(dir+"CDE"+slash());
-		a.setCorrection('d');
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
-		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 1.0);//mutation
-		a.setParameter("p4", 2.0);//xover (exp)
-		algorithms.add(a);
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)

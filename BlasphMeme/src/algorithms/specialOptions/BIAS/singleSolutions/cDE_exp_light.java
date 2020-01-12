@@ -38,7 +38,7 @@ public class cDE_exp_light extends AlgorithmBias
 		double[][] bounds = problem.getBounds();
 		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "cDE"+correctionStrategy; 
+		String fileName = "clDE"+correctionStrategy; 
 		
 		
 		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
