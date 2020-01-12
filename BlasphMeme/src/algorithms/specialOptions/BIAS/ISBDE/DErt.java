@@ -1,4 +1,4 @@
-package algorithms.specialOptions.BIAS;
+package algorithms.specialOptions.BIAS.ISBDE;
 
 import utils.algorithms.operators.DEOp;
 

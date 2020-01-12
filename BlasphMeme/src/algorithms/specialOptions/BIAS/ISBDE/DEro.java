@@ -1,46 +1,34 @@
-package algorithms.specialOptions.BIAS;
-
+package algorithms.specialOptions.BIAS.ISBDE;
 
 import utils.algorithms.operators.DEOp;
 
 import static utils.algorithms.Misc.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
-//import static algorithms.utils.AlgorithmUtils.crossOverBin;
-//import static algorithms.utils.AlgorithmUtils.crossOverExp;
-//import static algorithms.utils.AlgorithmUtils.currentToBest1;
-//import static algorithms.utils.AlgorithmUtils.currentToRand1;
-//import static algorithms.utils.AlgorithmUtils.generateRandomSolution;
-//import static algorithms.utils.AlgorithmUtils.rand1;
-//import static algorithms.utils.AlgorithmUtils.rand2;
-//import static algorithms.utils.AlgorithmUtils.randToBest2;
-//import static algorithms.utils.AlgorithmUtils.saturateToro;
 
 import java.util.Arrays;
-
-import utils.MatLab;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
-
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 /*
- * Differential Evolution (standard version, best/1/)
+ * 
  */
-public class DEbo extends AlgorithmBias
+/*
+ * Differential Evolution (standard version, rand/1/bin)
+ */
+public class DEro extends AlgorithmBias
 {
-
-	static String Dir = "/home/facaraff/Desktop/KONODATA/DEbo/";
+	
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DEro/";
+	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONO\\DEro\\";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
-	
-	
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -50,7 +38,8 @@ public class DEbo extends AlgorithmBias
 		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'b'; //e-->exponential  b-->binomial
 		char correctionStrategy = 'c';  // t --> toroidal   s-->saturation 'e'--->penalty
-		String fileName = "DEbo"+crossoverStrategy+""+correctionStrategy; 
+		String fileName = "DEro"+crossoverStrategy+""+correctionStrategy; 
+		
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -86,7 +75,7 @@ public class DEbo extends AlgorithmBias
 		line = new String();
 		//bw.close();
 		
-		int bestID = -1;
+		
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
 		{
@@ -96,20 +85,9 @@ public class DEbo extends AlgorithmBias
 			fitnesses[j] = problem.f(population[j]);
 			
 			i++;
-				
 			newID++;
 			ids[j] = newID;
-			
-			if (j == 0 || fitnesses[j] < fBest)
-			{
-				bestID = ids[j];
-				fBest = fitnesses[j];
-				for (int n = 0; n < problemDimension; n++)
-					best[n] = population[j][n];
-				FT.add(i, fBest);
-			}
-			
-			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
+			line =""+ids[j]+" -1 "+"-1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
 			for(int n = 0; n < problemDimension; n++)
 				line+=" "+formatter(population[j][n]);
 			line+="\n";
@@ -117,6 +95,14 @@ public class DEbo extends AlgorithmBias
 			line = null;
 			line = new String();
 			//this.file+=line;
+			
+			if (j == 0 || fitnesses[j] < fBest)
+			{
+				fBest = fitnesses[j];
+				for (int n = 0; n < problemDimension; n++)
+					best[n] = population[j][n];
+				FT.add(i, fBest);
+			}
 			
 			//i++;
 		}
@@ -142,21 +128,21 @@ public class DEbo extends AlgorithmBias
 					currPt[n] = population[j][n];
 				currFit = fitnesses[j];
 				
-				// Mutation Best/rand/1
-				
-				int indexBest = MatLab.indexMin(fitnesses);
-				int[] r = new int[populationSize-1];
-				for (int n = 0; n < populationSize-1; n++)
-					if(n != indexBest)
-						r[n] = n;
+				// Mutation DE/rand/1
+			    //newPt = rand1(population, F);
+					
+				int[] r = new int[populationSize];
+				for (int n = 0; n < populationSize; n++)
+					r[n] = n;
 				r = RandUtils.randomPermutation(r); 
 				
-				int r2 = r[0];
-				int r3 = r[1];
-
+				int r1 = r[0];
+				int r2 = r[1];
+				int r3 = r[2];
+				
 				for (int n = 0; n < problemDimension; n++)
-					newPt[n] = population[indexBest][n] + F*(population[r2][n]-population[r3][n]);
-							
+					newPt[n] = population[r1][n] + F*(population[r2][n]-population[r3][n]);
+		
 				// crossover
 				if (crossoverStrategy == 'b')
 					crossPt = DEOp.crossOverBin(currPt, newPt, CR);
@@ -175,7 +161,7 @@ public class DEbo extends AlgorithmBias
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;
+						ciccio++;//incCorrected();
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -187,7 +173,7 @@ public class DEbo extends AlgorithmBias
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;
+						ciccio++;//incCorrected();
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -218,7 +204,7 @@ public class DEbo extends AlgorithmBias
 //				if(!Arrays.equals(output, crossPt))
 //				{
 //					crossPt = output;
-//					ciccio++;
+//					ciccio++;//incCorrected();
 //				}
 //				crossFit = problem.f(crossPt);
 				i++;
@@ -242,7 +228,7 @@ public class DEbo extends AlgorithmBias
 						//population[j][n] = crossPt[n];
 					temp2[j] = crossFit;
 					idsTemp[j] = newID;
-					line =""+newID+" "+ids[r2]+" "+ids[r3]+" "+ids[indexBest]+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
+					line =""+newID+" "+ids[r2]+" "+ids[r3]+" "+ids[r1]+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
 					for(int n = 0; n < problemDimension; n++)
 						line+=" "+formatter(population[j][n]);
 					line+="\n";
@@ -274,7 +260,7 @@ public class DEbo extends AlgorithmBias
 		FT.add(i, fBest);
 		bw.close();
 		
-		//wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
+//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
 //		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy);
 		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
 		return FT;
@@ -324,7 +310,7 @@ public class DEbo extends AlgorithmBias
 		if(correctionType=='t')
 		{
 			//System.out.println("TORO");
-			output = saturateToro(x, bounds);
+			output = toro(x, bounds);
 		}
 		else
 		{
@@ -384,27 +370,7 @@ public class DEbo extends AlgorithmBias
 	}	
 	
 	
+	
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				

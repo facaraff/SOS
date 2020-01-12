@@ -15,16 +15,14 @@ import java.util.concurrent.Future;
 
 
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
-	
 
-
+import algorithms.specialOptions.BIAS.ISBDE.DEbo;
+import algorithms.specialOptions.BIAS.ISBDE.DEcbo;
+import algorithms.specialOptions.BIAS.ISBDE.DEro;
+import algorithms.specialOptions.BIAS.ISBDE.DErt;
 //import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;
-import algorithms.specialOptions.BIAS.DEro;
-import algorithms.specialOptions.BIAS.DEbo;
-import algorithms.specialOptions.BIAS.DEcbo;
-import algorithms.specialOptions.BIAS.DErt;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
