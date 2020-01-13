@@ -105,11 +105,9 @@ public class Rosenbrock extends AlgorithmBias {
 		boolean restart = true;
 		double mini; double div;
 		
-		//double[] prevXk = cloneSolution(xk);
+		double[] prevCurrent = cloneSolution(x);
 
-		
-		for(int k = 0; k < n; k++)
-			if(output[k]>1 || output[k]<0) System.out.println(xCurrent[k]);
+
 		
 		do
 		{
@@ -122,6 +120,7 @@ public class Rosenbrock extends AlgorithmBias {
 					for (int j=0;j<n;j++)
 						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
 					//xCurrent = toro(xCurrent, bounds);
+					
 					
 					double[] output = new double[n];
 					if(this.correction == 't')
@@ -137,18 +136,16 @@ public class Rosenbrock extends AlgorithmBias {
 					else if(this.correction== 'd')
 					{
 						output = toro(xCurrent, bounds);
-						
-						
-			
 						if(!Arrays.equals(output, xCurrent)) 
 						{
-							output = xk;
-							//xk = cloneSolution(prevXk);
+							output = prevCurrent;
 						}
 					}
 					else
 						System.out.println("No bounds handling shceme seleceted");
-					
+
+					for(int k = 0; k < n; k++)
+						if(xCurrent[k]<0||xCurrent[k]>1) System.out.println(xCurrent[k]);
 					
 					if(!Arrays.equals(output, xCurrent))
 					{
@@ -160,7 +157,7 @@ public class Rosenbrock extends AlgorithmBias {
 					yCurrent = problem.f(xCurrent);
 					iter++;
 
-		            if (yCurrent < yBest)
+		            if (yCurrent <= yBest)
 		            {
 		            	lambda[i] += d[i];
 		            	d[i] *= alpha;
@@ -184,6 +181,8 @@ public class Rosenbrock extends AlgorithmBias {
 		            }
 		            else
 		            	d[i] *= -beta;
+		            
+		            prevCurrent = cloneSolution(xCurrent);
 				}
 				
 				if (iter%n == 0)
