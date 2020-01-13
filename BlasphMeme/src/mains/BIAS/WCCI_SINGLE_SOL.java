@@ -207,17 +207,17 @@ public class WCCI_SINGLE_SOL
 //		a.setCorrection('s');
 //		algorithms.add(a);
 //		
-		a = new cBFO();
-		a.setDir(dir+"CBFO"+slash());
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.1);
-		a.setParameter("p2", 4.0);
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 10.0);
-		a.setParameter("p5", 2.0);
-		a.setParameter("p6", 2.0);
-		a.setCorrection('d');
-		algorithms.add(a);	
+//		a = new cBFO();
+//		a.setDir(dir+"CBFO"+slash());
+//		a.setParameter("p0", 300.0);
+//		a.setParameter("p1", 0.1);
+//		a.setParameter("p2", 4.0);
+//		a.setParameter("p3", 1.0);
+//		a.setParameter("p4", 10.0);
+//		a.setParameter("p5", 2.0);
+//		a.setParameter("p6", 2.0);
+//		a.setCorrection('d');
+//		algorithms.add(a);	
 //
 //		a = new cPSO();
 //		a.setDir(dir+"CPSO"+slash());
@@ -335,9 +335,25 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p1", 2.0); 
 //		a.setParameter("p2", 0.5);
 //		algorithms.add(a);
-		
-		
+//		
+//		
 //		a = new SolisWets();
+//		a.setDir(dir+"SolisWets"+slash());
+//		a.setParameter("p0",0.5);
+//		a.setCorrection('t');
+//		algorithms.add(a);
+//		
+//		a = new SolisWets();
+//		a.setDir(dir+"SolisWets"+slash());
+//		a.setParameter("p0",0.5);
+//		a.setCorrection('s');
+//		algorithms.add(a);
+//		
+//		a = new SolisWets();
+//		a.setDir(dir+"SolisWets"+slash());
+//		a.setParameter("p0",0.5);
+//		a.setCorrection('d');
+//		algorithms.add(a);
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)

@@ -149,6 +149,10 @@ public class cBFO extends AlgorithmBias
 		double epsilon_i = epsilon_initial;
 		double fBest_bak = fBest;
 		
+		
+		
+
+		
 		while (evalCount < maxEvaluations)
 		{
 			/*
@@ -239,11 +243,9 @@ public class cBFO extends AlgorithmBias
 				{
 					output = toro(a, normalizedBounds);
 					if(!Arrays.equals(output, a))
-						output = best;
-				}
-				else if(this.correction== 'e')
-				{
-					output = toro(a, normalizedBounds);
+						output = scale(best,bounds, xc);
+					
+					
 				}
 				else
 					System.out.println("No bounds handling shceme seleceted");
@@ -254,6 +256,8 @@ public class cBFO extends AlgorithmBias
 					output = null;
 					ciccio++;
 				}
+				
+			
 				
 				aScaled = scale(a, bounds, xc);
 				fA = problem.f(aScaled);
@@ -326,7 +330,7 @@ public class cBFO extends AlgorithmBias
 						{
 							output = toro(a, normalizedBounds);
 							if(!Arrays.equals(output, a))
-								output = best;
+								output = scale(best,bounds, xc);
 						}
 						else
 							System.out.println("No bounds handling shceme seleceted");
