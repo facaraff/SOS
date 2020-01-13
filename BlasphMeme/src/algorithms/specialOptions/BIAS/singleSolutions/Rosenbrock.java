@@ -139,13 +139,12 @@ public class Rosenbrock extends AlgorithmBias {
 						if(!Arrays.equals(output, xCurrent)) 
 						{
 							output = prevCurrent;
+							
 						}
 					}
 					else
 						System.out.println("No bounds handling shceme seleceted");
 
-					for(int k = 0; k < n; k++)
-						if(xCurrent[k]<0||xCurrent[k]>1) System.out.println(xCurrent[k]);
 					
 					if(!Arrays.equals(output, xCurrent))
 					{
@@ -153,6 +152,10 @@ public class Rosenbrock extends AlgorithmBias {
 						output = null;
 						ciccio++;
 					}
+//					
+//					for(int k = 0; k < n; k++)
+//						if(xCurrent[k]<0||xCurrent[k]>1) System.out.println(xCurrent[k]);
+					
 					
 					yCurrent = problem.f(xCurrent);
 					iter++;
