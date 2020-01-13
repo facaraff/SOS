@@ -2,6 +2,7 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.saturation;
 import static utils.algorithms.Misc.toro;
 
@@ -104,7 +105,12 @@ public class Rosenbrock extends AlgorithmBias {
 		boolean restart = true;
 		double mini; double div;
 		
+		//double[] prevXk = cloneSolution(xk);
 
+		
+		for(int k = 0; k < n; k++)
+			if(output[k]>1 || output[k]<0) System.out.println(xCurrent[k]);
+		
 		do
 		{
 			yBest = yFirstFirst;
@@ -131,11 +137,18 @@ public class Rosenbrock extends AlgorithmBias {
 					else if(this.correction== 'd')
 					{
 						output = toro(xCurrent, bounds);
-						if(!Arrays.equals(output, xCurrent))
+						
+						
+			
+						if(!Arrays.equals(output, xCurrent)) 
+						{
 							output = xk;
+							//xk = cloneSolution(prevXk);
+						}
 					}
 					else
 						System.out.println("No bounds handling shceme seleceted");
+					
 					
 					if(!Arrays.equals(output, xCurrent))
 					{
@@ -160,6 +173,8 @@ public class Rosenbrock extends AlgorithmBias {
 		    			line =""+newID+" "+formatter(yCurrent)+" "+iter+" "+prevID;
 		    			for(int k = 0; k < n; k++)
 		    				line+=" "+formatter(xCurrent[k]);
+		    				
+		    			
 		    			line+="\n";
 		    			bw.write(line);
 		    			line = null;

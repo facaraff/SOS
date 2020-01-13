@@ -21,8 +21,8 @@ public class WCCI_SINGLE_SOL
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
 	
-	static String dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
-	//static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
+	static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	
 	public static void main(String[] args) throws Exception
 	{	
@@ -328,16 +328,16 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p2", 0.5);
 //		algorithms.add(a);
 //		
-//		a = new Rosenbrock();
-//		a.setDir(dir+"Rosenbrock"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0", 10e-5);
-//		a.setParameter("p1", 2.0); 
-//		a.setParameter("p2", 0.5);
-//		algorithms.add(a);
+		a = new Rosenbrock();
+		a.setDir(dir+"Rosenbrock"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0", 10e-5);
+		a.setParameter("p1", 2.0); 
+		a.setParameter("p2", 0.5);
+		algorithms.add(a);
 		
 		
-		a = new SolisWets();
+//		a = new SolisWets();
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)
