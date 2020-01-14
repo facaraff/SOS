@@ -3,7 +3,6 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
-import static utils.algorithms.Misc.saturation;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -51,7 +50,6 @@ public class NonUniformSA extends AlgorithmBias
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" B "+B+" alpha "+alpha+" Lk "+Lk+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
@@ -149,41 +147,14 @@ public class NonUniformSA extends AlgorithmBias
 //				i++;
 				
 				double[] output = new double[problemDimension];
-				if(correctionStrategy == 't')
-				{
-					//System.out.println("TORO");
+
+				if(correctionStrategy== 'e')
 					output = toro(newPt, bounds);
-				}
-				else if(correctionStrategy== 's')
-				{
-					//System.out.println("SAT");
-					output = saturation(newPt, bounds);
-				}
-				else if(correctionStrategy== 'd')
-				{
-					output = toro(newPt, bounds);
-					if(!Arrays.equals(output, newPt))
-						output = oldPt;
-				}
-				else if(correctionStrategy== 'e')
-				{
-					output = toro(newPt, bounds);
-				}
-				else if(correctionStrategy== 'x')
-				{
-					output = newPt;
-				}
 				else
-					System.out.println("No bounds handling shceme seleceted");
+					newPt = correct(newPt,oldPt,bounds);
+
 				
-				if(!Arrays.equals(output, newPt))
-				{
-					newPt = output;
-					output = null;
-					ciccio++;
-				}
-				
-				if( (correctionStrategy== 'e') && (!Arrays.equals(output, newPt)) )
+				if( (correctionStrategy == 'e') && (!Arrays.equals(output, newPt)) )
 				{
 					fNew = 2;
 					newPt = oldPt;
@@ -225,7 +196,7 @@ public class NonUniformSA extends AlgorithmBias
 		FT.add(i, fOld);
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, "correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		return FT;
 	}
 	

@@ -21,8 +21,8 @@ public class WCCI_SINGLE_SOL
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
 	
-	static String dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
-	//static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
+	static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	
 	public static void main(String[] args) throws Exception
 	{	
@@ -354,6 +354,36 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p0",0.5);
 //		a.setCorrection('d');
 //		algorithms.add(a);
+		
+		a = new SPSA();
+		a.setDir(dir+"SPSA"+slash());
+		a.setCorrection('t');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
+		
+		a = new SPSA();
+		a.setDir(dir+"SPSA"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
+		
+		a = new SPSA();
+		a.setDir(dir+"SPSA"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)

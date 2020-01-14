@@ -51,7 +51,6 @@ public class cPSO extends AlgorithmBias
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" phi1 "+phi1+" phi2 "+phi2+" phi3 "+phi3+" gamma1 "+gamma1+" gamma2 "+gamma2+"\n";
@@ -188,11 +187,12 @@ public class cPSO extends AlgorithmBias
 			
 			if(!Arrays.equals(output, x))
 			{
-				a = output;
+				x = output;
 				output = null;
-				ciccio++;
+				this.numberOfCorrections++;
 			}
 			
+			//a = correct(a, prevX, problem.getBounds());
 			
 			xScaled = scale(x, bounds, xc);
 			fitness_x = problem.f(xScaled); i++;
@@ -266,7 +266,7 @@ public class cPSO extends AlgorithmBias
 		FT.add(i, fitness_gb);
 		bw.close();
 		finalBest = x_gb;
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, "correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		return FT;
 	}
 }

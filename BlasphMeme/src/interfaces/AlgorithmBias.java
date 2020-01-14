@@ -48,9 +48,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import static utils.RunAndStore.slash;
+import static utils.algorithms.Misc.saturation;
+import static utils.algorithms.Misc.toro;
+
 import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
 {	
@@ -60,9 +64,12 @@ public abstract class AlgorithmBias
 	protected double initialFitness;
 	protected String ID = null;
 	
-	protected int run; 
+	protected int run;
+	protected int numberOfCorrections = 0; 
 	protected char correction;
-	protected String Dir="."+slash(); 
+	protected String Dir="."+slash();
+
+	
 	
 	protected DecimalFormat DF = new DecimalFormat("0.00000000E00");
 
@@ -195,10 +202,43 @@ public abstract class AlgorithmBias
 	}
 	
 	
+	/**
+	 *Perform t, s and d corrections  (e=penalty must be performed separately)
+	 *
+	 *@param infeasible A point that might be infeasible 
+	 *@param previousFeasiblePt The previous point that was surely feasible
+	 *@param c The correction strategy
+	 */
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds)
+	{
+		
+		double[] output;
+		
+		if(this.correction == 't')
+			output = toro(infeasiblePt, bounds);
+		else if(this.correction== 's')
+			output = saturation(infeasiblePt, bounds);
+		else if(this.correction== 'd')
+		{
+			output = toro(infeasiblePt, bounds);
+			if(!Arrays.equals(output, infeasiblePt)) 
+				output = previousFeasiblePt;
+		}
+		else
+		{
+			output = null;
+			System.out.println("No valid bounds handling shceme seleceted");
+		}
+
 	
+		if(!Arrays.equals(output, infeasiblePt))
+		{
+			infeasiblePt = output;
+			output = null;
+			this.numberOfCorrections++;
+		}
 	
-	
-	
-	
+		return infeasiblePt;
+	}
 	
 }

@@ -68,7 +68,6 @@ public class cDE extends AlgorithmBias
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+"\n";
@@ -246,7 +245,7 @@ public class cDE extends AlgorithmBias
 			{
 				a = output;
 				output = null;
-				ciccio++;
+				this.numberOfCorrections++;
 			}
 			
 
@@ -301,7 +300,7 @@ public class cDE extends AlgorithmBias
 		finalBest = best;
 		bw.close();
 
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, "correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		return FT;
 	}
 	

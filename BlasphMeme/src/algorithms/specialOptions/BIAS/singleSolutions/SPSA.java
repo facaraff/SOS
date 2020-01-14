@@ -31,7 +31,6 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 
@@ -75,7 +74,6 @@ public class SPSA extends AlgorithmBias {
 		
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" a "+a+" A "+A+""+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
@@ -96,7 +94,16 @@ public class SPSA extends AlgorithmBias {
 		{
 			best = generateRandomSolution(bounds, problemDimension);
 			fBest= problem.f(best);
-			i++;
+			i++; newID++;
+			
+			line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
+			for(int k = 0; k < problemDimension; k++)
+				line+=" "+formatter(best[k]);
+			line+="\n";
+			bw.write(line);
+			line = null;
+			line = new String();
+			prevID = newID;
 			
 		}
 		
@@ -112,15 +119,19 @@ public class SPSA extends AlgorithmBias {
 			double[] delta = new double[problemDimension];
 			for(int j=0;j < problemDimension;j++)
 				delta[j] = (RandUtils.random() > 0.5) ? 1 : -1;
-			double[] thetaplus = toro(sum(theta,multiply(ck,delta)), bounds);
-			double[] thetaminus = toro(sum(theta,multiply(-ck,delta)), bounds);
+			
+			double[] thetaplus = correct(sum(theta,multiply(ck,delta)), best, bounds);
+			double[] thetaminus = correct(sum(theta,multiply(-ck,delta)), best, bounds);
+			
 			double yplus=problem.f(thetaplus);
 			double yminus=problem.f(thetaminus);
 			i +=2; 
 			double[] ghat= new double[problemDimension];
 			for(int j=0;j < problemDimension;j++)
 				ghat[j]=(yplus-yminus)/(2*ck*delta[j]);
-			theta = toro(sum(theta,multiply(-ak, ghat)), bounds);
+			
+			theta = correct(sum(theta,multiply(-ak, ghat)), best, bounds);
+			
 			y = problem.f(theta);
 			i++;
 			double[] ys={y, yplus, yminus};
@@ -133,12 +144,25 @@ public class SPSA extends AlgorithmBias {
 			if(yFinal == ys0[2])
 				theta = thetaminus;
 			double DELTA = 0;
+			
+			
 			if(fBest > yFinal)
 			{
 				DELTA = fBest - yFinal;
 				fBest = yFinal;
 				best = cloneSolution(theta);
 				FT.add(i, fBest);	
+				
+				newID++;
+				
+				line =""+newID+" "+formatter(yFinal)+" "+i+" "+prevID;
+				for(int k = 0; k < problemDimension; k++)
+					line+=" "+formatter(theta[k]);
+				line+="\n";
+				bw.write(line);
+				line = null;
+				line = new String();
+				prevID = newID;
 			}
 			if(i>5)
 				if(Math.abs(DELTA) < myEps)
@@ -155,7 +179,8 @@ public class SPSA extends AlgorithmBias {
 		
 	finalBest = best;
 	FT.add(i, fBest);
-
+	wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+	bw.close();
 	return FT;
 	}
 }

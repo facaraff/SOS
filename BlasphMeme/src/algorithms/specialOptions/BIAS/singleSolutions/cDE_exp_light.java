@@ -51,7 +51,6 @@ public class cDE_exp_light extends AlgorithmBias
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+"\n";
@@ -194,7 +193,7 @@ public class cDE_exp_light extends AlgorithmBias
 		finalBest = best;
 		bw.close();
 		FT.add(i, fBest);
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, "correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		return FT;
 	}
 }

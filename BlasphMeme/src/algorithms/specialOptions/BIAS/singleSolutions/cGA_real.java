@@ -46,7 +46,6 @@ public class cGA_real extends AlgorithmBias
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" eta "+eta+"\n";
@@ -174,48 +173,10 @@ public class cGA_real extends AlgorithmBias
 		bw.close();
 		FT.add(i, fBest);
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, "correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		return FT;
 	
 	}
-	
-	
-	public String formatter(double value)
-	{
-		String str =""+value;
-		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
-			str = str.replace("e", "e+");
-		return str;
-	}
-	
-	
-	public double[] saturation(double[] x, double[][] bounds)
-	{
-		double[] xs = new double[x.length];
-		for(int i=0; i<x.length; i++)
-		{
-			if(x[i]>bounds[i][1])
-				xs[i] = bounds[i][1];
-			else if(x[i]<bounds[i][0])
-				xs[i] = bounds[i][0];
-			else
-				xs[i] = x[i];
-		}		
-		return xs;
-	}
-	
 
-	
-	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
-	{
-		File f = new File(Dir+"correctionsSingleSol.txt");
-		if(!f.exists()) 
-			f.createNewFile();
-		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
-		BufferedWriter BW = new BufferedWriter(FW);
-		BW.write(name+" "+percentage+"\n");
-		BW.close();
-	}
 
 }

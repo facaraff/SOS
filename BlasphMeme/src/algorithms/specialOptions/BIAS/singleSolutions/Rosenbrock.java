@@ -3,13 +3,10 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Misc.saturation;
-import static utils.algorithms.Misc.toro;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
 
 import static utils.MatLab.eye;
 import static utils.MatLab.subtract;
@@ -57,7 +54,6 @@ public class Rosenbrock extends AlgorithmBias {
 		
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+n+" eps "+eps+" alpha "+alpha+" beta "+beta+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
@@ -119,43 +115,9 @@ public class Rosenbrock extends AlgorithmBias {
 				{
 					for (int j=0;j<n;j++)
 						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
+					
 					//xCurrent = toro(xCurrent, bounds);
-					
-					
-					double[] output = new double[n];
-					if(this.correction == 't')
-					{
-						//System.out.println("TORO");
-						output = toro(xCurrent, bounds);
-					}
-					else if(this.correction== 's')
-					{
-						//System.out.println("SAT");
-						output = saturation(xCurrent, bounds);
-					}
-					else if(this.correction== 'd')
-					{
-						output = toro(xCurrent, bounds);
-						if(!Arrays.equals(output, xCurrent)) 
-						{
-							output = prevCurrent;
-							
-						}
-					}
-					else
-						System.out.println("No bounds handling shceme seleceted");
-
-					
-					if(!Arrays.equals(output, xCurrent))
-					{
-						xCurrent = output;
-						output = null;
-						ciccio++;
-					}
-//					
-//					for(int k = 0; k < n; k++)
-//						if(xCurrent[k]<0||xCurrent[k]>1) System.out.println(xCurrent[k]);
-					
+					correct(xCurrent,prevCurrent, bounds);
 					
 					yCurrent = problem.f(xCurrent);
 					iter++;
@@ -240,7 +202,7 @@ public class Rosenbrock extends AlgorithmBias {
 		
 		finalBest = xCurrent;
 		FT.add(iter, yBest);
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations,"correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
 		bw.close();
 		return FT;
 	}

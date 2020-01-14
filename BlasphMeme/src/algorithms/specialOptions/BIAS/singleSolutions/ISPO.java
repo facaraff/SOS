@@ -148,6 +148,7 @@ public class ISPO extends AlgorithmBias
 						ciccio++;
 					}
 					
+					//particle = correct(particle, posOld, bounds);
 
 					// calculate new fitness
 					fParticle = problem.f(particle);
