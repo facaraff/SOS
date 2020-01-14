@@ -354,36 +354,44 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p0",0.5);
 //		a.setCorrection('d');
 //		algorithms.add(a);
+//		
+//		a = new SPSA();
+//		a.setDir(dir+"SPSA"+slash());
+//		a.setCorrection('t');
+//		a.setParameter("p0", 0.5);
+//		a.setParameter("p1", 1.0 );
+//		a.setParameter("p2", 0.602);
+//		a.setParameter("p3", 0.032);
+//		a.setParameter("p4", 0.1);
+//		algorithms.add(a);
+//		
+//		a = new SPSA();
+//		a.setDir(dir+"SPSA"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0", 0.5);
+//		a.setParameter("p1", 1.0 );
+//		a.setParameter("p2", 0.602);
+//		a.setParameter("p3", 0.032);
+//		a.setParameter("p4", 0.1);
+//		algorithms.add(a);
+//		
+//		a = new SPSA();
+//		a.setDir(dir+"SPSA"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0", 0.5);
+//		a.setParameter("p1", 1.0 );
+//		a.setParameter("p2", 0.602);
+//		a.setParameter("p3", 0.032);
+//		a.setParameter("p4", 0.1);
+//		algorithms.add(a);
 		
-		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
-		a.setCorrection('t');
-		a.setParameter("p0", 0.5);
-		a.setParameter("p1", 1.0 );
-		a.setParameter("p2", 0.602);
-		a.setParameter("p3", 0.032);
-		a.setParameter("p4", 0.1);
-		algorithms.add(a);
 		
-		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
-		a.setCorrection('s');
-		a.setParameter("p0", 0.5);
-		a.setParameter("p1", 1.0 );
-		a.setParameter("p2", 0.602);
-		a.setParameter("p3", 0.032);
-		a.setParameter("p4", 0.1);
+		a = new SA();
+		a.setDir(dir+"SA"+slash());
+		a.setParameter("p0", 0.9);
+		a.setParameter("p1", 10.0 );
 		algorithms.add(a);
-		
-		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
-		a.setCorrection('d');
-		a.setParameter("p0", 0.5);
-		a.setParameter("p1", 1.0 );
-		a.setParameter("p2", 0.602);
-		a.setParameter("p3", 0.032);
-		a.setParameter("p4", 0.1);
-		algorithms.add(a);
+
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)

@@ -52,7 +52,7 @@ public class NonUniformSA extends AlgorithmBias
 		int newID = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" B "+B+" alpha "+alpha+" Lk "+Lk+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
+		String line = "# function 0 dim "+problemDimension+" B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		bw.write(line);
 		line = null;
 		line = new String();
@@ -61,14 +61,15 @@ public class NonUniformSA extends AlgorithmBias
 		if (initialSolution != null)
 			bestPt = initialSolution;
 		else
+		{
 			bestPt = generateRandomSolution(bounds, problemDimension);
-		
+			i++;
+		}
 		fNew = problem.f(bestPt);
 		fOld = fNew;
 		fWorst = fNew;
-
-		FT.add(0, fNew);
-		newID++; i++;
+		FT.add(i, fNew);
+		newID++; 
 		line =""+newID+" "+formatter(fNew)+" "+i+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
 			line+=" "+formatter(bestPt[n]);
@@ -106,14 +107,12 @@ public class NonUniformSA extends AlgorithmBias
 			
 			// update worst
 			if (fNew > fWorst)
-			{
 				fWorst = fNew;
-			}
 		}
 		
-//		for (int k = 0; k < problemDimension; k++)
-//			oldPt[k] = bestPt[k];
-//		
+		for (int k = 0; k < problemDimension; k++)
+			 bestPt[k] = oldPt[k];
+		
 		// initialize temperature
 		double delt0 = fWorst-fOld;
 		double accept0 = 0.9;
@@ -161,9 +160,6 @@ public class NonUniformSA extends AlgorithmBias
 				}
 				else
 					fNew=problem.f(newPt);
-						
-					
-
 				i++;
 
 				if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtils.random()))
