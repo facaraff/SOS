@@ -329,7 +329,39 @@ public class Misc {
 			r[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtils.random();
 		return r;
 	}
-
+	/**
+	 * Copy the content of an array onto another array.
+	 * 
+	 * @param a array containing the values to be copied
+	 * @param b array receiving the values
+	 *           
+	 */
+	public static void fillAWithB(double[][] a, double[][] b) 
+	{
+		int I = a.length;
+		int J = a[0].length;
+		try {
+			
+			for (int i = 0; i < I; i++) 
+				for (int j = 0; j < J; j++) 
+					b[i][j] = a[i][j];
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	public static void fillAWithB(double[] a, double[] b) 
+	{
+		int I = a.length;
+		try {
+			
+			for (int i = 0; i < I; i++) 
+					b[i] = a[i];
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	/**
 	 * Random point in bounds.
 	 * 

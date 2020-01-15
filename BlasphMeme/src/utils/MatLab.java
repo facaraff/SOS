@@ -122,6 +122,19 @@ public class MatLab
 		return x;
 	}
 	/** 
+	 * Returns a sample from the uncorrelated normal distribution N(0, I).
+	 * @param dim dimension.
+	 * @return x an array where each i^th vomprnrn is.
+	 */
+	public static double[] randUncorrelatedGauusian(int dim)
+	{
+
+		double[] x = new double[dim];
+		for(int i=0; i<dim; i++)
+				x[i]= RandUtils.gaussian(0, 1);		
+		return x;
+	}
+	/** 
 	 * Multiplies an n-by-m matrix by an m-dimensional column matrix.
 	 * @param matrix n-by-m array.
 	 * @param columnMatrix m-dimensional array (m-by-1 row matrix)

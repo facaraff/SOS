@@ -38,7 +38,7 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
-public class EA1p1OneFifth extends Algorithm
+public class EA1p1OneFifthV2 extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -75,15 +75,17 @@ public class EA1p1OneFifth extends Algorithm
 			newFit = problem.f(newPt);
 			i++;
 			
-			if(newFit <= fBest)
+			if(newFit < fBest)
 			{
 				fBest = newFit;
 				fillAWithB(best,newPt);
 				FT.add(i, newFit);
 				sigma = 1.5*sigma;
 			}
-			else
+			else if (newFit > fBest)
 				sigma = Math.pow(1.5, -0.25)*sigma;
+
+				
 		}
 		
 		finalBest = best;
