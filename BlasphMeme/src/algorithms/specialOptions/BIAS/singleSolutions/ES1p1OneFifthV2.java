@@ -26,20 +26,26 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package algorithms.singleSolution;
+package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 import static utils.algorithms.Misc.fillAWithB;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 import static utils.MatLab.randUncorrelatedGauusian;
 
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
+import utils.random.RandUtils;
+
 import static utils.RunAndStore.FTrend;
 
-public class ES1p1OneFifthV2 extends Algorithm
+public class ES1p1OneFifthV2 extends AlgorithmBias
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -55,6 +61,28 @@ public class ES1p1OneFifthV2 extends Algorithm
 		double[] newPt = new double[problemDimension];
 		double fBest, newFit = Double.NaN;
 
+		
+		String fileName = "ES11V2"+this.correction; 
+		
+		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
+		File file = new File(Dir+fileName+".txt");
+		if (!file.exists()) 
+			file.createNewFile();
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		
+		int prevID = -1;
+		int newID = 0;
+		long seed = System.currentTimeMillis();
+		RandUtils.setSeed(seed);	
+		String line = "# function 0 dim "+problemDimension+" sigma "+sigma+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
+		bw.write(line);
+		line = null;
+		line = new String();
+		//prevID = newID;
+		
+		
 		int i = 0;
 		if (initialSolution != null)
 		{
@@ -65,14 +93,23 @@ public class ES1p1OneFifthV2 extends Algorithm
 		{
 			best = generateRandomSolution(bounds, problemDimension);		
 			fBest = problem.f(best);
-			i++;
+			i++; newID++;
+			
+			line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
+			for(int k = 0; k < problemDimension; k++)
+				line+=" "+formatter(best[k]);
+			line+="\n";
+			bw.write(line);
+			line = null;
+			line = new String();
+			prevID = newID;
 		}
 
 		
 		while (i < maxEvaluations)
 		{
 			newPt = sum(best,multiply(sigma,randUncorrelatedGauusian(problemDimension)));
-			newPt = toro(newPt, bounds);
+			newPt = correct(newPt,best,bounds);
 			newFit = problem.f(newPt);
 			i++;
 			
@@ -82,6 +119,16 @@ public class ES1p1OneFifthV2 extends Algorithm
 				fillAWithB(best,newPt);
 				FT.add(i, newFit);
 				sigma = 1.5*sigma;
+				
+				line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
+				for(int k = 0; k < problemDimension; k++)
+					line+=" "+formatter(best[k]);
+				line+="\n";
+				bw.write(line);
+				line = null;
+				line = new String();
+				prevID = newID;
+				
 			}
 			else if (newFit > fBest)
 				sigma = Math.pow(1.5, -0.25)*sigma;
@@ -91,6 +138,8 @@ public class ES1p1OneFifthV2 extends Algorithm
 		
 		finalBest = best;
 		FT.add(i, fBest);
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		bw.close();
 		return FT;
 	}
 }

@@ -7,8 +7,7 @@ import static utils.algorithms.operators.DEOp.currentToRand1;
 import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.operators.DEOp.rand2;
 import static utils.algorithms.operators.DEOp.randToBest2;
-import static utils.algorithms.Misc.toro;
-import static utils.algorithms.Misc.saturation;
+
 import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
@@ -17,7 +16,6 @@ import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -221,33 +219,7 @@ public class cDE extends AlgorithmBias
 					b = crossOverExp(best, b, CR);
 			}
 			
-			
-			
-			double[] output = new double[problemDimension];
-			if(this.correction == 't')
-			{
-				output = toro(b, normalizedBounds);
-			}
-			else if(this.correction== 's')
-			{
-				output = saturation(b, normalizedBounds);
-			}
-			else if(this.correction== 'd')
-			{
-				output = toro(b, normalizedBounds);
-				if(!Arrays.equals(output, b))
-					output = best;
-			}
-			else
-				System.out.println("No bounds handling shceme seleceted");
-			
-			if(!Arrays.equals(output, b))
-			{
-				a = output;
-				output = null;
-				this.numberOfCorrections++;
-			}
-			
+			b = correct(b,best,normalizedBounds);
 
 			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);

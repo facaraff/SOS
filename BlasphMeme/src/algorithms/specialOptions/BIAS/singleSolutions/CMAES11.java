@@ -1,8 +1,6 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
-import static utils.algorithms.Misc.saturation;
 import static utils.MatLab.norm2;
 import static utils.MatLab.columnXrow;
 import static utils.MatLab.eye;
@@ -12,7 +10,6 @@ import static utils.MatLab.sum;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -105,44 +102,44 @@ public class CMAES11 extends AlgorithmBias
 			Az = multiply(A,z);
 			x_offspring = sum(x_parent,multiply(sigma,Az));
 			//x_offspring = toro(x_offspring, bounds);
-			double[] output = new double[problemDimension];
-			if(correctionStrategy == 't')
-			{
-				//System.out.println("TORO");
-				output = toro(x_offspring, bounds);
-			}
-			else if(correctionStrategy== 's')
-			{
-				//System.out.println("SAT");
-				output = saturation(x_offspring, bounds);
-			}
-			else if(correctionStrategy== 'd')
-			{
-				output = toro(x_offspring, bounds);
-				if(!Arrays.equals(output, x_offspring))
-					output = x_parent;
-			}
-			else if(correctionStrategy== 'e')
-			{
-				output = toro(x_offspring, bounds);
-			}
-			else
-				System.out.println("No bounds handling shceme seleceted");
-			
-			if(!Arrays.equals(output, x_offspring))
-			{
-				x_offspring = output;
-				output = null;
-				ciccio++;
-			}
-			
-			if( (correctionStrategy== 'e') && (!Arrays.equals(output, x_offspring)) )
-				f_offspring = 2;
-			else
-				f_offspring=problem.f(x_offspring);
-			
-				
-
+//			double[] output = new double[problemDimension];
+//			if(correctionStrategy == 't')
+//			{
+//				//System.out.println("TORO");
+//				output = toro(x_offspring, bounds);
+//			}
+//			else if(correctionStrategy== 's')
+//			{
+//				//System.out.println("SAT");
+//				output = saturation(x_offspring, bounds);
+//			}
+//			else if(correctionStrategy== 'd')
+//			{
+//				output = toro(x_offspring, bounds);
+//				if(!Arrays.equals(output, x_offspring))
+//					output = x_parent;
+//			}
+//			else if(correctionStrategy== 'e')
+//			{
+//				output = toro(x_offspring, bounds);
+//			}
+//			else
+//				System.out.println("No bounds handling shceme seleceted");
+//			
+//			if(!Arrays.equals(output, x_offspring))
+//			{
+//				x_offspring = output;
+//				output = null;
+//				ciccio++;
+//			}
+//			
+//			if( (correctionStrategy== 'e') && (!Arrays.equals(output, x_offspring)) )
+//				f_offspring = 2;
+//			else
+//				f_offspring=problem.f(x_offspring);
+//			
+			x_offspring = correct(x_offspring, x_parent, bounds);
+			f_offspring=problem.f(x_offspring);
 			i++;
 //			newID++;
 			

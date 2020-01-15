@@ -1,7 +1,6 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.Misc.toro;
-import static utils.algorithms.Misc.saturation;
+
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
@@ -11,7 +10,6 @@ import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -159,40 +157,7 @@ public class cPSO extends AlgorithmBias
 				x[n] = gamma1*x[n] + gamma2*v[n];
 			}
 			
-			
-			
-			//x = toro(x, normalizedBounds);
-			
-			double[] output = new double[problemDimension];
-			if(this.correction == 't')
-			{
-				//System.out.println("TORO");
-				output = toro(x, normalizedBounds);
-			}
-			else if(this.correction== 's')
-			{
-				//System.out.println("SAT");
-				output = saturation(x, normalizedBounds);
-			}
-			else if(this.correction== 'd')
-			{
-				output = toro(x, normalizedBounds);
-				if(!Arrays.equals(output, x))
-					output = prevX;
-				else
-					prevX = cloneSolution(x);
-			}
-			else
-				System.out.println("No bounds handling shceme seleceted");
-			
-			if(!Arrays.equals(output, x))
-			{
-				x = output;
-				output = null;
-				this.numberOfCorrections++;
-			}
-			
-			//a = correct(a, prevX, problem.getBounds());
+			x = correct(x, prevX, normalizedBounds);
 			
 			xScaled = scale(x, bounds, xc);
 			fitness_x = problem.f(xScaled); i++;

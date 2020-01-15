@@ -81,12 +81,23 @@ public class Misc {
 	 * @param bounds
 	 * @return corrected x
 	 */
-	public static double[] completeOneTailedNormal(double[] x, double[][] bounds, double scaleFactor) {
+	public static double[] completeOneTailedNormal(double[] x, double[][] bounds, double scaleFactor) 
+	{
 		int n = x.length;
 		double[] x_complete = new double[n];
 		for (int i = 0; i < n; i++)
 			x_complete[i] = completeOneTailedNormalRecursive(x[i], bounds[i][0], bounds[i][1], scaleFactor);
 		return x_complete;
+	}
+	public static double[] completeOneTailedNormal(double[] x, double[] bounds, double scaleFactor)
+	{
+		double[][] BOUNDS = new double[x.length][2];
+		for(int i=0; i<x.length; i++)
+		{
+			BOUNDS[i][1] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		return completeOneTailedNormal(x, BOUNDS,scaleFactor);
 	}
 
 	protected static double completeOneTailedNormalRecursive(double x, double lb, double ub, double scaleFactor) {
@@ -124,6 +135,16 @@ public class Misc {
 		for (int i = 0; i < n; i++)
 			x_mirrored[i] = mirror_recursive(x[i], bounds[i][0], bounds[i][1]);
 		return x_mirrored;
+	}
+	public static double[] mirroring(double[] x, double[] bounds)
+	{
+		double[][] BOUNDS = new double[x.length][2];
+		for(int i=0; i<x.length; i++)
+		{
+			BOUNDS[i][1] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		return mirroring(x, BOUNDS);
 	}
 
 	// %%%%%
@@ -356,7 +377,7 @@ public class Misc {
 		try {
 			
 			for (int i = 0; i < I; i++) 
-					b[i] = a[i];
+					a[i] = b[i];
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

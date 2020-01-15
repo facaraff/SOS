@@ -1,14 +1,12 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
-import static utils.algorithms.Misc.saturation;
 import static utils.algorithms.Misc.cloneSolution;
+import static utils.algorithms.Misc.fillAWithB;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -52,7 +50,6 @@ public class ISPO extends AlgorithmBias
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
@@ -93,7 +90,7 @@ public class ISPO extends AlgorithmBias
 		double velocity = 0;
 		double oldfFParticle = fParticle;
 		double posOld;
-		
+		double[] particleOld = cloneSolution(particle);
 		
 		while (i < maxEvaluations)
 		{
@@ -109,6 +106,7 @@ public class ISPO extends AlgorithmBias
 					oldfFParticle = fParticle;
 					// old particle position
 					posOld = particle[j];
+					fillAWithB(particleOld,particle);
 
 					// calculate velocity
 					velocity = A/Math.pow(k+1,P)*(-0.5+RandUtils.random())+B*L;
@@ -117,38 +115,8 @@ public class ISPO extends AlgorithmBias
 					particle[j] += velocity;
 					//particle[j] = min(max(particle[j], bounds[j][0]), bounds[j][1]);
 					 				
-					double[] output = new double[problemDimension];
-					if(correctionStrategy == 't')
-					{
-						//System.out.println("TORO");
-						output = toro(particle, bounds);
-					}
-					else if(correctionStrategy== 's')
-					{
-						//System.out.println("SAT");
-						output = saturation(particle, bounds);
-					}
-					else if(correctionStrategy== 'd')
-					{
-						output = toro(particle, bounds);
-						if(!Arrays.equals(output, particle))
-						{
-							output = cloneSolution(particle);
-							output[j] = posOld;
-						}
-							
-					}
-					else
-						System.out.println("No bounds handling shceme seleceted");
 					
-					if(!Arrays.equals(output, particle))
-					{
-						particle = output;
-						output = null;
-						ciccio++;
-					}
-					
-					//particle = correct(particle, posOld, bounds);
+					particle = correct(particle, particleOld, bounds);
 
 					// calculate new fitness
 					fParticle = problem.f(particle);
@@ -194,7 +162,7 @@ public class ISPO extends AlgorithmBias
 		FT.add(i, fParticle);
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations,"correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
 		return FT;
 	}
 }

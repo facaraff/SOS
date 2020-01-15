@@ -2,13 +2,10 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.saturation;
-import static utils.algorithms.Misc.toro;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
 
 import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
@@ -43,7 +40,6 @@ public class SolisWets extends AlgorithmBias
 		
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" rho "+rho+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
@@ -97,34 +93,7 @@ public class SolisWets extends AlgorithmBias
 			bestFirst = sum(sum(best, bias ) , dif );
 			
 			
-			
-			double[] output = new double[problemDimension];
-			if(this.correction == 't')
-			{
-				//System.out.println("TORO");
-				output = toro(bestFirst, bounds);
-			}
-			else if(this.correction== 's')
-			{
-				//System.out.println("SAT");
-				output = saturation(bestFirst, bounds);
-			}
-			else if(this.correction== 'd')
-			{
-				output = toro(bestFirst, bounds);
-				if(!Arrays.equals(output, bestFirst))
-					output = best;
-			}
-			else
-				System.out.println("No bounds handling shceme seleceted");
-			
-			if(!Arrays.equals(output, bestFirst))
-			{
-				bestFirst = output;
-				output = null;
-				ciccio++;
-			}
-			
+			bestFirst = correct(bestFirst, best, bounds);
 			
 			
 			newfBest = problem.f(bestFirst);
@@ -157,34 +126,7 @@ public class SolisWets extends AlgorithmBias
 			{
 				bestSecond = subtract(  subtract(best, bias) , dif  );
 				
-
-				output = new double[problemDimension];
-				if(this.correction == 't')
-				{
-					//System.out.println("TORO");
-					output = toro(bestSecond, bounds);
-				}
-				else if(this.correction== 's')
-				{
-					//System.out.println("SAT");
-					output = saturation(bestSecond, bounds);
-				}
-				else if(this.correction== 'd')
-				{
-					output = toro(bestSecond, bounds);
-					if(!Arrays.equals(output, bestSecond))
-						output = best;
-				}
-				else
-					System.out.println("No bounds handling shceme seleceted");
-				
-				if(!Arrays.equals(output, bestSecond))
-				{
-					bestSecond = output;
-					output = null;
-					ciccio++;
-				}
-				
+				bestSecond = correct(bestSecond, best, bounds);
 				
 				newfBest = problem.f(bestSecond);
 				i++;
@@ -231,7 +173,7 @@ public class SolisWets extends AlgorithmBias
 
 		finalBest = best;
 		FT.add(i, fBest);
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations,"correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
 		bw.close();
 		return FT;
 	}

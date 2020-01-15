@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -45,14 +45,13 @@ import utils.random.RandUtils;
  * After Press WH, Teukolsky SA, Vetterling WT, Flannery BP: Numerical
  * recipes in C++. Cambridge University Press, 2002, Chap. 10
  */
-public class Powell extends AlgorithmBias
+public class Powell_correct extends AlgorithmBias
 {
 	private final static double TINY = 1.0e-25;
 	private final static double MIN_VECTOR_LENGTH = 1.0e-3;
-//	private final static double PENALTY = 1e20;
-	private final static double PENALTY = 2;
 	private final static boolean unitDirectionVectors = true;
 
+	
 	private double[] p;
 	private double[][] xi;
 	private double ftol, fret;
@@ -71,16 +70,15 @@ public class Powell extends AlgorithmBias
 	// current best fitness
 	double fBest;
 
-//	FTrend FT = new FTrend();
-//	
-	private boolean useFtol = false;
-	public void setUseFtol(boolean b) {this.useFtol = b;};
+	FTrend FT = new FTrend();
 	
+
 	
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		ftol = getParameter("p0").doubleValue();	// fitness tolerance
-		int BrentMaxIterations  = getParameter("p1").intValue(); //100
+		
+		ftol = getParameter("p0").doubleValue();	// fitness tolerance 0.00001
+		int maxIterations = getParameter("p1").intValue(); //100
 		
 		this.maxEvaluations = maxEvaluations;
 		this.problem = problem;
@@ -91,8 +89,7 @@ public class Powell extends AlgorithmBias
 		p1dim = new double[n];
 		xi1dim = new double[n];
 		
-		FTrend FT = new FTrend();
-		
+
 		
 		
 		String fileName = "PM"+this.correction; 
@@ -109,7 +106,7 @@ public class Powell extends AlgorithmBias
 		int newID = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+n+" ftol "+ftol+" BrentMaxIterations "+BrentMaxIterations+" maxEvaluations "+maxEvaluations+" SEED  "+seed+"\n";
+		String line = "# function 0 dim "+n+" ftol "+ftol+" maxIterations "+maxIterations+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		bw.write(line);
 		line = null;
 		line = new String();
@@ -117,18 +114,28 @@ public class Powell extends AlgorithmBias
 		
 		
 		
-		
-		
-		
 
 		double del, fp, fptt, t;
-		
+
 		// initial point
 		p = new double[n];
 		if (initialSolution != null)
 			p = initialSolution;
 		else
+		{
 			p = generateRandomSolution(bounds, n);
+			fret = problem.f(p);
+			
+			newID++;
+			line =""+newID+" "+formatter(fret)+" "+1+" "+prevID;
+			for(int k = 0; k < n; k++)
+				line+=" "+formatter(p[k]);
+			line+="\n";
+			bw.write(line);
+			line = null;
+			line = new String();
+			prevID = newID;
+		}
 
 
 		xi = MatLab.eye(n);
@@ -136,8 +143,9 @@ public class Powell extends AlgorithmBias
 		int ibig;
 		
 		double[] pt = new double[n], ptt = new double[n], xit = new double[n];
-//		fret = fConstraint(p, bounds, PENALTY,problem);
-		fret = fConstraint(p);
+//		fret = fConstraint(p, bounds, PENALTY,problem, FT);
+//		p=toro(p,bounds);
+//		fret = problem.f(p);
 		for (int j=0; j<n; j++)
 			pt[j] = p[j];
 
@@ -160,7 +168,7 @@ public class Powell extends AlgorithmBias
 				for (int j=0; j<n; j++)
 					xit[j] = xi[j][i];
 				fptt = fret;
-				fret = lineMinimization(p, xit, BrentMaxIterations);
+				fret = lineMinimization(p, xit, maxIterations);
 
 				if (fret < fBest)
 				{
@@ -168,6 +176,16 @@ public class Powell extends AlgorithmBias
 						best[j] = p[j];
 					fBest = fret;
 					FT.add(iter, fBest);
+					
+					line =""+newID+" "+formatter(fBest)+" "+iter+" "+prevID;
+					for(int k = 0; k < n; k++)
+						line+=" "+formatter(best[k]);
+					line+="\n";
+					bw.write(line);
+					line = null;
+					line = new String();
+					prevID = newID;
+						
 				}
 
 				// find direction with largest change
@@ -179,7 +197,7 @@ public class Powell extends AlgorithmBias
 			}
 
 			// fractional change in one iteration, fp-fret/|fret|, is less than the tolerance
-			if ( (2.0*(fp-fret)<=ftol*(Math.abs(fp)+Math.abs(fret))+TINY) && useFtol)
+			if (2.0*(fp-fret)<=ftol*(Math.abs(fp)+Math.abs(fret))+TINY)
 				break;
 
 			for (int j=0; j<n; j++)
@@ -189,8 +207,10 @@ public class Powell extends AlgorithmBias
 				pt[j] = p[j];
 			}
 
-//			fptt = fConstraint(ptt, bounds, PENALTY,problem);
-			fptt = fConstraint(ptt);
+//			fptt = fConstraint(ptt, bounds, PENALTY,problem, FT);
+			ptt = correct(ptt,best,bounds);
+			fptt = problem.f(ptt);
+			iter+=FT.getExtraInt();
 
 			if (fptt < fBest)
 			{
@@ -198,6 +218,15 @@ public class Powell extends AlgorithmBias
 					best[j] = ptt[j];
 				fBest = fptt;
 				FT.add(iter, fBest);
+				
+				line =""+newID+" "+formatter(fBest)+" "+iter+" "+prevID;
+				for(int k = 0; k < n; k++)
+					line+=" "+formatter(best[k]);
+				line+="\n";
+				bw.write(line);
+				line = null;
+				line = new String();
+				prevID = newID;
 			}
 
 			if (fptt<fp)
@@ -205,7 +234,7 @@ public class Powell extends AlgorithmBias
 				t = 2.0*(fp-2.0*fret+fptt)*Math.pow(fp-fret-del,2)-del*Math.pow(fp-fptt,2);
 				if (t<0.0)
 				{
-					fret = lineMinimization(p, xit, BrentMaxIterations);
+					fret = lineMinimization(p, xit,maxIterations);
 
 					if (fret < fBest)
 					{
@@ -247,14 +276,6 @@ public class Powell extends AlgorithmBias
 				}
 			}
 		}
-		
-		
-		
-		
-		//**********************************************************************************************************
-		
-		
-		
 
 		if (fret < fBest)
 		{
@@ -265,7 +286,8 @@ public class Powell extends AlgorithmBias
 		}
 
 		finalBest = best;
-		FT.add(iter, fBest);
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		bw.close();
 		return FT;
 	}
 
@@ -308,7 +330,7 @@ public class Powell extends AlgorithmBias
 		private final static double GOLD = 1.618034, GLIMIT = 100.0, TINY = 1.0e-20;
 		private double ax, bx, cx, fa, fb, fc;
 
-		public BracketMin(Powell powell, double ax, double bx) throws Exception
+		public BracketMin(Powell_correct powell, double ax, double bx) throws Exception
 		{
 			//if (ax==bx)
 			//	throw new IllegalArgumentException("ax == bx");
@@ -386,9 +408,10 @@ public class Powell extends AlgorithmBias
 		private double xmin, fmin = 0.0;
 		private int brentIter;
 
-		public Brent(Powell powell, double ax, double bx, double cx, int maxIterations) throws Exception {
+		public Brent(Powell_correct powell, double ax, double bx, double cx, int maxIterations) throws Exception {
 			//if(!((ax<bx&&bx<cx)||(ax>bx&&bx>cx)))
 			//	throw new ArithmeticException("Invalid arguments");
+
 			/* a & b bracket the minimum.
 			 * x is the point with the smallest value, f(x), so far
 			 * w is the point with the second smallest value, f(w)
@@ -403,8 +426,8 @@ public class Powell extends AlgorithmBias
 			x = w = v = bx;
 			fw = fv = fx = powell.f1dim(x);
 			
-			
-		
+			// maximum iterations		
+//			int maxIterations = powell.getParameter("p1").intValue(); //100
 			
 			for (brentIter=0; brentIter<maxIterations && powell.iter < powell.maxEvaluations; brentIter++)
 			{
@@ -475,35 +498,9 @@ public class Powell extends AlgorithmBias
 				}
 			}
 			xmin = x; fmin = fx;
-//			powell.FT.add(powell.iter,fmin);
 		}
 	}
 
-	/**
-	 * Note: since the Powell algorithm is meant for unconstrained optimization, we need to
-	 * introduce a penalty factor for solutions outside the bounds. 
-	 *  
-	 * @param x
-	 * @return
-	 * @throws Exception
-	 */
-	private double fConstraint(double[] x) throws Exception
-	{
-		boolean outsiteBounds = false; 
-		for (int j = 0; j < n && !outsiteBounds; j++)
-		{
-			if (x[j] < bounds[j][0] || x[j] > bounds[j][1])
-				outsiteBounds = true;
-		}
-
-		if (outsiteBounds)
-			return PENALTY;
-		else
-		{
-			iter++;
-			return problem.f(x);
-		}
-	}
 
 	/**
 	 * 1-dimensional variable along the specified direction.
@@ -517,8 +514,7 @@ public class Powell extends AlgorithmBias
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
 			xt[j] = p1dim[j]+x*xi1dim[j];		
-//		return fConstraint(xt, bounds, PENALTY, problem);
-		return fConstraint(xt);
+		return problem.f(correct(xt,best,bounds));
 	}
 
 	private static double sign(double a, double b)

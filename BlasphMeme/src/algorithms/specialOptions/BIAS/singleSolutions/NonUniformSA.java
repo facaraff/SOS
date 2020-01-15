@@ -2,11 +2,9 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -145,23 +143,27 @@ public class NonUniformSA extends AlgorithmBias
 //				fNew = problem.f(newPt);
 //				i++;
 				
-				double[] output = new double[problemDimension];
+//				double[] output = new double[problemDimension];
+//
+//				if(correctionStrategy== 'e')
+//					output = toro(newPt, bounds);
+//				else
+//					newPt = correct(newPt,oldPt,bounds);
+//
+//				
+//				if( (correctionStrategy == 'e') && (!Arrays.equals(output, newPt)) )
+//				{
+//					fNew = 2;
+//					newPt = oldPt;
+//				}
+//				else
+//					fNew=problem.f(newPt);
+//				i++;
 
-				if(correctionStrategy== 'e')
-					output = toro(newPt, bounds);
-				else
-					newPt = correct(newPt,oldPt,bounds);
-
-				
-				if( (correctionStrategy == 'e') && (!Arrays.equals(output, newPt)) )
-				{
-					fNew = 2;
-					newPt = oldPt;
-				}
-				else
-					fNew=problem.f(newPt);
+				newPt = correct(newPt,oldPt,bounds);
+				fNew=problem.f(newPt);
 				i++;
-
+				
 				if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtils.random()))
 				{
 					for (int k = 0; k < problemDimension; k++)

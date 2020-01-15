@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@ package algorithms.singleSolution;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.fillAWithB;
+import static utils.algorithms.Misc.toro;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 import static utils.MatLab.randUncorrelatedGauusian;
@@ -38,7 +39,7 @@ import interfaces.Algorithm;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
-public class EA1p1OneFifth extends Algorithm
+public class ES1p1OneFifth extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -71,7 +72,7 @@ public class EA1p1OneFifth extends Algorithm
 		while (i < maxEvaluations)
 		{
 			newPt = sum(best,multiply(sigma,randUncorrelatedGauusian(problemDimension)));
-			
+			newPt = toro(newPt, bounds);
 			newFit = problem.f(newPt);
 			i++;
 			

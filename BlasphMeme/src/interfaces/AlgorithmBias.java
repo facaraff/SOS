@@ -52,6 +52,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import static utils.RunAndStore.slash;
+import static utils.algorithms.Misc.completeOneTailedNormal;
+import static utils.algorithms.Misc.mirroring;
 import static utils.algorithms.Misc.saturation;
 import static utils.algorithms.Misc.toro;
 
@@ -224,13 +226,16 @@ public abstract class AlgorithmBias
 			if(!Arrays.equals(output, infeasiblePt)) 
 				output = previousFeasiblePt;
 		}
+		else if(this.correction== 'm')
+			output = mirroring(infeasiblePt, bounds);
+		else if(this.correction== 'c')
+			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0);
 		else
 		{
 			output = null;
 			System.out.println("No valid bounds handling shceme seleceted");
 		}
 
-	
 		if(!Arrays.equals(output, infeasiblePt))
 		{
 			infeasiblePt = output;
@@ -239,6 +244,17 @@ public abstract class AlgorithmBias
 		}
 	
 		return infeasiblePt;
+	}
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds)
+	{
+		int n = infeasiblePt.length;
+		double[][] BOUNDS = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			BOUNDS[i][1] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
 	}
 	
 }

@@ -1,13 +1,10 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.Misc.saturation;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-import java.util.Arrays;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -58,7 +55,6 @@ public class cBFO extends AlgorithmBias
 		
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" C_initial "+C_initial+" Ns "+Ns+" sepsilon_initial "+epsilon_initial+" ng "+ng+" alfa "+alfa+" beta"+beta+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
@@ -228,36 +224,36 @@ public class cBFO extends AlgorithmBias
 				
 				
 				
-				double[] output = new double[problemDimension];
-				if(this.correction == 't')
-				{
-					//System.out.println("TORO");
-					output = toro(a, normalizedBounds);
-				}
-				else if(this.correction== 's')
-				{
-					//System.out.println("SAT");
-					output = saturation(a, normalizedBounds);
-				}
-				else if(this.correction== 'd')
-				{
-					output = toro(a, normalizedBounds);
-					if(!Arrays.equals(output, a))
-						output = scale(best,bounds, xc);
-					
-					
-				}
-				else
-					System.out.println("No bounds handling shceme seleceted");
+//				double[] output = new double[problemDimension];
+//				if(this.correction == 't')
+//				{
+//					//System.out.println("TORO");
+//					output = toro(a, normalizedBounds);
+//				}
+//				else if(this.correction== 's')
+//				{
+//					//System.out.println("SAT");
+//					output = saturation(a, normalizedBounds);
+//				}
+//				else if(this.correction== 'd')
+//				{
+//					output = toro(a, normalizedBounds);
+//					if(!Arrays.equals(output, a))
+//						output = scale(best,bounds, xc);
+//					
+//					
+//				}
+//				else
+//					System.out.println("No bounds handling shceme seleceted");
+//				
+//				if(!Arrays.equals(output, a))
+//				{
+//					a = output;
+//					output = null;
+//					ciccio++;
+//				}
 				
-				if(!Arrays.equals(output, a))
-				{
-					a = output;
-					output = null;
-					ciccio++;
-				}
-				
-			
+				a = correct(a,best,normalizedBounds);
 				
 				aScaled = scale(a, bounds, xc);
 				fA = problem.f(aScaled);
@@ -313,35 +309,8 @@ public class cBFO extends AlgorithmBias
 						J_last = fA;
 						for (int n = 0; n < problemDimension; n++)
 							a[n] = a[n] + C_i * delta[n]/stepNorm;
-
 						
-						output = new double[problemDimension];
-						if(this.correction == 't')
-						{
-							//System.out.println("TORO");
-							output = toro(a, normalizedBounds);
-						}
-						else if(this.correction== 's')
-						{
-							//System.out.println("SAT");
-							output = saturation(a, normalizedBounds);
-						}
-						else if(this.correction== 'd')
-						{
-							output = toro(a, normalizedBounds);
-							if(!Arrays.equals(output, a))
-								output = scale(best,bounds, xc);
-						}
-						else
-							System.out.println("No bounds handling shceme seleceted");
-						
-						if(!Arrays.equals(output, a))
-						{
-							a = output;
-							output = null;
-							ciccio++;
-						}
-						
+						a = correct(a,best,normalizedBounds);
 						
 						aScaled = scale(a, bounds, xc);
 						fA = problem.f(aScaled);
@@ -397,7 +366,7 @@ public class cBFO extends AlgorithmBias
 		finalBest = best;
 		FT.add(evalCount, fBest);
 		bw.close();
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, "correctionsSingleSol");
+		wrtiteCorrectionsPercentage(fileName, (double) this.correction/maxEvaluations, "correctionsSingleSol");
 		return FT;
 	}
 }
