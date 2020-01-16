@@ -7,9 +7,6 @@ import static utils.algorithms.Misc.fillAWithB;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Vector;
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -37,7 +34,7 @@ public final class NelderMeadKono extends AlgorithmBias {
 		double[][] bounds = problem.getBounds();
 		
 		int populationSize = problemDimension+1;
-		double[][] simplex = new double[populationSize][problemDimension];
+		double[][] simplex = new double[populationSize][problemDimension]; double[] prevSimplex = new double[problemDimension];
 		double[] fSimplex = new double[populationSize];
 		
 		double[][] iSimplex = new double[populationSize][2];
@@ -119,9 +116,9 @@ public final class NelderMeadKono extends AlgorithmBias {
 			
 		}
 
-		double[] reflect = cloneSolution(best); double[] prevReflect;
-		double[] expand = cloneSolution(best); double[] prevExpand;
-		double[] contract = cloneSolution(best); double[] prevContract;
+		double[] reflect = cloneSolution(best); double[] prevReflect = cloneSolution(best);
+		double[] expand = cloneSolution(best); double[] prevExpand = cloneSolution(best);
+		double[] contract = cloneSolution(best); double[] prevContract = cloneSolution(best);
 		double reflectVal = Double.NaN;
 		double expandVal = Double.NaN;
 		double contractVal = Double.NaN;
@@ -134,7 +131,6 @@ public final class NelderMeadKono extends AlgorithmBias {
 		double total;
 		
 		
-		int ciccio = 0;
 		while (i < maxEvaluations)
 		{
 			for (int k = 0; k < (problemDimension+1); k++)
@@ -370,7 +366,7 @@ public final class NelderMeadKono extends AlgorithmBias {
 						{
 							killed = ids[k];
 							// This should never geenrate infeasible points as it shrinks! (Fabio)
-							double[] prevSimplex =cloneSolution(simplex[k]);
+							fillAWithB(prevSimplex, simplex[k]);
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
 							//simplex[k] = saturateToro(simplex[k], bounds);
@@ -420,49 +416,13 @@ public final class NelderMeadKono extends AlgorithmBias {
 			else if (reflectVal >= iSimplex[h][0])//SERPE
 			{
 				// contract inisde
-				fillAWithB();
+				fillAWithB(prevContract,contract);
 				for (int j = 0; j < problemDimension; j++)
 					contract[j] = mean[j] + beta*(simplex[h][j] - mean[j]);
-				//contract = saturateToro(contract, bounds);
-				output = new double[problemDimension];
-				if(correctionStrategy == 't')
-				{
-					//System.out.println("TORO");
-					output = saturateToro(contract, bounds);
-					
-					if(!Arrays.equals(output, contract))
-					{
-						contract = output;
-						ciccio++;
-					}
-					contractVal = problem.f(contract);
-				}
-				else if(correctionStrategy== 's')
-				{
-					//System.out.println("SAT");
-					output = saturation(contract, bounds);
-					
-					if(!Arrays.equals(output, contract))
-					{
-						contract = output;
-						ciccio++;
-					}
-					contractVal = problem.f(contract);
-					
-				}
-				else if(correctionStrategy== 'e')
-				{
-					output = saturation(contract, bounds);
-					if(!Arrays.equals(output, contract))
-					{
-						ciccio++;
-						contractVal = 2;
-					}
-					
-				}
-				else 
-					System.out.println("No bounds handling shceme seleceted");
-				//contractVal = problem.f(contract);
+				
+				contract = correct(contract, prevContract, bounds);
+				
+				contractVal = problem.f(contract);
 				i++;
 
 				if (contractVal < fBest)
@@ -503,50 +463,13 @@ public final class NelderMeadKono extends AlgorithmBias {
 						if (k != l)
 						{
 							killed = ids[k];
-
+							fillAWithB(prevSimplex,simplex[k]);
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
 							
-							//simplex[k] = saturateToro(simplex[k], bounds);
-							output = new double[problemDimension];
-							if(correctionStrategy == 't')
-							{
-								//System.out.println("TORO");
-								output = saturateToro(simplex[k], bounds);
-								
-								if(!Arrays.equals(output, simplex[k]))
-								{
-									simplex[k] = output;
-									ciccio++;
-								}
-								fSimplex[k] = problem.f(simplex[k]);
-							}
-							else if(correctionStrategy== 's')
-							{
-								//System.out.println("SAT");
-								output = saturation(simplex[k], bounds);
-								
-								if(!Arrays.equals(output, simplex[k]))
-								{
-									simplex[k] = output;
-									ciccio++;
-								}
-								fSimplex[k] = problem.f(simplex[k]);
-								
-							}
-							else if(correctionStrategy== 'e')
-							{
-								output = saturation(simplex[k], bounds);
-								if(!Arrays.equals(output, simplex[k]))
-								{
-									ciccio++;
-									fSimplex[k] = 2;
-								}
-								
-							}
-							else
-								System.out.println("No bounds handling scheme seleceted");
-							//fSimplex[k] = problem.f(simplex[k]);
+							simplex[k] = correct(simplex[k], prevSimplex, bounds);
+							
+							fSimplex[k] = problem.f(simplex[k]);
 							
 							i++;
 							newID++;
@@ -596,17 +519,16 @@ public final class NelderMeadKono extends AlgorithmBias {
 	}
 
 
-public int[] getIndices(int popSize)
-{
-	int[] indices = new int[popSize];
-	for(int n=0; n<popSize; n++)
-		indices[n] = n;
-	return indices;
-}
+	public int[] getIndices(int popSize)
+	{
+		int[] indices = new int[popSize];
+		for(int n=0; n<popSize; n++)
+			indices[n] = n;
+		return indices;
+	}
 
 
 }	
 	
 	
 	
-}
