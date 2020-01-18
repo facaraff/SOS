@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import static utils.RunAndStore.slash;
+import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.completeOneTailedNormal;
 import static utils.algorithms.Misc.mirroring;
 import static utils.algorithms.Misc.saturation;
@@ -214,36 +215,51 @@ public abstract class AlgorithmBias
 	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds)
 	{
 		
-		double[] output;
+		double[] output; 
+		double[] feasible = new double[infeasiblePt.length];
 		
 		if(this.correction == 't')
+		{
 			output = toro(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
 		else if(this.correction== 's')
+		{
 			output = saturation(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
 		else if(this.correction== 'd')
 		{
 			output = toro(infeasiblePt, bounds);
 			if(!Arrays.equals(output, infeasiblePt)) 
-				output = previousFeasiblePt;
+				feasible = cloneSolution(previousFeasiblePt);
 		}
-		else if(this.correction== 'm')
+		else if(this.correction == 'm')
+		{
 			output = mirroring(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
 		else if(this.correction== 'c')
+		{
 			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0);
+			feasible = cloneSolution(output);
+		}
 		else
 		{
 			output = null;
-			System.out.println("No valid bounds handling shceme seleceted");
+			feasible = null;
+			System.out.println("No valid bounds handling scheme selected");
 		}
 
+	
 		if(!Arrays.equals(output, infeasiblePt))
 		{
-			infeasiblePt = output;
+//			infeasiblePt = output;
 			output = null;
 			this.numberOfCorrections++;
 		}
 	
-		return infeasiblePt;
+		return feasible;
 	}
 	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds)
 	{

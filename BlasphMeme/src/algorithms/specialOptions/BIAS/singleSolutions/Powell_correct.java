@@ -29,6 +29,7 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.Misc.cloneSolution;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -76,7 +77,7 @@ public class Powell_correct extends AlgorithmBias
 	
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		
+		this.numberOfCorrections = 0;
 		ftol = getParameter("p0").doubleValue();	// fitness tolerance 0.00001
 		int maxIterations = getParameter("p1").intValue(); //100
 		
@@ -168,7 +169,9 @@ public class Powell_correct extends AlgorithmBias
 				for (int j=0; j<n; j++)
 					xit[j] = xi[j][i];
 				fptt = fret;
+				double[] prevP = cloneSolution(p);
 				fret = lineMinimization(p, xit, maxIterations);
+				p = correct(p,prevP,bounds);
 
 				if (fret < fBest)
 				{
@@ -176,6 +179,11 @@ public class Powell_correct extends AlgorithmBias
 						best[j] = p[j];
 					fBest = fret;
 					FT.add(iter, fBest);
+					
+					for(int k = 0; k < n; k++)
+						if(best[k]<0 || best[k]>1) System.out.println("OUT!");
+
+					
 					
 					line =""+newID+" "+formatter(fBest)+" "+iter+" "+prevID;
 					for(int k = 0; k < n; k++)
@@ -219,6 +227,9 @@ public class Powell_correct extends AlgorithmBias
 				fBest = fptt;
 				FT.add(iter, fBest);
 				
+				for(int k = 0; k < n; k++)
+					if(best[k]<0 || best[k]>1) System.out.println("OUT!");
+				
 				line =""+newID+" "+formatter(fBest)+" "+iter+" "+prevID;
 				for(int k = 0; k < n; k++)
 					line+=" "+formatter(best[k]);
@@ -234,8 +245,11 @@ public class Powell_correct extends AlgorithmBias
 				t = 2.0*(fp-2.0*fret+fptt)*Math.pow(fp-fret-del,2)-del*Math.pow(fp-fptt,2);
 				if (t<0.0)
 				{
-					fret = lineMinimization(p, xit,maxIterations);
-
+//					fret = lineMinimization(p, xit,maxIterations);				
+					double[] prevP = cloneSolution(p);
+					fret = lineMinimization(p, xit, maxIterations);
+					p = correct(p,prevP,bounds);
+					
 					if (fret < fBest)
 					{
 						for (int j = 0; j < n; j++)

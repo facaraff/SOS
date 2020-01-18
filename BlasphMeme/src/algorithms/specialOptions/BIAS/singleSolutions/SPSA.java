@@ -48,6 +48,7 @@ public class SPSA extends AlgorithmBias {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
+		this.numberOfCorrections = 0;
 		
 		double a=getParameter("p0").doubleValue(); //a = 0.5
 		double A=getParameter("p1").doubleValue(); //A = 1  "(SPALL 1998) a should be much less (usually 10% or less) than maxevaluations" 

@@ -1,0 +1,94 @@
+PREVIOUS
+
+
+public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds)
+	{
+		
+		double[] output;
+		
+		if(this.correction == 't')
+			output = toro(infeasiblePt, bounds);
+		else if(this.correction== 's')
+			output = saturation(infeasiblePt, bounds);
+		else if(this.correction== 'd')
+		{
+			output = toro(infeasiblePt, bounds);
+			if(!Arrays.equals(output, infeasiblePt)) 
+				output = previousFeasiblePt;
+		}
+		else if(this.correction== 'm')
+			output = mirroring(infeasiblePt, bounds);
+		else if(this.correction== 'c')
+			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0);
+		else
+		{
+			output = null;
+			System.out.println("No valid bounds handling scheme selected");
+		}
+
+		if(!Arrays.equals(output, infeasiblePt))
+		{
+			infeasiblePt = output;
+			output = null;
+			this.numberOfCorrections++;
+		}
+	
+		return infeasiblePt;
+	}
+	
+	
+	
+	
+	
+	NOW
+	
+	
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds)
+	{
+		
+		double[] output; 
+		double[] feasible = new double[infeasiblePt.length];
+		
+		if(this.correction == 't')
+		{
+			output = toro(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.correction== 's')
+		{
+			output = saturation(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.correction== 'd')
+		{
+			output = toro(infeasiblePt, bounds);
+			if(!Arrays.equals(output, infeasiblePt)) 
+				feasible = cloneSolution(previousFeasiblePt);
+		}
+		else if(this.correction == 'm')
+		{
+			output = mirroring(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.correction== 'c')
+		{
+			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0);
+			feasible = cloneSolution(output);
+		}
+		else
+		{
+			output = null;
+			feasible = null;
+			System.out.println("No valid bounds handling scheme selected");
+		}
+
+	
+		if(!Arrays.equals(output, infeasiblePt))
+		{
+//			infeasiblePt = output;
+			output = null;
+			this.numberOfCorrections++;
+		}
+	
+		return feasible;
+	}

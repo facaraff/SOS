@@ -1,23 +1,27 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
+import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.cloneSolution;
+import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Misc.saturation;
 import static utils.MatLab.max;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Vector;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
-public class RIS extends AlgorithmBias
+public class RISold extends AlgorithmBias
 {	
-	DecimalFormat DF = new DecimalFormat("0.00000000E00");
+	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
@@ -32,7 +36,7 @@ public class RIS extends AlgorithmBias
 		double[] best; 
 		double fBest;
 		double[] temp;
-		this.numberOfCorrections = 0;
+		
 		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
 		String fileName = "RIS"+correctionStrategy; 
@@ -95,15 +99,10 @@ public class RIS extends AlgorithmBias
 				
 				newID++;
 				
-				
-				
 				line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
 				for(int n = 0; n < problemDimension; n++)
 					line+=" "+formatter(best[n]);
 				line+="\n";
-				
-			
-				
 				bw.write(line);
 				line = null;
 				line = new String();
@@ -112,8 +111,7 @@ public class RIS extends AlgorithmBias
 			
 			//System.out.print(best[0]+" ");System.out.print(best[1]+" "); System.out.println(best[2]+" ");
 			
-//				for(int n = 0; n < problemDimension; n++)
-//					if(best[n]== 0.0) System.out.println("zero!");
+			
 					
 			//temp = ThreeSome_ShortDistance(x, fx, radius, xi, problem, maxEvaluations,i);#
 		
@@ -142,55 +140,45 @@ public class RIS extends AlgorithmBias
 					for (int k = 0; k < problemDimension; k++)
 						SR[k] = SR[k]/2;
 				}
-				
-				
 
 				improve = false;
 				int k = 0;
 				while ((k < problemDimension) && (i < maxEvaluations))
 				{
-					
-					
-					double[] prevXk = cloneSolution(Xk);
 					Xk[k] = Xk[k] - SR[k];
 					
 					
-//					//Xk = saturateToro(Xk, bounds);
-//					double[] output = new double[problemDimension];
-//					if(correctionStrategy == 't')
-//					{
-//						//System.out.println("TORO");
-//						output = toro(Xk, bounds);
-//					}
-//					else if(correctionStrategy== 's')
-//					{
-//						//System.out.println("SAT");
-//						output = saturation(Xk, bounds);
-//					}
-//					else if(correctionStrategy== 'd')
-//					{
-//						output = toro(Xk, bounds);
-//						if(!Arrays.equals(output, Xk))
-//						{
-//							output = cloneSolution(Xk);
-//							output[k] = Xk_orig[k]; 
-//						}
-//							
-//					}
-//					else
-//						System.out.println("No bounds handling shceme seleceted");
-//					
-//					if(!Arrays.equals(output, Xk))
-//					{
-//						Xk = output;
-//						output = null;
-//						ciccio++;
-//					}
+					//Xk = saturateToro(Xk, bounds);
+					double[] output = new double[problemDimension];
+					if(correctionStrategy == 't')
+					{
+						//System.out.println("TORO");
+						output = toro(Xk, bounds);
+					}
+					else if(correctionStrategy== 's')
+					{
+						//System.out.println("SAT");
+						output = saturation(Xk, bounds);
+					}
+					else if(correctionStrategy== 'd')
+					{
+						output = toro(Xk, bounds);
+						if(!Arrays.equals(output, Xk))
+						{
+							output = cloneSolution(Xk);
+							output[k] = Xk_orig[k]; 
+						}
+							
+					}
+					else
+						System.out.println("No bounds handling scheme selected");
 					
-				
-					
-					Xk = correct(Xk,prevXk,bounds);
-					
+					if(!Arrays.equals(output, Xk))
+					{
+						Xk = output;
+						output = null;
+						this.numberOfCorrections++;
+					}
 					
 					
 					double fXk = problem.f(Xk);
@@ -212,9 +200,9 @@ public class RIS extends AlgorithmBias
 								best[n] = x[n];
 							FT.add(i, fBest);
 							
+							
 							for(int n = 0; n < problemDimension; n++)
 								if(best[n]<0 || best[n]>1) System.out.println("OUT!");
-							
 							
 							line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
 							for(int n = 0; n < problemDimension; n++)
@@ -243,45 +231,40 @@ public class RIS extends AlgorithmBias
 							if (fXk > fXk_orig)
 							{
 								Xk[k] = Xk_orig[k];
-								
-								prevXk = cloneSolution(Xk);
-								
 								Xk[k] = Xk[k] + 0.5*SR[k];
 								
 								
-//								//Xk = saturateToro(Xk, bounds);
-//								output = new double[problemDimension];
-//								if(correctionStrategy == 't')
-//								{
-//									//System.out.println("TORO");
-//									output = toro(Xk, bounds);
-//								}
-//								else if(correctionStrategy== 's')
-//								{
-//									//System.out.println("SAT");
-//									output = saturation(Xk, bounds);
-//								}
-//								else if(correctionStrategy== 'd')
-//								{
-//									output = toro(Xk, bounds);
-//									if(!Arrays.equals(output, Xk))
-//									{
-//										output = cloneSolution(Xk);
-//										output[k] = Xk_orig[k];
-//									}
-//										
-//								}
-//								else
-//									System.out.println("No bounds handling shceme seleceted");
-//								
-//								if(!Arrays.equals(output, Xk))
-//								{
-//									Xk = output;
-//									output = null;
-//									ciccio++;
-//								}
+								//Xk = saturateToro(Xk, bounds);
+								output = new double[problemDimension];
+								if(correctionStrategy == 't')
+								{
+									//System.out.println("TORO");
+									output = toro(Xk, bounds);
+								}
+								else if(correctionStrategy== 's')
+								{
+									//System.out.println("SAT");
+									output = saturation(Xk, bounds);
+								}
+								else if(correctionStrategy== 'd')
+								{
+									output = toro(Xk, bounds);
+									if(!Arrays.equals(output, Xk))
+									{
+										output = cloneSolution(Xk);
+										Xk[k] = Xk_orig[k];
+									}
+										
+								}
+								else
+									System.out.println("No bounds handling shceme seleceted");
 								
-								Xk = correct(Xk,prevXk,bounds);
+								if(!Arrays.equals(output, Xk))
+								{
+									Xk = output;
+									output = null;
+									this.numberOfCorrections++;
+								}
 								
 								fXk = problem.f(Xk);
 								i++; 
@@ -301,9 +284,6 @@ public class RIS extends AlgorithmBias
 										for(int n=0;n<problemDimension;n++)
 											best[n] = x[n];
 										FT.add(i, fBest);
-//										
-//										for(int n = 0; n < problemDimension; n++)
-//										if(best[n]<0 || best[n]>1) System.out.println("OUT!");
 										
 										line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
 										for(int n = 0; n < problemDimension; n++)
@@ -340,11 +320,12 @@ public class RIS extends AlgorithmBias
 		
 		finalBest = best;
 		
-		FT.add(i, fBest);
+		FT.add(i,fBest);
 
 		bw.close();
-//		System.out.println(numberOfCorrections+" over "+maxEvaluations+" i = "+i);
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations);
+		
+		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		return FT;
 	}
+	
 }
