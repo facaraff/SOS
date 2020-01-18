@@ -45,7 +45,7 @@ import static utils.RunAndStore.slash;
 	
 public class WCCI_SINGLE_SOL
 {
-	static int nrRepetitions = 50;
+	static int nrRepetitions = 100;
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
 	
@@ -204,7 +204,7 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p0",0.5);
 		a.setParameter("p1",0.4);
 		a.setParameter("p2",0.000001);
-		a.setCorrection('t');
+		a.setCorrection('d');
 		algorithms.add(a);
 		
 //		

@@ -163,10 +163,14 @@ public class RISold extends AlgorithmBias
 					else if(correctionStrategy== 'd')
 					{
 						output = toro(Xk, bounds);
+						
 						if(!Arrays.equals(output, Xk))
 						{
-							output = cloneSolution(Xk);
-							output[k] = Xk_orig[k]; 
+							output = cloneSolution(Xk_orig);
+							//output[k] = Xk_orig[k]; 
+							
+							for(int n = 0; n < problemDimension; n++)
+								if(output[n]<0 || output[n]>1) System.out.println("OUT!");
 						}
 							
 					}
@@ -201,8 +205,8 @@ public class RISold extends AlgorithmBias
 							FT.add(i, fBest);
 							
 							
-							for(int n = 0; n < problemDimension; n++)
-								if(best[n]<0 || best[n]>1) System.out.println("OUT!");
+//							for(int n = 0; n < problemDimension; n++)
+//								if(best[n]<0 || best[n]>1) System.out.println("OUT!");
 							
 							line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
 							for(int n = 0; n < problemDimension; n++)
@@ -251,8 +255,8 @@ public class RISold extends AlgorithmBias
 									output = toro(Xk, bounds);
 									if(!Arrays.equals(output, Xk))
 									{
-										output = cloneSolution(Xk);
-										Xk[k] = Xk_orig[k];
+										output = cloneSolution(Xk_orig);
+										//Xk[k] = Xk_orig[k];
 									}
 										
 								}

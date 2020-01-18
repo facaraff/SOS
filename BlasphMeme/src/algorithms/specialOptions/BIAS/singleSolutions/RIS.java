@@ -151,7 +151,7 @@ public class RIS extends AlgorithmBias
 				{
 					
 					
-					double[] prevXk = cloneSolution(Xk);
+					//double[] prevXk = cloneSolution(Xk);
 					Xk[k] = Xk[k] - SR[k];
 					
 					
@@ -189,7 +189,7 @@ public class RIS extends AlgorithmBias
 					
 				
 					
-					Xk = correct(Xk,prevXk,bounds);
+					Xk = correct(Xk,Xk_orig,bounds);
 					
 					
 					
@@ -244,7 +244,7 @@ public class RIS extends AlgorithmBias
 							{
 								Xk[k] = Xk_orig[k];
 								
-								prevXk = cloneSolution(Xk);
+								//prevXk = cloneSolution(Xk);
 								
 								Xk[k] = Xk[k] + 0.5*SR[k];
 								
@@ -281,7 +281,7 @@ public class RIS extends AlgorithmBias
 //									ciccio++;
 //								}
 								
-								Xk = correct(Xk,prevXk,bounds);
+								Xk = correct(Xk,Xk_orig,bounds);
 								
 								fXk = problem.f(Xk);
 								i++; 
