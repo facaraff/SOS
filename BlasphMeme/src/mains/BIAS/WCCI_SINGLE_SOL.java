@@ -45,7 +45,7 @@ import static utils.RunAndStore.slash;
 	
 public class WCCI_SINGLE_SOL
 {
-	static int nrRepetitions = 100;
+	static int nrRepetitions = 50;
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
 	
@@ -176,14 +176,15 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p5",30.0);
 //		algorithms.add(a);
 //		
-//		a = new RIS();
+//		a = new RISold();
+//		a.setDir(dir+"RIS"+slash());
 //		a.setParameter("p0",0.5);
 //		a.setParameter("p1",0.4);
 //		a.setParameter("p2",0.000001);
 //		a.setCorrection('s');
 //		algorithms.add(a);
 //		
-//		a = new RIS();
+//		a = new RISold();
 //		a.setDir(dir+"RIS"+slash());
 //		a.setParameter("p0",0.5);
 //		a.setParameter("p1",0.4);
@@ -191,7 +192,15 @@ public class WCCI_SINGLE_SOL
 //		a.setCorrection('t');
 //		algorithms.add(a);
 //		
-//		a = new RIS();
+//		a = new RISold();
+//		a.setDir(dir+"RIS"+slash());
+//		a.setParameter("p0",0.5);
+//		a.setParameter("p1",0.4);
+//		a.setParameter("p2",0.000001);
+//		a.setCorrection('c');
+//		algorithms.add(a);
+		
+//		a = new RISold();
 //		a.setDir(dir+"RIS"+slash());
 //		a.setParameter("p0",0.5);
 //		a.setParameter("p1",0.4);
@@ -199,31 +208,16 @@ public class WCCI_SINGLE_SOL
 //		a.setCorrection('d');
 //		algorithms.add(a);
 		
-		a = new RISold();
-		a.setDir(dir+"RIS"+slash());
-		a.setParameter("p0",0.5);
-		a.setParameter("p1",0.4);
-		a.setParameter("p2",0.000001);
-		a.setCorrection('d');
-		algorithms.add(a);
 		
-//		
-//		a = new RIS();
+//		a = new RISold();
 //		a.setDir(dir+"RIS"+slash());
 //		a.setParameter("p0",0.5);
 //		a.setParameter("p1",0.4);
 //		a.setParameter("p2",0.000001);
 //		a.setCorrection('m');
 //		algorithms.add(a);
-//		
-//		a = new RIS();
-//		a.setDir(dir+"RIS"+slash());
-//		a.setParameter("p0",0.5);
-//		a.setParameter("p1",0.4);
-//		a.setParameter("p2",0.000001);
-//		a.setCorrection('c');
-//		algorithms.add(a);
-//		
+//	
+
 //		
 //		a = new NonUniformSA();
 //		a.setDir(dir+"NUSA"+slash());
@@ -718,12 +712,12 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p1",  100.0);
 //		algorithms.add(a);
 		
-		a = new Powell_correct();
-		a.setDir(dir+"Powell"+slash());
-		a.setCorrection('d');
-		a.setParameter("p0",  0.00001);
-		a.setParameter("p1",  100.0);
-		algorithms.add(a);
+//		a = new Powell_correct();
+//		a.setDir(dir+"Powell"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0",  0.00001);
+//		a.setParameter("p1",  100.0);
+//		algorithms.add(a);
 		
 //		a = new Powell_correct();
 //		a.setDir(dir+"Powell"+slash());
@@ -775,6 +769,58 @@ public class WCCI_SINGLE_SOL
 //		a.setParameter("p2",2.0);
 //		a.setParameter("p3", 0.5);
 //		algorithms.add(a);
+		
+		
+		a = new SPSAv2();
+		a.setDir(dir+"SPSAv2"+slash());
+		a.setCorrection('t');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
+		
+		a = new SPSAv2();
+		a.setDir(dir+"SPSAv2"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
+		
+		a = new SPSAv2();
+		a.setDir(dir+"SPSAv2"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
+
+		a = new SPSAv2();
+		a.setDir(dir+"SPSAv2"+slash());
+		a.setCorrection('c');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
+		
+		a = new SPSAv2();
+		a.setDir(dir+"SPSAv2"+slash());
+		a.setCorrection('m');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
+		
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)

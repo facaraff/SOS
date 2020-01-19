@@ -43,7 +43,7 @@ import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
-public class SPSA extends AlgorithmBias {
+public class SPSAv2 extends AlgorithmBias {
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -55,11 +55,9 @@ public class SPSA extends AlgorithmBias {
 		double alpha=getParameter("p2").doubleValue(); //alpha = 0.602
 		double c=getParameter("p3").doubleValue();  //c = 0.032
 		double gamma=getParameter("p4").doubleValue(); //gamma = 0.1
-		double myEps=0.01;
-		//int k=0;
 
 		
-		String fileName = "SPSA"+this.correction; 
+		String fileName = "SPSAv2"+this.correction; 
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -111,8 +109,7 @@ public class SPSA extends AlgorithmBias {
 		
 		double[] theta = cloneSolution(best);
 		double y = fBest;
-		
-		int stopcounter=0;
+
 
 		while(i < maxEvaluations)
 		{
@@ -145,12 +142,10 @@ public class SPSA extends AlgorithmBias {
 				theta = thetaplus;
 			if(yFinal == ys0[2])
 				theta = thetaminus;
-			double DELTA = 0;
 			
 			
 			if(fBest > yFinal)
 			{
-				DELTA = fBest - yFinal;
 				fBest = yFinal;
 				best = cloneSolution(theta);
 				FT.add(i, fBest);	
@@ -166,15 +161,7 @@ public class SPSA extends AlgorithmBias {
 				line = new String();
 				prevID = newID;
 			}
-			if(i>5)
-				if(Math.abs(DELTA) < myEps)
-					stopcounter++;
-			if(stopcounter>10)
-			{
-				break;
-			}
-			
-			//k++;
+
 		}
 
 	

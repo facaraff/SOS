@@ -2,7 +2,6 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.cloneSolution;
 import static utils.MatLab.max;
 
 import java.io.BufferedWriter;

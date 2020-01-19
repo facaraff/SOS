@@ -71,6 +71,7 @@ public abstract class AlgorithmBias
 	protected int numberOfCorrections = 0; 
 	protected char correction;
 	protected String Dir="."+slash();
+	
 
 	
 	

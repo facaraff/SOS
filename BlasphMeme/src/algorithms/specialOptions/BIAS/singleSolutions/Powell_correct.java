@@ -30,6 +30,7 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.cloneSolution;
+import static utils.algorithms.Misc.fillAWithB;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -51,7 +52,7 @@ public class Powell_correct extends AlgorithmBias
 	private final static double TINY = 1.0e-25;
 	private final static double MIN_VECTOR_LENGTH = 1.0e-3;
 	private final static boolean unitDirectionVectors = true;
-
+	private double[] dismissPreviousPt;
 	
 	private double[] p;
 	private double[][] xi;
@@ -113,8 +114,7 @@ public class Powell_correct extends AlgorithmBias
 		line = new String();
 		//prevID = newID;
 		
-		
-		
+
 
 		double del, fp, fptt, t;
 
@@ -138,7 +138,11 @@ public class Powell_correct extends AlgorithmBias
 			prevID = newID;
 		}
 
-
+		this.dismissPreviousPt = cloneSolution(p);
+		
+//		for(int k = 0; k < n; k++)
+//		if(dismissPreviousPt[k]<0 || dismissPreviousPt[k]>1) System.out.println("OUT!");
+		
 		xi = MatLab.eye(n);
 
 		int ibig;
@@ -148,8 +152,12 @@ public class Powell_correct extends AlgorithmBias
 //		p=toro(p,bounds);
 //		fret = problem.f(p);
 		for (int j=0; j<n; j++)
+		{
 			pt[j] = p[j];
-
+			ptt[j] = p[j];
+			xit[j] = p[j];
+		}
+		
 		// initial best
 		best = new double[n];
 		for(int k=0;k<n;k++)
@@ -157,21 +165,38 @@ public class Powell_correct extends AlgorithmBias
 		fBest = fret;
 		FT.add(0, fBest);
 
+
+
+		
+		
 		for (iter=1; iter < maxEvaluations; iter++)
 		{
 			fp = fret;
 			ibig = 0;
 			del = 0.0;
 			
+			fillAWithB(this.dismissPreviousPt, best);
+		
 			// minimize in all directions, p records the change
 			for (int i=0; i<n; i++)
 			{
 				for (int j=0; j<n; j++)
 					xit[j] = xi[j][i];
 				fptt = fret;
-				double[] prevP = cloneSolution(p);
+				
 				fret = lineMinimization(p, xit, maxIterations);
-				p = correct(p,prevP,bounds);
+				p = correct(p,this.dismissPreviousPt, bounds);
+				
+
+				for(int k = 0; k < n; k++)
+					if(dismissPreviousPt[k]<0 || dismissPreviousPt[k]>1) System.out.println("this OUT!");
+				for(int k = 0; k < n; k++)
+					if(best[k]<0 || best[k]>1) System.out.println("best OUT!");
+				for(int k = 0; k < n; k++)
+					if(p[k]<0 || p[k]>1) System.out.println("p OUT!");
+				for(int k = 0; k < n; k++)
+					if(ptt[k]<0 || ptt[k]>1) System.out.println("ptt OUT!");
+				
 
 				if (fret < fBest)
 				{
@@ -185,9 +210,9 @@ public class Powell_correct extends AlgorithmBias
 
 					
 					
-					line =""+newID+" "+formatter(fBest)+" "+iter+" "+prevID;
+					line =""+newID+" "+formatter(fret)+" "+iter+" "+prevID;
 					for(int k = 0; k < n; k++)
-						line+=" "+formatter(best[k]);
+						line+=" "+formatter(p[k]);
 					line+="\n";
 					bw.write(line);
 					line = null;
@@ -216,7 +241,8 @@ public class Powell_correct extends AlgorithmBias
 			}
 
 //			fptt = fConstraint(ptt, bounds, PENALTY,problem, FT);
-			ptt = correct(ptt,best,bounds);
+//			ptt = correct(ptt,best,bounds);
+			ptt = correct(ptt,this.dismissPreviousPt,bounds);
 			fptt = problem.f(ptt);
 			iter+=FT.getExtraInt();
 
@@ -230,9 +256,9 @@ public class Powell_correct extends AlgorithmBias
 				for(int k = 0; k < n; k++)
 					if(best[k]<0 || best[k]>1) System.out.println("OUT!");
 				
-				line =""+newID+" "+formatter(fBest)+" "+iter+" "+prevID;
+				line =""+newID+" "+formatter(fptt)+" "+iter+" "+prevID;
 				for(int k = 0; k < n; k++)
-					line+=" "+formatter(best[k]);
+					line+=" "+formatter(ptt[k]);
 				line+="\n";
 				bw.write(line);
 				line = null;
@@ -246,9 +272,9 @@ public class Powell_correct extends AlgorithmBias
 				if (t<0.0)
 				{
 //					fret = lineMinimization(p, xit,maxIterations);				
-					double[] prevP = cloneSolution(p);
+//					double[] prevP = cloneSolution(p);
 					fret = lineMinimization(p, xit, maxIterations);
-					p = correct(p,prevP,bounds);
+					p = correct(p,this.dismissPreviousPt,bounds);
 					
 					if (fret < fBest)
 					{
@@ -315,6 +341,7 @@ public class Powell_correct extends AlgorithmBias
 	 */
 	private double lineMinimization(double[] p, double[] xit, int maxIterations) throws Exception
 	{
+		
 		for(int j=0; j<n; j++)
 		{
 			p1dim[j] = p[j];
@@ -326,6 +353,10 @@ public class Powell_correct extends AlgorithmBias
 		// optimize along direction
 		Brent br = new Brent(this, bm.ax, bm.bx, bm.cx, maxIterations);
 
+//		
+//		for(int k = 0; k < n; k++)
+//		if(p[k] == 0.0) System.out.println("cazzo!");
+		
 		double xmin = br.xmin;
 		for(int j=0; j<n; j++)
 		{
@@ -528,7 +559,7 @@ public class Powell_correct extends AlgorithmBias
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
 			xt[j] = p1dim[j]+x*xi1dim[j];		
-		return problem.f(correct(xt,best,bounds));
+		return problem.f(correct(xt,this.dismissPreviousPt,bounds));
 	}
 
 	private static double sign(double a, double b)

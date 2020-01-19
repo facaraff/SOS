@@ -5,14 +5,14 @@ import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.saturation;
+import static utils.algorithms.Misc.completeOneTailedNormal;
+import static utils.algorithms.Misc.mirroring;
 import static utils.MatLab.max;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Vector;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -174,6 +174,16 @@ public class RISold extends AlgorithmBias
 						}
 							
 					}
+					else if(correctionStrategy== 'c')
+					{
+						//System.out.println("SAT");
+						output = completeOneTailedNormal(Xk, bounds, 3.0);
+					}
+					else if(correctionStrategy== 'm')
+					{
+						//System.out.println("SAT");
+						output = mirroring(Xk, bounds);
+					}
 					else
 						System.out.println("No bounds handling scheme selected");
 					
@@ -259,6 +269,16 @@ public class RISold extends AlgorithmBias
 										//Xk[k] = Xk_orig[k];
 									}
 										
+								}
+								else if(correctionStrategy== 'c')
+								{
+									//System.out.println("SAT");
+									output = completeOneTailedNormal(Xk, bounds, 3.0);
+								}
+								else if(correctionStrategy== 'm')
+								{
+									//System.out.println("SAT");
+									output = mirroring(Xk, bounds);
 								}
 								else
 									System.out.println("No bounds handling shceme seleceted");
