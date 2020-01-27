@@ -23,8 +23,9 @@ import static utils.RunAndStore.FTrend;
 
 public class DEbob extends AlgorithmBias
 {
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
 
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	//static String Dir = "C:\\Users\\Badddobaby\\Desktop\\KONONOVA\\";
 //	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	//static String Dir = "/home/facaraff/Desktop/KONODATA/";

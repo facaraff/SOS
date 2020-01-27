@@ -26,7 +26,9 @@ public class DEcbob extends AlgorithmBias
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty 'm'---->mirroring
 	protected int run = 0;
 	
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
+	
+//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");

@@ -25,7 +25,8 @@ import static utils.RunAndStore.FTrend;
 public class DEroe extends AlgorithmBias
 {
 	
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
 	//static String Dir = "/home/facaraff/Desktop/KONODATA/2018"+slash();
 	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
 	

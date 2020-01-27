@@ -33,8 +33,8 @@ public class DErte extends AlgorithmBias
 		this.correctionStrategy = correction;
 	}
 	
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
-	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
+	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
 	
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");

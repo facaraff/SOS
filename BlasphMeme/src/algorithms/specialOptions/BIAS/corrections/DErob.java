@@ -29,7 +29,8 @@ public class DErob extends AlgorithmBias
 	
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty 'm'---->mirroring
 	
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
 	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
 	protected int run = 0;
 	

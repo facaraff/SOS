@@ -21,8 +21,8 @@ import static utils.RunAndStore.FTrend;
 
 public class DErtb extends AlgorithmBias
 {
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
-	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
+	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
 	
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty	'm'-----> mirroring
 	protected int run = 0;

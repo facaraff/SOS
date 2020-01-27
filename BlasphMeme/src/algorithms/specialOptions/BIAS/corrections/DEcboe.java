@@ -24,7 +24,8 @@ public class DEcboe extends AlgorithmBias
 {
 	
 
-	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
 //	static String Dir = "/home/facaraff/Desktop/KONODATA/2018/";
 	protected int run = 0;
 	
