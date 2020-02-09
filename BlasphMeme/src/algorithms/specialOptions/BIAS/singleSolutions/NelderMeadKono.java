@@ -131,6 +131,9 @@ public final class NelderMeadKono extends AlgorithmBias {
 		double total;
 		
 		
+		
+		this.numberOfCorrections = 0;
+		
 		while (i < maxEvaluations)
 		{
 			for (int k = 0; k < (problemDimension+1); k++)

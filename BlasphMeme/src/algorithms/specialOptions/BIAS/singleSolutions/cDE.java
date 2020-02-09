@@ -6,7 +6,10 @@ import static utils.algorithms.operators.DEOp.currentToBest1;
 import static utils.algorithms.operators.DEOp.currentToRand1;
 import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.operators.DEOp.rand2;
+//import static utils.algorithms.operators.DEOp.randToBest1;
 import static utils.algorithms.operators.DEOp.randToBest2;
+import static utils.algorithms.operators.DEOp.best1;
+import static utils.algorithms.operators.DEOp.best2;
 
 import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
@@ -33,27 +36,20 @@ public class cDE extends AlgorithmBias
 		int virtualPopulationSize = this.getParameter("p0").intValue();//300
 		double alpha = this.getParameter("p1").doubleValue();//0.25
 		double F = this.getParameter("p2").doubleValue();//0.5
-		int mutationStrategy = this.getParameter("p3").intValue();//1
-		int crossoverStrategy = this.getParameter("p4").intValue();//3
+		String mutationStrategy = this.getParameter("p3").toString();//1
+		String crossoverStrategy = this.getParameter("p4").toString();//3
 			
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		double[] normalizedBounds = {-1.0, 1.0};
 		
-		String mut,xover;
-		if(mutationStrategy==1)mut = "ro";
-		else if(mutationStrategy==2)mut = "ctbo";
-		else if(mutationStrategy==3)mut = "rt";
-		else if(mutationStrategy==4)mut = "rtbt";
-		else if(mutationStrategy==5)mut = "ctro";
-		else mut = "rorf";
+
 		
-		if(crossoverStrategy==1)xover = "b";
-		else xover = "e";
+
 				
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "cDE"+mut+xover+correctionStrategy; 
+		String fileName = "cDE"+mutationStrategy+crossoverStrategy+correctionStrategy; 
 		
 		
 		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
@@ -153,45 +149,31 @@ public class cDE extends AlgorithmBias
 		
 		double CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
 		
+		this.numberOfCorrections = 0;
+		
 		// iterate
 		while (i < maxEvaluations)
 		{
 			// mutation
 			switch (mutationStrategy)
 			{
-				case 1:
+				case "ro":
 					 // DE/rand/1
 					xr = generateIndividual(mean, sigma2);
 					xs = generateIndividual(mean, sigma2);
 					xt = generateIndividual(mean, sigma2);
 					b = rand1(xr, xs, xt, F);
 					break;
-				case 2:
-					// DE/current(rand)-to-best/1
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
-					b = currentToBest1(xt, xr, xs, best, F);
-					break;
-				case 3:
-					// DE/rand/2
+				case "rt":
+					 // DE/rand/2
 					xr = generateIndividual(mean, sigma2);
 					xs = generateIndividual(mean, sigma2);
 					xt = generateIndividual(mean, sigma2);
 					xu = generateIndividual(mean, sigma2);
 					xv = generateIndividual(mean, sigma2);
-					b = rand2(xr, xs, xt, xu, xv, fB);
+					b = rand2(xr, xs, xt, xu, xv, F);
 					break;
-				case 4:
-					// DE/rand-to-best/2
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
-					xu = generateIndividual(mean, sigma2);
-					xv = generateIndividual(mean, sigma2);
-					b = randToBest2(xr, xs, xt, xu, xv, best, F);
-					break;
-				case 5:
+				case "ctro":
 					// DE/current-to-rand/1
 					xr = generateIndividual(mean, sigma2);
 					xs = generateIndividual(mean, sigma2);
@@ -199,7 +181,37 @@ public class cDE extends AlgorithmBias
 					xc = generateIndividual(mean, sigma2);
 					b = currentToRand1(xr, xs, xt, xc, F);
 					break;
-				case 6:
+				case "bo":
+					 // DE/best/1
+					xr = generateIndividual(mean, sigma2);
+					xs = generateIndividual(mean, sigma2);
+					b = best1(best,xr,xs,F);
+					break;
+				case "bt":
+					 // DE/best/1
+					xr = generateIndividual(mean, sigma2);
+					xs = generateIndividual(mean, sigma2);
+					xu = generateIndividual(mean, sigma2);
+					xv = generateIndividual(mean, sigma2);
+					b = best2(best,xr,xs,xu,xv,F);
+					break;
+				case "ctbo":
+					// DE/current(rand)-to-best/1
+					xr = generateIndividual(mean, sigma2);
+					xs = generateIndividual(mean, sigma2);
+					xt = generateIndividual(mean, sigma2);
+					b = currentToBest1(xt, xr, xs, best, F);
+					break;
+				case "rtbt":
+					// DE/rand-to-best/2
+					xr = generateIndividual(mean, sigma2);
+					xs = generateIndividual(mean, sigma2);
+					xt = generateIndividual(mean, sigma2);
+					xu = generateIndividual(mean, sigma2);
+					xv = generateIndividual(mean, sigma2);
+					b = randToBest2(xr, xs, xt, xu, xv, best, F);
+					break;		
+				case "rsf":
 					 // DE/rand/1-Random-Scale-Factor
 					xr = generateIndividual(mean, sigma2);
 					xs = generateIndividual(mean, sigma2);
@@ -211,11 +223,11 @@ public class cDE extends AlgorithmBias
 			}
 
 			// crossover
-			if (mutationStrategy != 5)
+			if (!mutationStrategy.equals("ctro"))
 			{
-				if (crossoverStrategy == 1)
+				if (crossoverStrategy.equals("bin"))
 					b = crossOverBin(best, b, CR);
-				else if (crossoverStrategy == 2)
+				else if (crossoverStrategy.equals("exp"))
 					b = crossOverExp(best, b, CR);
 			}
 			

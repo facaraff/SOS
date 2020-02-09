@@ -473,6 +473,20 @@ public class DEOp
 		
 			return newPt;
 		}
+		/**
+		* best/2 mutation scheme (alternative method)
+		* 
+		*/
+		public static double[] best2(double[] best, double[] r1,double[] r2,double[] r3,double[] r4, double F)
+		{
+			int problemDimension = best.length;
+		
+			double[] newPt = new double[problemDimension];
+			for (int i = 0; i < problemDimension; i++)
+				newPt[i] = best[i] + F*(r1[i]-r2[i]) +  F*(r3[i]-r4[i]);
+		
+			return newPt;
+		}
 	   /**
 		* Exponential crossover
 		* 
