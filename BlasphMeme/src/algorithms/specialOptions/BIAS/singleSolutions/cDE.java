@@ -30,14 +30,22 @@ import utils.RunAndStore.FTrend;
  */
 public class cDE extends AlgorithmBias
 {	
+	protected String mutationStrategy = null;
+	protected char crossoverStrategy = '?';
+	
+	public cDE(String mut, char xover)
+	{
+		this.mutationStrategy = mut;
+		if(!mut.equals("ctro"))
+			this.crossoverStrategy = xover;
+	}
+	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		int virtualPopulationSize = this.getParameter("p0").intValue();//300
 		double alpha = this.getParameter("p1").doubleValue();//0.25
 		double F = this.getParameter("p2").doubleValue();//0.5
-		String mutationStrategy = this.getParameter("p3").toString();//1
-		String crossoverStrategy = this.getParameter("p4").toString();//3
 			
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -225,9 +233,9 @@ public class cDE extends AlgorithmBias
 			// crossover
 			if (!mutationStrategy.equals("ctro"))
 			{
-				if (crossoverStrategy.equals("bin"))
+				if (crossoverStrategy == 'b')
 					b = crossOverBin(best, b, CR);
-				else if (crossoverStrategy.equals("exp"))
+				else if (crossoverStrategy == 'e')
 					b = crossOverExp(best, b, CR);
 			}
 			
