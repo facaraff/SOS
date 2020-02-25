@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="BlasphMeme/src"/>
-	<classpathentry kind="lib" path="BlasphMeme/jars/jblas-1.2.3.jar"/>
-	<classpathentry kind="lib" path="BlasphMeme/jars/jsc.jar"/>
-	<classpathentry kind="lib" path="BlasphMeme/jars/org.jar"/>
-	<classpathentry kind="lib" path="BlasphMeme/jars/sysnet-registration-1.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Badddobaby/git/BlasphMeme/BlasphMeme/jars/SurfacePlot.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="jars/org.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/jsc.jar"/>
+	<classpathentry kind="lib" path="jars/SurfacePlot.jar"/>
+	<classpathentry kind="lib" path="jars/sysnet-registration-1.0.1.jar"/>
+	<classpathentry kind="lib" path="jars/jFuzzyLogic_v3.0.jar"/>
+	<classpathentry kind="lib" path="jars/jzy3d/pyzy3d-1.0.2.jar"/>
+	<classpathentry kind="lib" path="jars/jzy3d/jzy3d-bigpicture-1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<section name="WORKBENCH_SETTINGS">
-		<list key="ENABLED_TRANSFERS">
-		</list>
-	</section>
-	<section name="ChooseWorkspaceDialogSettings">
-		<item value="586" key="DIALOG_X_ORIGIN"/>
-		<item value="314" key="DIALOG_Y_ORIGIN"/>
-	</section>
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/home/facaraff/git/BlasphMeme"/>
+	</list>
 </section>
