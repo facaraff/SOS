@@ -71,11 +71,20 @@ public abstract class AlgorithmBias
 	protected int numberOfCorrections = 0; 
 	protected char correction;
 	protected String Dir="."+slash();
+	protected String username = System.getProperty("user.name");
 	
 
 	
 	
 	protected DecimalFormat DF = new DecimalFormat("0.00000000E00");
+	
+	
+	
+	
+	
+//	public AlgorithmBias() {this.username = System.getProperty("user.name");};
+	
+	
 
 	/**
 	 * This method executes the algorithm on a specified problem. 

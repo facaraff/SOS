@@ -46,8 +46,8 @@ public class PPSN2020
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
 	
-	static String dir = "/home/facaraff/Desktop/KONODATA/PPSN/";
-	//static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String dir = "/home/facaraff/Desktop/KONODATA/PPSN/";
+	static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\PPSN\\";
 	
 	public static void main(String[] args) throws Exception
 	{	

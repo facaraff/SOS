@@ -72,7 +72,7 @@ public class cDE extends AlgorithmBias
 		int newID = 0;
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+"\n";
+		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+" Username: "+this.username+" Seed: "+seed+"\n";
 		bw.write(line);
 		line = null;
 		line = new String();
