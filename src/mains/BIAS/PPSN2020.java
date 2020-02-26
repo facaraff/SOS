@@ -47,7 +47,7 @@ public class PPSN2020
 	static int problemDimension = 30;
 	
 	//static String dir = "/home/facaraff/Desktop/KONODATA/PPSN/";
-	static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\PPSN\\";
+//	static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\PPSN\\";
 	
 	public static void main(String[] args) throws Exception
 	{	
@@ -68,7 +68,7 @@ public class PPSN2020
 				if(mutation.equals("ctro"))
 				{
 					a = new cDE(mutation,'x');
-					a.setDir(dir+"CDE"+slash());
+					a.setDir("CDE"+slash());
 					a.setCorrection(correction);
 					a.setParameter("p0", 300.0);
 					a.setParameter("p1", 0.25);
@@ -80,7 +80,7 @@ public class PPSN2020
 					for(char xover : CrossOvers)
 						{
 							a = new cDE(mutation,xover);
-							a.setDir(dir+"CDE"+slash());
+							a.setDir("CDE"+slash());
 							a.setCorrection(correction);
 							a.setParameter("p0", 300.0);
 							a.setParameter("p1", 0.25);
@@ -305,7 +305,8 @@ public class PPSN2020
 
 			public static class Noise extends Problem 
 			{
-				public Noise(int dimension, double[][] bounds) { super(dimension, bounds); }
+				public Noise(int dimension, double[][] bounds) { super(dimension, bounds); setFID("f0");}
+				
 
 				public double f(double[] x){return RandUtils.random();}
 			}

@@ -16,9 +16,9 @@ import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+//import java.io.BufferedWriter;
+//import java.io.File;
+//import java.io.FileWriter;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -31,7 +31,7 @@ import utils.RunAndStore.FTrend;
 public class cDE extends AlgorithmBias
 {	
 	protected String mutationStrategy = null;
-	protected char crossoverStrategy = '?';
+	protected char crossoverStrategy = 'X';
 	
 	public cDE(String mut, char xover)
 	{
@@ -39,6 +39,8 @@ public class cDE extends AlgorithmBias
 		if(!mut.equals("ctro"))
 			this.crossoverStrategy = xover;
 	}
+	
+	
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -53,29 +55,39 @@ public class cDE extends AlgorithmBias
 		double[] normalizedBounds = {-1.0, 1.0};
 		
 
-		
+		String line = new String();
 
 				
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
 		String fileName = "cDE"+mutationStrategy+crossoverStrategy+correctionStrategy; 
+		System.out.println(getDir());
 		
 		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		
+//		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
+//		File file = new File(Dir+fileName+".txt");
+//		if (!file.exists()) 
+//			file.createNewFile();
+//		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//		BufferedWriter bw = new BufferedWriter(fw);
+		createFile(fileName,problem);
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
+//		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+" Username: "+this.username+" Seed: "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+//		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+" Username: "+this.username+" Seed: "+seed+"\n";
+//		String line = "";
+//		completeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F);
+		
+//		String line = new String();
+		writeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F, problem);
+//		line+=getHeader();
+//		System.out.println("merda "+getHeader()+" plus "+this.header);
+//		bw.write(getHeader());
+//		line = null;
+//		line = new String();
 		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;

@@ -43,7 +43,7 @@ package interfaces;
 
 
 
-
+import java.util.Date;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -52,6 +52,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import static utils.RunAndStore.slash;
+import static utils.RunAndStore.createFolder;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.completeOneTailedNormal;
 import static utils.algorithms.Misc.mirroring;
@@ -62,24 +63,39 @@ import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
 {	
 	private Map<String, Double> parameters = new HashMap<String, Double>();
+	/** standard Algorithms global variables **/
 	protected double[] initialSolution;
 	protected double[] finalBest;
 	protected double initialFitness;
-	protected String ID = null;
-	
 	protected int run;
+	protected DecimalFormat DF = new DecimalFormat("0.00000000E00");
+//	protected String ID = null;
+	
+	/**AlgorithmsBias global variables **/
+	protected String ID = this.getClass().getSimpleName();
 	protected int numberOfCorrections = 0; 
 	protected char correction;
-	protected String Dir="."+slash();
-	protected String username = System.getProperty("user.name");
+	protected String Dir="."+slash()+"ResultsISB"+slash();
+	protected String minMaxProb = "min";
+//	protected long seed = System.currentTimeMillis();
+	protected long seed = -666;
 	
-
+	/** AlgorithmsBias global variables for saving results **/
+	protected File file = null;
+	protected FileWriter fw = null;
+	protected BufferedWriter bw = null;
+	private Date date = new Date();
+//	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v1 date "+date.toString()+" seed "+this.seed+" problem "+minMaxProb+" ";
+	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
+			//# <generic part> <algorithm-specific part> 
+//<generic part> is *SOS_suite hostname <hostname> v <number> problem <min/max> function <function id string> dim <value> max_evals <value> SEED <value>* and <algorithm-specific part> contains all relevant parameters of the algorithm *{<parameter name> <parameter value>}_i* 
 	
 	
-	protected DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
 	
 	
+//	long seed = System.currentTimeMillis();
+//	RandUtils.setSeed(seed);	
 	
 	
 //	public AlgorithmBias() {this.username = System.getProperty("user.name");};
@@ -94,10 +110,6 @@ public abstract class AlgorithmBias
 	 * @return a FTrend object containing fitness trend and, in case, extra data.
 	 */
 	public abstract FTrend execute(Problem problem, int maxEvaluations) throws Exception;
-
-	
-	
-	
 	/**
 	 * This method sets the value of a given parameter.
 	 */
@@ -144,7 +156,7 @@ public abstract class AlgorithmBias
 	/**
 	 * This method sets the path of the directory for storing BIAS results.
 	 */
-	public void setDir(String Dir){this.Dir=Dir;}
+	public void setDir(String Dir){createFolder(this.Dir); this.Dir+=Dir;}
 	/**
 	 * This method returns the path of the directory for storing BIAS results.
 	 */
@@ -179,6 +191,12 @@ public abstract class AlgorithmBias
 	 */
 	public char getcorrection(){return this.correction;}
 	
+	/**
+	 * 
+	 * update the header to indicate that a maximisation process is taking place.
+	 * 
+	 */
+	public void maximisationProblem(){this.minMaxProb = "max";}
 	
 	
 	//**   UTILS METHODS   **//
@@ -282,5 +300,36 @@ public abstract class AlgorithmBias
 		}	
 		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
 	}
+	
+	
+	
+	
+	
+	protected void createFile(String name,Problem problem) throws Exception
+	{
+		createFolder(Dir);
+		
+//		if(this.ID == null)
+//			this.ID = this.getClass().getSimpleName();
+//		this.header+="function "+problem.getFID()+" D"+problem.getDimension()+" ";
+		
+		String fullName = name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);
+		file = new File(Dir+fullName+".txt");
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+	}
+	
+	protected void writeHeader(String parameters, Problem problem) throws Exception
+	{  
+		this.seed = System.currentTimeMillis();
+		String line = this.header+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+		System.out.println(line);
+		bw.write(line);
+	}
+	//protected void completeHeader(String parameters){System.out.println("prima "+header);this.header+="algorithm "+this.ID+"\n";System.out.println("dopo "+header);}
+	
+	protected String getHeader(){return this.header;}
 	
 }
