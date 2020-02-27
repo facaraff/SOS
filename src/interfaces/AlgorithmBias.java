@@ -202,7 +202,7 @@ public abstract class AlgorithmBias
 	//**   UTILS METHODS   **//
 	
 	/**
-	 * Generate the file "fileName".text containing 
+	 * Generate the file "fileName".text containing POIS
 	 */
 	public void wrtiteCorrectionsPercentage(String algName, double percentage, String fileName) throws Exception
 	{
@@ -215,10 +215,30 @@ public abstract class AlgorithmBias
 		BW.close();
 	}
 	/**
-	 * Generate the file "fileName".text containing 
+	 * Generate the file "fileName".text containing POIS
 	 */
-	public void wrtiteCorrectionsPercentage(String algName, double percentage) throws Exception {wrtiteCorrectionsPercentage(algName, percentage, "corrections");}
+	protected void wrtiteCorrectionsPercentage(String algName, double percentage) throws Exception {wrtiteCorrectionsPercentage(algName, percentage, "corrections");}
 	
+
+	/**
+	 * Generate the file "fileName".text containing extended info
+	 */
+	public void writeStats(String algName, double percentage, int PRG, String fileName) throws Exception
+	{
+		// <output filename> <POIS value> <optionally: algorithm's parameters>  <seed value> <no of PRG calls>
+
+		File f = new File(Dir+fileName+".txt");
+		if(!f.exists()) 
+			f.createNewFile();
+		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
+		BufferedWriter BW = new BufferedWriter(FW);
+		BW.write(algName+" "+percentage+" "+this.seed+" "+PRG+"\n");
+		BW.close();
+	}
+	/**
+	 * Generate the file "fileName".text containing POIS
+	 */
+	protected void writeStats(String algName, double percentage, int PRG) throws Exception {writeStats(algName, percentage, PRG, "corrections");}
 	
 	/**
 	 *Fixes the scientific notation format 
@@ -333,3 +353,10 @@ public abstract class AlgorithmBias
 	protected String getHeader(){return this.header;}
 	
 }
+
+
+
+
+
+
+

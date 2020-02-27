@@ -59,18 +59,18 @@ public class cDE extends AlgorithmBias
 
 				
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "cDE"+mutationStrategy+crossoverStrategy+correctionStrategy; 
+		String FullName = "cDE"+mutationStrategy+crossoverStrategy+correctionStrategy; 
 		System.out.println(getDir());
 		
 		
 		
-//		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-//		File file = new File(Dir+fileName+".txt");
+//		FullName+="D"+problem.getDimension()+"f0-"+(run+1);
+//		File file = new File(Dir+FullName+".txt");
 //		if (!file.exists()) 
 //			file.createNewFile();
 //		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 //		BufferedWriter bw = new BufferedWriter(fw);
-		createFile(fileName,problem);
+		createFile(FullName,problem);
 		
 		int i = 0;
 		int prevID = -1;
@@ -304,7 +304,10 @@ public class cDE extends AlgorithmBias
 		finalBest = best;
 		bw.close();
 
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		
+		int PRG = 0;
+//		wrtiteCorrectionsPercentage(FullName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRG, "correctionsSingleSol");
 		return FT;
 	}
 	
