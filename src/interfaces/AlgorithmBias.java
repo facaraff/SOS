@@ -31,12 +31,8 @@ either expressed or implied, of the FreeBSD Project.
 /** @file Algorithm.java
  *  
  *
- * BLASPHMEME: KIMEME HAS IT SHOULD BE.
  * A software platform for learning Computational Intelligence Optimisation
  * 
- * SCRIVICI QUEL CHE CAZZO TE PARE QUESTAA E@ LA DESCIZIONE PIU@ GENERICA CHE VA NELLA LISTA DEI FILES
- * LEGGI QUI https://www.cs.cmu.edu/~410/doc/doxygen.html#commands
- *  This file contains the kernel main() function.
  *  @author Fabio Caraffini
 */
 package interfaces;
@@ -87,18 +83,6 @@ public abstract class AlgorithmBias
 	private Date date = new Date();
 //	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v1 date "+date.toString()+" seed "+this.seed+" problem "+minMaxProb+" ";
 	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
-			//# <generic part> <algorithm-specific part> 
-//<generic part> is *SOS_suite hostname <hostname> v <number> problem <min/max> function <function id string> dim <value> max_evals <value> SEED <value>* and <algorithm-specific part> contains all relevant parameters of the algorithm *{<parameter name> <parameter value>}_i* 
-	
-	
-	
-	
-	
-//	long seed = System.currentTimeMillis();
-//	RandUtils.setSeed(seed);	
-	
-	
-//	public AlgorithmBias() {this.username = System.getProperty("user.name");};
 	
 	
 
@@ -350,7 +334,7 @@ public abstract class AlgorithmBias
 	protected void writeHeader(String parameters, Problem problem) throws Exception
 	{  
 		this.seed = System.currentTimeMillis();
-		String line = this.header+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+		String line = this.header+"seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
 //		System.out.println(line);
 		bw.write(line);
 	}
