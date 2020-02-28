@@ -223,18 +223,27 @@ public abstract class AlgorithmBias
 	/**
 	 * Generate the file "fileName".text containing extended info
 	 */
-	public void writeStats(String algName, double percentage, int PRG, String fileName) throws Exception
+	public void writeStats(String algName, double percentage, int PRG, String extra, String fileName) throws Exception
 	{
 		// <output filename> <POIS value> <optionally: algorithm's parameters>  <seed value> <no of PRG calls>
 
+		String tmp = algName+" "+percentage+" "+this.seed+" "+PRG;
+		if(extra == null) tmp+="\n";
+		else tmp+=" "+extra+"\n";
+		
 		File f = new File(Dir+fileName+".txt");
 		if(!f.exists()) 
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
-		BW.write(algName+" "+percentage+" "+this.seed+" "+PRG+"\n");
+		BW.write(tmp);
 		BW.close();
 	}
+	/**
+	 * Generate the file "fileName".text containing extended info
+	 */
+	public void writeStats(String algName, double percentage, int PRG, String fileName) throws Exception{ writeStats(algName, percentage, PRG, null,  fileName);}
+
 	/**
 	 * Generate the file "fileName".text containing POIS
 	 */
@@ -329,9 +338,6 @@ public abstract class AlgorithmBias
 	{
 		createFolder(Dir);
 		
-//		if(this.ID == null)
-//			this.ID = this.getClass().getSimpleName();
-//		this.header+="function "+problem.getFID()+" D"+problem.getDimension()+" ";
 		
 		String fullName = name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);
 		file = new File(Dir+fullName+".txt");
@@ -345,12 +351,15 @@ public abstract class AlgorithmBias
 	{  
 		this.seed = System.currentTimeMillis();
 		String line = this.header+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
-		System.out.println(line);
+//		System.out.println(line);
 		bw.write(line);
 	}
-	//protected void completeHeader(String parameters){System.out.println("prima "+header);this.header+="algorithm "+this.ID+"\n";System.out.println("dopo "+header);}
+
 	
 	protected String getHeader(){return this.header;}
+	
+//	protected void closeAll() throws Exception {this.file = null; this.fw.close(); this.bw.close();} 
+	protected void closeAll() throws Exception {this.bw.close();} 
 	
 }
 

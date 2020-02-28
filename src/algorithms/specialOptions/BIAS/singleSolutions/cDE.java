@@ -16,9 +16,6 @@ import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-//import java.io.BufferedWriter;
-//import java.io.File;
-//import java.io.FileWriter;
 
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
@@ -52,43 +49,24 @@ public class cDE extends AlgorithmBias
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
-		double[] normalizedBounds = {-1.0, 1.0};
-		
+		double[] normalizedBounds = {-1.0, 1.0};		
 
 		String line = new String();
-
 				
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
 		String FullName = "cDE"+mutationStrategy+crossoverStrategy+correctionStrategy; 
-		System.out.println(getDir());
 		
 		
-		
-//		FullName+="D"+problem.getDimension()+"f0-"+(run+1);
-//		File file = new File(Dir+FullName+".txt");
-//		if (!file.exists()) 
-//			file.createNewFile();
-//		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-//		BufferedWriter bw = new BufferedWriter(fw);
+	
 		createFile(FullName,problem);
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-//		long seed = System.currentTimeMillis();
+
 		RandUtils.setSeed(seed);	
-//		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+" Username: "+this.username+" Seed: "+seed+"\n";
-//		String line = "";
-//		completeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F);
-		
-//		String line = new String();
 		writeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F, problem);
-//		line+=getHeader();
-//		System.out.println("merda "+getHeader()+" plus "+this.header);
-//		bw.write(getHeader());
-//		line = null;
-//		line = new String();
-		
+
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
 
@@ -302,11 +280,10 @@ public class cDE extends AlgorithmBias
 		
 		FT.add(i, fBest);
 		finalBest = best;
-		bw.close();
+		closeAll();
 
 		
 		int PRG = 0;
-//		wrtiteCorrectionsPercentage(FullName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRG, "correctionsSingleSol");
 		return FT;
 	}
