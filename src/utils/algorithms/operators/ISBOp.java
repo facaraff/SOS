@@ -19,8 +19,8 @@ import utils.MatLab;
 import static utils.algorithms.Misc.centroid;
 import static utils.algorithms.Misc.orthonormalise;
 import static utils.algorithms.Misc.Cov;
+import static utils.algorithms.CompactAlgorithms.truncateRandn;
 import utils.algorithms.Counter;
-
 import utils.random.RandUtilsISB;
 /**
  * This class contains the implementation of Differential Evolution operators.
@@ -759,6 +759,38 @@ public class ISBOp
 					x_off = multiply(Pt,x_off);
 				
 				return x_off;
+			}
+			
+			
+			/**
+			 * 
+			 * @param mean
+			 * @param sigma2
+			 * @param x
+			 * @return
+			 */
+			public static double[] generateIndividual(double[] mean, double[] sigma2, Counter counter)
+			{
+				int n = mean.length;
+				double[] x = new double[n];
+				for (int i = 0; i < n; i++)
+					x[i] = 2;
+
+				double trial = 0;
+				for (int i = 0; i < n; i++)
+				{
+					trial = 0;
+					while ((Math.abs(x[i])>1) && trial < 10)
+					{
+						trial++;
+						x[i] = RandUtilsISB.gaussian(mean[i], Math.sqrt(sigma2[i]), counter);
+					}
+					
+					if (Math.abs(x[i])>1)
+						x[i] = truncateRandn(RandUtilsISB.random(counter), mean[i], Math.sqrt(sigma2[i]));
+				}
+				
+				return x;
 			}
 }
 
