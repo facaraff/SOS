@@ -1,12 +1,8 @@
 /** @file Operators.java
  *  
  *
- * BLASPHMEME
+ * SOS
  * 
- * 
- * SCRIVICI QUEL CHE CAZZO TE PARE QUESTAA E@ LA DESCIZIONE PIU@ GENERICA CHE VA NELLA LISTA DEI FILES
- * LEGGI QUI https://www.cs.cmu.edu/~410/doc/doxygen.html#commands
- *  This file contains the kernel main() function.
  *  @author Fabio Caraffini
 */
 package utils.algorithms.operators;
