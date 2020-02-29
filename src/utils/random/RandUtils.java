@@ -128,7 +128,6 @@ public class RandUtils extends PRNG
 	
 	
 	
-	
 	/**
 	 * Test main
 	 * @param args

@@ -16,8 +16,7 @@ import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -64,7 +63,7 @@ public class cDE extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 
-		RandUtils.setSeed(seed);	
+		RandUtilsISB.setSeed(seed);	
 		writeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F, problem);
 
 		double[] best = new double[problemDimension];
@@ -214,7 +213,7 @@ public class cDE extends AlgorithmBias
 					xr = generateIndividual(mean, sigma2);
 					xs = generateIndividual(mean, sigma2);
 					xt = generateIndividual(mean, sigma2);
-					F = 0.5*(1+RandUtils.random());
+					F = 0.5*(1+RandUtilsISB.random());
 					b = rand1(xr, xs, xt, F);
 				default:
 					break;
