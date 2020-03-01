@@ -39,7 +39,7 @@ package interfaces;
 
 
 
-import java.util.Date;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -47,6 +47,8 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+//import java.time.Instant;
+import static java.time.Instant.now;
 import static utils.RunAndStore.slash;
 import static utils.RunAndStore.createFolder;
 import static utils.algorithms.Misc.cloneSolution;
@@ -80,10 +82,10 @@ public abstract class AlgorithmBias
 	protected File file = null;
 	protected FileWriter fw = null;
 	protected BufferedWriter bw = null;
-	private Date date = new Date();
-//	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v1 date "+date.toString()+" seed "+this.seed+" problem "+minMaxProb+" ";
-	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
-	
+//	private Instant timestamp = null;
+
+//	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
+	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 ";
 	
 
 	/**
@@ -334,7 +336,7 @@ public abstract class AlgorithmBias
 	protected void writeHeader(String parameters, Problem problem) throws Exception
 	{  
 		this.seed = System.currentTimeMillis();
-		String line = this.header+"seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
 //		System.out.println(line);
 		bw.write(line);
 	}

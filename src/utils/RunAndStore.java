@@ -30,12 +30,7 @@ either expressed or implied, of the FreeBSD Project.
 /** @file RunAndStore.java
  *  
  *
- * BLASPHMEME: KIMEME HAS IT SHOULD BE.
- * A software platform for learning Computational Intelligence Optimisation
- * 
- * QUESTO FILE E@ UN UTILITY CHE CONTIENE LE CLASSI PER D ESEGUIRE DISTRIBUIRE I IL CALCOLOO VISUALIZZARE E SALVARE DATI
- * LEGGI QUI https://www.cs.cmu.edu/~410/doc/doxygen.html#commands
- *  This file contains the kernel main() function.
+ * SOS
  *  @author Fabio Caraffini
 */
 package utils;
@@ -63,8 +58,15 @@ public class RunAndStore
 	private static DecimalFormat formatter = new DecimalFormat("0.000E00");
 	private static MannWhitneyUTest mannWhitneyUTest;	
 		
-		
-	//--------------------------------//
+	//--------------------------------------------------------------------------------------------------------------------------//
+	private static String acknowledge = "Acknowledgements:\n\n Fabio Caraffini. (2019, June 2). The Stochastic Optimisation Software (SOS) platform.\n Zenodo. http://doi.org/10.5281/zenodo.3237023";
+	public static String getAcknowledgement(){return acknowledge;}    
+	//---------------------------------------------------------------------------------------------------------------------------//
+			
+	
+	
+	
+	
 	
 	
 	/**
@@ -79,6 +81,7 @@ public class RunAndStore
 		private boolean saveRowData;
 		private boolean showElapsedTime = false;
 		private String expFolder = ".";
+		
 		// TODO SAVE AS TEXT OPPURE COME BINARIO??????????!!
 		/**
 	     * This method sets the computational budget to be used ofr the optimisation process.
@@ -182,6 +185,7 @@ public class RunAndStore
 		}		
 	}
 	
+
 
 
 	

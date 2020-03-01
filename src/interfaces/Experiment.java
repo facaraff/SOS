@@ -34,6 +34,7 @@ either expressed or implied, of the FreeBSD Project.
 */
 package interfaces;
 
+import java.util.Date;
 import java.util.Vector;
 import java.util.concurrent.CompletionService; ///< High-performance threading utility.
 import java.util.concurrent.ExecutorCompletionService; ///< High-performance threading utility.
@@ -49,8 +50,8 @@ import interfaces.Experiment;
 import utils.MatLab;
 import utils.RunAndStore; ///< Utilities for runnig algorithms and storing results.
 import utils.RunAndStore.AlgorithmRepetitionThread; ///< Execure a single run in a thread.
-import utils.RunAndStore.AlgorithmResult; ///< Utilities .
-//TOGLI STI COMMENTI SOPRA TANTO NON SI VEDONO!!!!
+import utils.RunAndStore.AlgorithmResult; ///< Utilities 
+import static utils.RunAndStore.getAcknowledgement; ///< Utilities 
 import static utils.MatLab.std;
 import static utils.MatLab.mean;
 
@@ -70,6 +71,7 @@ public abstract class Experiment
 	//private boolean showPValue = false; se lo vuoi impostare fai un meto startExperiment sulla classe che eredita perche' tanto capita raramente.. 
 	private int nrProc = Runtime.getRuntime().availableProcessors();
 	private boolean MT = true; //Multithread exoperiments
+	private Date date = new Date();
 	
 	//CONSTRUCTORS
 	/**
@@ -290,7 +292,7 @@ public abstract class Experiment
 	/**
 	 * This method creates all the required folder needed to store results when saverowData is true.
 	 * 
-	 * It also write a report describing teh experiment.
+	 * It also write a report describing the experiment.
 	 * 
 	*/
 	public void createExperimentFolders() throws Exception
@@ -298,10 +300,11 @@ public abstract class Experiment
 		  if(saveRowData)
 		  {
 			  String slash = RunAndStore.slash();
-			  String catalog = "##################### "+getProblemDimension()+" D #####################\nNumber of runs: "+getNrRuns()+"\nAlgorithms: ";
+			  String catalog ="Experiment: "+this.getClass().getSimpleName()+" ("+String.format("%td/%<tm/%<ty", date )+", executed by: "+System.getProperty("user.name")+")\n";
+			  catalog += "##################### "+getProblemDimension()+" D #####################\nNumber of runs: "+getNrRuns()+"\nAlgorithms: ";
 			  String setting = "";
 			  for(Algorithm a : algorithms){catalog+=a.getID()+" "; setting+=a.getParSetting()+"\n";} catalog+="\n"+setting+"Problems:\n"; setting = null;
-			  for(Problem p : problems)catalog+=RunAndStore.getFullName(p)+p.getFID()+"\n"; catalog+="\n"; 
+			  for(Problem p : problems)catalog+=RunAndStore.getFullName(p)+p.getFID()+"\n"; catalog+="\n"+getAcknowledgement()+"\n"; 
 			RunAndStore.createRFolder(slash+expFolder);
 			
 			for (Algorithm algorithm : algorithms)
