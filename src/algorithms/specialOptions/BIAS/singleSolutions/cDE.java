@@ -23,7 +23,7 @@ import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
 /*
- * compact Differential Evolution Light (with light exponential crossover and light mutation)
+ * compact Differential Evolution
  */
 public class cDE extends AlgorithmBias
 {	
@@ -54,11 +54,11 @@ public class cDE extends AlgorithmBias
 		String line = new String();
 				
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String FullName = "cDE"+mutationStrategy+crossoverStrategy+correctionStrategy; 
+
 		
+		String FullName = getFullName("cDE"+mutationStrategy+crossoverStrategy+correctionStrategy,problem); 
 		Counter PRGCounter = new Counter(0);
-	
-		createFile(FullName,problem);
+		createFile(FullName);
 		
 		int i = 0;
 		int prevID = -1;
