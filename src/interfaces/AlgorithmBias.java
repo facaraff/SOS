@@ -85,7 +85,7 @@ public abstract class AlgorithmBias
 //	private Instant timestamp = null;
 
 //	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
-	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 ";
+	protected String header = "# SOS_suite hostname "+System.getProperty("user.name")+" v2 ";
 	
 
 	/**
@@ -318,14 +318,16 @@ public abstract class AlgorithmBias
 	
 	
 	
+	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);}; 
 	
 	
-	protected void createFile(String name,Problem problem) throws Exception
+	protected void createFile(String name, Problem problem) throws Exception
 	{
 		createFolder(Dir);
 		
 		
-		String fullName = name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);
+//		String fullName = name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);
+		String fullName = getFullName(name, problem);
 		file = new File(Dir+fullName+".txt");
 		if (!file.exists()) 
 			file.createNewFile();
@@ -346,6 +348,8 @@ public abstract class AlgorithmBias
 	
 //	protected void closeAll() throws Exception {this.file = null; this.fw.close(); this.bw.close();} 
 	protected void closeAll() throws Exception {this.bw.close();} 
+	
+	
 	
 }
 
