@@ -30,6 +30,7 @@ public class cDE extends AlgorithmBias
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'X';
 	
+	public cDE(String mut) {this.mutationStrategy = mut;}
 	public cDE(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
@@ -79,9 +80,9 @@ public class cDE extends AlgorithmBias
 			sigma2[j] = 1.0;
 		}
 		
-		double[] xc = new double[problemDimension];
+		double[] mu = new double[problemDimension];
 		for (int n = 0; n < problemDimension; n++)
-			xc[n] = (bounds[n][1]+bounds[n][0])/2;
+			mu[n] = (bounds[n][1]+bounds[n][0])/2;
 		
 		// evaluate initial solutions
 		double[] a = new double[problemDimension];
@@ -91,8 +92,8 @@ public class cDE extends AlgorithmBias
 		
 		a = generateIndividual(mean, sigma2,PRGCounter);
 		b = generateIndividual(mean, sigma2,PRGCounter);
-		aScaled = scale(a, bounds, xc);
-		bScaled = scale(b, bounds, xc);
+		aScaled = scale(a, bounds, mu);
+		bScaled = scale(b, bounds, mu);
 
 		double fA = problem.f(aScaled); i++; newID++;
 		
@@ -141,6 +142,7 @@ public class cDE extends AlgorithmBias
 		double[] xt = new double[problemDimension];
 		double[] xu = new double[problemDimension];
 		double[] xv = new double[problemDimension];
+		double[] xc = new double[problemDimension];
 		
 		double[] winner = new double[problemDimension];
 		double[] loser = new double[problemDimension];
@@ -229,9 +231,13 @@ public class cDE extends AlgorithmBias
 					b = crossOverExp(best, b, CR, PRGCounter);
 			}
 			
+			
+			
 			b = correct(b,best,normalizedBounds);
+			
+			
+			bScaled = scale(b, bounds, mu);
 
-			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);
 			i++;
 
@@ -243,6 +249,8 @@ public class cDE extends AlgorithmBias
 					loser[n] = best[n];
 				}
 				fBest = fB;
+				
+				
 				
 				newID++; 
 				

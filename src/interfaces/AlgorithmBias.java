@@ -310,7 +310,7 @@ public abstract class AlgorithmBias
 		double[][] BOUNDS = new double[n][2];
 		for(int i=0; i<n; i++)
 		{
-			BOUNDS[i][1] = bounds[0];
+			BOUNDS[i][0] = bounds[0];
 			BOUNDS[i][1] = bounds[1];
 		}	
 		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
