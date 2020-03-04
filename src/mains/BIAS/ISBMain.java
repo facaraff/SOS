@@ -27,7 +27,7 @@ public abstract class ISBMain {
 
 	
 	
-	protected static void execute(Vector<AlgorithmBias> algorithms, Vector<Problem> problems, int problemDimension, ExperimentHelper expSettings) throws Exception
+	protected static void execute(Vector<AlgorithmBias> algorithms, Vector<Problem> problems, ExperimentHelper expSettings) throws Exception
 	{	
 		
 		int algorithmIndex = 0;

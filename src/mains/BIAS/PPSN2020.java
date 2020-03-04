@@ -49,11 +49,29 @@ public class PPSN2020 extends ISBMain
 		AlgorithmBias a;
 		Problem p;
 
+		
+	
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
-		
-		
+	
 		ExperimentHelper expSettings = new ExperimentHelper();
+		
+		
+		
+		
+		int n = expSettings.getProblemDimension();
+		double[][] bounds = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			bounds[i][0] = 0;
+			bounds[i][1] = 1;
+		}	
+		
+		
+		p = new Noise(n, bounds);
+		p.setFID("f0");
+		
+		problems.add(p);
 		
 		
 		char[] corrections = {'s','t','d','m','c'};
@@ -88,6 +106,7 @@ public class PPSN2020 extends ISBMain
 						}
 			
 			a = new cDELight();
+			a.setID("clDE");
 			a.setDir("CDE"+slash());
 			a.setCorrection(correction);
 			a.setParameter("p0", 300.0);
@@ -99,21 +118,8 @@ public class PPSN2020 extends ISBMain
 			
 	
 
-		int n = expSettings.getProblemDimension();
-		
-		double[][] bounds = new double[n][2];
-		for(int i=0; i<n; i++)
-		{
-			bounds[i][0] = 0;
-			bounds[i][1] = 1;
-		}	
-		
-		
-		p = new Noise(n, bounds);
-		
-		problems.add(p);
-		
-		execute(algorithms, problems,n, expSettings);
+	
+		execute(algorithms, problems, expSettings);
 		
 		
 		
