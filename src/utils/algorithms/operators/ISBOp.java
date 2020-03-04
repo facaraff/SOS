@@ -194,27 +194,7 @@ public class ISBOp
 		
 			return newPt;
 		}
-	   /**
-		* current-to-best/1 mutation scheme, alternative method.
-		* 
-		* @param cur current individual.
-		* @param xr first (random) individual.
-		* @param xs second (random) individual.
-		* @param bestPt best individual.
-		* @param F scale factor.
-		* @return newPt mutant individual.
-		*/
-		public static double[] currentToBest1(double[] cur, double[] xr, double[] xs, double[] bestPt, double F, Counter counter)
-		{
-			int problemDimension = cur.length;		
-			double[] newPt = new double[problemDimension];
-			for (int i = 0; i < problemDimension; i++)
-			{
-				newPt[i] = cur[i] + F*(bestPt[i]-cur[i]) + F*(xr[i]-xs[i]);
-			}
-
-			return newPt;
-		}
+	
 		 /**
 		* rand-to-best/1 mutation scheme
 		* 
@@ -363,7 +343,7 @@ public class ISBOp
 			int r1 = r[0];
 			int r2 = r[1];
 			int r3 = r[2];
-			double K = RandUtilsISB.random();
+			double K = RandUtilsISB.random(counter);
 			double[] newPt = new double[problemDimension];
 			for (int i = 0; i < problemDimension; i++)
 				newPt[i] = population[j][i] + K*(population[r1][i]-population[j][i]) + K*F*(population[r2][i]-population[r3][i]);
@@ -420,24 +400,8 @@ public class ISBOp
 		
 			return newPt;
 		}
-		/**
-		* best/1 mutation scheme, alternative method.
-		* 
-		* @param xBest best individual.
-		* @param xr first (random) individual.
-		* @param xs second (random) individual.
-		* @param F scale factor.
-		* @return newPt mutant individual.
-		*/
-		public static double[] best1(double[] xBest, double[] xr, double[] xs, double F, Counter counter)
-		{
-			int problemDimension = xr.length;
-			double[] newPt = new double[problemDimension];
-			for (int i = 0; i < problemDimension; i++)
-				newPt[i] = xBest[i] + F*(xr[i]-xs[i]);
-		
-			return newPt;
-		}
+
+
 		/**
 		* best/2 mutation scheme
 		* 
@@ -470,20 +434,6 @@ public class ISBOp
 		
 			return newPt;
 		}
-		/**
-		* best/2 mutation scheme (alternative method)
-		* 
-		*/
-		public static double[] best2(double[] best, double[] r1,double[] r2,double[] r3,double[] r4, double F, Counter counter)
-		{
-			int problemDimension = best.length;
-		
-			double[] newPt = new double[problemDimension];
-			for (int i = 0; i < problemDimension; i++)
-				newPt[i] = best[i] + F*(r1[i]-r2[i]) +  F*(r3[i]-r4[i]);
-		
-			return newPt;
-		}
 	   /**
 		* Exponential crossover
 		* 
@@ -505,7 +455,7 @@ public class ISBOp
 			x_off[index] = y[index];
 
 			index = index + 1;
-			while ((RandUtilsISB.random() <= CR) && (index != startIndex))
+			while ((RandUtilsISB.random(counter) <= CR) && (index != startIndex))
 			{
 				if (index >= n)
 					index = 0;
@@ -537,7 +487,7 @@ public class ISBOp
 			x_off[index] = y[index];
 
 			index = index + 1;
-			int xoverLength = (int)(Math.log(RandUtilsISB.random())/Math.log(CR));
+			int xoverLength = (int)(Math.log(RandUtilsISB.random(counter))/Math.log(CR));
 			int i = 0;
 			while ((i < xoverLength) && (index != startIndex))
 			{
@@ -564,7 +514,7 @@ public class ISBOp
 			int index = RandUtilsISB.randomInteger(n-1, counter);
 			for (int i = 0; i < n; i++)
 			{
-				if (RandUtilsISB.random() < CR || i == index)
+				if (RandUtilsISB.random(counter) < CR || i == index)
 					x_off[i] = y[i];
 				else
 					x_off[i] = x[i];
@@ -599,7 +549,7 @@ public class ISBOp
 					x_off = sum(x_off,multiply(multiply(y,b[j]),b[j]));
 					k++; 
 					j=((j+1)%(n-1));
-				} while(RandUtilsISB.random() <= CR && k<= n);
+				} while(RandUtilsISB.random(counter) <= CR && k<= n);
 				
 				}catch(Exception ex){
 				ex.printStackTrace();
@@ -627,7 +577,7 @@ public class ISBOp
 				int n = x.length;
 				int j = RandUtilsISB.randomInteger(n-1, counter);
 				for(int k=0;k<n;k++)
-					if(k==j || RandUtilsISB.random()< CR)
+					if(k==j || RandUtilsISB.random(counter)< CR)
 						x_off = sum(x_off,multiply(multiply(y,b[k]),b[k]));
 				return x_off;
 			}
@@ -730,7 +680,7 @@ public class ISBOp
 				double[] x_off = new double[x.length];
 				double[][] Pt = null;
 				
-				double r = RandUtilsISB.random();
+				double r = RandUtilsISB.random(counter);
 				
 				if(r<=pr)
 				{
@@ -792,6 +742,7 @@ public class ISBOp
 				
 				return x;
 			}
+			
 }
 
 

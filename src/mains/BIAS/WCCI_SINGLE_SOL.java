@@ -40,6 +40,7 @@ import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
+//import mains.BIAS.ISBMain.Noise;
 import utils.RunAndStore.FTrend;
 import static utils.RunAndStore.slash;
 	
@@ -901,7 +902,7 @@ public class WCCI_SINGLE_SOL
 				}
 			}
 
-			public static class Noise extends Problem 
+			private static class Noise extends Problem 
 			{
 				public Noise(int dimension, double[][] bounds) { super(dimension, bounds); }
 
@@ -917,7 +918,7 @@ public class WCCI_SINGLE_SOL
 			
 			
 			}
-				
+			
 			
 		}
 

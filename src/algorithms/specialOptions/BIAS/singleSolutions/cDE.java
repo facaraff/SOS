@@ -2,14 +2,16 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.operators.ISBOp.crossOverBin;
 import static utils.algorithms.operators.ISBOp.crossOverExp;
-import static utils.algorithms.operators.ISBOp.currentToBest1;
 import static utils.algorithms.operators.ISBOp.currentToRand1;
 import static utils.algorithms.operators.ISBOp.rand1;
 import static utils.algorithms.operators.ISBOp.rand2;
-//import static utils.algorithms.operators.ISBOp.randToBest1;
 import static utils.algorithms.operators.ISBOp.randToBest2;
-import static utils.algorithms.operators.ISBOp.best1;
-import static utils.algorithms.operators.ISBOp.best2;
+// rand to best is equa to current to best in compact optimisation
+
+
+import static utils.algorithms.operators.DEOp.currentToBest1;
+import static utils.algorithms.operators.DEOp.best1;
+import static utils.algorithms.operators.DEOp.best2;
 
 import static utils.algorithms.operators.ISBOp.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
@@ -185,7 +187,7 @@ public class cDE extends AlgorithmBias
 					 // DE/best/1
 					xr = generateIndividual(mean, sigma2,PRGCounter);
 					xs = generateIndividual(mean, sigma2,PRGCounter);
-					b = best1(best,xr,xs,F,PRGCounter);
+					b = best1(best,xr,xs,F);
 					break;
 				case "bt":
 					 // DE/best/1
@@ -193,14 +195,14 @@ public class cDE extends AlgorithmBias
 					xs = generateIndividual(mean, sigma2,PRGCounter);
 					xu = generateIndividual(mean, sigma2,PRGCounter);
 					xv = generateIndividual(mean, sigma2,PRGCounter);
-					b = best2(best,xr,xs,xu,xv,F,PRGCounter);
+					b = best2(best,xr,xs,xu,xv,F);
 					break;
 				case "ctbo":
 					// DE/current(rand)-to-best/1
 					xr = generateIndividual(mean, sigma2,PRGCounter);
 					xs = generateIndividual(mean, sigma2,PRGCounter);
 					xt = generateIndividual(mean, sigma2,PRGCounter);
-					b = currentToBest1(xt, xr, xs, best, F,PRGCounter);
+					b = currentToBest1(xt, xr, xs, best, F);
 					break;
 				case "rtbt":
 					// DE/rand-to-best/2
