@@ -9,7 +9,6 @@ import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.MatLab;
 import utils.RunAndStore.FTrend;
-import utils.random.RandUtils;
 
 public abstract class ISBMain {
 
@@ -99,19 +98,6 @@ public abstract class ISBMain {
 				problemIndex++;
 				}
 			}
-	
-	
-	
-	
-	public static  class Noise extends Problem 
-	{
-		public Noise(int dimension, double[][] bounds) { super(dimension, bounds); setFID("f0");}
-		
-		public void setFID(String string) {setFID(string);}
-
-		public double f(double[] x){return RandUtils.random();}
-	}
-	
 
 
 }

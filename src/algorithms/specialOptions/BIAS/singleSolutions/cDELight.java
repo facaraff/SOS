@@ -35,8 +35,8 @@ public class cDELight extends AlgorithmBias
 		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
 
-		
-		String FullName = getFullName("clDE"+correctionStrategy,problem); 
+	
+		String FullName = getFullName("cDEla"+correctionStrategy,problem); 
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		

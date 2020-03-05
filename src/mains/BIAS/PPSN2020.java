@@ -36,6 +36,7 @@ import utils.ExperimentHelper;
 import mains.BIAS.ISBMain;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
+import benchmarks.Noise;
 
 
 import static utils.RunAndStore.slash;
@@ -84,7 +85,7 @@ public class PPSN2020 extends ISBMain
 				if(mutation.equals("ctro"))
 				{
 					a = new cDE(mutation);
-					a.setDir("CDE"+slash());
+					a.setDir("COMPACTS"+slash());
 					a.setCorrection(correction);
 					a.setParameter("p0", 300.0);
 					a.setParameter("p1", 0.25);
@@ -96,7 +97,7 @@ public class PPSN2020 extends ISBMain
 					for(char xover : CrossOvers)
 						{
 							a = new cDE(mutation,xover);
-							a.setDir("CDE"+slash());
+							a.setDir("COMPACTS"+slash());
 							a.setCorrection(correction);
 							a.setParameter("p0", 300.0);
 							a.setParameter("p1", 0.25);
@@ -106,145 +107,50 @@ public class PPSN2020 extends ISBMain
 						}
 			
 			a = new cDELight();
-			a.setID("clDE");
-			a.setDir("CDE"+slash());
+			a.setDir("COMPACTS"+slash());
 			a.setCorrection(correction);
 			a.setParameter("p0", 300.0);
 			a.setParameter("p1", 0.25);
 			a.setParameter("p2", 0.5);
 			algorithms.add(a);	
 			a = null;
+			
+			a = new cPSO();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 50.0);
+			a.setParameter("p1", -0.2);
+			a.setParameter("p2", -0.07);
+			a.setParameter("p3", 3.74);
+			a.setParameter("p4", 1.0);
+			a.setParameter("p5", 1.0);
+			algorithms.add(a);
+			a = null;
+			
+			a = new cBFO();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 300.0);
+			a.setParameter("p1", 0.1);
+			a.setParameter("p2", 4.0);
+			a.setParameter("p3", 1.0);
+			a.setParameter("p4", 10.0);
+			a.setParameter("p5", 2.0);
+			a.setParameter("p6", 2.0);
+			algorithms.add(a);
+			a = null;
+			
+			a = new cGA_real();
+			a.setDir("COMPACTS"+slash());
+			a.setParameter("p0",300.0);
+			a.setParameter("p1",200.0);
+			a.setCorrection('x');
+			algorithms.add(a);
+			
 		}
 			
-	
-
-	
 		execute(algorithms, problems, expSettings);
-		
-		
-		
-
-
-//		
-//		a = new cBFO();
-//		a.setDir(dir+"CBFO"+slash());
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);
-//		a.setParameter("p2", 4.0);
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 10.0);
-//		a.setParameter("p5", 2.0);
-//		a.setParameter("p6", 2.0);
-//		a.setCorrection('t');
-//		algorithms.add(a);
-//		
-//		a = new cBFO();
-//		a.setDir(dir+"CBFO"+slash());
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);
-//		a.setParameter("p2", 4.0);
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 10.0);
-//		a.setParameter("p5", 2.0);
-//		a.setParameter("p6", 2.0);
-//		a.setCorrection('s');
-//		algorithms.add(a);
-//		
-//		a = new cBFO();
-//		a.setDir(dir+"CBFO"+slash());
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);
-//		a.setParameter("p2", 4.0);
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 10.0);
-//		a.setParameter("p5", 2.0);
-//		a.setParameter("p6", 2.0);
-//		a.setCorrection('d');
-//		algorithms.add(a);	
-//		
-//		a = new cBFO();
-//		a.setDir(dir+"CBFO"+slash());
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);
-//		a.setParameter("p2", 4.0);
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 10.0);
-//		a.setParameter("p5", 2.0);
-//		a.setParameter("p6", 2.0);
-//		a.setCorrection('m');
-//		algorithms.add(a);
-//		
-//		a = new cBFO();
-//		a.setDir(dir+"CBFO"+slash());
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);
-//		a.setParameter("p2", 4.0);
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 10.0);
-//		a.setParameter("p5", 2.0);
-//		a.setParameter("p6", 2.0);
-//		a.setCorrection('c');
-//		algorithms.add(a);
-//		
-//
-//		a = new cPSO();
-//		a.setDir(dir+"CPSO"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0", 50.0);
-//		a.setParameter("p1", -0.2);
-//		a.setParameter("p2", -0.07);
-//		a.setParameter("p3", 3.74);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		algorithms.add(a);
-//		
-//		a = new cPSO();
-//		a.setDir(dir+"CPSO"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0", 50.0);
-//		a.setParameter("p1", -0.2);
-//		a.setParameter("p2", -0.07);
-//		a.setParameter("p3", 3.74);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		algorithms.add(a);
-//		
-//		a = new cPSO();
-//		a.setDir(dir+"CPSO"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0", 50.0);
-//		a.setParameter("p1", -0.2);
-//		a.setParameter("p2", -0.07);
-//		a.setParameter("p3", 3.74);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		algorithms.add(a);
-//		
-//		a = new cPSO();
-//		a.setDir(dir+"CPSO"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0", 50.0);
-//		a.setParameter("p1", -0.2);
-//		a.setParameter("p2", -0.07);
-//		a.setParameter("p3", 3.74);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		algorithms.add(a);
-//		
-//		a = new cPSO();
-//		a.setDir(dir+"CPSO"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0", 50.0);
-//		a.setParameter("p1", -0.2);
-//		a.setParameter("p2", -0.07);
-//		a.setParameter("p3", 3.74);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		algorithms.add(a);
-		
-
-
-			
+	
 		}
 }
 

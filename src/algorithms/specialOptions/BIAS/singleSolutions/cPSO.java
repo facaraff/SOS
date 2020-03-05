@@ -2,19 +2,16 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.operators.ISBOp.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 /*
  * compact Particle Swarm Optimization
@@ -36,25 +33,17 @@ public class cPSO extends AlgorithmBias
 		double[][] bounds = problem.getBounds();
 		double[] normalizedBounds = {-1.0, 1.0};
 		
-		
-	 // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "cPSO"+this.correction; 
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		String FullName = getFullName("cPSO"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" phi1 "+phi1+" phi2 "+phi2+" phi3 "+phi3+" gamma1 "+gamma1+" gamma2 "+gamma2+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+		
+		RandUtilsISB.setSeed(this.seed);	
+		writeHeader("phi1 "+phi1+" phi2 "+phi2+" phi3 "+phi3+" gamma1 "+gamma1+" gamma2 "+gamma2,problem);
+
 
 		// initialize mean and sigma
 		double[] mean = new double[problemDimension];
@@ -78,13 +67,14 @@ public class cPSO extends AlgorithmBias
 		double[] b = new double[problemDimension];
 		double[] aScaled = new double[problemDimension];
 		double[] bScaled = new double[problemDimension];
-		a = generateIndividual(mean, sigma2);
-		b = generateIndividual(mean, sigma2);
+		a = generateIndividual(mean, sigma2, PRGCounter);
+		b = generateIndividual(mean, sigma2, PRGCounter);
 		aScaled = scale(a, bounds, xc);
 		bScaled = scale(b, bounds, xc);
 		double fA = problem.f(aScaled); i++; newID++;
-		
 		FT.add(i,fA);
+		
+		String line = new String();
 		line =""+newID+" "+formatter(fA)+" "+i+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
 			line+=" "+formatter(aScaled[n]);
@@ -132,8 +122,8 @@ public class cPSO extends AlgorithmBias
 		double[] x_lb = new double[problemDimension];
 
 		// position and velocity
-		double[] x = generateIndividual(mean, sigma2);
-		double[] v = generateIndividual(mean, sigma2);
+		double[] x = generateIndividual(mean, sigma2, PRGCounter);
+		double[] v = generateIndividual(mean, sigma2, PRGCounter);
 		for (int n = 0; n < problemDimension; n++)
 			v[n] = 0.1*v[n];
 		
@@ -150,10 +140,10 @@ public class cPSO extends AlgorithmBias
 		while (i < maxEvaluations)
 		{
 
-			x_lb = generateIndividual(mean, sigma2);
+			x_lb = generateIndividual(mean, sigma2, PRGCounter);
 			for (int n = 0; n < problemDimension; n++)
 			{
-				v[n] = phi1*v[n]+phi2*RandUtils.random()*(x_lb[n]-x[n])+phi3*RandUtils.random()*(x_gb[n]-x[n]);
+				v[n] = phi1*v[n]+phi2*RandUtilsISB.random(PRGCounter)*(x_lb[n]-x[n])+phi3*RandUtilsISB.random(PRGCounter)*(x_gb[n]-x[n]);
 				x[n] = gamma1*x[n] + gamma2*v[n];
 			}
 			
@@ -231,7 +221,8 @@ public class cPSO extends AlgorithmBias
 		FT.add(i, fitness_gb);
 		bw.close();
 		finalBest = x_gb;
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }
