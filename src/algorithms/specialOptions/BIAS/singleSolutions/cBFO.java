@@ -210,38 +210,7 @@ public class cBFO extends AlgorithmBias
 				for (int n = 0; n < problemDimension; n++)
 					a[n] = a[n] + C_i * delta[n]/stepNorm;
 
-				
-				
-				
-//				double[] output = new double[problemDimension];
-//				if(this.correction == 't')
-//				{
-//					//System.out.println("TORO");
-//					output = toro(a, normalizedBounds);
-//				}
-//				else if(this.correction== 's')
-//				{
-//					//System.out.println("SAT");
-//					output = saturation(a, normalizedBounds);
-//				}
-//				else if(this.correction== 'd')
-//				{
-//					output = toro(a, normalizedBounds);
-//					if(!Arrays.equals(output, a))
-//						output = scale(best,bounds, xc);
-//					
-//					
-//				}
-//				else
-//					System.out.println("No bounds handling shceme seleceted");
-//				
-//				if(!Arrays.equals(output, a))
-//				{
-//					a = output;
-//					output = null;
-//					ciccio++;
-//				}
-				
+
 				a = correct(a,best,normalizedBounds);
 				
 				aScaled = scale(a, bounds, xc);

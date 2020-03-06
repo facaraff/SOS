@@ -336,14 +336,13 @@ public abstract class AlgorithmBias
 	{  
 		this.seed = System.currentTimeMillis();
 		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
-//		System.out.println(line);
 		bw.write(line);
 	}
 
 	
 	protected String getHeader(){return this.header;}
 	
-//	protected void closeAll() throws Exception {this.file = null; this.fw.close(); this.bw.close();} 
+
 	protected void closeAll() throws Exception {this.bw.close();} 
 	
 	
