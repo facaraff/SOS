@@ -11,7 +11,7 @@ import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
 /**
- * Differential Evolution (standard version, rand/1/bin)
+ * Differential Evolution (all established variants)
  */
 public class DE extends Algorithm
 {

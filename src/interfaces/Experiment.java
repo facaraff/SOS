@@ -70,7 +70,7 @@ public abstract class Experiment
 	private boolean showPValue = false; ///< If true, then p-value is displayed
 	//private boolean showPValue = false; se lo vuoi impostare fai un meto startExperiment sulla classe che eredita perche' tanto capita raramente.. 
 	private int nrProc = Runtime.getRuntime().availableProcessors();
-	private boolean MT = true; //Multithread exoperiments
+	private boolean MT = true; //Multithread experiments
 	private Date date = new Date();
 	
 	//CONSTRUCTORS
