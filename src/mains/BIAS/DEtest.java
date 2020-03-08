@@ -27,7 +27,7 @@ import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 	
-public class kononovaDEtest
+public class DEtest
 {
 	// number of repetitions and budget factor
 	static int nrRepetitions = 50;
@@ -65,26 +65,19 @@ public class kononovaDEtest
 		a.setParameter("p1",0.1);
 		a.setParameter("p2",0.2);
 		algorithms.add(a);
-		//double[] bias = null;
-		//a = new DEro();
-		//a = new DEbo();
-//		a = new DEcbo();
+
 		a = new DErt();
 		a.setParameter("p0",5.0);
 		a.setParameter("p1",0.1);
 		a.setParameter("p2",0.2);
 		algorithms.add(a);
-//		a = new DEro();
-//		a = new DEbo();
-//		a = new DEcbo();
+
 		a = new DErt();
 		a.setParameter("p0",20.0);
 		a.setParameter("p1",0.1);
 		a.setParameter("p2",0.2);
 		algorithms.add(a);
-//		a = new DEro();
-//		a = new DEbo();
-//		a = new DEcbo();
+
 		a = new DErt();
 		a.setParameter("p0",100.0);
 		a.setParameter("p1",0.1);
@@ -109,10 +102,6 @@ public class kononovaDEtest
 		a.setParameter("p1",0.1);
 		a.setParameter("p2",0.2);
 		algorithms.add(a);
-		
-		
-		
-		
 		
 		a = new DEcbo();
 		a.setParameter("p0",5.0);

@@ -2,7 +2,7 @@ package experiments.blessing;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import benchmarks.CEC2014RotInvStudy;
+import benchmarks.RCEC2014;
 import algorithms.blessing.*;
 
 
@@ -35,8 +35,8 @@ public class NewBlessingTests extends Experiment
 		add(a);
 		
 		
-		add(new CEC2014RotInvStudy(probDim, 1));
-		add(new CEC2014RotInvStudy(probDim, 1,0));
+		add(new RCEC2014(probDim, 1));
+		add(new RCEC2014(probDim, 1,0));
 
 		
 //		for(int i = 1; i<=30; i++)

@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -26,46 +26,60 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package benchmarks;
+package mains;
 
-import benchmarks.problemsImplementation.CEC2014.CEC2014TestFuncRotInvStudy;
-
-//import java.text.DecimalFormat;
-//import java.util.Vector;
-
-//import algorithms.interfaces.Algorithm;
+import algorithms.DE;
+import benchmarks.RCEC2014;
+import interfaces.Algorithm;
 import interfaces.Problem;
-
-
-public class CEC2014RotInvStudy extends Problem
+import interfaces.Experiment;
+	
+public class ExampleTuning extends Experiment
 {
-	private CEC2014TestFuncRotInvStudy testFunc;
+	public ExampleTuning() {super("ExampleTuning");};
 	
-	public CEC2014RotInvStudy(int dimension, int problemNum) throws Exception
-	{
-		 super(dimension, new double[] {-100, 100});  
-		 setFID(".f"+problemNum);
-		 
-		 testFunc = new CEC2014TestFuncRotInvStudy(dimension,problemNum);
-		//testFunc.printRotation();
-	}
+	public static void main(String[] args) throws Exception
+	{	
+
+		
 	
-	public CEC2014RotInvStudy(int dimension, int problemNum, int rot) throws Exception
-	{
-		 super(dimension, new double[] {-100, 100});  
-		 setFID(".f"+problemNum);
-		 
-		 testFunc = new CEC2014TestFuncRotInvStudy(dimension,problemNum, rot);
-		 //testFunc.printRotation();
-	}
+		ExampleTuning test = new ExampleTuning();
+		test.setBudgetFactor(1000);
+		test.setNrRuns(10);
+//		test.setMT(false); Uncomment of you want to use the single-thread mode
+
+
+		
+		Problem p = new RCEC2014(10,1);
+		p.setFID("sphere");
+		test.add(p);
+
+		Algorithm a;
+		
+		char[] corrections = {'s','t','m','c'};
+		String[] DEMutations = {"ro","rt","bo","bt","ctbo","rtbt"};
+		char[] CrossOvers = {'b','e'};
+		
+		for (char correction : corrections)
+		{
+			for (String mutation : DEMutations)
+					for(char xover : CrossOvers)
+						{
+							a = new DE(mutation,xover);
+							a.setCorrection(correction);
+							a.setParameter("p0", (double)20.0); //Population size
+							a.setParameter("p1", 0.7); //F
+							a.setParameter("p2", 0.5); //CR
+							a.setParameter("p3", Double.NaN);
+							test.add(a);	
+							a = null;
+						}
+			
+		}
+		
+		test.startExperiment();
 	
-	public double f(double[] x)
-	{
-		return testFunc.f(x);
-	}
-	
-	public void printRotationFlag()
-	{
-		testFunc.printRotation();
-	}
+		}
 }
+
+		

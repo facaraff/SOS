@@ -44,13 +44,6 @@ import static utils.MatLab.multiply;
 import static utils.MatLab.columnXrow;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
-import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Misc.completeOneTailedNormal;
-import static utils.algorithms.Misc.mirroring;
-import static utils.algorithms.Misc.saturation;
-import static utils.algorithms.Misc.toro;
-
-import java.util.Arrays;
 
 import static utils.MatLab.norm2;
 import static utils.MatLab.mean;
@@ -58,7 +51,7 @@ import static utils.MatLab.getQuantile;
 import static utils.MatLab.linearNormalisation;
 import static utils.MatLab.cloneArray;
 
-import utils.algorithms.operators.DEOp;
+
 import utils.random.RandUtils;
 import interfaces.Problem;
 

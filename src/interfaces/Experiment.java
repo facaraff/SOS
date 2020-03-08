@@ -395,8 +395,7 @@ public abstract class Experiment
 	
 	protected void startSTExperiment()  throws Exception
 	{
-		
-		
+
 
 		int algorithmIndex = 0;
 

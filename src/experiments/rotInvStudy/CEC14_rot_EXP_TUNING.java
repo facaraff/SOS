@@ -30,7 +30,7 @@ package experiments.rotInvStudy;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import benchmarks.CEC2014RotInvStudy;
+import benchmarks.RCEC2014;
 import algorithms.DE;
 
 
@@ -74,7 +74,7 @@ public class CEC14_rot_EXP_TUNING extends Experiment
 		add(a);
 		
 		for(int i = 1; i<=30; i++)
-				add(new CEC2014RotInvStudy(probDim, i));
+				add(new RCEC2014(probDim, i));
 
 
 

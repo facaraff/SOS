@@ -9,10 +9,10 @@ import benchmarks.CEC2014;
 //import benchmarks.BaseFunctions.Ackley;
 //import benchmarks.BaseFunctions.Rosenbrock;
 
-public class MUCCHIATADE extends Experiment
+public class DEALGORITHMS extends Experiment
 {
 	
-	public MUCCHIATADE(int probDim) throws Exception
+	public DEALGORITHMS(int probDim) throws Exception
 	{
 		//super(probDim,"DESIGN");
 		super(probDim,5000,"DESIGN");

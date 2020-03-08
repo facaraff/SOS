@@ -26,60 +26,46 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package experiments;
+package benchmarks;
 
-import interfaces.Experiment;
-import interfaces.Algorithm;
-//import interfaces.Problem;
-import algorithms.singleSolution.*;
-//import algorithms.compact.*;
-import benchmarks.CEC2014;
+import benchmarks.problemsImplementation.CEC2014.CEC2014TestFuncRotInvStudy;
+
+//import java.text.DecimalFormat;
+//import java.util.Vector;
+
+//import algorithms.interfaces.Algorithm;
+import interfaces.Problem;
 
 
-public class extendedtoro extends Experiment
+public class RCEC2014 extends Problem
 {
+	private CEC2014TestFuncRotInvStudy testFunc;
 	
-	public extendedtoro(int probDim) throws Exception
+	public RCEC2014(int dimension, int problemNum) throws Exception
 	{
-		//super(probDim,"DESIGN");
-		super(probDim,5000,"DESIGN");
-		setNrRuns(30);
-		
-
-		Algorithm a;// ///< A generic optimiser.
-////	    Problem p;// ///< A generic problem.
-		
-//		//questo e' stato quello uufficializzato
-//		a = new ResampledCMAES11();
-//	    a.setParameter("p0",0.95); 
-//	    a.setParameter("p1",0.18181818181); // 2/11
-//	    a.setParameter("p2", 0.08333333333);// 1/12
-//	    a.setParameter("p3", 0.44);
-//	    a.setParameter("p4", 1.0);// 1 --> problem dependent!!
-//	    a.setParameter("p5", 0.20);
-//	    add(a);
-	    
-
-		a = new Powell();
-		a.setParameter("p0", 0.0001);
-		a.setParameter("p1", 100.0);
-		add(a);
-		
-		a = new SolisWets();
-		a.setParameter("p0", 1.0);
-		add(a);
-	    
-//	    a = new cDE_exp_light();
-//	    a.setParameter("p0",300.0);
-//	    a.setParameter("p1", 0.25);
-//	    a.setParameter("p2", 0.5);
-//	    a.setParameter("p3", 3.0);
-//	    a.setParameter("p4", 1.0);
-//	    a.setParameter("p5", 1.0);
-//	    add(a);
+		 super(dimension, new double[] {-100, 100});  
+		 setFID(".f"+problemNum);
+		 
+		 testFunc = new CEC2014TestFuncRotInvStudy(dimension,problemNum);
+		//testFunc.printRotation();
+	}
 	
-		for(int i = 1; i<=30; i++)
-			add(new CEC2014(probDim, i));
-
+	public RCEC2014(int dimension, int problemNum, int rot) throws Exception
+	{
+		 super(dimension, new double[] {-100, 100});  
+		 setFID(".f"+problemNum);
+		 
+		 testFunc = new CEC2014TestFuncRotInvStudy(dimension,problemNum, rot);
+		 //testFunc.printRotation();
+	}
+	
+	public double f(double[] x)
+	{
+		return testFunc.f(x);
+	}
+	
+	public void printRotationFlag()
+	{
+		testFunc.printRotation();
 	}
 }
