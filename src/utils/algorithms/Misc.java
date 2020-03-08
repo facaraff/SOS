@@ -44,11 +44,21 @@ import static utils.MatLab.multiply;
 import static utils.MatLab.columnXrow;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
+import static utils.algorithms.Misc.cloneSolution;
+import static utils.algorithms.Misc.completeOneTailedNormal;
+import static utils.algorithms.Misc.mirroring;
+import static utils.algorithms.Misc.saturation;
+import static utils.algorithms.Misc.toro;
+
+import java.util.Arrays;
+
 import static utils.MatLab.norm2;
 import static utils.MatLab.mean;
 import static utils.MatLab.getQuantile;
 import static utils.MatLab.linearNormalisation;
 import static utils.MatLab.cloneArray;
+
+import utils.algorithms.operators.DEOp;
 import utils.random.RandUtils;
 import interfaces.Problem;
 
@@ -731,8 +741,63 @@ public class Misc {
 
 		return orzobimbo;
 	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Correction functions wrapper method
+	 * 
+	 * @param correction correction strategy to use.
+	 * @param x solution to be corrected.
+	 * @param bounds search space boundaries (general case).
+	 * @return x_c corrected solution.
+	 */
+	public static double[] correct(char correction, double[] x, double[][] bounds) 
+	{
+		int n = x.length;
+		double[] x_c = new double[n];
+		
+		switch (correction)
+		{
+			case 't':
+				// toroidal
+				x_c = toro(x, bounds);
+				break;
+			case 's':
+				// saturation
+				x_c = saturation(x, bounds);
+				break;
+			case 'm':
+				//mirroring
+				x_c = mirroring(x, bounds);
+				break;
+			case 'c':
+				// complete one tailed normal correction
+				x_c =completeOneTailedNormal(x, bounds, 3.0);
+				break;
+			default:
+				System.out.println("No valid bounds handling scheme selected");
+				break;
+		}
+		
+		return x_c;
+	}
+	
+	
+	
+	
 
 }
+
+
+
+
+
+
 
 /// **
 // * Saturation with "rebound" on bounds of the search space ??????? MA CHE E'

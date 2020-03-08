@@ -39,7 +39,6 @@ public class CEC14TESTS extends Experiment
 	
 	public CEC14TESTS(int probDim) throws Exception
 	{
-		//super(probDim,"cec2015allDim");
 		super(probDim,5000,"testCEC14");
 		setNrRuns(30);
 
@@ -57,14 +56,12 @@ public class CEC14TESTS extends Experiment
 //		a.setParameter("p5", 0.3);//ALPHA
 //		add(a);
 //		
-		a = new DE();
+		a = new DE("ro",'e');
 		a.setID("rDEr1exp");
 		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 2.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//ALPHA
 		add(a);
 		
 		a = new EigenRIDE();

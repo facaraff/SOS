@@ -1,7 +1,7 @@
 package algorithms;
 
 import  utils.algorithms.operators.DEOp;
-import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Misc.correct;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -15,15 +15,25 @@ import utils.RunAndStore.FTrend;
  */
 public class DE extends Algorithm
 {
+	
+	protected String mutationStrategy = null;
+	protected char crossoverStrategy = 'X';
+	
+	public DE(String mut) {this.mutationStrategy = mut;}
+	public DE(String mut, char xover)
+	{
+		this.mutationStrategy = mut;
+		if(!mut.equals("ctro"))
+			this.crossoverStrategy = xover;
+	}
+	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		int mutationStrategy = getParameter("p3").intValue();
-		int crossoverStrategy = getParameter("p4").intValue();
-		double alpha = getParameter("p5").doubleValue();
+		double alpha = getParameter("p3").doubleValue();
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -81,23 +91,23 @@ public class DE extends Algorithm
 				// mutation
 				switch (mutationStrategy)
 				{
-					case 1:
+					case "ro":
 						// DE/rand/1
 						newPt = DEOp.rand1(population, F);
 						break;
-					case 2:
+					case "ctbo":
 						// DE/cur-to-best/1
 						newPt = DEOp.currentToBest1(population, best, j, F);
 						break;
-					case 3:
+					case "rt":
 						// DE/rand/2
 						newPt = DEOp.rand2(population, F);
 						break;
-					case 4:
+					case "ctro":
 						// DE/current-to-rand/1
 						crossPt = DEOp.currentToRand1(population, j, F);
 						break;
-					case 5:
+					case "rtbt":
 						// DE/rand-to-best/2
 						newPt = DEOp.randToBest2(population, best, F);
 						break;
@@ -106,17 +116,18 @@ public class DE extends Algorithm
 				}
 		
 				// crossover
-				if (mutationStrategy != 4)
+				if (!mutationStrategy.equals("ctro"))
 				{
-					if (crossoverStrategy == 1)
+					if (crossoverStrategy == 'b')
 						crossPt = DEOp.crossOverBin(currPt, newPt, CR);
-					else if (crossoverStrategy == 2)
+					else if (crossoverStrategy == 'e')
 						crossPt = DEOp.crossOverExp(currPt, newPt, CR);
-					else if (crossoverStrategy == 0)
+					else if (crossoverStrategy == 'x')
 						crossPt = newPt;
 				}
 				
-				crossPt = toro(crossPt, bounds);
+				
+				crossPt = correct(this.correction,crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

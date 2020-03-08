@@ -42,7 +42,6 @@ public class CEC14_RIDE_unrot extends Experiment
 	
 	public CEC14_RIDE_unrot(int probDim) throws Exception
 	{
-		//super(probDim,"cec2015allDim");
 		super(probDim,5000,"testCEC14RIDE");
 		setNrRuns(30);
 
@@ -51,34 +50,28 @@ public class CEC14_RIDE_unrot extends Experiment
 	    //Problem p;// ///< A generic problem.
 		
 		
-		a = new DE();
+		a = new DE("ro",'b');
 		a.setID("wrDEr1bin");
 		a.setParameter("p0",  (double)probDim);
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", 0.3); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 1.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//ALPHA
 		add(a);
 		
-		a = new DE();
+		a = new DE("ro",'e');
 		a.setID("wrDEr1exp");
 		a.setParameter("p0",  (double)probDim);
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 2.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//ALPHA
 		add(a);
 		
-		a = new DE();
+		a = new DE("ctro",'x');
 		a.setID("wrDEctr1");
 		a.setParameter("p0",  (double)probDim);
 		a.setParameter("p1", 0.7); //F
 		a.setParameter("p2", Double.NaN);
-		a.setParameter("p3", 4.0);
-		a.setParameter("p4", Double.NaN);
-		a.setParameter("p5", Double.NaN);//ALPHA
+		a.setParameter("p3", Double.NaN);//ALPHA
 		add(a);
 		
 		

@@ -47,6 +47,7 @@ public abstract class Algorithm
 	protected double[] finalBest;
 	protected double initialFitness;
 	protected String ID = null;
+	protected char correction = 't';
 
 	/**
 	 * This method executes the algorithm on a specified problem. 
@@ -93,6 +94,20 @@ public abstract class Algorithm
 	 */
 	public void setID(String name){this.ID = name;}
 	/**
+	 * Set the correction strategy.
+	 * 
+	 * @param run the number of the performed run.
+	 * 
+	 */
+	public void setCorrection(char correction){this.correction = correction;}
+	/**
+	 * Get the correction strategy.
+	 * 
+	 * @return  the correction strategy identifier.
+	 * 
+	 */
+	public char getcorrection(){return this.correction;}
+	/**
 	 * This method returns the identifier ID
 	 * 
 	 * @return ID this value identifies the algorithm and is used to generate the result folder.
@@ -109,6 +124,7 @@ public abstract class Algorithm
 			description+="("+name+" "+getParameter(name)+")";
 		return description;
 	}
+	
 	
 	
 }

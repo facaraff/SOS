@@ -43,41 +43,42 @@ public class cec11 extends Experiment
 {
 	public cec11(int probDim) throws Exception
 	{
-		//super(probDim,"cec2015allDim");
-		super(probDim,5000,"testCEC14RIDE");
+		super(probDim,5000,"ExperimentDE");
 		setNrRuns(30);
 
 		Algorithm a;
 	    Problem p;
 		
-		a = new DE();
+		a = new DE("ro",'b');
 		a.setID("DEr1bin");
-		a.setParameter("p0", (double)probDim);
+		a.setParameter("p0", (double)probDim);//population size
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 1.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//ALPHA
 		add(a);
 		
-		a = new DE();
+		a = new DE("ro",'e');
 		a.setID("DEr1exp");
-		a.setParameter("p0", (double)probDim);
+		a.setParameter("p0", (double)probDim);//population size
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 2.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//ALPHA
 		add(a);
 		
-		a = new DE();
+		a = new DE("ctro");
 		a.setID("DEctr1");
-		a.setParameter("p0", (double)probDim);
+		a.setParameter("p0", (double)probDim);//population size
 		a.setParameter("p1", 0.7); //F
-		a.setParameter("p2", Double.NaN);
-		a.setParameter("p3", 4.0);
-		a.setParameter("p4", Double.NaN);
-		a.setParameter("p5", Double.NaN);//ALPHA
+		a.setParameter("p2", Double.NaN);//
+		a.setParameter("p3", Double.NaN);//ALPHA
+		add(a);
+		
+		a = new DE("ro",'x');
+		a.setID("DEr1noxo");
+		a.setParameter("p0", (double)probDim);//population size
+		a.setParameter("p1", 0.7);//F
+		a.setParameter("p2", Double.NaN); //CR
+		a.setParameter("p3", Double.NaN);//ALPHA
 		add(a);
 		
 		
@@ -131,16 +132,6 @@ public class cec11 extends Experiment
 		a.setParameter("p6", 1.0);//PR
 		add(a);
 		
-		a = new DE();
-		a.setID("DEr1noxo");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.7);//F
-//		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p2", Double.NaN); //CR
-		a.setParameter("p3", 1.0);//mutation strategy
-		a.setParameter("p4", 0.0);//crossover strategy
-		a.setParameter("p5", 0.3);//ALPHA
-		add(a);
 		
 		p = new P1();
 		add(p);
