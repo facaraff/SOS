@@ -10,10 +10,10 @@ import benchmarks.CEC2014;
 //import benchmarks.BaseFunctions.Ackley;
 //import benchmarks.BaseFunctions.Rosenbrock;
 
-public class MUCCHIATALOCAL extends Experiment
+public class LOCALSEARCHERSTEST extends Experiment
 {
 	
-	public MUCCHIATALOCAL(int probDim) throws Exception
+	public LOCALSEARCHERSTEST(int probDim) throws Exception
 	{
 		//super(probDim,"DESIGN");
 		super(probDim,5000,"DESIGN");

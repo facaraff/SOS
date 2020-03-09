@@ -1,7 +1,7 @@
 package algorithms;
 
 import  utils.algorithms.operators.DEOp;
-import static utils.algorithms.Misc.correct;
+import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -13,27 +13,17 @@ import utils.RunAndStore.FTrend;
 /**
  * Differential Evolution (all established variants)
  */
-public class DE extends Algorithm
+public class DE_old extends Algorithm
 {
-	
-	protected String mutationStrategy = null;
-	protected char crossoverStrategy = 'X';
-	
-	public DE(String mut) {this.mutationStrategy = mut;}
-	public DE(String mut, char xover)
-	{
-		this.mutationStrategy = mut;
-		if(!mut.equals("ctro"))
-			this.crossoverStrategy = xover;
-	}
-	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		double alpha = getParameter("p3").doubleValue();
+		int mutationStrategy = getParameter("p3").intValue();
+		int crossoverStrategy = getParameter("p4").intValue();
+		double alpha = getParameter("p5").doubleValue();
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -91,51 +81,42 @@ public class DE extends Algorithm
 				// mutation
 				switch (mutationStrategy)
 				{
-					case "ro":
+					case 1:
 						// DE/rand/1
 						newPt = DEOp.rand1(population, F);
 						break;
-					case "ctbo":
+					case 2:
 						// DE/cur-to-best/1
 						newPt = DEOp.currentToBest1(population, best, j, F);
 						break;
-					case "rt":
+					case 3:
 						// DE/rand/2
 						newPt = DEOp.rand2(population, F);
 						break;
-					case "ctro":
+					case 4:
 						// DE/current-to-rand/1
 						crossPt = DEOp.currentToRand1(population, j, F);
 						break;
-					case "rtbt":
+					case 5:
 						// DE/rand-to-best/2
 						newPt = DEOp.randToBest2(population, best, F);
-						break;
-					case "bo":
-						// DE/best/1
-						newPt = DEOp.best1(population, best, F);
-						break;
-					case "bt":
-						// DE/best/2
-						newPt = DEOp.best2(population, best, F);
 						break;
 					default:
 						break;
 				}
 		
 				// crossover
-				if (!mutationStrategy.equals("ctro"))
+				if (mutationStrategy != 4)
 				{
-					if (crossoverStrategy == 'b')
+					if (crossoverStrategy == 1)
 						crossPt = DEOp.crossOverBin(currPt, newPt, CR);
-					else if (crossoverStrategy == 'e')
+					else if (crossoverStrategy == 2)
 						crossPt = DEOp.crossOverExp(currPt, newPt, CR);
-					else if (crossoverStrategy == 'x')
+					else if (crossoverStrategy == 0)
 						crossPt = newPt;
 				}
 				
-				
-				crossPt = correct(this.correction,crossPt, bounds);
+				crossPt = toro(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

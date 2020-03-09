@@ -1,25 +1,22 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 
-import static utils.algorithms.operators.DEOp.crossOverExpFast;
-import static utils.algorithms.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.operators.ISBOp.crossOverExpFast;
+import static utils.algorithms.operators.ISBOp.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 /*
  * compact Differential Evolution Light (with light exponential crossover and light mutation)
  */
-public class cDE_exp_light extends AlgorithmBias
+public class cDELight extends AlgorithmBias
 {
 
 	
@@ -31,32 +28,27 @@ public class cDE_exp_light extends AlgorithmBias
 		double alpha = this.getParameter("p1").doubleValue();//0.25
 		double F = this.getParameter("p2").doubleValue();//0.5
 		
-	
-			
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
+		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "clDE"+correctionStrategy; 
-		
-		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+
+	
+		String FullName = getFullName("cDEla"+correctionStrategy,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+		
+		RandUtilsISB.setSeed(this.seed);	
+		writeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F, problem);
+		
+
+		
 		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
@@ -80,14 +72,15 @@ public class cDE_exp_light extends AlgorithmBias
 		double[] aScaled = new double[problemDimension];
 		double[] bScaled = new double[problemDimension];
 		
-		a = generateIndividual(mean, sigma2);
-		b = generateIndividual(mean, sigma2);
+		a = generateIndividual(mean, sigma2, PRGCounter);
+		b = generateIndividual(mean, sigma2, PRGCounter);
 		aScaled = scale(a, bounds, xc);
 		bScaled = scale(b, bounds, xc);
 
 		double fA = problem.f(aScaled); i++; newID++;
-		
 		FT.add(1, fA);
+		String line = new String();
+		
 		line =""+newID+" "+formatter(fA)+" "+i+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
 			line+=" "+formatter(aScaled[n]);
@@ -142,8 +135,8 @@ public class cDE_exp_light extends AlgorithmBias
 			
 			for (int n = 0; n < problemDimension; n++)
 				sigma2_F[n] = Fmod*sigma2[n];
-			b = generateIndividual(mean, sigma2_F);
-			b = crossOverExpFast(best, b, CR);
+			b = generateIndividual(mean, sigma2_F, PRGCounter);
+			b = crossOverExpFast(best, b, CR, PRGCounter);
 			
 			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);
@@ -193,7 +186,8 @@ public class cDE_exp_light extends AlgorithmBias
 		finalBest = best;
 		bw.close();
 		FT.add(i, fBest);
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }

@@ -1,19 +1,16 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.operators.ISBOp.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
 import utils.MatLab;
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 /*
  * compact Bacterial Foraging Optimization
@@ -44,24 +41,15 @@ public class cBFO extends AlgorithmBias
 		int evalCount = 0;
 		
 		
-		String fileName = "cBFO"+this.correction; 
-		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		String FullName = getFullName("cBFO"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 		
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" C_initial "+C_initial+" Ns "+Ns+" sepsilon_initial "+epsilon_initial+" ng "+ng+" alfa "+alfa+" beta"+beta+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
-		prevID = newID;
+		
+		RandUtilsISB.setSeed(this.seed);	
+		writeHeader("virtualPopulationSize "+virtualPopulationSize+" C_initial "+C_initial+" Ns "+Ns+" sepsilon_initial "+epsilon_initial+" ng "+ng+" alfa "+alfa+" beta"+beta,problem);
 		
 		
 		
@@ -86,15 +74,16 @@ public class cBFO extends AlgorithmBias
 		double[] aScaled = new double[problemDimension];
 		double[] bScaled = new double[problemDimension];
 		
-		a = generateIndividual(mean, sigma2);
-		b = generateIndividual(mean, sigma2);
+		a = generateIndividual(mean, sigma2, PRGCounter);
+		b = generateIndividual(mean, sigma2, PRGCounter);
 		aScaled = scale(a, bounds, xc);
 		bScaled = scale(b, bounds, xc);
 
-		double fA = problem.f(aScaled);
-		newID++;
-		
+		double fA = problem.f(aScaled); newID++;
 		FT.add(1, fA);
+		
+		String line = new String();
+		
 		line =""+newID+" "+formatter(fA)+" "+evalCount+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
 			line+=" "+formatter(aScaled[n]);
@@ -212,7 +201,7 @@ public class cBFO extends AlgorithmBias
 				
 				// evaluate chemotactic direction vector
 				for (int n = 0; n < problemDimension; n++)
-					delta[n] = -1.0 + 2*RandUtils.random();
+					delta[n] = -1.0 + 2*RandUtilsISB.random(PRGCounter);
 
 				// chemotactic direction vector norm
 				double stepNorm = MatLab.norm2(delta);
@@ -221,38 +210,7 @@ public class cBFO extends AlgorithmBias
 				for (int n = 0; n < problemDimension; n++)
 					a[n] = a[n] + C_i * delta[n]/stepNorm;
 
-				
-				
-				
-//				double[] output = new double[problemDimension];
-//				if(this.correction == 't')
-//				{
-//					//System.out.println("TORO");
-//					output = toro(a, normalizedBounds);
-//				}
-//				else if(this.correction== 's')
-//				{
-//					//System.out.println("SAT");
-//					output = saturation(a, normalizedBounds);
-//				}
-//				else if(this.correction== 'd')
-//				{
-//					output = toro(a, normalizedBounds);
-//					if(!Arrays.equals(output, a))
-//						output = scale(best,bounds, xc);
-//					
-//					
-//				}
-//				else
-//					System.out.println("No bounds handling shceme seleceted");
-//				
-//				if(!Arrays.equals(output, a))
-//				{
-//					a = output;
-//					output = null;
-//					ciccio++;
-//				}
-				
+
 				a = correct(a,best,normalizedBounds);
 				
 				aScaled = scale(a, bounds, xc);
@@ -331,12 +289,12 @@ public class cBFO extends AlgorithmBias
 			 */
 			for (int j = 0; j < problemDimension; j++)
 			{
-				mean[j]=mean[j]+(0.2*RandUtils.random()-0.1);
+				mean[j]=mean[j]+(0.2*RandUtilsISB.random(PRGCounter)-0.1);
 				if (mean[j] > 1)
 					mean[j] = 1.0;
 				else if (mean[j] < -1)
 					mean[j] = -1.0;
-				sigma2[j] = Math.abs(sigma2[j] + 0.1*RandUtils.random());
+				sigma2[j] = Math.abs(sigma2[j] + 0.1*RandUtilsISB.random(PRGCounter));
 			}
 			
 			// apply adaptation scheme of ABFO0
@@ -366,7 +324,8 @@ public class cBFO extends AlgorithmBias
 		finalBest = best;
 		FT.add(evalCount, fBest);
 		bw.close();
-		wrtiteCorrectionsPercentage(fileName, (double) this.correction/maxEvaluations, "correctionsSingleSol");
+	
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }

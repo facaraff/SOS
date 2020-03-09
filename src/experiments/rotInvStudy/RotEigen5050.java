@@ -2,7 +2,7 @@ package experiments.rotInvStudy;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import benchmarks.CEC2014RotInvStudy;
+import benchmarks.RCEC2014;
 //import algorithms.RIDE;
 //import algorithms.DE;
 //import algorithms.MMCDE;
@@ -47,7 +47,7 @@ public class RotEigen5050 extends Experiment
 		add(a);
 		
 		for(int i = 1; i<=30; i++)
-				add(new CEC2014RotInvStudy(probDim, i));
+				add(new RCEC2014(probDim, i));
 
 
 

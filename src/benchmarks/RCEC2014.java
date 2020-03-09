@@ -37,11 +37,11 @@ import benchmarks.problemsImplementation.CEC2014.CEC2014TestFuncRotInvStudy;
 import interfaces.Problem;
 
 
-public class CEC2014RotInvStudy extends Problem
+public class RCEC2014 extends Problem
 {
 	private CEC2014TestFuncRotInvStudy testFunc;
 	
-	public CEC2014RotInvStudy(int dimension, int problemNum) throws Exception
+	public RCEC2014(int dimension, int problemNum) throws Exception
 	{
 		 super(dimension, new double[] {-100, 100});  
 		 setFID(".f"+problemNum);
@@ -50,7 +50,7 @@ public class CEC2014RotInvStudy extends Problem
 		//testFunc.printRotation();
 	}
 	
-	public CEC2014RotInvStudy(int dimension, int problemNum, int rot) throws Exception
+	public RCEC2014(int dimension, int problemNum, int rot) throws Exception
 	{
 		 super(dimension, new double[] {-100, 100});  
 		 setFID(".f"+problemNum);

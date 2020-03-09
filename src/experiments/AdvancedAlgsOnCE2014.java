@@ -9,10 +9,10 @@ import benchmarks.CEC2014;
 //import benchmarks.BaseFunctions.Ackley;
 //import benchmarks.BaseFunctions.Rosenbrock;
 
-public class MUCCHIATACATENAZZI extends Experiment
+public class AdvancedAlgsOnCE2014 extends Experiment
 {
 	
-	public MUCCHIATACATENAZZI(int probDim) throws Exception
+	public AdvancedAlgsOnCE2014(int probDim) throws Exception
 	{
 		//super(probDim,"DESIGN");
 		super(probDim,5000,"DESIGN");

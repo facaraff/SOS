@@ -1,44 +1,46 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.operators.DEOp.crossOverBin;
-import static utils.algorithms.operators.DEOp.crossOverExp;
+import static utils.algorithms.operators.ISBOp.crossOverBin;
+import static utils.algorithms.operators.ISBOp.crossOverExp;
+import static utils.algorithms.operators.ISBOp.currentToRand1;
+import static utils.algorithms.operators.ISBOp.rand1;
+import static utils.algorithms.operators.ISBOp.rand2;
+import static utils.algorithms.operators.ISBOp.randToBest2;
+// rand to best is equa to current to best in compact optimisation
+
+
 import static utils.algorithms.operators.DEOp.currentToBest1;
-import static utils.algorithms.operators.DEOp.currentToRand1;
-import static utils.algorithms.operators.DEOp.rand1;
-import static utils.algorithms.operators.DEOp.rand2;
-//import static utils.algorithms.operators.DEOp.randToBest1;
-import static utils.algorithms.operators.DEOp.randToBest2;
 import static utils.algorithms.operators.DEOp.best1;
 import static utils.algorithms.operators.DEOp.best2;
 
-import static utils.algorithms.CompactAlgorithms.generateIndividual;
+import static utils.algorithms.operators.ISBOp.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
+import utils.algorithms.Counter;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
 /*
- * compact Differential Evolution Light (with light exponential crossover and light mutation)
+ * compact Differential Evolution
  */
 public class cDE extends AlgorithmBias
 {	
 	protected String mutationStrategy = null;
-	protected char crossoverStrategy = '?';
+	protected char crossoverStrategy = 'X';
 	
+	public cDE(String mut) {this.mutationStrategy = mut;}
 	public cDE(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
 		if(!mut.equals("ctro"))
 			this.crossoverStrategy = xover;
 	}
+	
+	
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -50,33 +52,24 @@ public class cDE extends AlgorithmBias
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
-		double[] normalizedBounds = {-1.0, 1.0};
-		
+		double[] normalizedBounds = {-1.0, 1.0};		
 
-		
-
+		String line = new String();
 				
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "cDE"+mutationStrategy+crossoverStrategy+correctionStrategy; 
+
 		
-		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		String FullName = getFullName("cDE"+mutationStrategy+crossoverStrategy+correctionStrategy,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
-		
+
+		RandUtilsISB.setSeed(seed);	
+		writeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F, problem);
+
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
 
@@ -89,9 +82,9 @@ public class cDE extends AlgorithmBias
 			sigma2[j] = 1.0;
 		}
 		
-		double[] xc = new double[problemDimension];
+		double[] mu = new double[problemDimension];
 		for (int n = 0; n < problemDimension; n++)
-			xc[n] = (bounds[n][1]+bounds[n][0])/2;
+			mu[n] = (bounds[n][1]+bounds[n][0])/2;
 		
 		// evaluate initial solutions
 		double[] a = new double[problemDimension];
@@ -99,10 +92,10 @@ public class cDE extends AlgorithmBias
 		double[] aScaled = new double[problemDimension];
 		double[] bScaled = new double[problemDimension];
 		
-		a = generateIndividual(mean, sigma2);
-		b = generateIndividual(mean, sigma2);
-		aScaled = scale(a, bounds, xc);
-		bScaled = scale(b, bounds, xc);
+		a = generateIndividual(mean, sigma2,PRGCounter);
+		b = generateIndividual(mean, sigma2,PRGCounter);
+		aScaled = scale(a, bounds, mu);
+		bScaled = scale(b, bounds, mu);
 
 		double fA = problem.f(aScaled); i++; newID++;
 		
@@ -151,6 +144,7 @@ public class cDE extends AlgorithmBias
 		double[] xt = new double[problemDimension];
 		double[] xu = new double[problemDimension];
 		double[] xv = new double[problemDimension];
+		double[] xc = new double[problemDimension];
 		
 		double[] winner = new double[problemDimension];
 		double[] loser = new double[problemDimension];
@@ -167,65 +161,65 @@ public class cDE extends AlgorithmBias
 			{
 				case "ro":
 					 // DE/rand/1
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
-					b = rand1(xr, xs, xt, F);
+					xr = generateIndividual(mean, sigma2, PRGCounter);
+					xs = generateIndividual(mean, sigma2, PRGCounter);
+					xt = generateIndividual(mean, sigma2, PRGCounter);
+					b = rand1(xr, xs, xt, F, PRGCounter);
 					break;
 				case "rt":
 					 // DE/rand/2
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
-					xu = generateIndividual(mean, sigma2);
-					xv = generateIndividual(mean, sigma2);
-					b = rand2(xr, xs, xt, xu, xv, F);
+					xr = generateIndividual(mean, sigma2, PRGCounter);
+					xs = generateIndividual(mean, sigma2,PRGCounter);
+					xt = generateIndividual(mean, sigma2,PRGCounter);
+					xu = generateIndividual(mean, sigma2,PRGCounter);
+					xv = generateIndividual(mean, sigma2,PRGCounter);
+					b = rand2(xr, xs, xt, xu, xv, F,PRGCounter);
 					break;
 				case "ctro":
 					// DE/current-to-rand/1
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
-					xc = generateIndividual(mean, sigma2);
-					b = currentToRand1(xr, xs, xt, xc, F);
+					xr = generateIndividual(mean, sigma2,PRGCounter);
+					xs = generateIndividual(mean, sigma2,PRGCounter);
+					xt = generateIndividual(mean, sigma2,PRGCounter);
+					xc = generateIndividual(mean, sigma2,PRGCounter);
+					b = currentToRand1(xr, xs, xt, xc, F,PRGCounter);
 					break;
 				case "bo":
 					 // DE/best/1
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
+					xr = generateIndividual(mean, sigma2,PRGCounter);
+					xs = generateIndividual(mean, sigma2,PRGCounter);
 					b = best1(best,xr,xs,F);
 					break;
 				case "bt":
 					 // DE/best/1
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xu = generateIndividual(mean, sigma2);
-					xv = generateIndividual(mean, sigma2);
+					xr = generateIndividual(mean, sigma2,PRGCounter);
+					xs = generateIndividual(mean, sigma2,PRGCounter);
+					xu = generateIndividual(mean, sigma2,PRGCounter);
+					xv = generateIndividual(mean, sigma2,PRGCounter);
 					b = best2(best,xr,xs,xu,xv,F);
 					break;
 				case "ctbo":
 					// DE/current(rand)-to-best/1
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
+					xr = generateIndividual(mean, sigma2,PRGCounter);
+					xs = generateIndividual(mean, sigma2,PRGCounter);
+					xt = generateIndividual(mean, sigma2,PRGCounter);
 					b = currentToBest1(xt, xr, xs, best, F);
 					break;
 				case "rtbt":
 					// DE/rand-to-best/2
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
-					xu = generateIndividual(mean, sigma2);
-					xv = generateIndividual(mean, sigma2);
-					b = randToBest2(xr, xs, xt, xu, xv, best, F);
+					xr = generateIndividual(mean, sigma2,PRGCounter);
+					xs = generateIndividual(mean, sigma2,PRGCounter);
+					xt = generateIndividual(mean, sigma2,PRGCounter);
+					xu = generateIndividual(mean, sigma2,PRGCounter);
+					xv = generateIndividual(mean, sigma2,PRGCounter);
+					b = randToBest2(xr, xs, xt, xu, xv, best, F,PRGCounter);
 					break;		
 				case "rsf":
 					 // DE/rand/1-Random-Scale-Factor
-					xr = generateIndividual(mean, sigma2);
-					xs = generateIndividual(mean, sigma2);
-					xt = generateIndividual(mean, sigma2);
-					F = 0.5*(1+RandUtils.random());
-					b = rand1(xr, xs, xt, F);
+					xr = generateIndividual(mean, sigma2,PRGCounter);
+					xs = generateIndividual(mean, sigma2,PRGCounter);
+					xt = generateIndividual(mean, sigma2,PRGCounter);
+					F = 0.5*(1+RandUtilsISB.random());
+					b = rand1(xr, xs, xt, F,PRGCounter);
 				default:
 					break;
 			}
@@ -234,14 +228,18 @@ public class cDE extends AlgorithmBias
 			if (!mutationStrategy.equals("ctro"))
 			{
 				if (crossoverStrategy == 'b')
-					b = crossOverBin(best, b, CR);
+					b = crossOverBin(best, b, CR, PRGCounter);
 				else if (crossoverStrategy == 'e')
-					b = crossOverExp(best, b, CR);
+					b = crossOverExp(best, b, CR, PRGCounter);
 			}
 			
+			
+			
 			b = correct(b,best,normalizedBounds);
+			
+			
+			bScaled = scale(b, bounds, mu);
 
-			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);
 			i++;
 
@@ -253,6 +251,8 @@ public class cDE extends AlgorithmBias
 					loser[n] = best[n];
 				}
 				fBest = fB;
+				
+				
 				
 				newID++; 
 				
@@ -290,9 +290,11 @@ public class cDE extends AlgorithmBias
 		
 		FT.add(i, fBest);
 		finalBest = best;
-		bw.close();
+		closeAll();
 
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		
+		
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 	

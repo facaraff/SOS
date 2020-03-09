@@ -19,12 +19,13 @@ import utils.MatLab;
 import static utils.algorithms.Misc.centroid;
 import static utils.algorithms.Misc.orthonormalise;
 import static utils.algorithms.Misc.Cov;
-
-import utils.random.RandUtils;
+import static utils.algorithms.CompactAlgorithms.truncateRandn;
+import utils.algorithms.Counter;
+import utils.random.RandUtilsISB;
 /**
  * This class contains the implementation of Differential Evolution operators.
 */	
-public class DEOp
+public class ISBOp
 {	
 		/**
 		* rand/1 mutation scheme
@@ -33,7 +34,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] rand1(double[][] population, double F)
+		public static double[] rand1(double[][] population, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -41,7 +42,7 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutation(r); 
+			r = RandUtilsISB.randomPermutation(r, counter); 
 		
 			int r1 = r[0];
 			int r2 = r[1];
@@ -62,7 +63,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] rand1(double[] xr, double[] xs, double[] xt, double F)
+		public static double[] rand1(double[] xr, double[] xs, double[] xt, double F, Counter counter)
 		{
 			int problemDimension = xr.length;
 			double[] newPt = new double[problemDimension];
@@ -77,7 +78,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] rand2(double[][] population, double F)
+		public static double[] rand2(double[][] population, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -85,7 +86,7 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutation(r);
+			r = RandUtilsISB.randomPermutation(r, counter);
 		
 			int r1 = r[0];
 			int r2 = r[1];
@@ -110,7 +111,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] rand2(double[] xr, double[] xs, double[] xt, double[] xu, double[] xv, double F)
+		public static double[] rand2(double[] xr, double[] xs, double[] xt, double[] xu, double[] xv, double F, Counter counter)
 		{
 			int problemDimension = xr.length;
 			double[] newPt = new double[problemDimension];
@@ -128,7 +129,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] currentToBest1(double[][] population, double[] bestPt, int j, double F)
+		public static double[] currentToBest1(double[][] population, double[] bestPt, int j, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -136,7 +137,7 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutationExcl(r,j);
+			r = RandUtilsISB.randomPermutationExcl(r,j, counter);
 			
 			int r1 = r[0];
 			int r2 = r[1];
@@ -157,12 +158,12 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] currentToBest1(double[] fitnesses, double[][] population, int j, double F)
+		public static double[] currentToBest1(double[] fitnesses, double[][] population, int j, double F, Counter counter)
 		{
 			int bestIndex = indexMin(fitnesses);
 			double[] bestPt = population[bestIndex];
 			
-			return currentToBest1(population, bestPt, j, F);
+			return currentToBest1(population, bestPt, j, F, counter);
 		}
 	
 	   /**
@@ -174,7 +175,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] currentToBest1(double[][] population, int bestIndex, int j, double F)
+		public static double[] currentToBest1(double[][] population, int bestIndex, int j, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -182,7 +183,7 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutationExcl(r,j);
+			r = RandUtilsISB.randomPermutationExcl(r,j, counter);
 		
 			int r1 = r[0];
 			int r2 = r[1];
@@ -193,27 +194,7 @@ public class DEOp
 		
 			return newPt;
 		}
-	   /**
-		* current-to-best/1 mutation scheme, alternative method.
-		* 
-		* @param cur current individual.
-		* @param xr first (random) individual.
-		* @param xs second (random) individual.
-		* @param bestPt best individual.
-		* @param F scale factor.
-		* @return newPt mutant individual.
-		*/
-		public static double[] currentToBest1(double[] cur, double[] xr, double[] xs, double[] bestPt, double F)
-		{
-			int problemDimension = cur.length;		
-			double[] newPt = new double[problemDimension];
-			for (int i = 0; i < problemDimension; i++)
-			{
-				newPt[i] = cur[i] + F*(bestPt[i]-cur[i]) + F*(xr[i]-xs[i]);
-			}
-
-			return newPt;
-		}
+	
 		 /**
 		* rand-to-best/1 mutation scheme
 		* 
@@ -222,7 +203,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant indvidual.
 		*/
-		public static double[] randToBest1(double[][] population, double[] bestPt, double F)
+		public static double[] randToBest1(double[][] population, double[] bestPt, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -230,7 +211,7 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutation(r);
+			r = RandUtilsISB.randomPermutation(r, counter);
 		
 			int r1 = r[0];
 			int r2 = r[1];
@@ -250,7 +231,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant indvidual.
 		*/
-		public static double[] randToBest1(double[] fitnesses, double[][] population, double F)
+		public static double[] randToBest1(double[] fitnesses, double[][] population, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -261,7 +242,7 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutation(r);
+			r = RandUtilsISB.randomPermutation(r, counter);
 		
 			int r1 = r[0];
 			int r2 = r[1];
@@ -281,7 +262,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant indvidual.
 		*/
-		public static double[] randToBest2(double[][] population, double[] bestPt, double F)
+		public static double[] randToBest2(double[][] population, double[] bestPt, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -289,7 +270,7 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutation(r);
+			r = RandUtilsISB.randomPermutation(r, counter);
 		
 			int r1 = r[0];
 			int r2 = r[1];
@@ -311,12 +292,12 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant indvidual.
 		*/
-		public static double[] randToBest2(double[] fitnesses, double[][] population, double F)
+		public static double[] randToBest2(double[] fitnesses, double[][] population, double F, Counter counter)
 		{
 			int bestIndex = indexMin(fitnesses);
 			double[] bestPt = population[bestIndex];
 			
-			return randToBest2(population, bestPt, F);
+			return randToBest2(population, bestPt, F, counter);
 		}
 		
 	   /**
@@ -331,7 +312,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return nrePt mutant individual.
 		*/
-		public static double[] randToBest2(double[] xr, double[] xs, double[] xt, double[] xu, double[] xv, double[] bestPt, double F)
+		public static double[] randToBest2(double[] xr, double[] xs, double[] xt, double[] xu, double[] xv, double[] bestPt, double F, Counter counter)
 		{
 			int problemDimension = xr.length;
 		
@@ -349,7 +330,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] currentToRand1(double[][] population, int j, double F)
+		public static double[] currentToRand1(double[][] population, int j, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -357,12 +338,12 @@ public class DEOp
 			int[] r = new int[populationSize];
 			for (int i = 0; i < populationSize; i++)
 				r[i] = i;
-			r = RandUtils.randomPermutationExcl(r,j);
+			r = RandUtilsISB.randomPermutationExcl(r,j, counter);
 		
 			int r1 = r[0];
 			int r2 = r[1];
 			int r3 = r[2];
-			double K = RandUtils.random();
+			double K = RandUtilsISB.random(counter);
 			double[] newPt = new double[problemDimension];
 			for (int i = 0; i < problemDimension; i++)
 				newPt[i] = population[j][i] + K*(population[r1][i]-population[j][i]) + K*F*(population[r2][i]-population[r3][i]);
@@ -379,10 +360,10 @@ public class DEOp
 		* @param F scale factor.
 		* @return newPt mutant individual.
 		*/
-		public static double[] currentToRand1(double[] xr, double[] xs, double[] xt, double[] cur, double F)
+		public static double[] currentToRand1(double[] xr, double[] xs, double[] xt, double[] cur, double F, Counter counter)
 		{
 			int problemDimension = xr.length;
-			double K = RandUtils.random();
+			double K = RandUtilsISB.random(counter);
 			double[] newPt = new double[problemDimension];
 			for (int i = 0; i < problemDimension; i++)
 				newPt[i] = cur[i] + K*(xt[i]-cur[i]) + K*F*(xr[i]-xs[i]);
@@ -397,7 +378,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return mutant individual.
 		*/
-		public static double[] best1(double[][] population, double[] fitnesses, double F)
+		public static double[] best1(double[][] population, double[] fitnesses, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -408,7 +389,7 @@ public class DEOp
 			for (int i = 0; i < populationSize-1; i++)
 				if(i!=index)
 					r[i] = i;
-			r = RandUtils.randomPermutation(r); 
+			r = RandUtilsISB.randomPermutation(r, counter); 
 	
 			int r1 = r[0];
 			int r2 = r[1];
@@ -419,24 +400,8 @@ public class DEOp
 		
 			return newPt;
 		}
-		/**
-		* best/1 mutation scheme, alternative method.
-		* 
-		* @param xBest best individual.
-		* @param xr first (random) individual.
-		* @param xs second (random) individual.
-		* @param F scale factor.
-		* @return newPt mutant individual.
-		*/
-		public static double[] best1(double[] xBest, double[] xr, double[] xs, double F)
-		{
-			int problemDimension = xr.length;
-			double[] newPt = new double[problemDimension];
-			for (int i = 0; i < problemDimension; i++)
-				newPt[i] = xBest[i] + F*(xr[i]-xs[i]);
-		
-			return newPt;
-		}
+
+
 		/**
 		* best/2 mutation scheme
 		* 
@@ -445,7 +410,7 @@ public class DEOp
 		* @param F scale factor.
 		* @return mutant individual.
 		*/
-		public static double[] best2(double[][] population, double[] fitnesses, double F)
+		public static double[] best2(double[][] population, double[] fitnesses, double F, Counter counter)
 		{
 			int problemDimension = population[0].length;
 			int populationSize = population.length;
@@ -456,7 +421,7 @@ public class DEOp
 			for (int i = 0; i < populationSize-1; i++)
 				if(i!=index)
 					r[i] = i;
-			r = RandUtils.randomPermutation(r); 
+			r = RandUtilsISB.randomPermutation(r,counter); 
 	
 			int r1 = r[0];
 			int r2 = r[1];
@@ -469,20 +434,6 @@ public class DEOp
 		
 			return newPt;
 		}
-		/**
-		* best/2 mutation scheme (alternative method)
-		* 
-		*/
-		public static double[] best2(double[] best, double[] r1,double[] r2,double[] r3,double[] r4, double F)
-		{
-			int problemDimension = best.length;
-		
-			double[] newPt = new double[problemDimension];
-			for (int i = 0; i < problemDimension; i++)
-				newPt[i] = best[i] + F*(r1[i]-r2[i]) +  F*(r3[i]-r4[i]);
-		
-			return newPt;
-		}
 	   /**
 		* Exponential crossover
 		* 
@@ -491,10 +442,10 @@ public class DEOp
 		* @param CR crossover rate.
 		* @return x_off offspring solution.
 		*/
-		public static double[] crossOverExp(double[] x, double[] y, double CR)
+		public static double[] crossOverExp(double[] x, double[] y, double CR, Counter counter)
 		{
 			int n = x.length;
-			int startIndex = RandUtils.randomInteger(n-1);
+			int startIndex = RandUtilsISB.randomInteger(n-1, counter);
 			int index = startIndex;
 
 			double[] x_off = new double[n];
@@ -504,7 +455,7 @@ public class DEOp
 			x_off[index] = y[index];
 
 			index = index + 1;
-			while ((RandUtils.random() <= CR) && (index != startIndex))
+			while ((RandUtilsISB.random(counter) <= CR) && (index != startIndex))
 			{
 				if (index >= n)
 					index = 0;
@@ -523,10 +474,10 @@ public class DEOp
 		* @param CR crossover rate.
 		* @return x_off offspring solution.
 		*/
-		public static double[] crossOverExpFast(double[] x, double[] y, double CR)
+		public static double[] crossOverExpFast(double[] x, double[] y, double CR, Counter counter)
 		{
 			int n = x.length;
-			int startIndex = RandUtils.randomInteger(n-1);
+			int startIndex = RandUtilsISB.randomInteger(n-1, counter);
 			int index = startIndex;
 
 			double[] x_off = new double[n];
@@ -536,7 +487,7 @@ public class DEOp
 			x_off[index] = y[index];
 
 			index = index + 1;
-			int xoverLength = (int)(Math.log(RandUtils.random())/Math.log(CR));
+			int xoverLength = (int)(Math.log(RandUtilsISB.random(counter))/Math.log(CR));
 			int i = 0;
 			while ((i < xoverLength) && (index != startIndex))
 			{
@@ -556,14 +507,14 @@ public class DEOp
 		* @param CR crossover rate.
 		* @return x_off offspring solution.
 		*/
-		public static double[] crossOverBin(double[] x, double[] y, double CR)
+		public static double[] crossOverBin(double[] x, double[] y, double CR, Counter counter)
 		{
 			int n = x.length;
 			double[] x_off = new double[n];
-			int index = RandUtils.randomInteger(n-1);
+			int index = RandUtilsISB.randomInteger(n-1, counter);
 			for (int i = 0; i < n; i++)
 			{
-				if (RandUtils.random() < CR || i == index)
+				if (RandUtilsISB.random(counter) < CR || i == index)
 					x_off[i] = y[i];
 				else
 					x_off[i] = x[i];
@@ -584,13 +535,13 @@ public class DEOp
 			* 
 			*  N.B. b is obtained via the getBasis method
 			*/
-			public static double[] riec(double[] x, double[] m, double CR, double[][] b)
+			public static double[] riec(double[] x, double[] m, double CR, double[][] b, Counter counter)
 			{		
 				double[] y = subtract(m,x);
 				double[] x_off = MatLab.cloneArray(x);
 				
 				int n = x.length;
-				int j = RandUtils.randomInteger(n-1);
+				int j = RandUtilsISB.randomInteger(n-1, counter);
 				int k = 0;
 				try {
 					
@@ -598,7 +549,7 @@ public class DEOp
 					x_off = sum(x_off,multiply(multiply(y,b[j]),b[j]));
 					k++; 
 					j=((j+1)%(n-1));
-				} while(RandUtils.random() <= CR && k<= n);
+				} while(RandUtilsISB.random(counter) <= CR && k<= n);
 				
 				}catch(Exception ex){
 				ex.printStackTrace();
@@ -618,15 +569,15 @@ public class DEOp
 			* 
 			*  N.B. b is obtained via the getBasis method
 			*/
-			public static double[] ribc(double[] x, double[] m, double CR, double[][] b)
+			public static double[] ribc(double[] x, double[] m, double CR, double[][] b, Counter counter)
 			{
 				double[] y = subtract(m,x);
 				double[] x_off = MatLab.cloneArray(x);
 				
 				int n = x.length;
-				int j = RandUtils.randomInteger(n-1);
+				int j = RandUtilsISB.randomInteger(n-1, counter);
 				for(int k=0;k<n;k++)
-					if(k==j || RandUtils.random()< CR)
+					if(k==j || RandUtilsISB.random(counter)< CR)
 						x_off = sum(x_off,multiply(multiply(y,b[k]),b[k]));
 				return x_off;
 			}
@@ -638,7 +589,7 @@ public class DEOp
 			* @return b Orthonormal basis.
 			*
 			*/
-			public static double[][] getBasis(double[][] pop)
+			public static double[][] getBasis(double[][] pop, Counter counter)
 			{
 				double[][] b=null;
 				int popSize = pop.length;
@@ -654,7 +605,7 @@ public class DEOp
 					double[][] temp = new double[probDim][probDim];
 					int[] indeces = new int[popSize];
 					for(int i=0; i<probDim; i++) indeces[i]=i;
-					indeces = RandUtils.randomPermutation(indeces);
+					indeces = RandUtilsISB.randomPermutation(indeces, counter);
 					for(int i=0; i<probDim; i++) 
 						temp[i]=MatLab.cloneArray(pop[indeces[i]]);
 					for(int i=0;i<probDim; i++) 
@@ -678,7 +629,7 @@ public class DEOp
 			* @return b Orthonormal basis.
 			*
 			*/
-			public static double[][] getEigenBasis(double[][] pop)
+			public static double[][] getEigenBasis(double[][] pop, Counter counter)
 			{
 				double[][] b=null;
 				int popSize = pop.length;
@@ -694,7 +645,7 @@ public class DEOp
 					double[][] temp = new double[probDim][probDim];
 					int[] indeces = new int[popSize];
 					for(int i=0; i<probDim; i++) indeces[i]=i;
-					indeces = RandUtils.randomPermutation(indeces);
+					indeces = RandUtilsISB.randomPermutation(indeces, counter);
 					for(int i=0; i<probDim; i++) 
 						temp[i]=MatLab.cloneArray(pop[indeces[i]]);
 					for(int i=0;i<probDim; i++) 
@@ -722,14 +673,14 @@ public class DEOp
 			* @param exp 1 for exponential cross-over, 0 for binomial cross-over.
 			* @return x_off offspring solution.
 			*/
-			public static double[] eigenXOver(double[] x, double[] m, double CR, double[][] pop, double pr,  boolean exp)
+			public static double[] eigenXOver(double[] x, double[] m, double CR, double[][] pop, double pr,  boolean exp, Counter counter)
 			{	
 				double[] eigen_x_off_apo = null;
 				double[] eigen_x = null;
 				double[] x_off = new double[x.length];
 				double[][] Pt = null;
 				
-				double r = RandUtils.random();
+				double r = RandUtilsISB.random(counter);
 				
 				if(r<=pr)
 				{
@@ -750,15 +701,48 @@ public class DEOp
 				
 				
 				if(exp)
-					x_off=crossOverExp(eigen_x,eigen_x_off_apo, CR);
+					x_off=crossOverExp(eigen_x,eigen_x_off_apo, CR, counter);
 				else
-					x_off=crossOverBin(eigen_x,eigen_x_off_apo, CR);
+					x_off=crossOverBin(eigen_x,eigen_x_off_apo, CR, counter);
 				
 				if(r<=pr)
 					x_off = multiply(Pt,x_off);
 				
 				return x_off;
 			}
+			
+			
+			/**
+			 * 
+			 * @param mean
+			 * @param sigma2
+			 * @param x
+			 * @return
+			 */
+			public static double[] generateIndividual(double[] mean, double[] sigma2, Counter counter)
+			{
+				int n = mean.length;
+				double[] x = new double[n];
+				for (int i = 0; i < n; i++)
+					x[i] = 2;
+
+				double trial = 0;
+				for (int i = 0; i < n; i++)
+				{
+					trial = 0;
+					while ((Math.abs(x[i])>1) && trial < 10)
+					{
+						trial++;
+						x[i] = RandUtilsISB.gaussian(mean[i], Math.sqrt(sigma2[i]), counter);
+					}
+					
+					if (Math.abs(x[i])>1)
+						x[i] = truncateRandn(RandUtilsISB.random(counter), mean[i], Math.sqrt(sigma2[i]));
+				}
+				
+				return x;
+			}
+			
 }
 
 

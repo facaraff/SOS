@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 
-public class simplifiedSTOCAZZO extends AlgorithmBias
+public class simplified3 extends AlgorithmBias
 {
 	
 	private int run = 0;

@@ -26,60 +26,61 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package experiments;
+package experiments.rotInvStudy;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-//import interfaces.Problem;
-import algorithms.singleSolution.*;
-//import algorithms.compact.*;
-import benchmarks.CEC2014;
+import benchmarks.RCEC2014;
+import algorithms.DE;
 
 
-public class extendedtoro extends Experiment
+
+public class RCEC14TuningDEroe extends Experiment
 {
-	
-	public extendedtoro(int probDim) throws Exception
+	public RCEC14TuningDEroe(int probDim) throws Exception
 	{
-		//super(probDim,"DESIGN");
-		super(probDim,5000,"DESIGN");
+		super(probDim,5000,"RotatedCEC14");
 		setNrRuns(30);
-		
 
-		Algorithm a;// ///< A generic optimiser.
-////	    Problem p;// ///< A generic problem.
-		
-//		//questo e' stato quello uufficializzato
-//		a = new ResampledCMAES11();
-//	    a.setParameter("p0",0.95); 
-//	    a.setParameter("p1",0.18181818181); // 2/11
-//	    a.setParameter("p2", 0.08333333333);// 1/12
-//	    a.setParameter("p3", 0.44);
-//	    a.setParameter("p4", 1.0);// 1 --> problem dependent!!
-//	    a.setParameter("p5", 0.20);
-//	    add(a);
-	    
+		Algorithm a;
 
-		a = new Powell();
-		a.setParameter("p0", 0.0001);
-		a.setParameter("p1", 100.0);
+		a = new DE("ro",'e');
+		a.setID("rDEr1exp01");
+		a.setParameter("p0", 10.0); //Population size
+		a.setParameter("p1", 0.4); //F
+		a.setParameter("p2", 0.1); //CR
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
 		
-		a = new SolisWets();
-		a.setParameter("p0", 1.0);
+		a = new DE("ro",'e');
+		a.setID("rDEr1exp05");
+		a.setParameter("p0", 10.0); //Population size
+		a.setParameter("p1", 0.4); //F
+		a.setParameter("p2", 0.5); //CR
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
-	    
-//	    a = new cDE_exp_light();
-//	    a.setParameter("p0",300.0);
-//	    a.setParameter("p1", 0.25);
-//	    a.setParameter("p2", 0.5);
-//	    a.setParameter("p3", 3.0);
-//	    a.setParameter("p4", 1.0);
-//	    a.setParameter("p5", 1.0);
-//	    add(a);
-	
+		
+		a = new DE("ro",'e');
+		a.setID("rDEr1exp07");
+		a.setParameter("p0", 10.0); //Population size
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.7);//CR
+		a.setParameter("p3", Double.NaN);//Alpha
+		add(a);
+		
+		a = new DE("ro",'e');
+		a.setID("rDEr1exp09");
+		a.setParameter("p0", 10.0); //Population size
+		a.setParameter("p1", 0.4);//F
+		a.setParameter("p2", 0.9);//CR
+		a.setParameter("p3", Double.NaN);//Alpha
+		add(a);
+		
 		for(int i = 1; i<=30; i++)
-			add(new CEC2014(probDim, i));
+				add(new RCEC2014(probDim, i));
+
+
+
 
 	}
 }

@@ -2,7 +2,7 @@ package experiments.rotInvStudy;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import benchmarks.CEC2014RotInvStudy;
+import benchmarks.RCEC2014;
 import algorithms.EigenDE;
 
 
@@ -52,7 +52,7 @@ public class Unrot_eigen extends Experiment
 //			
 
 
-				add(new CEC2014RotInvStudy(50, 2, 0));
+				add(new RCEC2014(50, 2, 0));
 
 
 

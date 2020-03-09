@@ -55,11 +55,6 @@ public class RIAPP extends Experiment
 	    //Problem p;// ///< A generic problem.
 		
 		
-//		a = new RIcDE();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);
-		
 		a = new RIcDE_light();
 		a.setParameter("p0", 0.95);
 		a.setParameter("p1", 0.25);
@@ -79,16 +74,7 @@ public class RIAPP extends Experiment
 		a.setParameter("p0", 0.95);
 		a.setParameter("p1", 0.25);
 		add(a);	
-		
-//		a = new cDE_exp();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.25);
-//		a.setParameter("p2", 0.5);
-//		a.setParameter("p3", 2.0);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		add(a);	
-//		
+			
 		a = new cDE_exp_light();
 		a.setParameter("p0", 300.0);
 		a.setParameter("p1", 0.25);

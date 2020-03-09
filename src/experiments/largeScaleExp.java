@@ -37,10 +37,10 @@ import algorithms.compact.*;
 import benchmarks.CEC2013_LSGO;
 
 
-public class large extends Experiment
+public class largeScaleExp extends Experiment
 {
 	
-	public large() throws Exception
+	public largeScaleExp() throws Exception
 	{
 		//super(probDim,"cec2015allDim");
 //		super(1000,5000,"CEC2013_LSGO_RICOMPACT");

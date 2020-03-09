@@ -31,12 +31,8 @@ either expressed or implied, of the FreeBSD Project.
 /** @file Algorithm.java
  *  
  *
- * BLASPHMEME: KIMEME HAS IT SHOULD BE.
  * A software platform for learning Computational Intelligence Optimisation
  * 
- * SCRIVICI QUEL CHE CAZZO TE PARE QUESTAA E@ LA DESCIZIONE PIU@ GENERICA CHE VA NELLA LISTA DEI FILES
- * LEGGI QUI https://www.cs.cmu.edu/~410/doc/doxygen.html#commands
- *  This file contains the kernel main() function.
  *  @author Fabio Caraffini
 */
 package interfaces;
@@ -51,7 +47,10 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+//import java.time.Instant;
+import static java.time.Instant.now;
 import static utils.RunAndStore.slash;
+import static utils.RunAndStore.createFolder;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.completeOneTailedNormal;
 import static utils.algorithms.Misc.mirroring;
@@ -62,20 +61,32 @@ import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
 {	
 	private Map<String, Double> parameters = new HashMap<String, Double>();
+	/** standard Algorithms global variables **/
 	protected double[] initialSolution;
 	protected double[] finalBest;
 	protected double initialFitness;
-	protected String ID = null;
-	
 	protected int run;
+	protected DecimalFormat DF = new DecimalFormat("0.00000000E00");
+//	protected String ID = null;
+	
+	/**AlgorithmsBias global variables **/
+	protected String ID = this.getClass().getSimpleName();
 	protected int numberOfCorrections = 0; 
 	protected char correction;
-	protected String Dir="."+slash();
+	protected String Dir="."+slash()+"ResultsISB"+slash();
+	protected String minMaxProb = "min";
+//	protected long seed = System.currentTimeMillis();
+	protected long seed = -666;
 	
+	/** AlgorithmsBias global variables for saving results **/
+	protected File file = null;
+	protected FileWriter fw = null;
+	protected BufferedWriter bw = null;
+//	private Instant timestamp = null;
 
+//	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
+	protected String header = "# SOS_suite hostname "+System.getProperty("user.name")+" v2 ";
 	
-	
-	protected DecimalFormat DF = new DecimalFormat("0.00000000E00");
 
 	/**
 	 * This method executes the algorithm on a specified problem. 
@@ -85,10 +96,6 @@ public abstract class AlgorithmBias
 	 * @return a FTrend object containing fitness trend and, in case, extra data.
 	 */
 	public abstract FTrend execute(Problem problem, int maxEvaluations) throws Exception;
-
-	
-	
-	
 	/**
 	 * This method sets the value of a given parameter.
 	 */
@@ -135,7 +142,7 @@ public abstract class AlgorithmBias
 	/**
 	 * This method sets the path of the directory for storing BIAS results.
 	 */
-	public void setDir(String Dir){this.Dir=Dir;}
+	public void setDir(String Dir){createFolder(this.Dir); this.Dir+=Dir;}
 	/**
 	 * This method returns the path of the directory for storing BIAS results.
 	 */
@@ -170,12 +177,18 @@ public abstract class AlgorithmBias
 	 */
 	public char getcorrection(){return this.correction;}
 	
+	/**
+	 * 
+	 * update the header to indicate that a maximisation process is taking place.
+	 * 
+	 */
+	public void maximisationProblem(){this.minMaxProb = "max";}
 	
 	
 	//**   UTILS METHODS   **//
 	
 	/**
-	 * Generate the file "fileName".text containing 
+	 * Generate the file "fileName".text containing POIS
 	 */
 	public void wrtiteCorrectionsPercentage(String algName, double percentage, String fileName) throws Exception
 	{
@@ -188,10 +201,39 @@ public abstract class AlgorithmBias
 		BW.close();
 	}
 	/**
-	 * Generate the file "fileName".text containing 
+	 * Generate the file "fileName".text containing POIS
 	 */
-	public void wrtiteCorrectionsPercentage(String algName, double percentage) throws Exception {wrtiteCorrectionsPercentage(algName, percentage, "corrections");}
+	protected void wrtiteCorrectionsPercentage(String algName, double percentage) throws Exception {wrtiteCorrectionsPercentage(algName, percentage, "corrections");}
 	
+
+	/**
+	 * Generate the file "fileName".text containing extended info
+	 */
+	public void writeStats(String algName, double percentage, int PRG, String extra, String fileName) throws Exception
+	{
+		// <output filename> <POIS value> <optionally: algorithm's parameters>  <seed value> <no of PRG calls>
+
+		String tmp = algName+" "+percentage+" "+this.seed+" "+PRG;
+		if(extra == null) tmp+="\n";
+		else tmp+=" "+extra+"\n";
+		
+		File f = new File(Dir+fileName+".txt");
+		if(!f.exists()) 
+			f.createNewFile();
+		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
+		BufferedWriter BW = new BufferedWriter(FW);
+		BW.write(tmp);
+		BW.close();
+	}
+	/**
+	 * Generate the file "fileName".text containing extended info
+	 */
+	public void writeStats(String algName, double percentage, int PRG, String fileName) throws Exception{ writeStats(algName, percentage, PRG, null,  fileName);}
+
+	/**
+	 * Generate the file "fileName".text containing POIS
+	 */
+	protected void writeStats(String algName, double percentage, int PRG) throws Exception {writeStats(algName, percentage, PRG, "corrections");}
 	
 	/**
 	 *Fixes the scientific notation format 
@@ -268,10 +310,48 @@ public abstract class AlgorithmBias
 		double[][] BOUNDS = new double[n][2];
 		for(int i=0; i<n; i++)
 		{
-			BOUNDS[i][1] = bounds[0];
+			BOUNDS[i][0] = bounds[0];
 			BOUNDS[i][1] = bounds[1];
 		}	
 		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
 	}
 	
+	
+	
+	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);}; 
+	
+	
+	protected void createFile(String fullName) throws Exception
+	{
+		createFolder(Dir);
+		
+		file = new File(Dir+fullName+".txt");
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+	}
+	
+	protected void writeHeader(String parameters, Problem problem) throws Exception
+	{  
+		this.seed = System.currentTimeMillis();
+		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+		bw.write(line);
+	}
+
+	
+	protected String getHeader(){return this.header;}
+	
+
+	protected void closeAll() throws Exception {this.bw.close();} 
+	
+	
+	
 }
+
+
+
+
+
+
+
