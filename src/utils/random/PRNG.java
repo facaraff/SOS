@@ -79,7 +79,7 @@ public abstract class PRNG
 	
 	/**
 	 * Set the seed of the RNG
-	 * @param s seed of the RNG.
+	 * @param seed The seed of the RNG.
 	 */
 	public static void setSeed(long seed)
 	{
