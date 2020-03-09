@@ -10,7 +10,7 @@ import utils.linearAlgebra.Matrix;
  * 1) Normalize x0 = V/|V| 
  * 2) Yi = M*Xi-1 
  * 3) Xi = Yi/|Yi| 
- * 4) li = * (T(Xi) * M * Xi) / (T(Xi) * Xi Repeat 2 and 4 while li - li-1 < E 
+ * 4) li = * (T(Xi) * M * Xi) / (T(Xi) * Xi Repeat 2 and 4 while li - li-1 is less than E 
  */
 public class RegularIteration implements PowerIteration {
 

@@ -23,10 +23,8 @@ package benchmarks.problemsImplementation.fractalFunctions;
  *<p>
  * The user does not need to access this class directly, all values are set by its owner, such
  * as {@link FractalFunction1D}.
- * @author {@link <a href="http://www.csse.uwa.edu.au/~cara/">Cara MacNish</a>}, University of Western Australia
+ * @author Cara MacNish, University of Western Australia
  * @version 1.0RC1, 7th Nov 2007
- * <br>For the latest version and additional information see the
- * {@link <a href="http://www.cs.bham.ac.uk/research/projects/ecb/">Birmingham Repository</a>}
  */                                                                                  
 public class RanTable {
   private double[] doubleTable;
@@ -61,6 +59,7 @@ public class RanTable {
 
   /** 
    * Reset the seed.
+   * @param seed The seed to rest.
    */
   public void setSeed (long seed) {
     doubleTableIndex = (int) (seed & (doubleTableSize-1));

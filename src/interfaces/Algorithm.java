@@ -61,30 +61,39 @@ public abstract class Algorithm
 	
 	/**
 	 * This method sets the value of a given parameter.
+	 * @param name the name of the parameter (ideally, following the notation p0, p1, p3,...)
+	 * @param value the value of the parameter
 	 */
 	public void setParameter(String name, Double value){parameters.put(name, value);}
 	/**
 	 * This method gets the value of a given parameter.
+	 * @param name the name of the parameter whose value must be returned
+	 * @return A Double object
 	 */
 	public Double getParameter(String name){return parameters.get(name);}
 	/**
 	 * This method returns the best solution.
+	 * @return finalBest the vector containing the final best solution produced by an optimisation algorithm
 	 */
 	public double[] getFinalBest(){return finalBest;}
 	/**
 	 * This method saves the final best solution.
+	 * @param finalBest the vector containing the final best solution produced by an optimisation algorithm
 	 */
 	public void setFinalBest(double[] finalBest){this.finalBest = finalBest;}
 	/**
 	 * This method sets a specified initial guess.
+	 * @param initialSolution the initial solution to be refined during the optimisation process
 	 */
 	public void setInitialSolution(double[] initialSolution){this.initialSolution = initialSolution;}
 	/**
 	 * This method sets the fitness value of the specified initial guess.
+	 * @param initialFitness the fitness value of the first initial solution
 	 */
 	public void setInitialFitness(double initialFitness){this.initialFitness = initialFitness;}
 	/**
 	 * This method sets the value of the identifier string equal to the class name.
+	 * 
 	 */
 	public void setID(){this.ID = this.getClass().getSimpleName();}
 	/**
@@ -117,6 +126,7 @@ public abstract class Algorithm
 	public String getID(){return this.ID;}
 	/**
 	 * This method return a String reporting the parameters setting.
+	 * @return A String describing the parameter setting of an algorithm. 
 	 */
 	public String getParSetting()
 	{

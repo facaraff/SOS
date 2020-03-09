@@ -22,10 +22,9 @@ package benchmarks.problemsImplementation.fractalFunctions;
  * function you only need to call the constructors from your own constructors using
  * super(), and provide an implementation for getValue(point).
  * 
- * @author {@link <a href="http://www.csse.uwa.edu.au/~cara/">Cara MacNish</a>}, University of Western Australia
+ * @author Cara MacNish, University of Western Australia
  * @version 1.0RC1, 7th Nov 2007
- * <br>For the latest version and additional information see the
- * {@link <a href="http://www.cs.bham.ac.uk/research/projects/ecb/">Birmingham Repository</a>}
+ * For the latest version and additional information see the
  */
 public abstract class UnitFunction1D {
   
@@ -107,6 +106,7 @@ public abstract class UnitFunction1D {
   
   /**
    * Convenience method to get the name of this function as a String.
+   * @return The name of "this" function as a String
    */
   public String getName () {
     return this.getClass().getName();

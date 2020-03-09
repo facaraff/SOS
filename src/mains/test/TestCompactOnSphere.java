@@ -211,16 +211,17 @@ public class TestCompactOnSphere
 		*/
 		public LargeSphere(){ super(1000, new double[] {-100,100} );}
 		/**
-		* Costructor for the Sphere function defined within a hyper-cube.
+		* Constructor for the Sphere function defined within a hyper-cube.
+		* @param bounds the boundaries of the optimisation problem.
 		*/
 		public LargeSphere(double[] bounds) { super(1000, bounds); }
 		/**
 		* Costructor for the Sphere function defined within particular decision space.
+		* @param bounds the boundaries of the optimisation problem.
 		*/
 		public LargeSphere(double[][] bounds) { super(1000, bounds); }
 		/**
 		* This method implement the Sphere function.
-		* 
 		* @param x solution to be avaluated
 		*/
 		public double f(double[] x)

@@ -41,9 +41,7 @@ import utils.RunAndStore.FTrend;
 /**
  * Rotation invariant Differential Evolution with Eigenvector decomposition to replace Gram-Shmidt process 
  * 
- * @url file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
- * 
- * @author facaraff fabio.caraffini@gmail.com
+ * @author Fabio Caraffini (fabio.caraffini@gmail.com)
  */
 public class EigenRIDE extends Algorithm
 {

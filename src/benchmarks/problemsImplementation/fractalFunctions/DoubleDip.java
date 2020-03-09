@@ -13,10 +13,10 @@ package benchmarks.problemsImplementation.fractalFunctions;
  * DoubleDip is a base function that uses a segment of a sextic polynomial. It is similar in shape
  * to DoubleCosine, but considerably faster. It results in a continuously differentiable surface.
  * @see UnitFunction1D
- * @author {@link <a href="http://www.csse.uwa.edu.au/~cara/">Cara MacNish</a>}, University of Western Australia
+ * @author http://www.csse.uwa.edu.au/~cara/, University of Western Australia
  * @version 1.0RC1, 7th Nov 2007
- * <br>For the latest version and additional information see the
- * {@link <a href="http://www.cs.bham.ac.uk/research/projects/ecb/">Birmingham Repository</a>}
+ * For the latest version and additional information see the
+ * http://www.cs.bham.ac.uk/research/projects/ecb/  Birmingham Repository
  */
 public class DoubleDip extends UnitFunction1D {
   

@@ -43,7 +43,6 @@ import utils.RunAndStore.FTrend;
 /**
  * Mixed mutation and crossover strategies rotation invariant Differential Evolution with Gram-Shmidt process 
  * 
- * @url file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
  * 
  * @author facaraff fabio.caraffini@gmail.com
  */

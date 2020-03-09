@@ -19,10 +19,8 @@ package benchmarks.problemsImplementation.fractalFunctions;
  * The original relies on the fact that in C on a 32-bit machine, multiplying two unsigned long ints
  * returns the lower 32 bits of the 64 bit product. Since we are using Java (no unsigned ints)
  * and a 64-bit architecture, we mimic this using 64 bit longs with bit-masking instead.
- * @author {@link <a href="http://www.csse.uwa.edu.au/~cara/">Cara MacNish</a>}, University of Western Australia
+ * @author Cara MacNish, University of Western Australia
  * @version 1.0RC1, 7th Nov 2007
- * <br>For the latest version and additional information see the
- * {@link <a href="http://www.cs.bham.ac.uk/research/projects/ecb/">Birmingham Repository</a>}
  */
  public class RanQD1 {
 

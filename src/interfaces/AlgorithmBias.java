@@ -108,7 +108,7 @@ public abstract class AlgorithmBias
 	/**
 	 * This method gets the value of a given parameter.
 	 * @param name the name of the parameter whose value must be returned
-	 * @return a Double object
+	 * @return A Double object
 	 */
 	public Double getParameter(String name){return parameters.get(name);}
 	/**
