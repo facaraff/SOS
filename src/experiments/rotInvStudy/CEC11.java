@@ -132,7 +132,6 @@ public class CEC11 extends Experiment
 		a.setParameter("p6", 1.0);//PR
 		add(a);
 		
-		
 		p = new P1();
 		add(p);
 		p = new P2(probDim);
