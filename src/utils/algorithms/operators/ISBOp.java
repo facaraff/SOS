@@ -151,11 +151,11 @@ public class ISBOp
 		
 		/**
 		* cur-to-best/1 mutation scheme, alternative method
-		* 
+		* @param fitnesses the an array containing the fitness values of all individual in the population.
 		* @param population set of candidate solutions/ individuals.
-		* @param bestPt best individual.
 		* @param j index of the current individual.
 		* @param F scale factor.
+		* @param Counter A counter to monitor PRG activations.
 		* @return newPt mutant individual.
 		*/
 		public static double[] currentToBest1(double[] fitnesses, double[][] population, int j, double F, Counter counter)
@@ -173,6 +173,7 @@ public class ISBOp
 		* @param bestIndex index of the best individual.
 		* @param j index of the current individual.
 		* @param F scale factor.
+		* * @param Counter A counter to monitor PRG activations.
 		* @return newPt mutant individual.
 		*/
 		public static double[] currentToBest1(double[][] population, int bestIndex, int j, double F, Counter counter)
@@ -201,6 +202,7 @@ public class ISBOp
 		* @param population set of candidate solutions/individuals.
 		* @param bestPt best individual.
 		* @param F scale factor.
+		* @param Counter A counter to monitor PRG activations.
 		* @return newPt mutant indvidual.
 		*/
 		public static double[] randToBest1(double[][] population, double[] bestPt, double F, Counter counter)
@@ -713,10 +715,10 @@ public class ISBOp
 			
 			
 			/**
-			 * 
 			 * @param mean
 			 * @param sigma2
 			 * @param x
+			 * @param Counter A counter to monitor PRG activations.
 			 * @return
 			 */
 			public static double[] generateIndividual(double[] mean, double[] sigma2, Counter counter)

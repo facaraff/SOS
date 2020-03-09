@@ -156,6 +156,7 @@ public class Matrix {
 	 *            Two-dimensional array of doubles.
 	 * @exception IllegalArgumentException
 	 *                All rows must have the same length
+	 *@return The constructed matrix
 	 */
 
 	public static Matrix constructWithCopy(double[][] A) {
@@ -177,6 +178,7 @@ public class Matrix {
 
 	/**
 	 * Make a deep copy of a matrix
+	 * @return A deep copy of the inpout matrix.
 	 */
 
 	public Matrix copy() {
@@ -284,7 +286,7 @@ public class Matrix {
 	 * @param j
 	 *            Column index.
 	 * @return A(i,j)
-	 * @exception ArrayIndexOutOfBoundsException
+	 * @exception ArrayIndexOutOfBoundsException Handle index out of bounds cases.
 	 */
 
 	public double get(int i, int j) {
@@ -383,9 +385,9 @@ public class Matrix {
 	 * 
 	 * @param r
 	 *            Array of row indices.
-	 * @param i0
+	 * @param j0
 	 *            Initial column index
-	 * @param i1
+	 * @param j1
 	 *            Final column index
 	 * @return A(r(:),j0:j1)
 	 * @exception ArrayIndexOutOfBoundsException
@@ -416,7 +418,7 @@ public class Matrix {
 	 *            Column index.
 	 * @param s
 	 *            A(i,j).
-	 * @exception ArrayIndexOutOfBoundsException
+	 * @exception ArrayIndexOutOfBoundsException This method must be able to handle indices out of bounds.
 	 */
 
 	public void set(int i, int j, double s) {
@@ -989,23 +991,12 @@ public class Matrix {
 		output.println(); // end with blank line.
 	}
 
+
+
 	/**
-	 * Read a matrix from a stream. The format is the same the print method, so
-	 * printed matrices can be read back in (provided they were printed using US
-	 * Locale). Elements are separated by whitespace, all the elements for each
-	 * row appear on a single line, the last row is followed by a blank line.
-	 * 
-	 * @param input
-	 *            the input stream.
-	 */
-
-
-	/*
 	 * Return lower and upper triangular factors
-	 * 
-	 * @return L
-	 * 
-	 * @return U
+	 * @param matrix The input matrix to be decomposed.
+	 * @return L and U in the form of an LUDecomposition object.
 	 */
 	public static LUDecomposition getLU(Matrix matrix) {
 		double mulitplier;
@@ -1107,7 +1098,9 @@ public class Matrix {
 	 * ------------------------ Private Methods ------------------------
 	 */
 
-	/** Check if size(A) == size(B) **/
+	/** Check if size(A) == size(B)
+	 * @param B The input matrix.
+	 *  **/
 
 	private void checkMatrixDimensions(Matrix B) {
 		if (B.m != m || B.n != n) {
