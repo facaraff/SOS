@@ -41,15 +41,10 @@ public class ExampleTuning extends Experiment
 	public static void main(String[] args) throws Exception
 	{	
 
-		
-	
 		ExampleTuning test = new ExampleTuning();
 		test.setBudgetFactor(1000);
 		test.setNrRuns(10);
-//		test.setMT(false); Uncomment of you want to use the single-thread mode
-
-
-		
+		//test.setMT(false); Uncomment for witching to single-thread mode		
 		Problem p = new RCEC2014(10,1);
 		p.setFID("sphere");
 		test.add(p);
@@ -59,23 +54,31 @@ public class ExampleTuning extends Experiment
 		char[] corrections = {'s','t','m','c'};
 		String[] DEMutations = {"ro","rt","bo","bt","ctbo","rtbt"};
 		char[] CrossOvers = {'b','e'};
+		int[] populationSizes = {5,20,100};
+		double[] FValues = new double[10];
+		double[] CRValues = new double[5];
+		
+		for (int i=0; i<5; i++)
+			FValues[i] = 0.05+i*(1.95/9.0);
+		for (int i=0; i<5; i++)
+			CRValues[i] = 0.05 +i*((0.94/4.0));
 		
 		for (char correction : corrections)
-		{
 			for (String mutation : DEMutations)
 					for(char xover : CrossOvers)
+						for(int popSize: populationSizes)
+							for (double F : FValues)
+								for (double CR : CRValues)
 						{
 							a = new DE(mutation,xover);
 							a.setCorrection(correction);
-							a.setParameter("p0", (double)20.0); //Population size
-							a.setParameter("p1", 0.7); //F
-							a.setParameter("p2", 0.5); //CR
-							a.setParameter("p3", Double.NaN);
+							a.setParameter("p0", (double)popSize); //Population size
+							a.setParameter("p1", F); //F - scale factor
+							a.setParameter("p2", CR); //CR - Crossover Ratio
+							a.setParameter("p3", Double.NaN); //Alpha
 							test.add(a);	
 							a = null;
 						}
-			
-		}
 		
 		test.startExperiment();
 	
