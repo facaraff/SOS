@@ -61,6 +61,8 @@ public class TestCompactOnSphere
 	/** 
 	* Main method.
 	* This method has to be modified in order to launch a new experiment.
+	* @param args For passing args to the main value.
+	* @throws Exception The main method must be able to handle possible java.lang.Exceptionincluding I/O exceptions etc.
 	*/
 	public static void main(String[] args) throws Exception
 	{	

@@ -195,10 +195,12 @@ public abstract class Experiment
 	public void add(Algorithm a){this.algorithms.add(a);}
 	/**
 	 * This method returns the number of problems in the experiment.
+	 * @return The number of problems in the experiment
 	*/
 	public int getNrProblems(){return this.problems.size();}
 	/**
 	 * This method returns the number of algorithms in the experiment.
+	 * @return The number of algorithms in the experiment.
 	*/
 	public int getNrAlgorithms(){return this.algorithms.size();}
 	/**

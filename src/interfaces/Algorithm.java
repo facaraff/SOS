@@ -55,6 +55,7 @@ public abstract class Algorithm
 	 * @param problem the problem to solve.
 	 * @param maxEvaluations the maximum number of fitness evaluations (FE).
 	 * @return a FTrend object containing fitness trend and, in case, extra data.
+	* @throws Exception The main method must be able to handle possible exceptions.
 	 */
 	public abstract FTrend execute(Problem problem, int maxEvaluations) throws Exception;
 	
