@@ -8,11 +8,10 @@ package benchmarks.problemsImplementation.CEC2010;
  */
 
 /**
- * <p>
- * The D/m-group group Shifted and m-rotated Ackleyï¿½s Function: F16.
- * </p>
- * <p>
- * This function is not <warning>not threadsafe</warning> because it uses
+ * 
+ * The D/m-group group Shifted and m-rotated Ackleyï Function: F16.
+ * 
+ * This function is not not threadsafe because it uses
  * internal temporary variables. Therefore, you should always use each
  * instance of this function for one single {#link java.lang.Thread} only.
  * You may clone or serialize function instances to use multiple threads.

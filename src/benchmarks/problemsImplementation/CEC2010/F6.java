@@ -8,15 +8,11 @@ package benchmarks.problemsImplementation.CEC2010;
  */
 
 /**
- * <p>
  * The Single-group Shifted and m-rotated Ackley�s Function: F6.
- * </p>
- * <p>
- * This function is not <warning>not threadsafe</warning> because it uses
+ * This function is not not threadsafe because it uses
  * internal temporary variables. Therefore, you should always use each
  * instance of this function for one single {#link java.lang.Thread} only.
  * You may clone or serialize function instances to use multiple threads.
- * <p>
  * 
  * @author Thomas Weise
  */
@@ -34,12 +30,9 @@ public final class F6 extends ShiftedPermutatedRotatedFunction {
   /**
    * Create a new Single-group Shifted and m-rotated Ackley�s Function
    * 
-   * @param o
-   *          the shifted global optimum
-   * @param p
-   *          the permutation vector
-   * @param m
-   *          the rotation matrix
+   * @param o The shifted global optimum
+   * @param p The permutation vector
+   * @param m The rotation matrix
    */
   public F6(final double[] o, final int[] p, final double[] m) {
     super(o, p, m, MIN, MAX);

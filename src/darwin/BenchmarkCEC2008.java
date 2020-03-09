@@ -7,6 +7,8 @@ import benchmarks.problemsImplementation.fractalFunctions.FastFractal;
 /**
  * Benchmark Functions for the IEEE CEC 2008 - Special Session and
  * Competition on Large Scale Global Optimization.
+ * 
+ *  @author Giovanni Iacca (giovanni.iacca@gmail.com )
  */
 public class BenchmarkCEC2008
 {

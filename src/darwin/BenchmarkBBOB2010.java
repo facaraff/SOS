@@ -7,7 +7,7 @@ import javabbob.JNIfgeneric.Params;
  * Benchmark Functions defined in the Real-Parameter Black-Box 
  * Optimization Benchmarking (BBOB 2010).
  * 
- * 
+ * @author Giovanni Iacca (giovanni.iacca@gmail.com )
  */
 public class BenchmarkBBOB2010
 {

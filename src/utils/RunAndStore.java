@@ -149,9 +149,6 @@ public class RunAndStore
 			this.expFolder = expFolder;
 		}
 
-		/**
-		*@Override 
-	    */	
 		public AlgorithmResult call() throws Exception {
 			double fbest = runAlgorithmRepetition(algorithm, problem, repNr);
 			return new AlgorithmResult(fbest, repNr);
@@ -161,7 +158,7 @@ public class RunAndStore
 	     * 
 	     * @param algorithm optimiser to be executed. 
 	     * @param problem problem to be solved.  
-	     * @param rundIndex run identifier.  
+	     * @param runIndex run identifier.  
 	     * @return best solution.  
 	    */	
 		public double runAlgorithmRepetition(Algorithm algorithm, Problem problem, int runIndex) throws Exception
@@ -208,7 +205,7 @@ public class RunAndStore
 	*/
 	private boolean together = false;
 	/**
-	* private int extraValuesColumns: if = 1 the extra values file is printed into a txt file displaying all extra values in one column vector, otherwise the latter column vector is reshaped in a matrix of 'extraValuesColumns>1' columns
+	* private int extraValuesColumns: if = 1 the extra values file is printed into a txt file displaying all extra values in one column vector, otherwise the latter column vector is reshaped in a matrix of 'extraValuesColumns is greater than 1' columns
 	*/
 	private int extraValuesColumns = 1;
 	
@@ -275,7 +272,7 @@ public class RunAndStore
 	public void setExtraDouble(double n){this.extraDouble=n;}
 	/**
 	* set extraValuesColumns.
-	* @param extraValuesColumns
+	* @param n The value to be added.
 	*/
 	public void setExtraValuesColumns(int n){this.extraValuesColumns=n;}
 	/**
@@ -302,7 +299,7 @@ public class RunAndStore
 	/**
 	* add an extra value
 	* 
-	* @param fitness value at i-th FE. 
+	* @param extra The valua to be added.
 	*/
 	public void addExtra(double extra){ this.extraValues.add(extra);}
 	/**
@@ -356,10 +353,10 @@ public class RunAndStore
 	
 	
 	/**
-	* add a new couple <i,f>
+	* add a new couple (i,f)
 	* 
-	* @param i-th FE counter value.
-	* @param fitness value at i-th FE. 
+	* @param i i-th FE counter value.
+	* @param f Fitness value at i-th FE. 
 	*/
 	public void add(int i, double f){this.index.add(i); this.fValue.add(f);}
 	/**
@@ -686,9 +683,9 @@ public class RunAndStore
 	 * The test is performed by taking into consideration two realisations of the same optimisation process performed with two different optimisers: the reference and the comparison algorithm.
 	 * The distribution of the final results, obtained by applying the reference for a fixed number of runs, is compared with that one obtained by applying the comparsion algorithm for the same amout of runs.  
 	 * 
-	 * @param referenceValue array contating final solutions from multiple runs of the reference algorithm.
+	 * @param referenceValues array contating final solutions from multiple runs of the reference algorithm.
 	 * @param comparisonValues array contating final solutions from multiple runs of the comparison algorithm.
-	 * @param showPValues if true, the p-vlue is displayed as well.
+	 * @param showPValue if true, the p-vlue is displayed as well.
 	 * @param threshold for comparing the p-value (i.e. 1 - (confidence level), commoly equal to 1-0.95 = 0.05)
 	*/
 	public static void displayWilcoxon(double[] referenceValues, double[] comparisonValues, boolean showPValue, double threshold)
