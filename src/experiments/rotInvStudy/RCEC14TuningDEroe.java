@@ -35,42 +35,45 @@ import algorithms.DE;
 
 
 
-public class CEC14_rot_EXP_TUNING extends Experiment
+public class RCEC14TuningDEroe extends Experiment
 {
-	
-	public CEC14_rot_EXP_TUNING(int probDim) throws Exception
+	public RCEC14TuningDEroe(int probDim) throws Exception
 	{
-		super(probDim,5000,"testCEC14");
+		super(probDim,5000,"RotatedCEC14");
 		setNrRuns(30);
 
 		Algorithm a;
 
 		a = new DE("ro",'e');
 		a.setID("rDEr1exp01");
-		a.setParameter("p0", 10.0); //population size
+		a.setParameter("p0", 10.0); //Population size
 		a.setParameter("p1", 0.4); //F
 		a.setParameter("p2", 0.1); //CR
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
 		
 		a = new DE("ro",'e');
 		a.setID("rDEr1exp05");
-		a.setParameter("p0", 10.0); //population size
+		a.setParameter("p0", 10.0); //Population size
 		a.setParameter("p1", 0.4); //F
 		a.setParameter("p2", 0.5); //CR
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
 		
 		a = new DE("ro",'e');
 		a.setID("rDEr1exp07");
-		a.setParameter("p0", 10.0); //population size
+		a.setParameter("p0", 10.0); //Population size
 		a.setParameter("p1", 0.4);//F
 		a.setParameter("p2", 0.7);//CR
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
 		
 		a = new DE("ro",'e');
 		a.setID("rDEr1exp09");
-		a.setParameter("p0", 10.0); //population size
+		a.setParameter("p0", 10.0); //Population size
 		a.setParameter("p1", 0.4);//F
 		a.setParameter("p2", 0.9);//CR
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
 		
 		for(int i = 1; i<=30; i++)

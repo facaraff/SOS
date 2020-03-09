@@ -39,9 +39,9 @@ import algorithms.MMCDE;
 import applications.CEC2011.P1;
 import applications.CEC2011.P2;
 
-public class cec11 extends Experiment
+public class CEC11 extends Experiment
 {
-	public cec11(int probDim) throws Exception
+	public CEC11(int probDim) throws Exception
 	{
 		super(probDim,5000,"ExperimentDE");
 		setNrRuns(30);
@@ -51,34 +51,34 @@ public class cec11 extends Experiment
 		
 		a = new DE("ro",'b');
 		a.setID("DEr1bin");
-		a.setParameter("p0", (double)probDim);//population size
+		a.setParameter("p0", (double)probDim);//Population size
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//Alpha
 		add(a);
 		
 		a = new DE("ro",'e');
 		a.setID("DEr1exp");
-		a.setParameter("p0", (double)probDim);//population size
+		a.setParameter("p0", (double)probDim);//Population size
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//Alpha
 		add(a);
 		
 		a = new DE("ctro");
 		a.setID("DEctr1");
-		a.setParameter("p0", (double)probDim);//population size
+		a.setParameter("p0", (double)probDim);//Population size
 		a.setParameter("p1", 0.7); //F
-		a.setParameter("p2", Double.NaN);//
-		a.setParameter("p3", Double.NaN);//ALPHA
+		a.setParameter("p2", Double.NaN);//CR
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
 		
 		a = new DE("ro",'x');
 		a.setID("DEr1noxo");
-		a.setParameter("p0", (double)probDim);//population size
+		a.setParameter("p0", (double)probDim);//Population size
 		a.setParameter("p1", 0.7);//F
 		a.setParameter("p2", Double.NaN); //CR
-		a.setParameter("p3", Double.NaN);//ALPHA
+		a.setParameter("p3", Double.NaN);//Alpha
 		add(a);
 		
 		
@@ -87,7 +87,7 @@ public class cec11 extends Experiment
 		a.setParameter("p0", (double)probDim);
 		a.setParameter("p1", 0.7); //F
 		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 0.3);//ALPHA
+		a.setParameter("p3", 0.3);//Alpha
 		add(a);
 		
 		a = new RIDE();
@@ -97,7 +97,7 @@ public class cec11 extends Experiment
 		a.setParameter("p2", -1.0); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 4.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p5", 0.3);//Alpha
 		add(a);
 		
 		a = new RIDE();
@@ -107,7 +107,7 @@ public class cec11 extends Experiment
 		a.setParameter("p2", -1.0); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 5.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p5", 0.3);//Alpha
 		add(a);
 		
 		a = new EigenDE();
@@ -117,7 +117,7 @@ public class cec11 extends Experiment
 		a.setParameter("p2", 0.3); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 1.0);
-		a.setParameter("p5", Double.NaN);//ALPHA
+		a.setParameter("p5", Double.NaN);//Alpha
 		a.setParameter("p6", 1.0);//PR
 		add(a);
 		
@@ -128,7 +128,7 @@ public class cec11 extends Experiment
 		a.setParameter("p2", -1.0); //CR
 		a.setParameter("p3", 1.0);
 		a.setParameter("p4", 2.0);
-		a.setParameter("p5", 0.3);//ALPHA
+		a.setParameter("p5", 0.3);//Alpha
 		a.setParameter("p6", 1.0);//PR
 		add(a);
 		
