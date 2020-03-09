@@ -31,15 +31,20 @@ public class BaseFunctions
 		final double c = 2*Math.PI;		
 		/**
 		* Constructor for the  Ackley function defined within the specified upper and lower bounds.
+		* @param dimension  The dimensionality of the problem.
 		*/
 		public Ackley(int dimension){ super(dimension, new double[] {-1, 1});}
 		/**
 		* Constructor for the Ackley function defined within a hyper-cube.
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
+		* 
 		*/
 		public Ackley(int dimension, double[] bounds) { super(dimension, bounds); }
 		/**
 		* Constructor for the Ackley function defined within particular decision space.
-
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
 		*/
 		public Ackley(int dimension, double[][] bounds) { super(dimension, bounds); }
 		/**
@@ -78,20 +83,25 @@ public class BaseFunctions
 	 * Alpine function.
 	 * 
 	 * References:
-	 * <a href="http://clerc.maurice.free.fr/pso/Alpine/Alpine_Function.htm" > Ref 1 </a>
+	 * http://clerc.maurice.free.fr/pso/Alpine/Alpine_Function.htm Ref 1
 	*/
 	public static class Alpine extends Problem
 	{		
 		/**
 		* Constructor for the Alpine function defined within the specified upper and lower bounds.
+		* @param dimension  The dimensionality of the problem.
 		*/
 		public Alpine(int dimension){ super(dimension, new double[] {-10, 10});}
 		/**
 		* Constructor for the Alpine function defined within a hyper-cube.
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
 		*/
 		public Alpine(int dimension, double[] bounds) { super(dimension, bounds); }
 		/**
 		* Constructor for the Alpine function defined within particular decision space.
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
 		*/
 		public Alpine(int dimension, double[][] bounds) { super(dimension, bounds); }
 		/**
@@ -121,28 +131,33 @@ public class BaseFunctions
 	 * Rosenbrock function.
 	 * 
 	 * References:
-	 * <a href="http://en.wikipedia.org/wiki/Rosenbrock_function" > Ref 1 </a>
-	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2537.htm" > Ref 2 </a>
-	 * <a href="http://mathworld.wolfram.com/RosenbrockFunction.html" > Ref 3 </a>
+	 * http://en.wikipedia.org/wiki/Rosenbrock_function (Ref 1) 
+	 * http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2537.htm (Ref 2) 
+	 * http://mathworld.wolfram.com/RosenbrockFunction.html (Ref 3) 
 	*/
 	public static class Rosenbrock extends Problem
 	{
 		/**
 		* Constructor for  Rosenbrock function defined within the specified upper and lower bounds.
+		* @param dimension  The dimensionality of the problem.
 		*/
 		public Rosenbrock(int dimension){ super(dimension, new double[] {-100, 100});}
 		/**
 		* Constructor the Rosenbrock function defined within a hyper-cube.
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
 		*/
 		public Rosenbrock(int dimension, double[] bounds) { super(dimension, bounds); }
 		/**
 		* Constructor for Rosenbrock function defined within particular decision space.
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
 		*/
 		public Rosenbrock(int dimension, double[][] bounds) { super(dimension, bounds); }
 		/**
 		* This method implement the Rosenbrock function.
 		* 
-		* @param x solution to be avaluated
+		* @param x solution to be evaluated
 		*/
 		public double f(double[] x)
 		{
@@ -166,27 +181,32 @@ public class BaseFunctions
 	 * Sphere function (DE JONG).
 	 * 
 	 * References:
-	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1113.htm" > Ref 1 </a>
-	 * <a href="http://www.it.lut.fi/ip/evo/functions/node2.html" > Ref 2 </a>
+	 * http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1113.htm
+	 * http://www.it.lut.fi/ip/evo/functions/node2.html
 	*/
 	public static class Sphere extends Problem
 	{
 		/**
 		* Constructor for the Sphere function defined within the specified upper and lower bounds.
+		* @param dimension  The dimensionality of the problem.
 		*/
 		public Sphere(int dimension){ super(dimension, new double[] {-5.12, 5.12} );}
 		/**
 		* Constructor for the Sphere function defined within a hyper-cube.
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
 		*/
 		public Sphere(int dimension, double[] bounds) { super(dimension, bounds); }
 		/**
 		* Constructor for the Sphere function defined within particular decision space.
+		* @param dimension  The dimensionality of the problem.
+		* @param bounds The boundaries of the problem.
 		*/
 		public Sphere(int dimension, double[][] bounds) { super(dimension, bounds); }
 		/**
 		* This method implement the Sphere function.
 		* 
-		* @param x solution to be avaluated
+		* @param x solution to be evaluated
 		*/
 		public double f(double[] x)
 		{
@@ -212,8 +232,8 @@ public class BaseFunctions
 	 * Rotated Ill-condinioted Sphere function.
 	 * 
 	 * References:
-	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1113.htm" > Ref 1 </a>
-	 * <a href="http://www.it.lut.fi/ip/evo/functions/node2.html" > Ref 2 </a>
+	 * http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page1113.htm
+	 * http://www.it.lut.fi/ip/evo/functions/node2.html
 	*/
 	public static class Ellipsoid extends Problem
 	{

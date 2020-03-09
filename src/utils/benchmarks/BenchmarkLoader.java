@@ -32,7 +32,6 @@ package utils.benchmarks;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -135,7 +134,7 @@ public class BenchmarkLoader
 	 * Loads a native library contained into a jar file.
 	 * 
 	 * @param name the name of the native library.
-	 * @throws IOException
+	 * @throws Exception This class must be able to handle exceptions.
 	 */
 	public static void loadNativeLibraryFromJar(String name) throws Exception
 	{

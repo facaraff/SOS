@@ -68,6 +68,7 @@ public class RanTable {
 
   /**
    * Get the next double.
+   * @return A real random value
    */
   public double nextDouble () {
     doubleTableIndex = (doubleTableIndex+1) & (doubleTableSize-1);
@@ -76,6 +77,7 @@ public class RanTable {
   
   /** 
    * Get the next int
+   * * @return An integer random value
    */
   public int nextInteger () {
     intTableIndex = (intTableIndex+1) & (intTableSize-1);

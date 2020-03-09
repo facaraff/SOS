@@ -46,6 +46,7 @@ public class FastFractal {
    * @param density average number of base functions per unit area at each resolution
    * @param index the sequence number of this surface (for the given fractal depth and density) 
    * @param dimensions number of dimensions (free variables) of the parameter space
+   * @throws Exception This method must be able to handle exceptions. 
    */
   public FastFractal (String unitFunctionName, int fractalDepth, int density, long index, int dimensions) throws Exception {
     unitFunction = (UnitFunction1D) Class.forName(unitFunctionName).newInstance();

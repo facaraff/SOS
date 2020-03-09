@@ -51,6 +51,7 @@ package benchmarks.problemsImplementation.fractalFunctions;
   
   /**
    * Get the next long.
+   * @return A real rando value
    */
   public long nextLong () {
     idum = (A * idum + C) & MASK;
@@ -59,6 +60,7 @@ package benchmarks.problemsImplementation.fractalFunctions;
   
   /**
    * Get the next double.
+   *  @return A real rando value
    */
   public double nextDouble () {
     return nextLong()/MAX_INT;
@@ -66,6 +68,9 @@ package benchmarks.problemsImplementation.fractalFunctions;
 
   /**
   * Get an integer with equal probability from [min, max] inclusive.
+  * @param min The minimum value of the interval.
+  * @param max the maximum value of the interval.
+  * @return A random integer number in [min,max].
   */
   public int nextInt (int min, int max) {
     return min + (int) Math.floor(nextDouble()*(max-min+1));

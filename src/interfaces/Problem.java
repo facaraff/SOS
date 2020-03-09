@@ -97,12 +97,12 @@ public abstract class Problem
 	public double[][] getBounds(){return bounds;}
 	/**
 	 * This method sets problem-specific boundaries
-	 * @param bounds the bound of the problem.
+	 * @param boundaries the bound of the problem.
 	 */
 	public void setBounds( double[][] boundaries){this.bounds=boundaries;}
 	/**
 	 * This method sets problem-specific boundaries (hyper-parallelepiped case)
-	 * @param bounds The boundaries of the optimisation problem.
+	 * @param boundaries The boundaries of the optimisation problem.
 	 */
 	public void setBounds( double[] boundaries)
 	{

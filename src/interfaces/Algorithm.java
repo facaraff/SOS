@@ -105,8 +105,7 @@ public abstract class Algorithm
 	public void setID(String name){this.ID = name;}
 	/**
 	 * Set the correction strategy.
-	 * 
-	 * @param run the number of the performed run.
+	 * @param correction The correction strategy char identifier.
 	 * 
 	 */
 	public void setCorrection(char correction){this.correction = correction;}
