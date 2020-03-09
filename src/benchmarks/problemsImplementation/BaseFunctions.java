@@ -301,50 +301,7 @@ public class BaseFunctions
 
 	
 	
-	/**
-	 * Schwefel function.
-	 * 
-	 * References:
-	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page2530.htm" > Ref 1 </a>
-	 * <a href="http://www.sfu.ca/~ssurjano/schwef.html" > Ref 2 </a>
-	 */
-		//UNCOMMENT AND COMPLETE THE CODE
-//	public static class Schwefel extends Problem 
-//	{
-		/**
-		* Constructor for the  Schwefel function with suggested bounds.
-		*/
-//		public Schwefel(int dimension) { super(dimension, ...... }
-		/**
-		* Constructor for the  Schwefel function defined within a hyper-cube.
-		*/
-//		public Schwefel(int dimension, double[] bounds) { super(dimension, bounds); }
-		/**
-		* Constructor for the  Schwefel function defined within particular decision space.
-		*/
-//		public Schwefel(int dimension, double[][] bounds) { super(dimension, bounds); }
-		/**
-		* This method implement the Schwefel function.
-		* 
-		* @param x solution to be avaluated
-		*/
-//		public double f(double[] x)
-//		{
-//			final int n = x.length;
-//			double sum = 0;
-//			double y = 0;
-//			if(this.getDimension()!= n)
-//			{
-//				y=Double.NaN;
-//				System.out.println("WARNING: the design variable does not match the dimensionality of the problem!");
-//			}
-//			else
-//			{
-//				.......
-//			}
-//			return y;
-//		}
-//	}
+
 	
 	/**
 	 * Rastrigin function.
