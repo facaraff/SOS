@@ -8,15 +8,15 @@ package benchmarks.problemsImplementation.CEC2010;
  */
 
 /**
- * <p>
+ * 
  * The D/2m-group Shifted and m-rotated Elliptic Function: F9.
- * </p>
- * <p>
- * This function is not <warning>not threadsafe</warning> because it uses
+ * 
+ * 
+ * This function is not not threadsafe because it uses
  * internal temporary variables. Therefore, you should always use each
  * instance of this function for one single {#link java.lang.Thread} only.
  * You may clone or serialize function instances to use multiple threads.
- * <p>
+ * 
  * 
  * @author Thomas Weise
  */

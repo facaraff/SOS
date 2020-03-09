@@ -151,11 +151,11 @@ public class DEOp
 		/**
 		* cur-to-best/1 mutation scheme, alternative method
 		* 
+		* @param fitnesses Array containing the fitness values of all individuals in the population.
 		* @param population set of candidate solutions/ individuals.
-		* @param bestPt best individual.
 		* @param j index of the current individual.
 		* @param F scale factor.
-		* @return newPt mutant individual.
+		* @return  A mutant individual.
 		*/
 		public static double[] currentToBest1(double[] fitnesses, double[][] population, int j, double F)
 		{
@@ -245,8 +245,8 @@ public class DEOp
 		 /**
 		* rand-to-best/1 mutation scheme, alternative method
 		* 
+		* @param fitnesses Array containing the fitness values of all individuals in the population.
 		* @param population set of candidate solutions/individuals.
-		* @param bestPt best individual.
 		* @param F scale factor.
 		* @return newPt mutant indvidual.
 		*/
@@ -306,10 +306,10 @@ public class DEOp
 		 /**
 		* rand-to-best/2 mutation scheme, alternative method
 		* 
+		* @param fitnesses Array containing the fitness values of all individuals in the population.
 		* @param population set of candidate solutions/individuals.
-		* @param bestPt best individual.
 		* @param F scale factor.
-		* @return newPt mutant indvidual.
+		* @return newPt A mutant indvidual.
 		*/
 		public static double[] randToBest2(double[] fitnesses, double[][] population, double F)
 		{
@@ -610,7 +610,7 @@ public class DEOp
 			* Rotation-invariant binomial crossover
 			* 
 			* @param x first parent solution (TARGET).
-			* @param y second parent solution (MUTANT).
+			* @param m second parent solution (MUTANT).
 			* @param CR crossover rate.
 			* @return x_off offspring solution.
 			* 
@@ -673,9 +673,8 @@ public class DEOp
 			/**
 			* Get orthonormal basis from populations via Eigen-decomposition method
 			* 
-			* @param pop population.
-			* @param criterion the criterion used to select the vector from the eigen-vectors matrix (0 random; 1 highest eigenvalue; 2 lowest eigenvalue)
-			* @return b Orthonormal basis.
+			* @param pop The population.
+			* @return b An orthonormal basis.
 			*
 			*/
 			public static double[][] getEigenBasis(double[][] pop)

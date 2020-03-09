@@ -96,9 +96,9 @@ public class ProblemSurfaceFrame extends javax.swing.JFrame implements ActionLis
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
+//   /**
+//     * @param args the command line arguments
+//     */
 //    public static void main(String args[]) {
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {

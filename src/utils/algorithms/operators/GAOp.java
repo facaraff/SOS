@@ -35,9 +35,9 @@ public class GAOp
 {
 	/**
 	 * Linear crossover
-	 * param x
-	 * param y
-	 * return x + F(x-y), where  0 < F < 1.
+	 * param x Parent 1.
+	 * param y Parent 2.
+	 * return x + F(x-y), with F in [0,1].
 	 */
 	public static double[] crossOverLinear(double[] x, double[] y) {
 		int n = x.length;
@@ -153,9 +153,8 @@ public class GAOp
 	/**
 	 * BGA Mutation Scheme
 	 * 
-	 * @param x
-	 * @param a
-	 * @param b
+	 * @param x Individual undergoing mutation.
+	 * @param bounds The boundaries of the problem.
 	 * 
 	 */
 	public static double[] BGA(double[] x, double[][] bounds)

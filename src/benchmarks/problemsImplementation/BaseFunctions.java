@@ -17,12 +17,12 @@ public class BaseFunctions
 	 * 
 	 * References: 
 	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page295.htm" > Ref 1 </a>
-	 * </br>
+	 * 
 	 * <a href="http://www.it.lut.fi/ip/evo/functions/node14.html" > Ref 2 </a>
-	 * </br>
+	 * 
 	 * <a href="http://www.math.ntu.edu.tw/~wwang/cola_lab/test_problems/multiple_opt/multiopt_prob/Ackley/Ackley.htm" > Ref 3 </a>
-	 * </br>
-	 * <a href="http://tracer.lcc.uma.es/problems/ackley/ackley.html" > Ref 4 </a></br>
+	 * 
+	 * <a href="http://tracer.lcc.uma.es/problems/ackley/ackley.html" > Ref 4 </a>
 	*/
 	public static class Ackley extends Problem
 	{
@@ -515,12 +515,12 @@ public class BaseFunctions
 //		 * 
 //		 * References: 
 //		 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page295.htm" > Ref 1 </a>
-//		 * </br>
+//		 * 
 //		 * <a href="http://www.it.lut.fi/ip/evo/functions/node14.html" > Ref 2 </a>
-//		 * </br>
+//		 * 
 //		 * <a href="http://www.math.ntu.edu.tw/~wwang/cola_lab/test_problems/multiple_opt/multiopt_prob/Ackley/Ackley.htm" > Ref 3 </a>
-//		 * </br>
-//		 * <a href="http://tracer.lcc.uma.es/problems/ackley/ackley.html" > Ref 4 </a></br>
+//		 * 
+//		 * <a href="http://tracer.lcc.uma.es/problems/ackley/ackley.html" > Ref 4 </a>
 //		 */
 //		// bounds = [-1 1];
 //		public static double ackley(double[] x)
