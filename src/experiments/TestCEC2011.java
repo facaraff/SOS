@@ -26,14 +26,16 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package experiments.frontrunnerMichele;
+package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import algorithms.singleSolution.NonUniformSA;
 import algorithms.singleSolution.VISPO;
-//import applications.CEC2011.P1;
+import applications.CEC2011.P1;
+import applications.CEC2011.P2;
+import applications.CEC2011.P7;
 import applications.CEC2011.P9;
 
 
@@ -41,7 +43,7 @@ public class TestCEC2011 extends Experiment
 {
 	public TestCEC2011()
 	{
-		super("STIGRANCAZZI");
+		super("TestCECRealWorlApplications");
 		setNrRuns(30);	
 		
 		Algorithm a;// ///< A generic optimiser.
@@ -60,27 +62,29 @@ public class TestCEC2011 extends Experiment
 	    a.setParameter("p3", 10.0);
 	    add(a);
 		
+	    p = new P1();
+	    add(p);
 	    
-		p = new P9();
+	    p = new P9();
 		add(p);//add it to the list
 		
-//		p = new P7();
-//		add(p);//add it to the list
-//		
-//		p = new P2(30);
-//		add(p);//add it to the list
-//		p = new P2(60);
-//		add(p);//add it to the list
-//		p = new P2(90);
-//		add(p);//add it to the list
-//		p = new P2(120);
-//		add(p);//add it to the list
-//		p = new P2(300);
-//		add(p);//add it to the list
-//		p = new P2(600);
-//		add(p);//add it to the list
-//		p = new P2(900);
-//		add(p);//add it to the list
+		p = new P7();
+		add(p);//add it to the list
+		
+		p = new P2(30);
+		add(p);//add it to the list
+		p = new P2(60);
+		add(p);//add it to the list
+		p = new P2(90);
+		add(p);//add it to the list
+		p = new P2(120);
+		add(p);//add it to the list
+		p = new P2(300);
+		add(p);//add it to the list
+		p = new P2(600);
+		add(p);//add it to the list
+		p = new P2(900);
+		add(p);//add it to the list
 
 		
 

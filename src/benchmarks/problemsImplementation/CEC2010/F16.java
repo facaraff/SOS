@@ -9,7 +9,7 @@ package benchmarks.problemsImplementation.CEC2010;
 
 /**
  * 
- * The D/m-group group Shifted and m-rotated Ackleyï Function: F16.
+ * The D/m-group group Shifted and m-rotated Ackley Function: F16.
  * 
  * This function is not not threadsafe because it uses
  * internal temporary variables. Therefore, you should always use each
