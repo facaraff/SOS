@@ -30,7 +30,7 @@ package algorithms.memes;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 
-import static utils.algorithms.Misc.fConstraint;
+import static utils.algorithms.Corrections.fConstraint;
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;

@@ -39,6 +39,8 @@ package interfaces;
 import java.util.HashMap;
 import java.util.Map;
 
+import utils.algorithms.Corrections;
+
 import utils.RunAndStore.FTrend;
 public abstract class Algorithm
 {	
@@ -115,7 +117,7 @@ public abstract class Algorithm
 	 * @return  the correction strategy identifier.
 	 * 
 	 */
-	public char getcorrection(){return this.correction;}
+	public char getCorrection(){return this.correction;}
 	/**
 	 * This method returns the identifier ID
 	 * 
@@ -135,6 +137,31 @@ public abstract class Algorithm
 		return description;
 	}
 	
+	/**
+	 * Generic correction function 1
+	 * 
+	 * @param x solution to be corrected.
+	 * @param bounds search space boundaries (general case).
+	 * @return x_c corrected solution.
+	 */
+	public double[] correct(double[] x, double[][] bounds) {return Corrections.correct(this.correction, x, bounds);}
 	
-	
+	/**
+	 * Generic correction function 2
+	 * 
+	 * @param x solution to be corrected.
+	 * @param bounds search space boundaries (general case).
+	 * @return x_c corrected solution.
+	 */
+	public double[]  correct(double[] x, double[] bounds)
+	{
+		int n = x.length;
+		double[][] BOUNDS = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			BOUNDS[i][0] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		return correct(x, BOUNDS);
+	}
 }

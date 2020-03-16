@@ -1,7 +1,6 @@
 package algorithms.specialOptions;
 
 import  utils.algorithms.operators.DEOp;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.populationDiversity1;
 import static utils.algorithms.Misc.populationDiversity2;
 import static utils.algorithms.Misc.populationDiversity3;
@@ -147,7 +146,7 @@ public class EarlyDE extends Algorithm
 						crossPt = newPt;
 				}
 				
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

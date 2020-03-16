@@ -3,10 +3,10 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
-import static utils.algorithms.Misc.saturation;
-import static utils.algorithms.Misc.completeOneTailedNormal;
-import static utils.algorithms.Misc.mirroring;
+import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.saturation;
+import static utils.algorithms.Corrections.completeOneTailedNormal;
+import static utils.algorithms.Corrections.mirroring;
 import static utils.MatLab.max;
 
 import java.io.BufferedWriter;

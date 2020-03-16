@@ -31,7 +31,6 @@ package algorithms.inProgress;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.AVGDesignVar;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -105,7 +104,7 @@ public class CMAES_PRE extends Algorithm
 			for(int i = 0; i < pop.length && j < maxEvaluations; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 				
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);

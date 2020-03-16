@@ -2,7 +2,6 @@ package algorithms;
 
 import static utils.algorithms.operators.DEOp.currentToBest1;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 
 import java.util.ArrayList;
 import utils.random.RandUtils;
@@ -314,7 +313,7 @@ public class JADE extends Algorithm
 		{
 			case 1:
 				mutant = currentToBest1(population.get(actual), r1, r2, xbest, F);
-				mutant = toro(mutant, bounds);
+				mutant = correct(mutant, bounds);
 				break;
 		}   
 

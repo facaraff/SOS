@@ -16,7 +16,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Corrections.toro;
 
 
 import java.util.Arrays;
@@ -28,7 +28,7 @@ import utils.MatLab;
 /**
  * A Nelder-Mead simplex search.
  */
-public final class NelderMeadKono extends AlgorithmBias {
+public final class NelderMeadISB extends AlgorithmBias {
 
 	static String Dir = "/home/facaraff/Desktop/KONODATA/NelderMead/";
 	

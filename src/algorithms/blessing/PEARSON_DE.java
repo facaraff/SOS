@@ -29,7 +29,6 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.blessing;
 
 import  utils.algorithms.operators.DEOp;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.generateRandomSolution;
 
@@ -143,7 +142,7 @@ public class PEARSON_DE extends Algorithm
 						crossPt = DEOp.crossOverExp(currPt, newPt, CR);
 				}
 				
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

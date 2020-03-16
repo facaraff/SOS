@@ -31,7 +31,6 @@ package algorithms.blessing;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 
 
 //import utils.MathUtils;
@@ -79,7 +78,7 @@ public class PEARSON_ALG extends Algorithm
 			
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 					
 				fitness[i] = problem.f(pop[i]);
 				

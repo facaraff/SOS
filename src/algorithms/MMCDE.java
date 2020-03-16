@@ -31,7 +31,6 @@ package algorithms;
 import  utils.algorithms.operators.DEOp;
 import utils.random.RandUtils;
 
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -160,7 +159,7 @@ public class MMCDE extends Algorithm
 						break;
 				}
 						
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

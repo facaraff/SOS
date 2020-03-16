@@ -3,7 +3,6 @@ package algorithms.singleSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
-import static utils.algorithms.Misc.toro;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -91,7 +90,7 @@ public class ThreeSome extends Algorithm
 				{
 					solution = intermediatePerturbation(bounds, best, intermediateLSRadius);
 					solution = crossOverExp(best, solution, intermediateCR);
-					solution = toro(solution, bounds);
+					solution = correct(solution, bounds);
 					fSolution = problem.f(solution);
 					//iCounter++;
 					i++;
@@ -149,7 +148,7 @@ public class ThreeSome extends Algorithm
 					while ((k < problemDimension) && (i < maxEvaluations))
 					{
 						Xk[k] = Xk[k] - SR[k];
-						Xk = toro(Xk, bounds);
+						Xk = correct(Xk, bounds);
 						double fXk = problem.f(Xk);
 						i++;
 
@@ -175,7 +174,7 @@ public class ThreeSome extends Algorithm
 								{
 									Xk[k] = Xk_orig[k];
 									Xk[k] = Xk[k] + 0.5*SR[k];
-									Xk = toro(Xk, bounds);
+									Xk = correct(Xk, bounds);
 									fXk = problem.f(Xk);
 									i++;
 

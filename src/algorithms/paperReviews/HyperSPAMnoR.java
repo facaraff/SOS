@@ -30,7 +30,6 @@ package algorithms.paperReviews;
 
 
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistanceShortTime;
@@ -82,7 +81,7 @@ public class HyperSPAMnoR extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -142,7 +141,7 @@ public class HyperSPAMnoR extends Algorithm
 			
 			
 			/** 3SOME's local searcher with stop criterion **/
-			temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget, FT);	
+			temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget, FT, getCorrection());	
 			
 
 

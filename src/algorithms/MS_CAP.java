@@ -7,7 +7,6 @@ import static utils.algorithms.Misc.generateRandomSolution;
 import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
-import static utils.algorithms.Misc.toro;
 import utils.algorithms.operators.DEOp;
 import utils.RunAndStore.FTrend;
 
@@ -21,7 +20,7 @@ public class MS_CAP extends Algorithm
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		// 0: saturateToro, 1: saturateOnBounds, 2: saturateRebound
+		// 0: saturatecorrect, 1: saturateOnBounds, 2: saturateRebound
 		//int saturateType = 0;
 		boolean debug = false;
 
@@ -147,7 +146,7 @@ public class MS_CAP extends Algorithm
 
 				// saturation
 //				if (saturateType == 0)
-					particles[i] = toro(particles[i], bounds);
+					particles[i] = correct(particles[i], bounds);
 //				else if (saturateType == 1)
 //					particles[i] = AlgorithmUtils.saturateOnBounds(particles[i], bounds);
 //				else if (saturateType == 2)
@@ -260,7 +259,7 @@ public class MS_CAP extends Algorithm
 
 						// saturation
 //						if (saturateType == 0)
-							newPt = toro(newPt, bounds);
+							newPt = correct(newPt, bounds);
 //						else if (saturateType == 1)
 //							newPt = AlgorithmUtils.saturateOnBounds(newPt, bounds);
 //						else if (saturateType == 2)

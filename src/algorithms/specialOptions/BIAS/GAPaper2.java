@@ -2,12 +2,13 @@ package algorithms.specialOptions.BIAS;
 
 import static utils.algorithms.operators.GAOp.roulette;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
+
+import utils.algorithms.Corrections;
 
 import utils.random.RandUtils;
 import static utils.MatLab.indexMin;
@@ -16,7 +17,7 @@ import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
-public class GAkonoPaper2 extends AlgorithmBias
+public class GAPaper2 extends AlgorithmBias
 {	
 	private int run = 0;
 	
@@ -170,10 +171,8 @@ public class GAkonoPaper2 extends AlgorithmBias
 		FT.add(i, fBest);
 		bw.close();
 		
-//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
 		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy);
 		
-//		System.out.println(ciccio+" "+i);
 		
 		return FT;
 	}
@@ -338,7 +337,7 @@ public class GAkonoPaper2 extends AlgorithmBias
 		if(scheme == 't')
 		{
 			//System.out.println("TORO");
-			output = toro(point, boundaries);
+			output = Corrections.correct('t', point, boundaries);
 			
 			if(!equal(output, point))
 			{

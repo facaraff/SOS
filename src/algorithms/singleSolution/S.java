@@ -122,7 +122,7 @@ public class S extends Algorithm
 				while ((k < problemDimension) && (i < maxEvaluations))
 				{
 					Xk[k] = Xk[k] - SR[k];
-					Xk = Misc.toro(Xk, bounds);
+					Xk = correct(Xk, bounds);
 					double fXk = problem.f(Xk);
 					i++;
 					// FT update
@@ -139,7 +139,7 @@ public class S extends Algorithm
 						
 						Xk[k] = Xk_orig[k];
 						Xk[k] = Xk[k] + 0.5*SR[k];
-						Xk = Misc.toro(Xk, bounds);
+						Xk = correct(Xk, bounds);
 						fXk = problem.f(Xk);
 						//dCounter++;
 						i++;

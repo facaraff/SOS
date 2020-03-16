@@ -1,10 +1,37 @@
+/**
+Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer. 
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those
+of the authors and should not be interpreted as representing official policies, 
+either expressed or implied, of the FreeBSD Project.
+*/
 package algorithms;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.saturate;
-import static utils.algorithms.Misc.toro;
+
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -26,9 +53,8 @@ public class EPSDE_LS extends Algorithm
 	static double[] poolCR = {0.1,0.5,0.9};
 	static double[] poolF = {0.5,0.9};
 	
-	static boolean toro = true;
 
-	@Override
+
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		int populationSize = getParameter("p0").intValue();	// 50
@@ -163,11 +189,9 @@ public class EPSDE_LS extends Algorithm
 									+ F[i]*(oldPopulation[r[i][1]][j]-oldPopulation[r[i][2]][j]);
 				}
 
-				// saturation
-				if (toro)
-					newPt = toro(newPt, bounds);
-				else
-					newPt = saturate(newPt, bounds);
+	
+				newPt = correct(newPt, bounds);
+		
 
 				// crossover
 				if (mutationStrategies[i] == MutationStrategy.MUT_STRAT_1)

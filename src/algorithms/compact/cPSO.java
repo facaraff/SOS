@@ -4,7 +4,6 @@ import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
-import static utils.algorithms.Misc.toro;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -131,7 +130,7 @@ public class cPSO extends Algorithm
 				x[n] = gamma1*x[n] + gamma2*v[n];
 			}
 			
-			x = toro(x, normalizedBounds);
+			x = correct(x, normalizedBounds);
 			xScaled = scale(x, bounds, xc);
 			fitness_x = problem.f(xScaled);
 			

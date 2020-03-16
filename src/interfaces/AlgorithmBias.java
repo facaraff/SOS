@@ -54,10 +54,10 @@ import static java.time.Instant.now;
 import static utils.RunAndStore.slash;
 import static utils.RunAndStore.createFolder;
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Misc.completeOneTailedNormal;
-import static utils.algorithms.Misc.mirroring;
-import static utils.algorithms.Misc.saturation;
-import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Corrections.completeOneTailedNormal;
+import static utils.algorithms.Corrections.mirroring;
+import static utils.algorithms.Corrections.saturation;
+import static utils.algorithms.Corrections.toro;
 
 import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
@@ -178,7 +178,7 @@ public abstract class AlgorithmBias
 	 * @return correction the correction strategy identifier.
 	 * 
 	 */
-	public char getcorrection(){return this.correction;}
+	public char getCorrection(){return this.correction;}
 	
 	/**
 	 * update the header to indicate that a maximisation process is taking place.
