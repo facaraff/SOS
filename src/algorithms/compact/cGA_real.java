@@ -41,7 +41,7 @@ public class cGA_real extends Algorithm
 		for (int j = 0; j < problemDimension; j++)
 		{
 			mean[j] = 0.0;
-			sigma2[j] = 1.0;
+			sigma2[j] = 10.0;
 		}
 		
 		double[] xc = new double[problemDimension];
