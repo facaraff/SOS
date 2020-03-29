@@ -116,8 +116,8 @@ public class PPSN2020 extends ISBMain
 			a.setDir("COMPACTS"+slash());
 			a.setCorrection(correction);
 			a.setParameter("p0", 50.0);
-			a.setParameter("p1", -0.2);
-			a.setParameter("p2", -0.07);
+			a.setParameter("p1", 0.2);
+			a.setParameter("p2", 0.07);
 			a.setParameter("p3", 3.74);
 			a.setParameter("p4", 1.0);
 			a.setParameter("p5", 1.0);
