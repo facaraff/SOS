@@ -57,9 +57,6 @@ public class PPSN2020 extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		
-		
-		
-		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
 		for(int i=0; i<n; i++)
@@ -143,7 +140,7 @@ public class PPSN2020 extends ISBMain
 			a = new cGA_real();
 			a.setDir("COMPACTS"+slash());
 			a.setParameter("p0",300.0);
-			a.setParameter("p1",200.0);
+//			a.setParameter("p1",200.0);
 			a.setCorrection('x');
 			algorithms.add(a);
 			
