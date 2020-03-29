@@ -30,7 +30,6 @@ package algorithms.singleSolution;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
 
@@ -89,7 +88,7 @@ public class SolisWets extends Algorithm
 			for(int n=0; n < problemDimension; n++)
 				dif[n] = RandUtils.gaussian(0,rho);
 			bestFirst = sum(sum(best, bias ) , dif );
-			bestFirst = toro(bestFirst, bounds);
+			bestFirst = correct(bestFirst, bounds);
 			newfBest = problem.f(bestFirst);
 			i++;
 			if(newfBest < fBest)
@@ -108,7 +107,7 @@ public class SolisWets extends Algorithm
 			else if(i < maxEvaluations)
 			{
 				bestSecond = subtract(  subtract(best, bias) , dif  );
-				bestSecond = toro(bestSecond, bounds);
+				bestSecond = correct(bestSecond, bounds);
 				newfBest = problem.f(bestSecond);
 				i++;
 				if(newfBest < fBest)

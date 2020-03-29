@@ -70,6 +70,7 @@ public class TestModalityOld {
 		double[] point = new double[problemDimension];
 		int numberOfSearchers = 2; //how many LS: rosenbrock + S-some
 		int LSbudget = localBudget/repeats/numberOfSearchers;
+		char correction = 't';
 		
 		while (i < localBudget)
 		{		
@@ -77,11 +78,11 @@ public class TestModalityOld {
 				point = population[j].clone();
 				
 				
-				double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, LSbudget, 0);
+				double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, LSbudget, 0,correction);
 				fitnesses[j] = temp[0];
 				i += temp[1];
 				
-				temp = Rosenbrock(point, fitnesses[j], 10e-5, 2, 0.5, prob, LSbudget, 0);
+				temp = Rosenbrock(point, fitnesses[j], 10e-5, 2, 0.5, prob, LSbudget, 0,correction);
 				fitnesses[j] = temp[0];
 				i += temp[1];
 				for (int k = 0; k < problemDimension; k++) {

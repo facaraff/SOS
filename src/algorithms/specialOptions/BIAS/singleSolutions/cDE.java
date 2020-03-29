@@ -190,7 +190,7 @@ public class cDE extends AlgorithmBias
 					b = best1(best,xr,xs,F);
 					break;
 				case "bt":
-					 // DE/best/1
+					 // DE/best/2
 					xr = generateIndividual(mean, sigma2,PRGCounter);
 					xs = generateIndividual(mean, sigma2,PRGCounter);
 					xu = generateIndividual(mean, sigma2,PRGCounter);

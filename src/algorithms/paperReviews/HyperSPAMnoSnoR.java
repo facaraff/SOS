@@ -29,7 +29,6 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.paperReviews;
 
 
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 
@@ -82,7 +81,7 @@ public class HyperSPAMnoSnoR extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);

@@ -30,7 +30,6 @@ package algorithms.singleSolution;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 
 import static utils.MatLab.eye;
 import static utils.MatLab.subtract;
@@ -99,7 +98,7 @@ public class Rosenbrock extends Algorithm {
 				{
 					for (int j=0;j<n;j++)
 						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
-					xCurrent = toro(xCurrent, bounds);
+					xCurrent = correct(xCurrent, bounds);
 					yCurrent = problem.f(xCurrent);
 					iter++;
 

@@ -26,6 +26,7 @@ public class CEC2015 extends Problem
 	* Initialises private variables (arrays) for the specified problem to be used.
 	* @param func_num index of the problem to be used (15 problems in this suite!).
 	* @param dimension dimensionality of the problem (admissible vlues are: 10,30,50 and 100).
+	* @throws Exception This method must be able to handle exceptions.
 	*/
 
 	public CEC2015(int dimension, int func_num) throws Exception

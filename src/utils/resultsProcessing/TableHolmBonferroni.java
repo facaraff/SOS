@@ -75,7 +75,7 @@ public class TableHolmBonferroni extends TableStatistics
 			table[1] = "\\caption{Holm-Bonferroni procedure (reference: "+A[this.referenceAlgorithm].getName()+", Rank = "+D2S(averageRank[this.referenceAlgorithm])+")}\\label{holm-test}";
 			table[2] = "\\begin{tabular}{c|c|c|c|c|c|c}";
 			table[3] = "\\hline\\hline";
-			table[4] = "$j$ & Optimizer & Rank & $z_j$ & $p_j$ & $\\delta/j$ & Hypothesis\\\\";
+			table[4] = "$j$ & Optimizer & Rank & $z_j$ & $p_j$ & $\\alpha/j$ & Hypothesis\\\\";
 			table[5] = "\\hline";
 			A = this.removeReference(A, this.referenceAlgorithm);
 			averageRank = removeReference(averageRank, this.referenceAlgorithm);

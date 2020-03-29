@@ -7,7 +7,7 @@ public class RandUtils extends PRNG
 	
 	
 	/**
-	 * Random integer 0 <= r <= n.
+	 * Random integer in [0,1].
 	 * 
 	 * @param n
 	 * @return
@@ -18,10 +18,12 @@ public class RandUtils extends PRNG
 	}
 	
 	/**
-	 * Random integer a <= r <= b, excluding excl.
+	 * Random integer [a,b] excluding excl.
 	 * 
-	 * @param n
-	 * @return
+	 * @param a The lower-bound of the interval.
+	 * @param b The upper-bound of the interval.
+	 * @param excl This value cannot be generated.
+ 	 * @return a random value from the closed interval differing to excl. 
 	 */
 	public static int randomIntegerExcl(int a, int b, int excl)
 	{
@@ -35,10 +37,11 @@ public class RandUtils extends PRNG
 	}
 	
 	/**
-	 * Random integer 0 <= r <= n, excluding excl.
+	 * Random integer [0,n] excluding excl.
 	 * 
-	 * @param n
-	 * @return
+	 * @param n The lower-bound of the interval.
+	 * @param excl This value cannot be generated.
+ 	 * @return a random value from the closed interval [0,n] differing to excl. 
 	 */
 	public static int randomIntegerExcl(int n, int excl)
 	{
@@ -74,8 +77,8 @@ public class RandUtils extends PRNG
 	/**
 	 * Random permutation of array [1, 2, ... , (n-1)]
 	 * 
-	 * @param algorithm
-	 * @return
+	 * @param n The number of indices.
+	 * @return A vector whose components are randomly permuted.
 	 */
 	public static int[] randomPermutation(int n)
 	{

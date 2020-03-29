@@ -6,7 +6,6 @@ import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
 
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution; 
 
 
@@ -59,7 +58,7 @@ public class CMAES extends Algorithm
 			for(int i = 0; i < pop.length && j < maxEvaluations; ++i)
 			{ 
 				// saturate solution on bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 				
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);

@@ -12,7 +12,6 @@ import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
-import static utils.algorithms.Misc.toro;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -202,7 +201,7 @@ public class cDE_exp_light extends Algorithm
 			}
 			
 			
-			b = toro(b, normalizedBounds);
+			b = correct(b, normalizedBounds);
 			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);
 			i++;

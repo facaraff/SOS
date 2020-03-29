@@ -31,7 +31,6 @@ package algorithms.singleSolution;
 
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 
@@ -90,15 +89,15 @@ public class SPSA extends Algorithm {
 			double[] delta = new double[problemDimension];
 			for(int j=0;j < problemDimension;j++)
 				delta[j] = (RandUtils.random() > 0.5) ? 1 : -1;
-			double[] thetaplus = toro(sum(theta,multiply(ck,delta)), bounds);
-			double[] thetaminus = toro(sum(theta,multiply(-ck,delta)), bounds);
+			double[] thetaplus = correct(sum(theta,multiply(ck,delta)), bounds);
+			double[] thetaminus = correct(sum(theta,multiply(-ck,delta)), bounds);
 			double yplus=problem.f(thetaplus);
 			double yminus=problem.f(thetaminus);
 			i +=2; 
 			double[] ghat= new double[problemDimension];
 			for(int j=0;j < problemDimension;j++)
 				ghat[j]=(yplus-yminus)/(2*ck*delta[j]);
-			theta = toro(sum(theta,multiply(-ak, ghat)), bounds);
+			theta = correct(sum(theta,multiply(-ak, ghat)), bounds);
 			y = problem.f(theta);
 			i++;
 			double[] ys={y, yplus, yminus};

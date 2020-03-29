@@ -1,7 +1,6 @@
 package algorithms.singleSolution;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.max;
 import static utils.MatLab.min;
 
@@ -56,7 +55,7 @@ public class VISPO extends Algorithm
 		double deltaF;
 		
 		boolean debug = false;
-		boolean saturateToro = true;
+		boolean saturatecorrect = true;
 		
 		int i = 1;
 		int iterationCount = 0;
@@ -78,8 +77,8 @@ public class VISPO extends Algorithm
 
 					// calculate new position
 					particle[j] += velocity;
-					if (saturateToro)
-						particle = toro(particle, bounds);
+					if (saturatecorrect)
+						particle = correct(particle, bounds);
 					else
 						particle[j] = min(max(particle[j], bounds[j][0]), bounds[j][1]);
 					

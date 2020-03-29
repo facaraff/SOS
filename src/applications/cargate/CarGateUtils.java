@@ -1,21 +1,21 @@
 package applications.cargate;
 
 import utils.MatLab;
-
+/** @author Giovanni Iacca (giovanni.iacca@gmail.com ) */
 public class CarGateUtils {
 
 	/**
 	 *  Multiply a series of binomials and returns the coefficients of the 
-	 *  resulting polynomial. The multiplication has the following form:<b/>
+	 *  resulting polynomial. The multiplication has the following form:
 	 *  
-	 *  (x+p[0])*(x+p[1])*...*(x+p[n-1]) <b/>
+	 *  (x+p[0])*(x+p[1])*...*(x+p[n-1]) 
 	 *  
 	 *  The p[i] coefficients are assumed to be complex and are passed to the
-	 *  function as an array of doubles of length 2n.<b/>
+	 *  function as an array of doubles of length 2n.
 	 *  
-	 *  The resulting polynomial has the following form:<b/>
+	 *  The resulting polynomial has the following form:
 	 *  
-	 *  x^n + a[0]*x^n-1 + a[1]*x^n-2 + ... +a[n-2]*x + a[n-1] <b/>
+	 *  x^n + a[0]*x^n-1 + a[1]*x^n-2 + ... +a[n-2]*x + a[n-1] 
 	 *  
 	 *  The a[i] coefficients can in general be complex but should in most cases
 	 *  turn out to be real. The a[i] coefficients are returned by the function 

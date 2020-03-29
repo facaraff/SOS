@@ -29,8 +29,6 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.inProgress;
 
 
-import utils.algorithms.Misc;
-
 import interfaces.Algorithm;
 import interfaces.Problem;
 
@@ -43,6 +41,7 @@ import static utils.MatLab.subtract;
 import static utils.MatLab.transpose;
 import static utils.MatLab.indexMin;
 import static utils.algorithms.Misc.cloneSolution;
+import static utils.algorithms.Misc.generateRandomSolution;
 
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -76,7 +75,7 @@ public class CMS extends Algorithm
 		}
 		else
 		{
-			best = Misc.generateRandomSolution(bounds, problemDimension);		
+			best = generateRandomSolution(bounds, problemDimension);		
 			fBest = problem.f(best);
 			i++;
 		}
@@ -162,7 +161,7 @@ public class CMS extends Algorithm
 				while ((k < problemDimension) && (i < maxEvaluations))
 				{
 					Xk = subtract(Xk,R[k]);
-					Xk = Misc.toro(Xk, bounds);
+					Xk = correct(Xk, bounds);
 					double fXk = problem.f(Xk);
 					i++;
 					// FT update
@@ -180,7 +179,7 @@ public class CMS extends Algorithm
 					{
 						Xk = cloneSolution(Xk_orig);
 						Xk = sum(Xk,multiply(0.5, R[k]));
-						Xk = Misc.toro(Xk, bounds);
+						Xk = correct(Xk, bounds);
 						fXk = problem.f(Xk);
 						i++;
 						// FT update

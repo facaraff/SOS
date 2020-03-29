@@ -30,7 +30,6 @@ package algorithms.paperReviews;
 
 
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static  utils.algorithms.operators.MemesLibrary.RosenbrockShortTime;
@@ -84,7 +83,7 @@ public class HyperSPAMnoS extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -149,7 +148,7 @@ public class HyperSPAMnoS extends Algorithm
 		
 			
 			/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-			temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget, FT);
+			temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget, FT, getCorrection());
 		
 //	
 

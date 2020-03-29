@@ -8,8 +8,6 @@ import static utils.algorithms.CompactAlgorithms.normalize;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
-
 //import utils.MatLab;
 import utils.random.RandUtils;
 
@@ -177,7 +175,7 @@ public class ibrido extends Algorithm
 			b = crossOverExpFast(best, b, CR);
 			
 			
-			b = toro(b, normalizedBounds);
+			b = correct(b, normalizedBounds);
 			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);
 			
@@ -218,7 +216,7 @@ public class ibrido extends Algorithm
 					}
 					
 					// evaluate fitness
-					bScaled = toro(bScaled, bounds);
+					bScaled = correct(bScaled, bounds);
 					b = normalize(bScaled,bounds,xc);
 					fB = problem.f(bScaled);
 					i++;

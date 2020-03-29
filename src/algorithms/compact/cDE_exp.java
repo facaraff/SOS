@@ -10,7 +10,6 @@ import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.isEqual;
 
 
@@ -179,7 +178,7 @@ public class cDE_exp extends Algorithm
 					b = crossOverExp(best, b, CR);
 			}
 			
-			b = toro(b, normalizedBounds);
+			b = correct(b, normalizedBounds);
 			bScaled = scale(b, bounds, xc);
 			fB = problem.f(bScaled);
 			i++;

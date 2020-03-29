@@ -29,7 +29,6 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.inProgress;
 
 import  utils.algorithms.operators.DEOp;
-import static utils.algorithms.Misc.toro;
 
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -149,7 +148,7 @@ public class EigenDE2 extends Algorithm
 						crossPt = newPt;
 				}			
 				
-				crossPt = toro(restoreSystem(Pt,crossPt), bounds);
+				crossPt = correct(restoreSystem(Pt,crossPt), bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

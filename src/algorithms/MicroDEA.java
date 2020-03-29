@@ -39,8 +39,6 @@ import static utils.algorithms.Misc.generateRandomSolution;
 
 
 
-
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.indexMin;
 
 //import java.util.Vector;
@@ -162,7 +160,7 @@ public class MicroDEA extends Algorithm
 					
 				}
 				
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 
@@ -244,7 +242,7 @@ public class MicroDEA extends Algorithm
 			while ((k < problemDimension) && (iter < totalBudget))
 			{
 				Xk[k] = Xk[k] - SR[k];
-				Xk = toro(Xk, bounds);
+				Xk = correct(Xk, bounds);
 				double fXk = prob.f(Xk);
 				iter++; numEval++;
 
@@ -270,7 +268,7 @@ public class MicroDEA extends Algorithm
 						{
 							Xk[k] = Xk_orig[k];
 							Xk[k] = Xk[k] + 0.5*SR[k];
-							Xk = toro(Xk, bounds);
+							Xk = correct(Xk, bounds);
 							fXk = prob.f(Xk);
 							iter++; numEval++;
 

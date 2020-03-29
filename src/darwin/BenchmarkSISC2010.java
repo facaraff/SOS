@@ -6,6 +6,9 @@ import utils.benchmarks.BenchmarkLoader;
  * Benchmark Functions for the Special Issue of Soft Computing (SISC 2010) on 
  * Scalability of Evolutionary Algorithms and other Metaheuristics 
  * for Large Scale Continuous Optimization Problems.
+ * 
+ *  @author Giovanni Iacca (giovanni.iacca@gmail.com )
+ *  
  */
 public class BenchmarkSISC2010
 {

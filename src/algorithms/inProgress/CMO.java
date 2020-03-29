@@ -34,7 +34,7 @@ import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
-import static utils.algorithms.Misc.toro;
+
 
 //import utils.MatLab;
 
@@ -231,7 +231,7 @@ public class CMO extends Algorithm
 	{
 		double[] b = cdelight(F, alpha, best, mean, sigma2);
 		
-		b = toro(b, normalizedBounds);
+		b = correct(b, normalizedBounds);
 		double fB = problem.f(scale(b, bounds, xc));
 		i++;
 		k++;
@@ -272,7 +272,7 @@ public class CMO extends Algorithm
 //		double[] x_lb = cPSOPerturbation(v, x, best, mean, sigma2, phi1, phi2, phi3, gamma1, gamma2);
 //		
 //		int problemDimension = problem.getDimension();
-//		x = toro(x, normalizedBounds);
+//		x = correct(x, normalizedBounds);
 //		double[] xScaled = scale(x, bounds, xc);
 //		double fitness_x = problem.f(xScaled);
 //		
@@ -393,7 +393,7 @@ public class CMO extends Algorithm
 				a[n] = a[n] + C_i * delta[n]/stepNorm;
 
 			// bacteria health (fitness)
-			a = toro(a, normalizedBounds);
+			a = correct(a, normalizedBounds);
 			aScaled = scale(a, bounds, xc);
 			fA = problem.f(aScaled);
 			
@@ -440,7 +440,7 @@ public class CMO extends Algorithm
 						a[n] = a[n] + C_i * delta[n]/stepNorm;
 					
 					// bacteria health (fitness)
-					a = toro(a, normalizedBounds);
+					a = correct(a, normalizedBounds);
 					aScaled = scale(a, bounds, xc);
 					fA = problem.f(aScaled);
 					

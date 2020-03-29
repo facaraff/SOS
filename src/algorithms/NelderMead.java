@@ -1,7 +1,6 @@
 package algorithms;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 
 import utils.MatLab;
 import interfaces.Algorithm;
@@ -105,7 +104,7 @@ public final class NelderMead extends Algorithm {
 			// reflect
 			for (int j = 0; j < problemDimension; j++)
 				reflect[j] = mean[j] + alpha*(mean[j] - simplex[h][j]);
-			reflect = toro(reflect, bounds);
+			reflect = correct(reflect, bounds);
 			reflectVal = problem.f(reflect);
 			i++;
 			
@@ -126,7 +125,7 @@ public final class NelderMead extends Algorithm {
 				// expand
 				for (int j = 0; j < problemDimension; j++)
 					expand[j] = mean[j] + gamma*(reflect[j] - mean[j]);
-				expand = toro(expand, bounds);
+				expand = correct(expand, bounds);
 				expandVal = problem.f(expand);
 				i++;
 				
@@ -167,7 +166,7 @@ public final class NelderMead extends Algorithm {
 				// contract outside
 				for (int j = 0; j < problemDimension; j++)
 					contract[j] = mean[j] + beta*(reflect[j] - mean[j]);
-				contract = toro(contract, bounds);
+				contract = correct(contract, bounds);
 				contractVal = problem.f(contract);
 				i++;
 
@@ -197,7 +196,7 @@ public final class NelderMead extends Algorithm {
 						{
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
-							simplex[k] = toro(simplex[k], bounds);
+							simplex[k] = correct(simplex[k], bounds);
 							fSimplex[k] = problem.f(simplex[k]);
 							i++;
 							
@@ -217,7 +216,7 @@ public final class NelderMead extends Algorithm {
 				// contract inisde
 				for (int j = 0; j < problemDimension; j++)
 					contract[j] = mean[j] + beta*(simplex[h][j] - mean[j]);
-				contract = toro(contract, bounds);
+				contract = correct(contract, bounds);
 				contractVal = problem.f(contract);
 				i++;
 
@@ -247,7 +246,7 @@ public final class NelderMead extends Algorithm {
 						{
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
-							simplex[k] = toro(simplex[k], bounds);
+							simplex[k] = correct(simplex[k], bounds);
 							fSimplex[k] = problem.f(simplex[k]);
 							i++;
 							

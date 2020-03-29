@@ -30,7 +30,6 @@ package algorithms;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.fix;
 import static utils.MatLab.indexMin;
 
@@ -186,7 +185,7 @@ public class MDE_pBX extends Algorithm
 				crossPt = crossOverBin(pBest, newPt, CR);			
 				
 				//saturation
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				
 				crossFit = problem.f(crossPt);
 				i++;

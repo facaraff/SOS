@@ -80,7 +80,7 @@ public class RIS extends Algorithm
 				FT.add(i, fBest);
 			}
 					
-			temp = ThreeSome_ShortDistance(x, fx, radius, xi, problem, maxEvaluations,i, FT);
+			temp = ThreeSome_ShortDistance(x, fx, radius, xi, problem, maxEvaluations,i, FT, getCorrection());
 			fx = temp[0];
 			i += temp[1];
 							

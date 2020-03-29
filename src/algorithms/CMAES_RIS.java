@@ -31,7 +31,7 @@ package algorithms;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+
 
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
 import interfaces.Algorithm;
@@ -83,7 +83,7 @@ public class CMAES_RIS extends Algorithm
 			for(int i = 0; i < pop.length && j < maxEvaluations; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 				
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -140,7 +140,7 @@ public class CMAES_RIS extends Algorithm
 				FT.add(i, fBest);
 			}
 					
-			temp = ThreeSome_ShortDistance(x, fx, radius, xi, problem, maxEvaluations,i, FT);
+			temp = ThreeSome_ShortDistance(x, fx, radius, xi, problem, maxEvaluations,i, FT, getCorrection());
 			fx = temp[0];
 			i += temp[1];
 							

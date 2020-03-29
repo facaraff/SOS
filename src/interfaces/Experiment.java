@@ -195,10 +195,12 @@ public abstract class Experiment
 	public void add(Algorithm a){this.algorithms.add(a);}
 	/**
 	 * This method returns the number of problems in the experiment.
+	 * @return The number of problems in the experiment
 	*/
 	public int getNrProblems(){return this.problems.size();}
 	/**
 	 * This method returns the number of algorithms in the experiment.
+	 * @return The number of algorithms in the experiment.
 	*/
 	public int getNrAlgorithms(){return this.algorithms.size();}
 	/**
@@ -293,6 +295,7 @@ public abstract class Experiment
 	 * This method creates all the required folder needed to store results when saverowData is true.
 	 * 
 	 * It also write a report describing the experiment.
+	 * @throws Exception This method must be able to handle potential exceptions.
 	 * 
 	*/
 	public void createExperimentFolders() throws Exception
@@ -322,6 +325,7 @@ public abstract class Experiment
 	/**
 	 * This method runs experiments. These can be multi-thread or single-thread be carefully not to mix them if possible.
 	 * E.G. all BBOB2010 problems are run in single-thread mode unless differently specified with setMT().
+	 * @throws Exception This method must be able to handle potential exceptions.
 	 * 
 	*/
 	public void startExperiment() throws Exception
@@ -342,6 +346,7 @@ public abstract class Experiment
 	
 	/**
 	 * These method starts a Multi-Thread experiments. 
+	 * @throws Exception This method must be able to handle potential exceptions.
 	 */
 	
 	protected void startMTExperiment() throws Exception
@@ -391,6 +396,7 @@ public abstract class Experiment
 	
 	/**
 	 * These methods start Multi-Thread experiments. 
+	 * @throws Exception This method must be able to handle potential exceptions.
 	 */
 	
 	protected void startSTExperiment()  throws Exception
@@ -452,6 +458,7 @@ public abstract class Experiment
 	
 	/**
 	 * This method runs an MT experiment without printing on screen partial results on the fly .
+	 * @throws Exception This method must be able to handle potential exceptions.
 	 * 
 	*/
 	public void startBlindExperiment() throws Exception

@@ -29,7 +29,7 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+
 
 import utils.random.RandUtils;
 import interfaces.Algorithm;
@@ -206,7 +206,7 @@ public class CCPSO2 extends Algorithm
 				{	
 					double[] y = getVector(Y, indexes, j, i, S);
 					currentVector = updatePosition(y,neighborhoodBests[j][i], p);
-					currentVector = toro(currentVector, bounds);
+					currentVector = correct(currentVector, bounds);
 					setVector(X, currentVector, indexes, j, i); 
 				}
 			}

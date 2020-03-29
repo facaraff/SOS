@@ -31,7 +31,7 @@ package algorithms;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+
 import static utils.algorithms.operators.MemesLibrary.ThreeSome_ShortDistance;
 import static utils.algorithms.operators.MemesLibrary.Rosenbrock;
 import utils.random.RandUtils;
@@ -82,7 +82,7 @@ public class SPAM extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 				
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -190,12 +190,12 @@ public class SPAM extends Algorithm
 			if (RandUtils.random() > prob)
 			{
 				/** 3SOME's local searcher with stop criterion **/
-				temp = ThreeSome_ShortDistance(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, FT);	
+				temp = ThreeSome_ShortDistance(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, FT, getCorrection());	
 			}
 			else
 			{
 				/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-				temp = Rosenbrock(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, FT);
+				temp = Rosenbrock(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, FT, 't');
 			}
 				
 			if((fx - temp[0]) == 0) improved = false;

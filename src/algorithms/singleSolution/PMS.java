@@ -30,7 +30,6 @@ package algorithms.singleSolution;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.abs;
 import static utils.MatLab.min;
 import static utils.MatLab.eye;
@@ -173,7 +172,7 @@ public class PMS extends Algorithm
 //				}
 
 				Xk[k] = Xk[k] - SR[k];
-				Xk = toro(Xk, bounds);
+				Xk = correct(Xk, bounds);
 				double fXk = prob.f(Xk);
 				i++;
 
@@ -211,7 +210,7 @@ public class PMS extends Algorithm
 						{
 							Xk[k] = Xk_orig[k];
 							Xk[k] = Xk[k] + 0.5*SR[k];
-							Xk = toro(Xk, bounds);
+							Xk = correct(Xk, bounds);
 							fXk = prob.f(Xk);
 							i++;
 
@@ -295,7 +294,7 @@ public class PMS extends Algorithm
 
 					for(int n=0;n<problemDimension;n++)
 						xCurrent[n]= xk[n]+d[j]*xi[j][n];
-					xCurrent = toro(xCurrent, bounds);
+					xCurrent = correct(xCurrent, bounds);
 					yCurrent = prob.f(xCurrent);
 					i++; 
 					if(i >= budget )
