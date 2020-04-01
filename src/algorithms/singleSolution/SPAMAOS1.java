@@ -32,7 +32,6 @@ package algorithms.singleSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import  static utils.algorithms.Misc.cloneSolution;
-import  static utils.algorithms.Misc.toro;
 
 import static utils.algorithms.operators.MemesLibrary.Rosenbrock;
 import static utils.algorithms.operators.MemesLibrary.RosenbrockShortTime;
@@ -93,7 +92,7 @@ public class SPAMAOS1 extends Algorithm
 			for(int i = 0; i < pop.length && j < localBudget; ++i)
 			{ 
 				// saturate solution inside bounds 
-				pop[i] = toro(pop[i], bounds);
+				pop[i] = correct(pop[i], bounds);
 
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
@@ -207,12 +206,12 @@ public class SPAMAOS1 extends Algorithm
 				if (selection == 0)
 				{
 					/** 3SOME's local searcher with stop criterion **/
-					temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget, FT);	
+					temp = ThreeSome_ShortDistanceShortTime(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, maximumLocalBudget, FT, getCorrection());	
 				}
 				else
 				{
 					/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-					temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget, FT);
+					temp = RosenbrockShortTime(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, maximumLocalBudget, FT, getCorrection());
 				}
 				double fold = fx, fnew = temp[0];
 				AOS.credit[selection].addFitnessImprovM(selection, fold, fnew);
@@ -220,10 +219,10 @@ public class SPAMAOS1 extends Algorithm
 			} else {
 				if (RandUtils.random() > prob) {
 					/** 3SOME's local searcher with stop criterion **/
-					temp = ThreeSome_ShortDistance(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, FT);	
+					temp = ThreeSome_ShortDistance(x, fx, deepLSRadius, steps, problem, maxEvaluations, j, FT, getCorrection());	
 				} else {
 					/** standard parameters setting: eps =  10e-5, alpha = 2, beta 0.5 **/
-					temp = Rosenbrock(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, FT);
+					temp = Rosenbrock(x, fx, eps, alpha, beta,  problem, maxEvaluations,j, FT, getCorrection());
 				}
 			}
 

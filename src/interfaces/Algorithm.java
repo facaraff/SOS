@@ -39,6 +39,8 @@ package interfaces;
 import java.util.HashMap;
 import java.util.Map;
 
+import utils.algorithms.Corrections;
+
 import utils.RunAndStore.FTrend;
 public abstract class Algorithm
 {	
@@ -55,35 +57,45 @@ public abstract class Algorithm
 	 * @param problem the problem to solve.
 	 * @param maxEvaluations the maximum number of fitness evaluations (FE).
 	 * @return a FTrend object containing fitness trend and, in case, extra data.
+	* @throws Exception The main method must be able to handle possible exceptions.
 	 */
 	public abstract FTrend execute(Problem problem, int maxEvaluations) throws Exception;
 	
 	/**
 	 * This method sets the value of a given parameter.
+	 * @param name the name of the parameter (ideally, following the notation p0, p1, p3,...)
+	 * @param value the value of the parameter
 	 */
 	public void setParameter(String name, Double value){parameters.put(name, value);}
 	/**
 	 * This method gets the value of a given parameter.
+	 * @param name the name of the parameter whose value must be returned
+	 * @return A Double object
 	 */
 	public Double getParameter(String name){return parameters.get(name);}
 	/**
 	 * This method returns the best solution.
+	 * @return finalBest the vector containing the final best solution produced by an optimisation algorithm
 	 */
 	public double[] getFinalBest(){return finalBest;}
 	/**
 	 * This method saves the final best solution.
+	 * @param finalBest the vector containing the final best solution produced by an optimisation algorithm
 	 */
 	public void setFinalBest(double[] finalBest){this.finalBest = finalBest;}
 	/**
 	 * This method sets a specified initial guess.
+	 * @param initialSolution the initial solution to be refined during the optimisation process
 	 */
 	public void setInitialSolution(double[] initialSolution){this.initialSolution = initialSolution;}
 	/**
 	 * This method sets the fitness value of the specified initial guess.
+	 * @param initialFitness the fitness value of the first initial solution
 	 */
 	public void setInitialFitness(double initialFitness){this.initialFitness = initialFitness;}
 	/**
 	 * This method sets the value of the identifier string equal to the class name.
+	 * 
 	 */
 	public void setID(){this.ID = this.getClass().getSimpleName();}
 	/**
@@ -95,8 +107,7 @@ public abstract class Algorithm
 	public void setID(String name){this.ID = name;}
 	/**
 	 * Set the correction strategy.
-	 * 
-	 * @param run the number of the performed run.
+	 * @param correction The correction strategy char identifier.
 	 * 
 	 */
 	public void setCorrection(char correction){this.correction = correction;}
@@ -106,7 +117,7 @@ public abstract class Algorithm
 	 * @return  the correction strategy identifier.
 	 * 
 	 */
-	public char getcorrection(){return this.correction;}
+	public char getCorrection(){return this.correction;}
 	/**
 	 * This method returns the identifier ID
 	 * 
@@ -116,6 +127,7 @@ public abstract class Algorithm
 	public String getID(){return this.ID;}
 	/**
 	 * This method return a String reporting the parameters setting.
+	 * @return A String describing the parameter setting of an algorithm. 
 	 */
 	public String getParSetting()
 	{
@@ -125,6 +137,31 @@ public abstract class Algorithm
 		return description;
 	}
 	
+	/**
+	 * Generic correction function 1
+	 * 
+	 * @param x solution to be corrected.
+	 * @param bounds search space boundaries (general case).
+	 * @return x_c corrected solution.
+	 */
+	public double[] correct(double[] x, double[][] bounds) {return Corrections.correct(this.correction, x, bounds);}
 	
-	
+	/**
+	 * Generic correction function 2
+	 * 
+	 * @param x solution to be corrected.
+	 * @param bounds search space boundaries (general case).
+	 * @return x_c corrected solution.
+	 */
+	public double[]  correct(double[] x, double[] bounds)
+	{
+		int n = x.length;
+		double[][] BOUNDS = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			BOUNDS[i][0] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		return correct(x, BOUNDS);
+	}
 }

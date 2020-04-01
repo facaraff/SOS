@@ -10,14 +10,14 @@ package benchmarks.problemsImplementation.fractalFunctions;
 //  for important information on modifying and distributing.
 
 /** 
- * This class is called by {@link FastFractal} to evaluate the components for each dimension to
+ * This class is called by { FastFractal} to evaluate the components for each dimension to
  * evaluate fast very high-dimensional fractal functions (landscapes).
- * <p>
+ * 
  * It can also be used directly to generate 1-dimensional fractal landscapes.
- * @author {@link <a href="http://www.csse.uwa.edu.au/~cara/">Cara MacNish</a>}, University of Western Australia
+ * @author Cara MacNish, http://www.csse.uwa.edu.au/~cara/, University of Western Australia
  * @version 1.0RC1, 7th Nov 2007
- * <br>For the latest version and additional information see the
- * {@link <a href="http://www.cs.bham.ac.uk/research/projects/ecb/">Birmingham Repository</a>}
+ * For the latest version and additional information see the
+ * {http://www.cs.bham.ac.uk/research/projects/ecb/  Birmingham Repository}
  */
 public class FractalFunction1D {
   

@@ -20,7 +20,9 @@ public class ProblemSurfaceFrame extends javax.swing.JFrame implements ActionLis
 	private SurfaceCanvas canvas;
     private boolean controlDown;
 
-    /** Creates new form Example */
+    /** Creates new form Example 
+     * @param surfaceGenerator The surface to be plotted.
+     * */
     public ProblemSurfaceFrame(ProblemSurfaceGenerator surfaceGenerator) {
         initComponents();
         ProblemSurfaceGenerator model = surfaceGenerator;
@@ -96,9 +98,9 @@ public class ProblemSurfaceFrame extends javax.swing.JFrame implements ActionLis
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
+//   /**
+//     * @param args the command line arguments
+//     */
 //    public static void main(String args[]) {
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {

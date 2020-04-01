@@ -91,7 +91,7 @@ public class TestModality {
 				{
 					int bg = min(LSbudget, localBudget-i);
 					
-					double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, bg, 0);
+					double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, bg, 0, 't');
 					fitnesses[j] = temp[0];
 					i += temp[1];
 					
@@ -100,13 +100,13 @@ public class TestModality {
 				{
 					int bg = min(LSbudget, localBudget-i);
 					
-					double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, bg, 0);
+					double[] temp = ThreeSome_ShortDistance(point, fitnesses[j], 0.4, 10, prob, bg, 0, 't');
 					fitnesses[j] = temp[0];
 					i += temp[1];
 					
 					 bg = min(LSbudget, localBudget-i);
 					
-					temp = Rosenbrock(point, fitnesses[j], 10e-5, 2, 0.5, prob, bg, 0);
+					temp = Rosenbrock(point, fitnesses[j], 10e-5, 2, 0.5, prob, bg, 0, 't');
 					fitnesses[j] = temp[0];
 					i += temp[1];
 				}

@@ -2,7 +2,7 @@ package algorithms;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Corrections.toro;
 
 import static utils.MatLab.eye;
 import static utils.MatLab.subtract;

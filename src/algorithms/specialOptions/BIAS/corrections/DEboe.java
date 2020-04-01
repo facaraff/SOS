@@ -29,10 +29,10 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms.specialOptions.BIAS.corrections;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
-import static utils.algorithms.Misc.completeOneTailedNormal;
+import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.mirroring;
-import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Corrections.mirroring;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 

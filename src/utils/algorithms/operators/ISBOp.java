@@ -151,11 +151,11 @@ public class ISBOp
 		
 		/**
 		* cur-to-best/1 mutation scheme, alternative method
-		* 
-		* @param population set of candidate solutions/ individuals.
-		* @param bestPt best individual.
-		* @param j index of the current individual.
-		* @param F scale factor.
+		* @param fitnesses the an array containing the fitness values of all individual in the population.
+		* @param population A set of candidate solutions/individuals.
+		* @param j The index of the current individual.
+		* @param F The scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return newPt mutant individual.
 		*/
 		public static double[] currentToBest1(double[] fitnesses, double[][] population, int j, double F, Counter counter)
@@ -173,6 +173,7 @@ public class ISBOp
 		* @param bestIndex index of the best individual.
 		* @param j index of the current individual.
 		* @param F scale factor.
+		* * @param counter A counter to monitor PRG activations.
 		* @return newPt mutant individual.
 		*/
 		public static double[] currentToBest1(double[][] population, int bestIndex, int j, double F, Counter counter)
@@ -201,6 +202,7 @@ public class ISBOp
 		* @param population set of candidate solutions/individuals.
 		* @param bestPt best individual.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return newPt mutant indvidual.
 		*/
 		public static double[] randToBest1(double[][] population, double[] bestPt, double F, Counter counter)
@@ -226,9 +228,10 @@ public class ISBOp
 		 /**
 		* rand-to-best/1 mutation scheme, alternative method
 		* 
+		* @param fitnesses Array containing the fitness values of all individuals in the population.
 		* @param population set of candidate solutions/individuals.
-		* @param bestPt best individual.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return newPt mutant indvidual.
 		*/
 		public static double[] randToBest1(double[] fitnesses, double[][] population, double F, Counter counter)
@@ -260,6 +263,7 @@ public class ISBOp
 		* @param population set of candidate solutions/individuals.
 		* @param bestPt best individual.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return newPt mutant indvidual.
 		*/
 		public static double[] randToBest2(double[][] population, double[] bestPt, double F, Counter counter)
@@ -287,10 +291,11 @@ public class ISBOp
 		 /**
 		* rand-to-best/2 mutation scheme, alternative method
 		* 
-		* @param population set of candidate solutions/individuals.
-		* @param bestPt best individual.
+		* @param fitnesses Array containing the fitness values of all individuals in the population.
+		* @param population A set of candidate solutions/individuals.
 		* @param F scale factor.
-		* @return newPt mutant indvidual.
+		* @param counter A counter to monitor PRG activations.
+		* @return newPt A mutant indvidual.
 		*/
 		public static double[] randToBest2(double[] fitnesses, double[][] population, double F, Counter counter)
 		{
@@ -310,6 +315,7 @@ public class ISBOp
 		* @param xv fifth (random) individual.
 		* @param bestPt best individual.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return nrePt mutant individual.
 		*/
 		public static double[] randToBest2(double[] xr, double[] xs, double[] xt, double[] xu, double[] xv, double[] bestPt, double F, Counter counter)
@@ -328,6 +334,7 @@ public class ISBOp
 		* @param population
 		* @param j index of the current individual.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return newPt mutant individual.
 		*/
 		public static double[] currentToRand1(double[][] population, int j, double F, Counter counter)
@@ -358,6 +365,7 @@ public class ISBOp
 		* @param xt third (random) individual.
 		* @param cur current individual.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return newPt mutant individual.
 		*/
 		public static double[] currentToRand1(double[] xr, double[] xs, double[] xt, double[] cur, double F, Counter counter)
@@ -376,6 +384,7 @@ public class ISBOp
 		* @param population set of candidate solutions/individuals.
 		* @param fitnesses fitness value of each individual in the population.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return mutant individual.
 		*/
 		public static double[] best1(double[][] population, double[] fitnesses, double F, Counter counter)
@@ -408,6 +417,7 @@ public class ISBOp
 		* @param population set of candidate solutions/individuals.
 		* @param fitnesses fitness value of each individual in the population.
 		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
 		* @return mutant individual.
 		*/
 		public static double[] best2(double[][] population, double[] fitnesses, double F, Counter counter)
@@ -440,6 +450,7 @@ public class ISBOp
 		* @param x first parent solution.
 		* @param y second parent solution.
 		* @param CR crossover rate.
+		* @param counter A counter to monitor PRG activations.
 		* @return x_off offspring solution.
 		*/
 		public static double[] crossOverExp(double[] x, double[] y, double CR, Counter counter)
@@ -472,6 +483,7 @@ public class ISBOp
 		* @param x first parent solution.
 		* @param y secon parent solution.
 		* @param CR crossover rate.
+		* @param counter A counter to monitor PRG activations.
 		* @return x_off offspring solution.
 		*/
 		public static double[] crossOverExpFast(double[] x, double[] y, double CR, Counter counter)
@@ -505,6 +517,7 @@ public class ISBOp
 		* @param x first parent solution.
 		* @param y second parent solution.
 		* @param CR crossover rate.
+		* @param counter A counter to monitor PRG activations.
 		* @return x_off offspring solution.
 		*/
 		public static double[] crossOverBin(double[] x, double[] y, double CR, Counter counter)
@@ -529,6 +542,7 @@ public class ISBOp
 			* @param m second parent solution (MUTANT).
 			* @param CR crossover rate.
 			* @param b orthonormal basis.
+			* @param counter A counter to monitor PRG activations.
 			* @return x_off offspring solution.
 			*
 			* see file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
@@ -563,6 +577,7 @@ public class ISBOp
 			* @param x first parent solution (TARGET).
 			* @param y second parent solution (MUTANT).
 			* @param CR crossover rate.
+			* @param counter A counter to monitor PRG activations.
 			* @return x_off offspring solution.
 			* 
 			* see file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
@@ -586,6 +601,7 @@ public class ISBOp
 			* Get orthonormal basis from populations via Gram-Shmidt process
 			* 
 			* @param pop population.
+			* @param counter A counter to monitor PRG activations.
 			* @return b Orthonormal basis.
 			*
 			*/
@@ -625,7 +641,7 @@ public class ISBOp
 			* Get orthonormal basis from populations via Eigen-decomposition method
 			* 
 			* @param pop population.
-			* @param criterion the criterion used to select the vector from the eigen-vectors matrix (0 random; 1 highest eigenvalue; 2 lowest eigenvalue)
+			* @param counter A counter to monitor PRG activations.
 			* @return b Orthonormal basis.
 			*
 			*/
@@ -671,6 +687,7 @@ public class ISBOp
 			* @param pop population.
 			* @param pr activation probability for Eigen-XO
 			* @param exp 1 for exponential cross-over, 0 for binomial cross-over.
+			* @param counter A counter to monitor PRG activations.
 			* @return x_off offspring solution.
 			*/
 			public static double[] eigenXOver(double[] x, double[] m, double CR, double[][] pop, double pr,  boolean exp, Counter counter)
@@ -713,10 +730,10 @@ public class ISBOp
 			
 			
 			/**
-			 * 
-			 * @param mean
-			 * @param sigma2
-			 * @param x
+			 * This method randomly generates an individuals in the normalised search space of a compact algorithm.
+			 * @param mean The mean vector of the distribution of a compact algorithm.
+			 * @param sigma2 The standard deviation vector of a compact algorithms.
+			 * @param counter A counter to monitor PRG activations.
 			 * @return
 			 */
 			public static double[] generateIndividual(double[] mean, double[] sigma2, Counter counter)

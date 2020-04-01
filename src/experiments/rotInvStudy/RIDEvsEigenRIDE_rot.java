@@ -4,7 +4,7 @@ import interfaces.Experiment;
 import interfaces.Algorithm;
 import benchmarks.RCEC2014;
 import algorithms.RIDE;
-import algorithms.inProgress.EigenRIDE;
+
 
 
 
@@ -53,25 +53,6 @@ public class RIDEvsEigenRIDE_rot extends Experiment
 		a.setParameter("p5", 0.3);//ALPHA
 		add(a);
 		
-		a = new EigenRIDE();
-		a.setID("rRIDErand1bin");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.7); //F
-		a.setParameter("p2", 0.3); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 4.0);
-		a.setParameter("p5", 0.3);//ALPHA
-		add(a);
-		
-		a = new EigenRIDE();
-		a.setID("rRIDErand1exp");
-		a.setParameter("p0", (double)probDim);
-		a.setParameter("p1", 0.7); //F
-		a.setParameter("p2", -1.0); //CR
-		a.setParameter("p3", 1.0);
-		a.setParameter("p4", 5.0);
-		a.setParameter("p5", 0.3);//ALPHA
-		add(a);
 		
 		for(int i = 1; i<=30; i++)
 				add(new RCEC2014(probDim, i));

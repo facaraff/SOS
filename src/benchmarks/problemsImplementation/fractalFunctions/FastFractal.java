@@ -13,22 +13,22 @@ package benchmarks.problemsImplementation.fractalFunctions;
  * This is the top level class (called by the user) for generating fast multidimensional 
  * fractal functions.
  *<p>
- * Each function (or "landscape") is made from a base function (or <i>unit function</i>) at various scales.
- * For the fast multidimensional functions these are subclasses of {@link UnitFunction1D}.
+ * Each function (or "landscape") is made from a base function (or unit function) at various scales.
+ * For the fast multidimensional functions these are subclasses of { UnitFunction1D}.
  *<p>
- * The choice of base function determines a <i>class</i> of fractal functions. 
+ * The choice of base function determines a class of fractal functions. 
  * Each instance within that class is then determined by three parameters: 
  * the fractal depth, the density, and a sequence number.
  *<p>
  * For the motivation behind the fractal functions see: 
  * MacNish, C., Towards Unbiased Benchmarking of Evolutionary and Hybrid Algorithms for Real-valued 
- * Optimisation</a>, <i><a href="http://www.tandf.co.uk/journals/titles/09540091.asp">Connection Science</a></i>,
- * Vol. 19, No. 4, December 2007. Or visit <a href="http://www.csse.uwa.edu.au/~cara/">Cara MacNish</a>'s website.
+ * Optimisation, http://www.tandf.co.uk/journals/titles/09540091.asp Connection Science,
+ * Vol. 19, No. 4, December 2007. Or visit Cara MacNish's website http://www.csse.uwa.edu.au/~cara/.
  * @see UnitFunction1D
- * @author {@link <a href="http://www.csse.uwa.edu.au/~cara/">Cara MacNish</a>}, University of Western Australia
+ * @author Cara MacNish, http://www.csse.uwa.edu.au/~cara/, University of Western Australia
  * @version 1.0RC1, 7th Nov 2007
- * <br>For the latest version and additional information see the
- * {@link <a href="http://www.cs.bham.ac.uk/research/projects/ecb/">Birmingham Repository</a>}
+ * For the latest version and additional information see the
+ * http://www.cs.bham.ac.uk/research/projects/ecb/ Birmingham Repository
  */
 public class FastFractal {
   
@@ -39,13 +39,14 @@ public class FastFractal {
   /**
    * Create a fast fractal function generator.
    * @param unitFunctionName the name of the base function for the generator. It must match the
-   * class name of a subclass of {@link UnitFunction1D}.
+   * class name of a subclass of {UnitFunction1D}.
    * @param fractalDepth recursive depth of fractal - each increment adds detail at half the scale
    * (double the resolution).
    * Must be between 1 and 48 (the maximum supported by IEEE 64-bit floating point resolution).
    * @param density average number of base functions per unit area at each resolution
    * @param index the sequence number of this surface (for the given fractal depth and density) 
    * @param dimensions number of dimensions (free variables) of the parameter space
+   * @throws Exception This method must be able to handle exceptions. 
    */
   public FastFractal (String unitFunctionName, int fractalDepth, int density, long index, int dimensions) throws Exception {
     unitFunction = (UnitFunction1D) Class.forName(unitFunctionName).newInstance();

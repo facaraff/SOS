@@ -3,9 +3,9 @@ package algorithms.specialOptions.BIAS.ISBDE;
 
 import utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.mirroring;
-import static utils.algorithms.Misc.completeOneTailedNormal;
-import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Corrections.mirroring;
+import static utils.algorithms.Corrections.completeOneTailedNormal;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 

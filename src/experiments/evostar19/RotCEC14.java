@@ -36,7 +36,6 @@ import benchmarks.RCEC2014;
 //import algorithms.EigenDE;
 //import algorithms.CMAES;
 //import algorithms.inProgress.CMS;
-import algorithms.inProgress.CMAES_RIS2;
 //import algorithms.inProgress.CMAES_PRE;
 import algorithms.CMAES_RIS;
 
@@ -58,14 +57,7 @@ public class RotCEC14 extends Experiment
 	    //Problem p;// ///< A generic problem.
 		
 		
-		
-		
-		
-		a = new CMAES_RIS2();
-		a.setParameter("p0",0.5); 		
-		a.setParameter("p1",0.0000001);
-		a.setParameter("p2",0.2);
-		add(a);
+	
 		
 		a = new CMAES_RIS();
 		a.setParameter("p0",0.5); 		

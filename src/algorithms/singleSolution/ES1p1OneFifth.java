@@ -30,7 +30,6 @@ package algorithms.singleSolution;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.fillAWithB;
-import static utils.algorithms.Misc.toro;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 import static utils.MatLab.randUncorrelatedGauusian;
@@ -72,7 +71,7 @@ public class ES1p1OneFifth extends Algorithm
 		while (i < maxEvaluations)
 		{
 			newPt = sum(best,multiply(sigma,randUncorrelatedGauusian(problemDimension)));
-			newPt = toro(newPt, bounds);
+			newPt = correct(newPt, bounds);
 			newFit = problem.f(newPt);
 			i++;
 			

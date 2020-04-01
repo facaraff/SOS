@@ -32,7 +32,6 @@ import static utils.algorithms.Misc.generateRandomSolution;
 import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
-import static utils.algorithms.Misc.toro;
 import utils.RunAndStore.FTrend;
 
 
@@ -136,7 +135,7 @@ public class NonUniformSA extends Algorithm
 				}
 				
 				// evaluate fitness
-				newPt = toro(newPt, bounds);
+				newPt = correct(newPt, bounds);
 				fNew = problem.f(newPt);
 				i++;
 				

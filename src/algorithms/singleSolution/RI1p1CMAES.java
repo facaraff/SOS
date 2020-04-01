@@ -1,6 +1,6 @@
 
 /**
-Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2019, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -26,26 +26,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
-*/package algorithms.inProgress;
+*/
+
+package algorithms.singleSolution;
 
 
-import algorithms.compact.cBFO;
-import algorithms.compact.cDE_exp_light;
-
+import algorithms.singleSolution.CMAES_11;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.MatLab.min;
 import utils.RunAndStore.FTrend;
-import utils.random.RandUtils;
+
 import interfaces.Algorithm;
 import interfaces.Problem;
 
-public class VACCABOIA3 extends Algorithm
+public class RI1p1CMAES extends Algorithm
 {	
 	boolean verbose = false;
 
-	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		int problemDimension = problem.getDimension();
@@ -71,37 +70,22 @@ public class VACCABOIA3 extends Algorithm
 			i++;
 		}
 		FT.add(i, fBest);
-		
-		
+				
 		// INITIALISE MEMES//
 		
+		double globalCR = getParameter("p0").doubleValue(); 
 	
-		double globalCR = getParameter("p0").doubleValue(); //0.95
-
-		cDE_exp_light cde = new cDE_exp_light();
-		cde.setParameter("p0", 300.0);
-		cde.setParameter("p1", 0.25);
-		cde.setParameter("p2", 0.5);
-		cde.setParameter("p3", 3.0);
-		cde.setParameter("p4", 1.0);
-		cde.setParameter("p5", 1.0);	
+		CMAES_11 cma11 = new CMAES_11();
+		cma11.setParameter("p0",getParameter("p1").doubleValue()); 
+		cma11.setParameter("p1",getParameter("p2").doubleValue()); 
+		cma11.setParameter("p2",getParameter("p3").doubleValue()); 
+		cma11.setParameter("p3",getParameter("p4").doubleValue()); 
 		
-		cBFO cbfo = new cBFO();
-		cbfo.setParameter("p0", 300.0);
-		cbfo.setParameter("p1", 0.1);
-		cbfo.setParameter("p2", 4.0);
-		cbfo.setParameter("p3", 1.0);
-		cbfo.setParameter("p4", 10.0);
-		cbfo.setParameter("p5", 2.0);
-		cbfo.setParameter("p6", 2.0);
-
 		
-		double maxB = getParameter("p1").doubleValue();//0.2
-//		int maxB = getParameter("p1").intValue();//
+		double maxB = getParameter("p5").doubleValue();
 		
 		FTrend ft = null;
 		
-//		int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
 		
 		double[] xTemp;
 		double fTemp;
@@ -112,7 +96,6 @@ public class VACCABOIA3 extends Algorithm
 			xTemp = crossOverExp(best, xTemp, globalCR);
 			fTemp = problem.f(xTemp);
 			i++;
-			
 			if(fTemp<fBest)
 			{
 				fBest = fTemp;
@@ -121,36 +104,18 @@ public class VACCABOIA3 extends Algorithm
 				FT.add(i, fBest);
 			}
 			
-				if(RandUtils.random() > 0.5)
-				{
-					if (verbose) System.out.println("C start point: "+fBest);
-					cde.setInitialSolution(xTemp);
-					cde.setInitialFitness(fTemp);
-//					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					ft = cde.execute(problem, budget);
-					xTemp = cde.getFinalBest();
-					fTemp = ft.getLastF();
-					if (verbose) System.out.println("C final point: "+fBest);
-					FT.merge(ft, i);
-					i+=budget;
-					if (verbose) System.out.println("C appended point: "+FT.getLastF());
-				}
-				else
-				{
-					if (verbose) System.out.println("C start point: "+fBest);
-					cbfo.setInitialSolution(xTemp);
-					cbfo.setInitialFitness(fTemp);
-//					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
-					ft = cbfo.execute(problem, budget);
-					xTemp = cbfo.getFinalBest();
-					fTemp = ft.getLastF();
-					if (verbose) System.out.println("C final point: "+fBest);
-					FT.merge(ft, i);
-					i+=budget;
-					if (verbose) System.out.println("C appended point: "+FT.getLastF());
-				}
+				
+				cma11.setInitialSolution(xTemp);
+				cma11.setInitialFitness(fTemp);
+				
+				int  budget = (int)(min(maxB*maxEvaluations, maxEvaluations-i));
+				
+				ft = cma11.execute(problem, budget);
+				xTemp = cma11.getFinalBest();
+				fTemp = ft.getLastF();
+				
+				FT.merge(ft, i);
+				i+=budget;
 				
 				if(fTemp<fBest)
 				{

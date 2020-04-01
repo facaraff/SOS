@@ -14,9 +14,9 @@ import java.io.Serializable;
 
 /**
  * The base class for benchmark functions. All benchmark functions are for
- * minimization and have the same global optimum: <code>0</code>. Some
+ * minimization and have the same global optimum: 0. Some
  * benchmark functions may use internal temporary variables and
- * <warning>not be threadsafe</warning>. Therefore, you should always use
+ * not be threadsafe. Therefore, you should always use
  * each instance of a function for one single {#link java.lang.Thread}
  * only. You may clone or serialize function instances.
  * 

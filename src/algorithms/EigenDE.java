@@ -29,7 +29,6 @@ either expressed or implied, of the FreeBSD Project.
 package algorithms;
 
 import  utils.algorithms.operators.DEOp;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -135,7 +134,7 @@ public class EigenDE extends Algorithm
 					else if (crossoverStrategy == 2)
 						crossPt = DEOp.eigenXOver(currPt, newPt, CR, population, pr, true);
 				
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

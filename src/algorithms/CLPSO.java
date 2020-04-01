@@ -1,7 +1,7 @@
 package algorithms;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -236,7 +236,7 @@ public class CLPSO extends Algorithm
 					pos[k][j] = pos[k][j] + vel[k][j];
 				}
 				
-				pos[k] = toro(pos[k], bounds);
+				pos[k] = correct(pos[k], bounds);
 				fitnesses[k] = problem.f(pos[k]);
 				fitcount=fitcount+1;
 				

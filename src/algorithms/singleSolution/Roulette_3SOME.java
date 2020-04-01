@@ -31,7 +31,6 @@ package algorithms.singleSolution;
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
 
-import static utils.algorithms.Misc.saturate;
 import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
 
 
@@ -119,7 +118,7 @@ public class Roulette_3SOME extends Algorithm {
 		while (i < budget) {
 			solution = intermediatePerturbation(bounds, best, radius);
 			solution = crossOverExp(best, solution, CR);
-			solution = saturate(solution, bounds);
+			solution = correct(solution, bounds);
 			fSolution = problem.f(solution);
 			i++;
 			nbEvaluations ++;
@@ -156,7 +155,7 @@ public class Roulette_3SOME extends Algorithm {
 			for (int k= 0; k < problemDimension; k++) {
 				if (i == budget) break;
 				Xs[k] = best[k] - rho[k];
-				Xs = saturate(Xs, bounds);
+				Xs = correct(Xs, bounds);
 				fXs = problem.f(Xs);
 				i++;
 				nbEvaluations ++;
@@ -170,7 +169,7 @@ public class Roulette_3SOME extends Algorithm {
 				else {
 					if (i == budget) break;
 					Xs[k] = best[k] + rho[k] / 2;
-					Xs = saturate(Xs, bounds);
+					Xs = correct(Xs, bounds);
 					fXs = problem.f(Xs);
 					i++;
 					nbEvaluations ++;
@@ -229,7 +228,7 @@ public class Roulette_3SOME extends Algorithm {
 			int k = 0;
 			while ((k < problemDimension) && (i < budget)) {
 				Xk[k] = Xk[k] - SR[k];
-				Xk = saturate(Xk, bounds);
+				Xk = correct(Xk, bounds);
 				double fXk = problem.f(Xk);
 			
 				c.inc_count(DEEP);
@@ -257,7 +256,7 @@ public class Roulette_3SOME extends Algorithm {
 						if (fXk > fXk_orig) {
 							Xk[k] = Xk_orig[k];
 							Xk[k] = Xk[k] + 0.5*SR[k];
-							Xk = saturate(Xk, bounds);
+							Xk = correct(Xk, bounds);
 							fXk = problem.f(Xk);
 							c.inc_count(DEEP);
 							i++;

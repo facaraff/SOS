@@ -43,6 +43,10 @@ public class ProblemsTransformations
 	
 	/**
 	 * Shift operator
+	 * @param x The solution to be shifted.
+	 * @param xshift The shifting factor.
+	 * @param nx The dimensionality of the problem.
+	 * @param Os The origin of the system.
 	 */
 	public static void shiftfunc (double[] x, double[] xshift, int nx, double[] Os)
 	{
@@ -55,10 +59,13 @@ public class ProblemsTransformations
 	
 	/**
 	 * rotation operator
+	 * @param x The solution to be rotated.
+	 * @param xrot The rotation centre.
+	 * @param nx The dimensionality of the problem.
+	 * @param Mr The rotation vector.
 	 */
 	public static void rotatefunc (double[] x, double[] xrot, int nx, double[] Mr)
 	{
-		//System.out.println("Sto rotando come un procodecristo!");
 		int i,j;
 		for (i=0; i<nx; i++)
 		{
@@ -161,9 +168,8 @@ public class ProblemsTransformations
 		}
 	}
 	
-	/**
-	 * Evaluate composition (CEC2013, 2014,etc.)
-	 */
+
+	 // Evaluate composition (CEC2013, 2014,etc.)
 	public static double cf_cal(double[] x, int nx, double[] Os, double[]  delta,double[] bias,double[] fit, int cf_num)
 	{
 		int i,j;

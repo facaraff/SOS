@@ -2,6 +2,7 @@
 Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
+
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met: 
 
@@ -29,6 +30,7 @@ either expressed or implied, of the FreeBSD Project.
 
 
 /** @file Algorithm.java
+ * @author Fabio Caraffini
  *  
  *
  * A software platform for learning Computational Intelligence Optimisation
@@ -52,10 +54,10 @@ import static java.time.Instant.now;
 import static utils.RunAndStore.slash;
 import static utils.RunAndStore.createFolder;
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Misc.completeOneTailedNormal;
-import static utils.algorithms.Misc.mirroring;
-import static utils.algorithms.Misc.saturation;
-import static utils.algorithms.Misc.toro;
+import static utils.algorithms.Corrections.completeOneTailedNormal;
+import static utils.algorithms.Corrections.mirroring;
+import static utils.algorithms.Corrections.saturation;
+import static utils.algorithms.Corrections.toro;
 
 import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
@@ -94,30 +96,39 @@ public abstract class AlgorithmBias
 	 * @param problem the problem to solve.
 	 * @param maxEvaluations the maximum number of fitness evaluations (FE).
 	 * @return a FTrend object containing fitness trend and, in case, extra data.
+	 * @throws Exception this methods must be able to handle exceptions 
 	 */
 	public abstract FTrend execute(Problem problem, int maxEvaluations) throws Exception;
 	/**
 	 * This method sets the value of a given parameter.
+	 * @param name the name of the parameter (ideally, following the notation p0, p1, p3,...)
+	 * @param value the value of the parameter
 	 */
 	public void setParameter(String name, Double value){parameters.put(name, value);}
 	/**
 	 * This method gets the value of a given parameter.
+	 * @param name the name of the parameter whose value must be returned
+	 * @return A Double object
 	 */
 	public Double getParameter(String name){return parameters.get(name);}
 	/**
 	 * This method saves the final best solution.
+	 * @param finalBest the vector containing the final best solution produced by an optimisation algorithm
 	 */
 	public void setFinalBest(double[] finalBest){this.finalBest = finalBest;}
 	/**
 	 * This method returns the best solution.
+	 * @return finalBest the vector containing the final best solution produced by an optimisation algorithm
 	 */
 	public double[] getFinalBest(){return finalBest;}
 	/**
 	 * This method sets a specified initial guess.
+	 * @param initialSolution the initial solution to be refined during the optimisation process
 	 */
 	public void setInitialSolution(double[] initialSolution){this.initialSolution = initialSolution;}
 	/**
 	 * This method sets the fitness value of the specified initial guess.
+	 * @param initialFitness the fitness value of the first initial solution
 	 */
 	public void setInitialFitness(double initialFitness){this.initialFitness = initialFitness;}
 	/**
@@ -126,61 +137,51 @@ public abstract class AlgorithmBias
 	public void setID(){this.ID = this.getClass().getSimpleName();}
 	/**
 	 * This method allow to customise the value of the identifier with a preferred name.
-	 * 
 	 * @param name custom unique ID name for the algorithm.
 	 * 
 	 */
 	public void setID(String name){this.ID = name;}
 	/**
 	 * This method returns the identifier ID
-	 * 
 	 * @return ID this value identifies the algorithm and is used to generate the result folder.
-	 * 
 	 * 
 	 */
 	public String getID(){return ID;}
 	/**
-	 * This method sets the path of the directory for storing BIAS results.
+	 * This method sets the path of the directory for storing ISB results.
+	 * @param Dir the string containing the path to the results folder.
 	 */
 	public void setDir(String Dir){createFolder(this.Dir); this.Dir+=Dir;}
 	/**
 	 * This method returns the path of the directory for storing BIAS results.
+	 * @return Dir the string containing the path to the results folder
 	 */
 	public String getDir(){return this.Dir;}
 	/**
 	 * Store the "run" number.
-	 * 
 	 * @param run the number of the performed run.
-	 * 
 	 */
 	public void setRun(int run){this.run = run;}
 	/**
 	 * Get the "run" number.
-	 * 
 	 * @return  the number of the performed run.
-	 * 
 	 */
 	public int getRun(){return this.run;}
 	
 	/**
 	 * Set the correction strategy.
-	 * 
-	 * @param run the number of the performed run.
-	 * 
+	 * @param correction the char value identifier of the used correction strategy. 
 	 */
 	public void setCorrection(char correction){this.correction = correction;}
 	/**
 	 * Get the correction strategy.
-	 * 
-	 * @return  the correction strategy identifier.
+	 * @return correction the correction strategy identifier.
 	 * 
 	 */
-	public char getcorrection(){return this.correction;}
+	public char getCorrection(){return this.correction;}
 	
 	/**
-	 * 
 	 * update the header to indicate that a maximisation process is taking place.
-	 * 
 	 */
 	public void maximisationProblem(){this.minMaxProb = "max";}
 	
@@ -188,7 +189,11 @@ public abstract class AlgorithmBias
 	//**   UTILS METHODS   **//
 	
 	/**
-	 * Generate the file "fileName".text containing POIS
+	 * Generate the file "fileName".txt containing POIS
+	 * @param algName the full name of the algorithm (as it has to appear in the correction txt file).
+	 * @param percentage the percentage of corrected solutions.
+	 * @param fileName the name of the txt file where results are stored. 
+	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	public void wrtiteCorrectionsPercentage(String algName, double percentage, String fileName) throws Exception
 	{
@@ -201,13 +206,22 @@ public abstract class AlgorithmBias
 		BW.close();
 	}
 	/**
-	 * Generate the file "fileName".text containing POIS
+	 * Generate the file "corrections.txt" containing POIS
+	 * @param algName the full name of the algorithm (as it has to appear in the corrections.txt file).
+	 * @param percentage the percentage of corrected solutions.
+	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	protected void wrtiteCorrectionsPercentage(String algName, double percentage) throws Exception {wrtiteCorrectionsPercentage(algName, percentage, "corrections");}
 	
 
 	/**
 	 * Generate the file "fileName".text containing extended info
+	 * @param algName the full name of the algorithm (as it has to appear in the corrections.txt file).
+	 * @param percentage the percentage of corrected solutions.
+	 * @param PRG the number of PRG activations during the optimisation process.
+	 * @param extra a string containing all possible extra information to be added in the produced txt file (each space will results in a new column).
+	 * @param fileName the name of the txt file where results are stored. 
+	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	public void writeStats(String algName, double percentage, int PRG, String extra, String fileName) throws Exception
 	{
@@ -226,17 +240,28 @@ public abstract class AlgorithmBias
 		BW.close();
 	}
 	/**
-	 * Generate the file "fileName".text containing extended info
+	 * Generate the file a txt file containing useful information, e.g. number of corrected solutions and PRG activations, on the performed optimisation process.
+	 * @param algName the full name of the algorithm (as it has to appear in the correction txt file).
+	 * @param percentage the percentage of corrected solutions.
+	 * @param PRG the number of PRG activations during the performed run.
+	 * @param fileName the name of the correction txt file where results are stored. 
+	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	public void writeStats(String algName, double percentage, int PRG, String fileName) throws Exception{ writeStats(algName, percentage, PRG, null,  fileName);}
 
 	/**
-	 * Generate the file "fileName".text containing POIS
+	 * Generate the "corrections.txt" files containing useful information, e.g. number of corrected solutions and PRG activations, on the performed optimisation process.
+	 * @param algName the full name of the algorithm (as it has to appear in the correction txt file).
+	 * @param percentage the percentage of corrected solutions.
+	 * @param PRG the number of PRG activations during the performed run.
+	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	protected void writeStats(String algName, double percentage, int PRG) throws Exception {writeStats(algName, percentage, PRG, "corrections");}
 	
 	/**
 	 *Fixes the scientific notation format 
+	 *@param value the double number to format.
+	 *@return A string containing the formatted version of the input number.
 	 */
 	public String formatter(double value)
 	{
@@ -251,9 +276,10 @@ public abstract class AlgorithmBias
 	/**
 	 *Perform t, s and d corrections  (e=penalty must be performed separately)
 	 *
-	 *@param infeasible A point that might be infeasible 
+	 *@param infeasiblePt A point that might be infeasible 
 	 *@param previousFeasiblePt The previous point that was surely feasible
-	 *@param c The correction strategy
+	 *@param bounds The boundaries of the optimisation problem.
+	 *@return The corrected (i.e. feasible) solution. 
 	 */
 	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds)
 	{

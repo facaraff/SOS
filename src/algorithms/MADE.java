@@ -34,7 +34,7 @@ import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.operators.DEOp.rand2;
 import static utils.algorithms.operators.DEOp.randToBest2;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Misc.toro;
+
 import static utils.MatLab.max;
 import static utils.MatLab.sum;
 import static utils.MatLab.rand;
@@ -169,7 +169,7 @@ public class MADE extends Algorithm
 					default:
 						break;
 				}
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

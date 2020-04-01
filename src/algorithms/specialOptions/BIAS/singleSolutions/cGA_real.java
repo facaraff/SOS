@@ -24,7 +24,7 @@ public class cGA_real extends AlgorithmBias
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
 		int virtualPopulationSize = this.getParameter("p0").intValue();//300
-		int eta = this.getParameter("p1").intValue();//200
+//		int eta = this.getParameter("p1").intValue();//200
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -42,8 +42,8 @@ public class cGA_real extends AlgorithmBias
 		
 		
 		
-		RandUtilsISB.setSeed(this.seed);	
-		writeHeader("virtualPopulationSize "+virtualPopulationSize+" eta "+eta, problem);	
+		RandUtilsISB.setSeed(this.seed);
+		writeHeader("virtualPopulationSize "+virtualPopulationSize, problem);	
 		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;

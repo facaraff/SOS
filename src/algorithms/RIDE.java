@@ -1,7 +1,7 @@
+
 package algorithms;
 
 import  utils.algorithms.operators.DEOp;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 //import java.util.Vector; serve?
@@ -13,7 +13,6 @@ import utils.RunAndStore.FTrend;
 /**
  * Rotation invariant Differential Evolution with Gram-Shmidt process 
  * 
- * @url file:///C:/Users/fcaraf00/Downloads/Solving_nonlinear_optimization_problems_by_Differe.pdf
  * 
  * @author facaraff fabio.caraffini@gmail.com
  */
@@ -158,7 +157,7 @@ public class RIDE extends Algorithm
 						
 				}
 				
-				crossPt = toro(crossPt, bounds);
+				crossPt = correct(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

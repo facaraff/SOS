@@ -645,8 +645,9 @@ public class MatLab
 	
 	/**
 	 * Euclidean distance between two points.
-	 * @ x fisrt point (array of real numbers in double precision). 
-	 * @ y second point (array of real numbers in double precision). 
+	 * @param x fisrt point (array of real numbers in double precision). 
+	 * @param y second point (array of real numbers in double precision). 
+	 * @return The Euclidean distance of the two input points.
 	**/
 	public static double distance(double[] x, double[] y)
 	{
@@ -745,10 +746,10 @@ public class MatLab
 	
 	/**
 	 * Return the p-th quantile of the values given as input in the form of an array 
-	 * (i.e. P=50--> Median; P=25-->Lower quartile; P=75--> Upper quartile; etc.) 
-	 * @param values.
-	 * @param p (0<p<=100).
-	 * @return median.
+	 * (i.e. P=50 (Median); P=25 (Lower quartile); P=75 (Upper quartile); etc.) 
+	 * @param values An arrays of  double values.
+	 * @param p A probability value.
+	 * @return Return the median value.
 	 */
 	public static double getQuantile(double[] values, int p)
 	{
@@ -1331,7 +1332,7 @@ public class MatLab
 	
 	/** 
 	 * Clone an array.
-	 * @param input array.
+	 * @param array Tnput array.
 	 * @return result a copy of the same array.
 	 */
 	public static double[] cloneArray(double[] array)

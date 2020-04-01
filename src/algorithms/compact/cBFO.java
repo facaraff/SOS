@@ -4,7 +4,6 @@ import static utils.algorithms.CompactAlgorithms.generateIndividual;
 import static utils.algorithms.CompactAlgorithms.scale;
 import static utils.algorithms.CompactAlgorithms.updateMean;
 import static utils.algorithms.CompactAlgorithms.updateSigma2;
-import static utils.algorithms.Misc.toro;
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -160,7 +159,7 @@ public class cBFO extends Algorithm
 					a[n] = a[n] + C_i * delta[n]/stepNorm;
 
 				// bacteria health (fitness)
-				a = toro(a, normalizedBounds);
+				a = correct(a, normalizedBounds);
 				aScaled = scale(a, bounds, xc);
 				fA = problem.f(aScaled);
 				
@@ -207,7 +206,7 @@ public class cBFO extends Algorithm
 							a[n] = a[n] + C_i * delta[n]/stepNorm;
 						
 						// bacteria health (fitness)
-						a = toro(a, normalizedBounds);
+						a = correct(a, normalizedBounds);
 						aScaled = scale(a, bounds, xc);
 						fA = problem.f(aScaled);
 						

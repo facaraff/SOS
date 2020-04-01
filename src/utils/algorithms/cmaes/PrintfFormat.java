@@ -37,37 +37,37 @@ import java.util.Vector;
  * objects embedded within a string.  Primitive types
  * must be passed using wrapper types.  The formatting
  * is controlled by a control string.
- *<p>
+ *
  * A control string is a Java string that contains a
  * control specification.  The control specification
  * starts at the first percent sign (%) in the string,
  * provided that this percent sign
- *<ol>
- *<li>is not escaped protected by a matching % or is
+ *
+ *is not escaped protected by a matching % or is
  * not an escape % character,
- *<li>is not at the end of the format string, and
- *<li>precedes a sequence of characters that parses as
+ *is not at the end of the format string, and
+ *precedes a sequence of characters that parses as
  * a valid control specification.
- *</ol>
- *</p><p>
+ *
+ *
  * A control specification usually takes the form:
- *<pre> % ['-+ #0]* [0..9]* { . [0..9]* }+
+ * % ['-+ #0]* [0..9]* { . [0..9]* }+
  *                { [hlL] }+ [idfgGoxXeEcs]
- *</pre>
+ *
  * There are variants of this basic form that are
- * discussed below.</p>
- *<p>
+ * discussed below.
+ *
  * The format is composed of zero or more directives
  * defined as follows:
- *<ul>
- *<li>ordinary characters, which are simply copied to
+ *
+ *ordinary characters, which are simply copied to
  * the output stream;
- *<li>escape sequences, which represent non-graphic
+ *escape sequences, which represent non-graphic
  * characters; and
- *<li>conversion specifications,  each of which
+ *conversion specifications,  each of which
  * results in the fetching of zero or more arguments.
- *</ul></p>
- *<p>
+ *
+ *
  * The results are undefined if there are insufficient
  * arguments for the format.  Usually an unchecked
  * exception will be thrown.  If the format is
@@ -75,72 +75,72 @@ import java.util.Vector;
  * arguments are evaluated but are otherwise ignored.
  * In format strings containing the % form of
  * conversion specifications, each argument in the
- * argument list is used exactly once.</p>
- * <p>
- * Conversions can be applied to the <code>n</code>th
+ * argument list is used exactly once.
+ * 
+ * Conversions can be applied to the nth
  * argument after the format in the argument list,
  * rather than to the next unused argument.  In this
  * case, the conversion characer % is replaced by the
- * sequence %<code>n</code>$, where <code>n</code> is
+ * sequence %n$, where n is
  * a decimal integer giving the position of the
- * argument in the argument list.</p>
- * <p>
- * In format strings containing the %<code>n</code>$
+ * argument in the argument list.
+ * 
+ * In format strings containing the %n$
  * form of conversion specifications, each argument
- * in the argument list is used exactly once.</p>
+ * in the argument list is used exactly once.
  *
- *<h4>Escape Sequences</h4>
- *<p>
+ *Escape Sequences
+ *
  * The following table lists escape sequences and
  * associated actions on display devices capable of
  * the action.
- *<table>
- *<tr><th align=left>Sequence</th>
- *    <th align=left>Name</th>
- *    <th align=left>Description</th></tr>
- *<tr><td>\\</td><td>backlash</td><td>None.
- *</td></tr>
- *<tr><td>\a</td><td>alert</td><td>Attempts to alert
+ *
+ * align=left--Sequence
+ *     align=left--Name
+ *     align=left--Description
+ *\\backlashNone.
+ *
+ *\aalertAttempts to alert
  *          the user through audible or visible
  *          notification.
- *</td></tr>
- *<tr><td>\b</td><td>backspace</td><td>Moves the
+ *
+ *\bbackspaceMoves the
  *          printing position to one column before
  *          the current position, unless the
  *          current position is the start of a line.
- *</td></tr>
- *<tr><td>\f</td><td>form-feed</td><td>Moves the
+ *
+ *\fform-feedMoves the
  *          printing position to the initial 
  *          printing position of the next logical
  *          page.
- *</td></tr>
- *<tr><td>\n</td><td>newline</td><td>Moves the
+ *
+ *\nnewlineMoves the
  *          printing position to the start of the
  *          next line.
- *</td></tr>
- *<tr><td>\r</td><td>carriage-return</td><td>Moves
+ *
+ *\rcarriage-returnMoves
  *          the printing position to the start of
  *          the current line.
- *</td></tr>
- *<tr><td>\t</td><td>tab</td><td>Moves the printing
+ *
+ *\ttabMoves the printing
  *          position to the next implementation-
  *          defined horizontal tab position.
- *</td></tr>
- *<tr><td>\v</td><td>vertical-tab</td><td>Moves the
+ *
+ *\vvertical-tabMoves the
  *          printing position to the start of the
  *          next implementation-defined vertical
  *          tab position.
- *</td></tr>
- *</table></p>
- *<h4>Conversion Specifications</h4>
- *<p>
+ *
+ *
+ *Conversion Specifications
+ *
  * Each conversion specification is introduced by
  * the percent sign character (%).  After the character
- * %, the following appear in sequence:</p>
- *<p>
+ * %, the following appear in sequence:
+ *
  * Zero or more flags (in any order), which modify the
- * meaning of the conversion specification.</p>
- *<p>
+ * meaning of the conversion specification.
+ *
  * An optional minimum field width.  If the converted
  * value has fewer characters than the field width, it
  * will be padded with spaces by default on the left;
@@ -149,8 +149,8 @@ import java.util.Vector;
  * the field width.  The field width takes the form
  * of a decimal integer.  If the conversion character
  * is s, the field width is the the minimum number of
- * characters to be printed.</p>
- *<p>
+ * characters to be printed.
+ *
  * An optional precision that gives the minumum number
  * of digits to appear for the d, i, o, x or X
  * conversions (the field is padded with leading
@@ -164,18 +164,18 @@ import java.util.Vector;
  * string is treated as 0.  If a precision appears
  * with a c conversion character the precision is
  * ignored.
- * </p>
- *<p>
+ * 
+ *
  * An optional h specifies that a following d, i, o,
  * x, or X conversion character applies to a type 
  * short argument (the argument will be promoted
  * according to the integral promotions and its value
- * converted to type short before printing).</p>
- *<p>
+ * converted to type short before printing).
+ *
  * An optional l (ell) specifies that a following
  * d, i, o, x, or X conversion character applies to a
- * type long argument.</p>
- *<p>
+ * type long argument.
+ *
  * A field width or precision may be indicated by an
  * asterisk (*) instead of a digit string.  In this
  * case, an integer argument supplised the field width
@@ -186,49 +186,49 @@ import java.util.Vector;
  * to be converted.  If the precision argument is
  * negative, it will be changed to zero.  A negative
  * field width argument is taken as a - flag, followed
- * by a positive field width.</p>
- * <p>
- * In format strings containing the %<code>n</code>$
+ * by a positive field width.
+ * 
+ * In format strings containing the %n$
  * form of a conversion specification, a field width
  * or precision may be indicated by the sequence
- * *<code>m</code>$, where m is a decimal integer
+ * *m$, where m is a decimal integer
  * giving the position in the argument list (after the
  * format argument) of an integer argument containing
- * the field width or precision.</p>
- * <p>
+ * the field width or precision.
+ * 
  * The format can contain either numbered argument
- * specifications (that is, %<code>n</code>$ and
- * *<code>m</code>$), or unnumbered argument
+ * specifications (that is, %n$ and
+ * *m$), or unnumbered argument
  * specifications (that is % and *), but normally not
  * both.  The only exception to this is that %% can
- * be mixed with the %<code>n</code>$ form.  The
+ * be mixed with the %n$ form.  The
  * results of mixing numbered and unnumbered argument
- * specifications in a format string are undefined.</p>
+ * specifications in a format string are undefined.
  *
- *<h4>Flag Characters</h4>
- *<p>
- * The flags and their meanings are:</p>
- *<dl>
- * <dt>'<dd> integer portion of the result of a
+ *Flag Characters
+ *
+ * The flags and their meanings are:
+ *
+ * ' integer portion of the result of a
  *      decimal conversion (%i, %d, %f, %g, or %G) will
  *      be formatted with thousands' grouping
  *      characters.  For other conversions the flag
  *      is ignored.  The non-monetary grouping
  *      character is used.
- * <dt>-<dd> result of the conversion is left-justified
+ * - result of the conversion is left-justified
  *      within the field.  (It will be right-justified
- *      if this flag is not specified).</td></tr>
- * <dt>+<dd> result of a signed conversion always
+ *      if this flag is not specified).
+ * + result of a signed conversion always
  *      begins with a sign (+ or -).  (It will begin
  *      with a sign only when a negative value is
  *      converted if this flag is not specified.)
- * <dt>&lt;space&gt;<dd> If the first character of a
+ * &lt;space&gt; If the first character of a
  *      signed conversion is not a sign, a space
  *      character will be placed before the result.
  *      This means that if the space character and +
  *      flags both appear, the space flag will be
  *      ignored.
- * <dt>#<dd> value is to be converted to an alternative
+ * # value is to be converted to an alternative
  *      form.  For c, d, i, and s conversions, the flag
  *      has no effect.  For o conversion, it increases
  *      the precision to force the first digit of the
@@ -242,7 +242,7 @@ import java.util.Vector;
  *      follows it).  For g and G conversions, trailing
  *      zeros will not be removed from the result as
  *      they normally are.
- * <dt>0<dd> d, i, o, x, X, e, E, f, g, and G
+ * 0 d, i, o, x, X, e, E, f, g, and G
  *      conversions, leading zeros (following any
  *      indication of sign or base) are used to pad to
  *      the field width;  no space padding is
@@ -251,22 +251,22 @@ import java.util.Vector;
  *      conversions, if a precision is specified, the
  *      0 flag will be ignored. For c conversions,
  *      the flag is ignored.
- *</dl>
  *
- *<h4>Conversion Characters</h4>
- *<p>
+ *
+ *Conversion Characters
+ *
  * Each conversion character results in fetching zero
  * or more arguments.  The results are undefined if
  * there are insufficient arguments for the format.
  * Usually, an unchecked exception will be thrown.
  * If the format is exhausted while arguments remain,
- * the excess arguments are ignored.</p>
+ * the excess arguments are ignored.
  *
- *<p>
+ *
  * The conversion characters and their meanings are:
- *</p>
- *<dl>
- * <dt>d,i<dd>The int argument is converted to a
+ *
+ *
+ * d,iThe int argument is converted to a
  *        signed decimal in the style [-]dddd.  The
  *        precision specifies the minimum number of
  *        digits to appear;  if the value being
@@ -275,7 +275,7 @@ import java.util.Vector;
  *        zeros.  The default precision is 1.  The
  *        result of converting 0 with an explicit
  *        precision of 0 is no characters.
- * <dt>o<dd> The int argument is converted to unsigned
+ * o The int argument is converted to unsigned
  *        octal format in the style ddddd.  The
  *        precision specifies the minimum number of
  *        digits to appear;  if the value being
@@ -284,7 +284,7 @@ import java.util.Vector;
  *        zeros.  The default precision is 1.  The
  *        result of converting 0 with an explicit
  *        precision of 0 is no characters.
- * <dt>x<dd> The int argument is converted to unsigned
+ * x The int argument is converted to unsigned
  *        hexadecimal format in the style dddd;  the
  *        letters abcdef are used.  The precision
  *        specifies the minimum numberof digits to
@@ -294,10 +294,10 @@ import java.util.Vector;
  *        precision is 1.  The result of converting 0
  *        with an explicit precision of 0 is no
  *        characters.
- * <dt>X<dd> Behaves the same as the x conversion
+ * X Behaves the same as the x conversion
  *        character except that letters ABCDEF are
  *        used instead of abcdef.
- * <dt>f<dd> The floating point number argument is
+ * f The floating point number argument is
  *        written in decimal notation in the style
  *        [-]ddd.ddd, where the number of digits after
  *        the radix character (shown here as a decimal
@@ -312,7 +312,7 @@ import java.util.Vector;
  *        character appears, at least 1 digit appears
  *        before it.  The value is rounded to the
  *        appropriate number of digits.
- * <dt>e,E<dd>The floating point number argument is
+ * e,EThe floating point number argument is
  *        written in the style [-]d.ddde{+-}dd
  *        (the symbols {+-} indicate either a plus or
  *        minus sign), where there is one digit before
@@ -332,7 +332,7 @@ import java.util.Vector;
  *        additional exponent digits are written as
  *        necessary.  The value is rounded to the
  *        appropriate number of digits.
- * <dt>g,G<dd>The floating point number argument is
+ * g,GThe floating point number argument is
  *        written in style f or e (or in sytle E in the
  *        case of a G conversion character), with the
  *        precision specifying the number of
@@ -345,10 +345,10 @@ import java.util.Vector;
  *        Trailing zeros are removed from the result.
  *        A radix character appears only if it is
  *        followed by a digit.
- * <dt>c,C<dd>The integer argument is converted to a
+ * c,CThe integer argument is converted to a
  *        char and the result is written.
  *
- * <dt>s,S<dd>The argument is taken to be a string and
+ * s,SThe argument is taken to be a string and
  *        bytes from the string are written until the
  *        end of the string or the number of bytes 
  *        indicated by the precision specification of
@@ -356,76 +356,76 @@ import java.util.Vector;
  *        is omitted from the argument, it is taken to
  *        be infinite, so all characters up to the end
  *        of the string are written.
- * <dt>%<dd>Write a % character;  no argument is
+ * %Write a % character;  no argument is
  *        converted.
- *</dl>
- *<p>
+ *
+ *
  * If a conversion specification does not match one of
  * the above forms, an IllegalArgumentException is
  * thrown and the instance of PrintfFormat is not
- * created.</p>
- *<p>
+ * created.
+ *
  * If a floating point value is the internal
  * representation for infinity, the output is
  * [+]Infinity, where Infinity is either Infinity or
  * Inf, depending on the desired output string length.
  * Printing of the sign follows the rules described
- * above.</p>
- *<p>
+ * above.
+ *
  * If a floating point value is the internal
  * representation for "not-a-number," the output is
  * [+]NaN.  Printing of the sign follows the rules
- * described above.</p>
- *<p>
+ * described above.
+ *
  * In no case does a non-existent or small field width
  * cause truncation of a field;  if the result of a
  * conversion is wider than the field width, the field
  * is simply expanded to contain the conversion result.
- *</p>
- *<p>
+ *
+ *
  * The behavior is like printf.  One exception is that
  * the minimum number of exponent digits is 3 instead
  * of 2 for e and E formats when the optional L is used
  * before the e, E, g, or G conversion character.  The
  * optional L does not imply conversion to a long long
- * double. </p>
- * <p>
+ * double. 
+ * 
  * The biggest divergence from the C printf
  * specification is in the use of 16 bit characters.
  * This allows the handling of characters beyond the
  * small ASCII character set and allows the utility to
  * interoperate correctly with the rest of the Java
- * runtime environment.</p>
- *<p>
+ * runtime environment.
+ *
  * Omissions from the C printf specification are
  * numerous.  All the known omissions are present
  * because Java never uses bytes to represent
- * characters and does not have pointers:</p>
- *<ul>
- * <li>%c is the same as %C.
- * <li>%s is the same as %S.
- * <li>u, p, and n conversion characters. 
- * <li>%ws format.
- * <li>h modifier applied to an n conversion character.
- * <li>l (ell) modifier applied to the c, n, or s
+ * characters and does not have pointers:
+ *
+ * %c is the same as %C.
+ * %s is the same as %S.
+ * u, p, and n conversion characters. 
+ * %ws format.
+ * h modifier applied to an n conversion character.
+ * l (ell) modifier applied to the c, n, or s
  * conversion characters.
- * <li>ll (ell ell) modifier to d, i, o, u, x, or X
+ * ll (ell ell) modifier to d, i, o, u, x, or X
  * conversion characters.
- * <li>ll (ell ell) modifier to an n conversion
+ * ll (ell ell) modifier to an n conversion
  * character.
- * <li>c, C, d,i,o,u,x, and X conversion characters
+ * c, C, d,i,o,u,x, and X conversion characters
  * apply to Byte, Character, Short, Integer, Long
  * types.
- * <li>f, e, E, g, and G conversion characters apply
+ * f, e, E, g, and G conversion characters apply
  * to Float and Double types.
- * <li>s and S conversion characters apply to String
+ * s and S conversion characters apply to String
  * types.
- * <li>All other reference types can be formatted
+ * All other reference types can be formatted
  * using the s or S conversion characters only.
- *</ul>
- * <p>
+ *
+ * 
  * Most of this specification is quoted from the Unix
- * man page for the sprintf utility.</p>
+ * man page for the sprintf utility.
  *
  * @author Allan Jacobs
  * @version 1
@@ -513,13 +513,13 @@ public class PrintfFormat {
   }
   /**
    * Return a substring starting at
-   * <code>start</code> and ending at either the end
-   * of the String <code>s</code>, the next unpaired
+   * start and ending at either the end
+   * of the String s, the next unpaired
    * percent sign, or at the end of the String if the
    * last character is a percent sign.
    * @param s  Control string.
    * @param start Position in the string
-   *     <code>s</code> to begin looking for the start
+   *     s to begin looking for the start
    *     of a control string.
    * @return the substring from the start position
    *     to the beginning of the control string.
@@ -775,30 +775,30 @@ public String sprintf(Object[] o) {
     return sb.toString();
   }
   /**
-   *<p>
+   *
    * ConversionSpecification allows the formatting of
    * a single primitive or object embedded within a
    * string.  The formatting is controlled by a
    * format string.  Only one Java primitive or
    * object can be formatted at a time.
-   *<p>
+   *
    * A format string is a Java string that contains
    * a control string.  The control string starts at
    * the first percent sign (%) in the string,
    * provided that this percent sign
-   *<ol>
-   *<li>is not escaped protected by a matching % or
+   *
+   *is not escaped protected by a matching % or
    *     is not an escape % character,
-   *<li>is not at the end of the format string, and
-   *<li>precedes a sequence of characters that parses
+   *is not at the end of the format string, and
+   *precedes a sequence of characters that parses
    *     as a valid control string.
-   *</ol>
-   *<p>
+   *
+   *
    * A control string takes the form:
-   *<pre> % ['-+ #0]* [0..9]* { . [0..9]* }+
+   * % ['-+ #0]* [0..9]* { . [0..9]* }+
    *                { [hlL] }+ [idfgGoxXeEcs]
-   *</pre>
-   *<p>
+   *
+   *
    * The behavior is like printf.  One (hopefully the
    * only) exception is that the minimum number of
    * exponent digits is 3 instead of 2 for e and E
@@ -819,7 +819,7 @@ public String sprintf(Object[] o) {
      * with the conversion character for the
      * conversion specification.
       * @param fmtArg  String specifying the
-     *     conversion specification.
+     *     conversion specifications.
       * @exception IllegalArgumentException if the
      *     input string is null, zero length, or
      *     otherwise malformed.
@@ -938,9 +938,9 @@ public String sprintf(Object[] o) {
      * Check whether the specifier has a variable
      * field width that is going to be set by an
      * argument.
-     * @return <code>true</code> if the conversion
+     * @return true if the conversion
      *   uses an * field width; otherwise
-     *   <code>false</code>.
+     *   false.
      */
     boolean isVariableFieldWidth() {
       return variableFieldWidth;
@@ -960,9 +960,9 @@ public String sprintf(Object[] o) {
      * Check whether the specifier has a variable
      * precision that is going to be set by an
      * argument.
-     * @return <code>true</code> if the conversion
+     * @return true if the conversion
      *   uses an * precision; otherwise
-     *   <code>false</code>.
+     *   false.
      */
     boolean isVariablePrecision() {
       return variablePrecision;
@@ -1652,7 +1652,7 @@ public String sprintf(Object[] o) {
      * @param ca1 the array of digits
      * @param icarry the index of the first digit that
      *     is to be truncated from the print
-     * @return <code>true</code> if the truncation forces
+     * @return true if the truncation forces
      *     a round that will change the print
      */
     private boolean checkForCarry(char[] ca1,int icarry) {
@@ -1683,7 +1683,7 @@ public String sprintf(Object[] o) {
      *     by the round
      * @param cFirst index of the first digit allowed
      *     to be changed by this phase of the round
-     * @return <code>true</code> if the carry forces
+     * @return true if the carry forces
      *     a round that will change the print still
      *     more
      */
@@ -2765,9 +2765,9 @@ public String sprintf(Object[] o) {
      * Check for a conversion character.  If it is
      * there, store it.
      * @param x the String to format.
-     * @return <code>true</code> if the conversion
+     * @return true if the conversion
      *     character is there, and
-     *     <code>false</code> otherwise.
+     *     false otherwise.
      */
     private boolean setConversionCharacter() {
       /* idfgGoxXeEcs */
@@ -2865,7 +2865,7 @@ public String sprintf(Object[] o) {
       }
     }
     /**
-     * Store the digits <code>n</code> in %n$ forms.
+     * Store the digits n in %n$ forms.
      */
     private void setArgPosition() {
       int xPos;
@@ -2883,7 +2883,7 @@ public String sprintf(Object[] o) {
       }
     }
     /**
-     * Store the digits <code>n</code> in *n$ forms.
+     * Store the digits n in *n$ forms.
      */
     private boolean setFieldWidthArgPosition() {
       boolean ret=false;
@@ -2904,7 +2904,7 @@ public String sprintf(Object[] o) {
       return ret;
     }
     /**
-     * Store the digits <code>n</code> in *n$ forms.
+     * Store the digits n in *n$ forms.
      */
     private boolean setPrecisionArgPosition() {
       boolean ret=false;

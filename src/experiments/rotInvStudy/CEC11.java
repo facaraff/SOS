@@ -136,9 +136,5 @@ public class CEC11 extends Experiment
 		add(p);
 		p = new P2(probDim);
 		add(p);
-
-
-
-
 	}
 }

@@ -7,23 +7,46 @@ public class RandUtilsISB extends PRNG
 	
 	
 	
-	/**Return a real number with a Cauchy distribution **/
+	/**Return a real number with a Cauchy distribution 
+	 * @param locationFactor The location factor of the Cauchy distribution.
+	 * @param scaleFactor The scale factor of the Cauchy distribution.
+	 *  @param counter A counter Object for monitoring the number of PRG activations.
+	 *  @return Return a real number with a Cauchy distribution.
+	 * **/
 	public static double cauchy(double locationFactor, double scaleFactor, Counter counter){counter.incrementCounter(); return cauchy(locationFactor, scaleFactor);}
-	/** Return a real number with a Gaussian distribution*/
+	/** Return a real number with a Gaussian distribution
+	 * @param mean The mean value of the Gaussian distribution.
+	 * @param stdDev The standard deviation of the Gaussian distribution.
+	 * @param counter A counter Object for monitoring the number of PRG activations.
+	 * @return Return a real number with a Gaussian distribution.
+	 * */
 	public static double gaussian(double mean, double stdDev, Counter counter){counter.incrementCounter(); return gaussian(mean,stdDev);}
-	/**Return a real number with a Uniform distribution between a and b*/
+	/**Return a real number with a Uniformly distributed number in [a,b].
+	 * @param a The lower-bound of the interval.
+	 * @param b The upper-bound of the interval.
+	 * @param counter A counter Object for monitoring the number of PRG activations.
+	 * @return Return a real Uniformly distributed number in [a,b].
+	 * */
 	public static double uniform(double a, double b, Counter counter){counter.incrementCounter(); return uniform(a,b);}	
-	/** Return random uniform number in [0,1)*/
+	/** Return random uniform number in [0,1)
+	 * @param counter A counter Object for monitoring the number of PRG activations.
+	 * */
 	public static double random(Counter counter){counter.incrementCounter(); return random();}
-	/** Random integer 0 <= r <= n. */
+	/** Random integer in [0,n]. 
+	 * @param n The upper-bound of the interval.
+	 * @param counter A counter Object for monitoring the number of PRG activations.
+	 * @return A random number in [0,n].
+	 * */
 	public static int randomInteger(int n, Counter counter){return (int) Math.round((n)*random(counter));}
 	
 	
 	/**
-	 * Random integer a <= r <= b, excluding excl.
-	 * 
-	 * @param n
-	 * @return
+	 * Random integer in [a,b] excluding excl.
+	 * @param a The lower-bound of the interval.
+	 * @param b The upper-bound of the interval.
+	 * @param excl This value cannot be returned.
+	 * @param counter A counter Object for monitoring the number of PRG activations.
+	 * @return Return a Uniformly distributed integer number in [a,b] which is not equal to excl.
 	 */
 	public static int randomIntegerExcl(int a, int b, int excl, Counter counter)
 	{
@@ -37,10 +60,12 @@ public class RandUtilsISB extends PRNG
 	}
 	
 	/**
-	 * Random integer 0 <= r <= n, excluding excl.
+	 * Random integer [0,n], excluding excl.
 	 * 
-	 * @param n
-	 * @return
+	 * @param n The upper-bound of the interval.
+	 * @param counter A counter Object for monitoring the number of PRG activations.
+	 * @param excl This value cannot be returned.
+	 * @return Return an integer Uniformly distributed number in [a,b].
 	 */
 	public static int randomIntegerExcl(int n, int excl, Counter counter)
 	{
@@ -76,8 +101,8 @@ public class RandUtilsISB extends PRNG
 	/**
 	 * Random permutation of array [1, 2, ... , (n-1)]
 	 * 
-	 * @param algorithm
-	 * @return
+	 * @param n The number of indices to be permuted.
+	 * @return A vector with n permuted indices.
 	 */
 	public static int[] randomPermutation(int n, Counter counter)
 	{

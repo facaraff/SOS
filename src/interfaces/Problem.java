@@ -81,6 +81,7 @@ public abstract class Problem
 	 * 
 	 * @param x the decision variables array.
 	 * @return the value of the fitness function.
+	 * @throws Exception This method must be able to handle potential exceptions.
 	 */
 	public abstract double f(double[] x) throws Exception;
 	/**
@@ -96,10 +97,12 @@ public abstract class Problem
 	public double[][] getBounds(){return bounds;}
 	/**
 	 * This method sets problem-specific boundaries
+	 * @param boundaries the bound of the problem.
 	 */
 	public void setBounds( double[][] boundaries){this.bounds=boundaries;}
 	/**
 	 * This method sets problem-specific boundaries (hyper-parallelepiped case)
+	 * @param boundaries The boundaries of the optimisation problem.
 	 */
 	public void setBounds( double[] boundaries)
 	{

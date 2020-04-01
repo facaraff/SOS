@@ -1,9 +1,9 @@
 package algorithms.specialOptions.MoAlgs;
 
-import utils.algorithms.Misc;
+import utils.algorithms.Corrections;
 //import static utils.algorithms.operators.DEOp.crossOverBin;
 //import static utils.algorithms.operators.DEOp.rand1;
-//import static utils.algorithms.Misc.toro;
+//import static utils.algorithms.Corrections.toro;
 //import utils.algorithms.Modality.TestModality.Basins;
 import utils.algorithms.Modality.TestModality;
 import static utils.MatLab.min;
@@ -179,7 +179,7 @@ public class MoTestAlg extends Algorithm
 				while ((k < problemDimension) && (i < maxEvaluations))
 				{
 					Xk = subtract(Xk,R[k]);
-					Xk = Misc.toro(Xk, bounds);
+					Xk = Corrections.toro(Xk, bounds);
 					double fXk = problem.f(Xk);
 					i++;
 					
@@ -196,7 +196,7 @@ public class MoTestAlg extends Algorithm
 					{
 						Xk = cloneArray(Xk_orig);
 						Xk = sum(Xk,multiply(0.5, R[k]));
-						Xk = Misc.toro(Xk, bounds);
+						Xk = Corrections.toro(Xk, bounds);
 						fXk = problem.f(Xk);
 						i++;
 						

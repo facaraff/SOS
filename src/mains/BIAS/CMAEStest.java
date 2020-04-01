@@ -47,7 +47,7 @@ import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 //import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;
-import algorithms.specialOptions.BIAS.CMAESkono;
+import algorithms.specialOptions.BIAS.CMAESISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -89,31 +89,31 @@ public class CMAEStest
 //		//a.setParameter("p2",0.25);
 //		algorithms.add(a);
 		
-		a = new CMAESkono('s');
+		a = new CMAESISB('s');
 		a.setParameter("p0",5.0);
 		algorithms.add(a);
 		
-		a = new CMAESkono('s');
+		a = new CMAESISB('s');
 		a.setParameter("p0",20.0);
 		algorithms.add(a);
 		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
 
-		a = new CMAESkono('s');
+		a = new CMAESISB('s');
 		a.setParameter("p0",100.0);
 		//a.setParameter("p1",0.01);
 		//a.setParameter("p2",0.25);
 		algorithms.add(a);
 		
-		a = new CMAESkono('d');
+		a = new CMAESISB('d');
 		a.setParameter("p0",5.0);
 		algorithms.add(a);
 		
-		a = new CMAESkono('d');
+		a = new CMAESISB('d');
 		a.setParameter("p0",20.0);
 		algorithms.add(a);
 		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
 
-		a = new CMAESkono('d');
+		a = new CMAESISB('d');
 		a.setParameter("p0",100.0);
 		//a.setParameter("p1",0.01);
 		//a.setParameter("p2",0.25);

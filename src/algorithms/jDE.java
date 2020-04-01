@@ -2,7 +2,6 @@ package algorithms;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.operators.DEOp.rand1;
-import static utils.algorithms.Misc.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 
@@ -90,7 +89,7 @@ public class jDE extends Algorithm
 				
 				// DE/rand/1
 				newPt = rand1(population, F[j]);
-				newPt = toro(newPt, bounds);
+				newPt = correct(newPt, bounds);
 				
 				// update CR
 				if (RandUtils.random() < tau2)
