@@ -59,11 +59,10 @@ public class RunAndStore
 	private static MannWhitneyUTest mannWhitneyUTest;	
 		
 	//--------------------------------------------------------------------------------------------------------------------------//
-	private static String acknowledge = "Acknowledgements:\n\n Fabio Caraffini. (2019, June 2). The Stochastic Optimisation Software (SOS) platform.\n Zenodo. http://doi.org/10.5281/zenodo.3237023";
-	public static String getAcknowledgement(){return acknowledge;}    
+//	private static String acknowledge = "Acknowledgements:\n\n PAPERUNDERREVIEW";
+//	public static String getAcknowledgement(){return acknowledge;}    
 	//---------------------------------------------------------------------------------------------------------------------------//
 			
-	
 	
 	
 	
@@ -82,7 +81,7 @@ public class RunAndStore
 		private boolean showElapsedTime = false;
 		private String expFolder = ".";
 		
-		// TODO SAVE AS TEXT OPPURE COME BINARIO??????????!!
+		// TODO Binario? Database?
 		/**
 	     * This method sets the computational budget to be used ofr the optimisation process.
 	     *  

@@ -51,7 +51,7 @@ import utils.MatLab;
 import utils.RunAndStore; ///< Utilities for runnig algorithms and storing results.
 import utils.RunAndStore.AlgorithmRepetitionThread; ///< Execure a single run in a thread.
 import utils.RunAndStore.AlgorithmResult; ///< Utilities 
-import static utils.RunAndStore.getAcknowledgement; ///< Utilities 
+//import static utils.RunAndStore.getAcknowledgement; ///< Utilities 
 import static utils.MatLab.std;
 import static utils.MatLab.mean;
 
@@ -304,7 +304,7 @@ public abstract class Experiment
 			  catalog += "##################### "+getProblemDimension()+" D #####################\nNumber of runs: "+getNrRuns()+"\nAlgorithms: ";
 			  String setting = "";
 			  for(Algorithm a : algorithms){catalog+=a.getID()+" "; setting+=a.getParSetting()+"\n";} catalog+="\n"+setting+"Problems:\n"; setting = null;
-			  for(Problem p : problems)catalog+=RunAndStore.getFullName(p)+p.getFID()+"\n"; catalog+="\n"+getAcknowledgement()+"\n"; 
+			  for(Problem p : problems)catalog+=RunAndStore.getFullName(p)+p.getFID()+"\n"; //catalog+="\n"+getAcknowledgement()+"\n"; 
 			RunAndStore.createRFolder(slash+expFolder);
 			
 			for (Algorithm algorithm : algorithms)
