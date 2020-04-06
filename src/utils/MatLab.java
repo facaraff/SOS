@@ -1368,53 +1368,5 @@ public class MatLab
 			}
 			return clone;
 		}
-//	/**
-//	 * A simple main test class.
-//	 */
-//	public static void main(String[] args) throws Exception
-//	{
-//		double[] x = new double[10];
-//		for (int i = 0; i < x.length; i++)
-//			x[i] = i+1;
-//
-//		System.out.print("x = "); print(x);
-//		System.out.print("y = "); print(MathUtils.cumsum(x));
-//		System.out.println("sum(x) = " + MathUtils.sum(x));
-//		System.out.println("norm2(x) = " + MathUtils.norm2(x));
-//		
-//		int[] xint = new int[10];
-//		for (int i = 0; i < x.length; i++)
-//			xint[i] = i+1;
-//		System.out.print("xint = "); print(xint);
-//		System.out.print("perm = "); print(RandUtils.randomPermutation(xint));
-//		System.out.print("perm = "); print(RandUtils.randomPermutationExcl(xint,9));
-//		
-//		int N = 5;
-//		int M = 2;
-//		double[][] test = new double[N][M];
-//		
-//		for (int i = 0; i < N; i++)
-//		{
-//			for (int j = 0; j < M; j++)
-//				test[i][j] = Math.round(RandUtils.random()*9);
-//		}
-//		
-//		for (int i = 0; i < N; i++)
-//		{
-//			test[i][0] = RandUtils.random();
-//			test[i][1] = i;
-//		}
-//		
-//		System.out.println("unsorted:");
-//		print(test);
-//		sortRows(test, 0);
-//		System.out.println("sorted:");
-//		print(test);
-//		
-//		double[] y = {2.3, 2.3, 5, 7, 5, 8, 2.3, 5};
-//		print(y);
-//		print(unique(y));
-//		print(reverse(y));
-//	}
 	
 }

@@ -43,7 +43,7 @@ public class TabGen
 		if (args.length < 1)
 		{
 //			workingDir ="../../results";
-//			workingDir ="/home/facaraff/Desktop/HYPER";
+			workingDir ="/home/facaraff/Desktop/HYPER";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
 			//System.exit(-1);
 		}
