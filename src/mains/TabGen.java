@@ -43,17 +43,7 @@ public class TabGen
 		if (args.length < 1)
 		{
 //			workingDir ="../../results";
-//			workingDir ="/home/facaraff/git/BlasphMeme/results";
-			//workingDir ="/home/facaraff/git/BlasphMeme/BlasphMeme/results";
-			//workingDir ="/home/facaraff/Desktop/LIBIBBO/UNROT";
-//			workingDir ="/home/facaraff/Desktop/RisTORO/tottrend";
-//			workingDir ="C:\\Users\\\\Badddobaby\\Desktop\\compatti";
-//			workingDir ="/home/orzobimbo/Desktop/COMPACTORI";
-			//workingDir ="/home/orzobimbo/Desktop/RICOMPACT";
-			workingDir ="/home/facaraff/Desktop/HYPER";
-			//workingDir ="/home/orzobimbo/Desktop/VACCHEBOIE";
-//			workingDir ="C:\\Users\\fcaraf00\\Desktop\\TABELLONISSIME\\UNROT";
-			//workingDir ="C:\\Users\\fcaraf00\\Desktop\\BIN";
+//			workingDir ="/home/facaraff/Desktop/HYPER";
 			//System.err.println("Usage: " + Analyse.class.getSimpleName() + " " + "RESULT_FOLDER");
 			//System.exit(-1);
 		}
@@ -63,7 +53,7 @@ public class TabGen
 		Experiment experiment = new Experiment();
 		experiment.setDirectory(workingDir);
 		//experiment.setTrendsFlag(true, false);
-//		experiment.setTrendsFlag(true, true);
+		//experiment.setTrendsFlag(true, true);
 		//experiment.setTrendsFlag(true);
 		experiment.importData();
 		experiment.describeExperiment();
@@ -82,7 +72,7 @@ public class TabGen
 		T3.execute();
 		
 		
-		TableStatistics T4 = new TableAvgStdStat(experiment, true, true);
+		TableStatistics T4 = new TableAvgStdStat(experiment, false, true);
 		T4.setErrorFlag(true);
 		T4.setReferenceAlgorithm();
 		T4.execute();
