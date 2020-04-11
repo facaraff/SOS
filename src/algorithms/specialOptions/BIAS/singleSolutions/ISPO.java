@@ -1,6 +1,6 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.fillAWithB;
 
@@ -8,7 +8,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import utils.random.RandUtils;
+import utils.algorithms.Counter;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -36,6 +37,8 @@ public class ISPO extends AlgorithmBias
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 
+		Counter PRGCounter = new Counter(0);
+		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
 		String fileName = "ISPO"+correctionStrategy; 
 		
@@ -51,7 +54,7 @@ public class ISPO extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtilsISB.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		bw.write(line);
 		line = null;
@@ -70,7 +73,7 @@ public class ISPO extends AlgorithmBias
 		}
 		else
 		{
-			particle = generateRandomSolution(bounds, problemDimension);
+			particle = generateRandomSolution(bounds, problemDimension, PRGCounter);
 			fParticle = problem.f(particle);
 			newID++; i++;
 			
@@ -109,7 +112,7 @@ public class ISPO extends AlgorithmBias
 					fillAWithB(particleOld,particle);
 
 					// calculate velocity
-					velocity = A/Math.pow(k+1,P)*(-0.5+RandUtils.random())+B*L;
+					velocity = A/Math.pow(k+1,P)*(-0.5+RandUtilsISB.random(PRGCounter))+B*L;
 
 					// calculate new position
 					particle[j] += velocity;

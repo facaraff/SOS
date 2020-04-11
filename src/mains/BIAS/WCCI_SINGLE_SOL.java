@@ -50,7 +50,7 @@ public class WCCI_SINGLE_SOL
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
 	
-	static String dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/";
+	static String dir = "/home/facaraff/Desktop/KONODATA/POPULATIONFREE/";
 	//static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	
 	public static void main(String[] args) throws Exception
@@ -496,7 +496,7 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p0",  0.00001);
 		a.setParameter("p1",  100.0);
 		
-		a = new NelderMeadKono();
+		a = new NelderMeadBias();
 		a.setDir(dir+"NMA"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0", 1.0);
@@ -505,7 +505,7 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p3", 0.5);
 		algorithms.add(a);
 		
-		a = new NelderMeadKono();
+		a = new NelderMeadBias();
 		a.setDir(dir+"NMA"+slash());
 		a.setCorrection('s');
 		a.setParameter("p0", 1.0);
@@ -514,7 +514,7 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p3", 0.5);
 		algorithms.add(a);
 		
-		a = new NelderMeadKono();
+		a = new NelderMeadBias();
 		a.setDir(dir+"NMA"+slash());
 		a.setCorrection('d');
 		a.setParameter("p0", 1.0);
@@ -523,7 +523,7 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p3", 0.5);
 		algorithms.add(a);
 		
-		a = new NelderMeadKono();
+		a = new NelderMeadBias();
 		a.setDir(dir+"NMA"+slash());
 		a.setCorrection('m');
 		a.setParameter("p0", 1.0);
@@ -532,7 +532,7 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p3", 0.5);
 		algorithms.add(a);
 		
-		a = new NelderMeadKono();
+		a = new NelderMeadBias();
 		a.setDir(dir+"NMA"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0", 1.0);

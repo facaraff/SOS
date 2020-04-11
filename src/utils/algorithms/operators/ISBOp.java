@@ -8,6 +8,9 @@
 package utils.algorithms.operators;
 
 import org.apache.commons.math3.linear.EigenDecomposition;
+
+import interfaces.Problem;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 
 import static utils.MatLab.indexMin;
@@ -758,6 +761,33 @@ public class ISBOp
 				}
 				
 				return x;
+			}
+			
+			
+			
+			/**
+			 * Random point in bounds.
+			 * 
+			 * @param bounds
+			 *            search space boundaries (general case).
+			 * @param n
+			 *            problem dimension.
+			 * @return r randomly generated point.
+			 */
+			public static double[] generateRandomSolution(double[][] bounds, int n,Counter counter) {
+				double[] r = new double[n];
+				for (int i = 0; i < n; i++)
+					r[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(counter);
+				return r;
+			}
+			
+			public static double[] generateRandomSolution(Problem p, Counter counter) {
+				int n = p.getDimension();
+				double[][] bounds = p.getBounds();
+				double[] r = new double[n];
+				for (int i = 0; i < n; i++)
+					r[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(counter);
+				return r;
 			}
 			
 }

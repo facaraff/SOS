@@ -1,28 +1,25 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 import static utils.MatLab.norm2;
 import static utils.MatLab.columnXrow;
 import static utils.MatLab.eye;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 /*
  * Covariance Matrix Adaptation Evolutionary Strategy (1+1)
  */
 public class CMAES11 extends AlgorithmBias
 {
-//	static String Dir = "/home/facaraff/Desktop/KONODATA/SINGLESOLUTION/CMAES11/";
 
 	public CMAES11(char c) {this.correction = c;}
 
@@ -38,8 +35,16 @@ public class CMAES11 extends AlgorithmBias
 
 //		char correctionStrategy = 'd';  // t --> toroidal   s-->saturation
 		char correctionStrategy = this.correction;  // t --> toroidal   s-->saturation
-		String fileName = "1p1CMAES"+correctionStrategy; 
+	
+		
+		//String fileName = "1p1CMAES"+correctionStrategy; 
 
+		String FullName = getFullName("1p1CMAES"+correctionStrategy,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
+		
+		
+		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
@@ -56,28 +61,33 @@ public class CMAES11 extends AlgorithmBias
 		double f_offspring;
 
 		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-//		File file = new File(Dir+"CMAES11/"+fileName+".txt");
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		int ciccio = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" p_target_succ "+p_target_succ+" c_p "+c_p+" p_thresh "+p_thresh+" sigma0 "+sigma0+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
-		prevID = newID;
+		
+//		RandUtilsISB.setSeed(seed);	
+		writeHeader(" p_target_succ "+p_target_succ+" c_p "+c_p+" p_thresh "+p_thresh+" sigma0 "+sigma0, problem);
+		
+//		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
+////		File file = new File(Dir+"CMAES11/"+fileName+".txt");
+//		File file = new File(Dir+fileName+".txt");
+//		if (!file.exists()) 
+//			file.createNewFile();
+//		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//		BufferedWriter bw = new BufferedWriter(fw);
+		
+
+//		int ciccio = 0;
+//		long seed = System.currentTimeMillis();
+//		RandUtilsISB.setSeed(seed);	
+//		String line = "# function 0 dim "+problemDimension+" p_target_succ "+p_target_succ+" c_p "+c_p+" p_thresh "+p_thresh+" sigma0 "+sigma0+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
+//		bw.write(line);
+		
+		String line = new String();
+		
 		
 		//compute and evaluate initial solution
-		double[] x_parent = generateRandomSolution(bounds, problemDimension);
+		double[] x_parent = generateRandomSolution(bounds, problemDimension, PRGCounter);
 		double f_parent = problem.f(x_parent);
 		FT.add(0, f_parent);
 		newID++; i++;
@@ -88,6 +98,8 @@ public class CMAES11 extends AlgorithmBias
 			line+=" "+formatter(x_parent[n]);
 		line+="\n";
 		bw.write(line);
+		
+		prevID = newID;
 		line = null;
 		line = new String();
 		
@@ -95,53 +107,20 @@ public class CMAES11 extends AlgorithmBias
 		double[][] A = eye(problemDimension);
 		double[] Az;
 
+		
+		this.numberOfCorrections = 0;
+		
 //		int improvements=0;
 		while (i < maxEvaluations)
 		{	
-			z=newZ(problemDimension);
+			z=newZ(problemDimension, PRGCounter);
 			Az = multiply(A,z);
 			x_offspring = sum(x_parent,multiply(sigma,Az));
-			//x_offspring = toro(x_offspring, bounds);
-//			double[] output = new double[problemDimension];
-//			if(correctionStrategy == 't')
-//			{
-//				//System.out.println("TORO");
-//				output = toro(x_offspring, bounds);
-//			}
-//			else if(correctionStrategy== 's')
-//			{
-//				//System.out.println("SAT");
-//				output = saturation(x_offspring, bounds);
-//			}
-//			else if(correctionStrategy== 'd')
-//			{
-//				output = toro(x_offspring, bounds);
-//				if(!Arrays.equals(output, x_offspring))
-//					output = x_parent;
-//			}
-//			else if(correctionStrategy== 'e')
-//			{
-//				output = toro(x_offspring, bounds);
-//			}
-//			else
-//				System.out.println("No bounds handling shceme seleceted");
-//			
-//			if(!Arrays.equals(output, x_offspring))
-//			{
-//				x_offspring = output;
-//				output = null;
-//				ciccio++;
-//			}
-//			
-//			if( (correctionStrategy== 'e') && (!Arrays.equals(output, x_offspring)) )
-//				f_offspring = 2;
-//			else
-//				f_offspring=problem.f(x_offspring);
-//			
+
 			x_offspring = correct(x_offspring, x_parent, bounds);
 			f_offspring=problem.f(x_offspring);
 			i++;
-//			newID++;
+
 			
 			if(f_offspring <= f_parent)
 				lambda_succ=1;
@@ -158,9 +137,8 @@ public class CMAES11 extends AlgorithmBias
 				f_parent=f_offspring;
 				for(int dim=0;dim<problemDimension;dim++)
 					x_parent[dim]=x_offspring[dim];
-				//improvements++;
-				//if(improvements%10==0)
-					FT.add(i, f_parent);
+				
+				FT.add(i, f_parent);
 				//update cholesky
 				if(p_succ_sign < p_thresh)
 					A=updateCholesky(A,z,c_a);
@@ -183,16 +161,17 @@ public class CMAES11 extends AlgorithmBias
 		FT.add(i, f_parent);
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations,"correctionsSingleSol");
+//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, "correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 
 		return FT;
 	}
 
-	public double[] newZ(int dimension)
+	public double[] newZ(int dimension, Counter counter)
 	{
 		double[] x = new double[dimension];
 		for(int i=0;i<dimension;i++)
-			x[i] = RandUtils.gaussian(0, 1);
+			x[i] = RandUtilsISB.gaussian(0, 1, counter);
 		return x;
 	}
 

@@ -17,7 +17,7 @@ import utils.RunAndStore.FTrend;
 /**
  * A Nelder-Mead simplex search.
  */
-public final class NelderMeadKono extends AlgorithmBias {
+public final class NelderMeadBias extends AlgorithmBias {
 
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
