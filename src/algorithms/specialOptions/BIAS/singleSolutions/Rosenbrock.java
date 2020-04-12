@@ -1,12 +1,8 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 import static utils.algorithms.Misc.cloneSolution;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
 import static utils.MatLab.eye;
 import static utils.MatLab.subtract;
@@ -17,7 +13,7 @@ import static utils.MatLab.abs;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
-import utils.random.RandUtils;
+import utils.algorithms.Counter;
 
 public class Rosenbrock extends AlgorithmBias {
 	
@@ -42,28 +38,17 @@ public class Rosenbrock extends AlgorithmBias {
 		double[] x = new double[n];
 		double yFirstFirst;
 		
-		String fileName = "RM"+this.correction; 
-		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		
+
+		String FullName = getFullName("RM"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 		
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+n+" eps "+eps+" alpha "+alpha+" beta "+beta+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
-		//prevID = newID;
+		writeHeader(" eps "+eps+" alpha "+alpha+" beta "+beta, problem);
 		
 		int iter = 0;
-		
+		String line = new String();
 		
 		if (initialSolution != null)
 		{
@@ -72,12 +57,11 @@ public class Rosenbrock extends AlgorithmBias {
 		}
 		else
 		{
-			x = generateRandomSolution(bounds, n);
+			x = generateRandomSolution(bounds, n, PRGCounter);
 			yFirstFirst = problem.f(x);
 			
 			iter++; newID++;
 			
-
 			line =""+newID+" "+formatter(yFirstFirst)+" "+iter+" "+prevID;
 			for(int k = 0; k < n; k++)
 				line+=" "+formatter(x[k]);
@@ -202,8 +186,9 @@ public class Rosenbrock extends AlgorithmBias {
 		
 		finalBest = xCurrent;
 		FT.add(iter, yBest);
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
 		bw.close();
+		//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }

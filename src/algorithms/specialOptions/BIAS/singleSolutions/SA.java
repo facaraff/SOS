@@ -28,13 +28,10 @@ either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-import utils.random.RandUtils;
+import utils.algorithms.Counter;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
@@ -61,27 +58,18 @@ public class SA extends AlgorithmBias
 		
 		this.correction = 'x';
 				
-		String fileName = "SA"+this.correction; 
-		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		String FullName = getFullName("SA"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" alpha "+alpha+" initialSolutions "+initialSolutions+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
-
+		String line = new String();
+		writeHeader(" alpha "+alpha+" initialSolutions "+initialSolutions, problem);
+		
 		// initialize first point
-		bestPt = generateRandomSolution(bounds, problemDimension);
+		bestPt = generateRandomSolution(bounds, problemDimension, PRGCounter);
 		fNew = problem.f(bestPt);
 		i++;
 		FT.add(i, fNew);
@@ -103,7 +91,7 @@ public class SA extends AlgorithmBias
 		// evaluate initial solutions to set the initial temperature
 		for (int j = 0; j < initialSolutions; j++)
 		{
-			newPt = generateRandomSolution(bounds, problemDimension);
+			newPt = generateRandomSolution(bounds, problemDimension, PRGCounter);
 			fNew = problem.f(newPt);
 
 			// update best
@@ -146,7 +134,7 @@ public class SA extends AlgorithmBias
 		{
 
 			//basic SA sampling
-			newPt = generateRandomSolution(bounds, problemDimension);
+			newPt = generateRandomSolution(bounds, problemDimension, PRGCounter);
 
 			// evaluate fitness
 			fNew = problem.f(newPt);
@@ -160,7 +148,7 @@ public class SA extends AlgorithmBias
 			}
 
 			// move to the neighbor point
-			if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtils.random()))
+			if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtilsISB.random(PRGCounter)))
 			{
 				for (int k = 0; k < problemDimension; k++)
 					bestPt[k] = newPt[k];
@@ -189,7 +177,8 @@ public class SA extends AlgorithmBias
 		finalBest = bestPt;
 		
 		FT.add(i, fBest);
-		wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		//wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		bw.close();
 		return FT;
 	}

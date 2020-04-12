@@ -1,20 +1,18 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.operators.DEOp.crossOverExp;
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.crossOverExp;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 import static utils.algorithms.Corrections.toro;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.MatLab.max;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Arrays;
 
-import utils.random.RandUtils;
+
+import utils.algorithms.Counter;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -38,35 +36,33 @@ public class RISold extends AlgorithmBias
 		double[] temp;
 		
 		
-		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "RIS"+correctionStrategy; 
 		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		
+		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
+		
+		
+		
+		String FullName = getFullName("RIS"+correctionStrategy,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
+
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" globalAlpha "+globalAlpha+" radius "+radius+" xi "+xi+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
 		
+		writeHeader(" globalAlpha "+globalAlpha+" radius "+radius+" xi "+xi, problem);
+			
 		
-		best = generateRandomSolution(bounds, problemDimension);
+		best = generateRandomSolution(bounds, problemDimension,PRGCounter);
 		fBest = problem.f(best);
 		FT.add(0, fBest);
 		i++; newID++;
 		double[] x = new double[problemDimension];
 		for(int k=0; k < problemDimension; k++)
 		  x[k] = best[k];
-			
+		
+		String line = new String();
 		line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
 			line+=" "+formatter(best[n]);
@@ -82,8 +78,8 @@ public class RISold extends AlgorithmBias
 		
 		while (i < maxEvaluations)
 		{
-			temp = generateRandomSolution(bounds, problemDimension);
-			x = crossOverExp(best, temp, CR);
+			temp = generateRandomSolution(bounds, problemDimension,PRGCounter);
+			x = crossOverExp(best, temp, CR,PRGCounter);
 			
 			double fx = problem.f(x);
 
@@ -348,7 +344,8 @@ public class RISold extends AlgorithmBias
 
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 	

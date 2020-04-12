@@ -1,15 +1,13 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 
-import static utils.algorithms.Misc.generateRandomSolution;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 public class NonUniformSA extends AlgorithmBias
 {
@@ -22,8 +20,10 @@ public class NonUniformSA extends AlgorithmBias
 		int initialSolutions = this.getParameter("p3").intValue(); //10
 		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "nuSA"+correctionStrategy; 
 		
+		String FullName = getFullName("nuSA"+correctionStrategy,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 				
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -38,29 +38,20 @@ public class NonUniformSA extends AlgorithmBias
 		double fWorst;
 		
 		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+		String line =new String();
+		
+		writeHeader(" B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions, problem);
+//		String line = "# function 0 dim "+problemDimension+" B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		
 		// initialize first point
 		if (initialSolution != null)
 			bestPt = initialSolution;
 		else
 		{
-			bestPt = generateRandomSolution(bounds, problemDimension);
+			bestPt = generateRandomSolution(bounds, problemDimension,PRGCounter);
 			i++;
 		}
 		fNew = problem.f(bestPt);
@@ -68,6 +59,7 @@ public class NonUniformSA extends AlgorithmBias
 		fWorst = fNew;
 		FT.add(i, fNew);
 		newID++; 
+		
 		line =""+newID+" "+formatter(fNew)+" "+i+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
 			line+=" "+formatter(bestPt[n]);
@@ -81,7 +73,7 @@ public class NonUniformSA extends AlgorithmBias
 		// evaluate initial solutions to set the initial temperature
 		for (int j = 0; j < initialSolutions; j++)
 		{
-			newPt = generateRandomSolution(bounds, problemDimension);
+			newPt = generateRandomSolution(bounds, problemDimension,PRGCounter);
 			fNew = problem.f(newPt);
 			i++;
 			// update best
@@ -130,9 +122,9 @@ public class NonUniformSA extends AlgorithmBias
 				for (int k = 0; k < problemDimension; k++)
 				{
 					//double temp = Math.pow(RandUtils.random(), Math.pow(1.0-(double)i/maxEvaluations, B));
-					double temp = Math.pow(RandUtils.random(), Math.pow(1.0-(double)generationIndex/totalGenerations, B));
+					double temp = Math.pow(RandUtilsISB.random(PRGCounter), Math.pow(1.0-(double)generationIndex/totalGenerations, B));
 
-					if (RandUtils.random()<0.5)
+					if (RandUtilsISB.random(PRGCounter)<0.5)
 						newPt[k] = oldPt[k] - (oldPt[k]-problem.getBounds()[k][0])*(1-temp);
 					else
 						newPt[k] = oldPt[k] + (problem.getBounds()[k][1]-oldPt[k])*(1-temp);
@@ -164,7 +156,7 @@ public class NonUniformSA extends AlgorithmBias
 				fNew=problem.f(newPt);
 				i++;
 				
-				if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtils.random()))
+				if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtilsISB.random(PRGCounter)))
 				{
 					for (int k = 0; k < problemDimension; k++)
 						oldPt[k] = newPt[k];
@@ -194,7 +186,8 @@ public class NonUniformSA extends AlgorithmBias
 		FT.add(i, fOld);
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		//wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 	

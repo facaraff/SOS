@@ -7,7 +7,6 @@ import static utils.MatLab.eye;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 
-
 import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
@@ -35,14 +34,10 @@ public class CMAES11 extends AlgorithmBias
 
 //		char correctionStrategy = 'd';  // t --> toroidal   s-->saturation
 		char correctionStrategy = this.correction;  // t --> toroidal   s-->saturation
-	
-		
-		//String fileName = "1p1CMAES"+correctionStrategy; 
 
 		String FullName = getFullName("1p1CMAES"+correctionStrategy,problem); 
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
-		
 		
 		
 		FTrend FT = new FTrend();
@@ -65,25 +60,7 @@ public class CMAES11 extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		
-//		RandUtilsISB.setSeed(seed);	
 		writeHeader(" p_target_succ "+p_target_succ+" c_p "+c_p+" p_thresh "+p_thresh+" sigma0 "+sigma0, problem);
-		
-//		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-////		File file = new File(Dir+"CMAES11/"+fileName+".txt");
-//		File file = new File(Dir+fileName+".txt");
-//		if (!file.exists()) 
-//			file.createNewFile();
-//		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-//		BufferedWriter bw = new BufferedWriter(fw);
-		
-
-//		int ciccio = 0;
-//		long seed = System.currentTimeMillis();
-//		RandUtilsISB.setSeed(seed);	
-//		String line = "# function 0 dim "+problemDimension+" p_target_succ "+p_target_succ+" c_p "+c_p+" p_thresh "+p_thresh+" sigma0 "+sigma0+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-//		bw.write(line);
-		
-		String line = new String();
 		
 		
 		//compute and evaluate initial solution
@@ -92,7 +69,8 @@ public class CMAES11 extends AlgorithmBias
 		FT.add(0, f_parent);
 		newID++; i++;
 		
-
+		String line = new String();
+		
 		line =""+newID+" "+formatter(f_parent)+" "+i+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
 			line+=" "+formatter(x_parent[n]);

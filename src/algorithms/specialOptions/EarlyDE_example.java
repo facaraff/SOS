@@ -13,8 +13,9 @@ import utils.RunAndStore.FTrend;
 
 /**
  * Differential Evolution (standard version, rand/1/bin)
+ * ExampleWithUniqueFileFitnessPlusExtras
  */
-public class EarlyDE_ExampleWithUniqueFileFitnessPlusExtras extends Algorithm
+public class EarlyDE_example extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception

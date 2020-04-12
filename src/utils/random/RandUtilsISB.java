@@ -21,6 +21,7 @@ public class RandUtilsISB extends PRNG
 	 * @return Return a real number with a Gaussian distribution.
 	 * */
 	public static double gaussian(double mean, double stdDev, Counter counter){counter.incrementCounter(); return gaussian(mean,stdDev);}
+
 	/**Return a real number with a Uniformly distributed number in [a,b].
 	 * @param a The lower-bound of the interval.
 	 * @param b The upper-bound of the interval.
@@ -151,7 +152,19 @@ public class RandUtilsISB extends PRNG
 		return b;
 	}
 	
-	
+	/** 
+	 * Returns a sample from the uncorrelated normal distribution N(0, I).
+	 * @param dim dimension.
+	 * @return x an array where each i^th vomprnrn is.
+	 */
+	public static double[] randUncorrelatedGauusian(int dim, Counter counter)
+	{
+
+		double[] x = new double[dim];
+		for(int i=0; i<dim; i++)
+				x[i]= gaussian(0, 1, counter);		
+		return x;
+	}
 	
 	
 	

@@ -29,19 +29,17 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 
 
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Arrays;
 
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 public class SPSA extends AlgorithmBias {
 	
@@ -59,27 +57,23 @@ public class SPSA extends AlgorithmBias {
 		//int k=0;
 
 		
-		String fileName = "SPSA"+this.correction; 
+		String FullName = getFullName("SPSA"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
+		
+		String line = new String();
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
 		
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" a "+a+" A "+A+""+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+	
+
+		writeHeader(" a "+a+" A "+A+"lpha "+alpha+" c "+c+" gamma "+gamma+" epsylon "+myEps, problem);
+		
 		
 		double[] best;
 		double fBest;
@@ -92,21 +86,18 @@ public class SPSA extends AlgorithmBias {
 		}
 		else
 		{
-			best = generateRandomSolution(bounds, problemDimension);
+			best = generateRandomSolution(bounds, problemDimension, PRGCounter);
 			fBest= problem.f(best);
 			i++; newID++;
 			
 			line =""+newID+" "+formatter(fBest)+" "+i+" "+prevID;
 			for(int k = 0; k < problemDimension; k++)
 				line+=" "+formatter(best[k]);
-			
-
 			line+="\n";
 			bw.write(line);
 			line = null;
 			line = new String();
 			prevID = newID;
-			
 		}
 		
 		double[] theta = cloneSolution(best);
@@ -120,7 +111,7 @@ public class SPSA extends AlgorithmBias {
 			double ck = c/Math.pow((i+1),gamma);
 			double[] delta = new double[problemDimension];
 			for(int j=0;j < problemDimension;j++)
-				delta[j] = (RandUtils.random() > 0.5) ? 1 : -1;
+				delta[j] = (RandUtilsISB.random(PRGCounter) > 0.5) ? 1 : -1;
 			
 			double[] thetaplus = correct(sum(theta,multiply(ck,delta)), best, bounds);
 			double[] thetaminus = correct(sum(theta,multiply(-ck,delta)), best, bounds);
@@ -181,8 +172,10 @@ public class SPSA extends AlgorithmBias {
 		
 	finalBest = best;
 	FT.add(i, fBest);
-	wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 	bw.close();
+	
+	//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+	writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 	return FT;
 	}
 }

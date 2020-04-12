@@ -74,64 +74,64 @@ public class TELO extends ISBMain
 		
 		problems.add(p);
 		
-		a = new CMAES11('t');
-		a.setDir("CMAES11"+slash());
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
+//		a = new CMAES11('t');
+//		a.setDir("CMAES11"+slash());
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAES11('s');
+//		a.setDir("CMAES11"+slash());
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);	
+//		
+//		a = new CMAES11('e');
+//		a.setDir("CMAES11"+slash());
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAES11('d');
+//		a.setDir("CMAES11"+slash());
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAES11('m');
+//		a.setDir("CMAES11"+slash());
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAES11('c');
+//		a.setDir("CMAES11"+slash());
+//		a.setParameter("p0",(2.0/11.0));
+//		a.setParameter("p1",(1.0/12.0));
+//		a.setParameter("p2",0.44);
+//		a.setParameter("p3",1.0);
+//		algorithms.add(a);
 		
-		a = new CMAES11('s');
-		a.setDir("CMAES11"+slash());
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);	
 		
-		a = new CMAES11('e');
-		a.setDir("CMAES11"+slash());
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
-		
-		a = new CMAES11('d');
-		a.setDir("CMAES11"+slash());
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
-		
-		a = new CMAES11('m');
-		a.setDir("CMAES11"+slash());
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
-		
-		a = new CMAES11('c');
-		a.setDir("CMAES11"+slash());
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
-		
-		
-		a = new ISPO();
-		a.setCorrection('t');
-		a.setParameter("p0",1.0);
-		a.setParameter("p1",10.0);
-		a.setParameter("p2",2.0);
-		a.setParameter("p3",4.0);
-		a.setParameter("p4",0.000001);
-		a.setParameter("p5",30.0);
-		algorithms.add(a);
+//		a = new ISPO();
+//		a.setCorrection('t');
+//		a.setParameter("p0",1.0);
+//		a.setParameter("p1",10.0);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3",4.0);
+//		a.setParameter("p4",0.000001);
+//		a.setParameter("p5",30.0);
+//		algorithms.add(a);
 //		
 //		a = new ISPO();
 //		a.setDir("ISPO"+slash());
@@ -397,9 +397,9 @@ public class TELO extends ISBMain
 //		a.setParameter("p3", 0.032);
 //		a.setParameter("p4", 0.1);
 //		algorithms.add(a);
-		
-		
-		
+//		
+//		
+//		
 //		a = new SA();
 //		a.setDir("SA"+slash());
 //		a.setParameter("p0", 0.9);
@@ -429,42 +429,42 @@ public class TELO extends ISBMain
 //		a.setCorrection('d');
 //		a.setParameter("p0", 2.0);
 //		algorithms.add(a);
-////		
+//		
 //		a = new ES1p1OneFifth();
 //		a.setDir("ES11"+slash());
 //		a.setCorrection('c');
 //		a.setParameter("p0", 2.0);
 //		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir("ES11"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir("ES11"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir("ES11"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir("ES11"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir("ES11"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('t');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('m');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('c');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
 //		
 //		a = new Powell_correct();
 //		a.setDir("Powell"+slash());

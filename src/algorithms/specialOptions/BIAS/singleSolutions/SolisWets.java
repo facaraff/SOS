@@ -1,20 +1,18 @@
 package algorithms.specialOptions.BIAS.singleSolutions;
 
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
 import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
 
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 
 public class SolisWets extends AlgorithmBias
@@ -25,27 +23,23 @@ public class SolisWets extends AlgorithmBias
  
 		double rho = getParameter("p0").doubleValue();//???;
 	
-		String fileName = "SWA"+this.correction; 
+		String FullName = getFullName("SWA"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
+		String line = new String();
+				
 		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		
+		
 		
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" rho "+rho+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+		
+		writeHeader(" rho "+rho, problem);
 		//prevID = newID;
 
 		// current best
@@ -60,7 +54,7 @@ public class SolisWets extends AlgorithmBias
 		}
 		else
 		{
-			best = generateRandomSolution(bounds, problemDimension);		
+			best = generateRandomSolution(bounds, problemDimension, PRGCounter);		
 			fBest = problem.f(best);
 			i++;newID++;
 			
@@ -89,7 +83,7 @@ public class SolisWets extends AlgorithmBias
 		while (i < maxEvaluations )
 		{	
 			for(int n=0; n < problemDimension; n++)
-				dif[n] = RandUtils.gaussian(0,rho);
+				dif[n] = RandUtilsISB.gaussian(0,rho,PRGCounter);
 			bestFirst = sum(sum(best, bias ) , dif );
 			
 			
@@ -173,8 +167,8 @@ public class SolisWets extends AlgorithmBias
 
 		finalBest = best;
 		FT.add(i, fBest);
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
-		bw.close();
+		//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }

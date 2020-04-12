@@ -4,9 +4,6 @@ import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.fillAWithB;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
 import utils.algorithms.Counter;
 import utils.random.RandUtilsISB;
@@ -37,30 +34,35 @@ public class ISPO extends AlgorithmBias
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 
-		Counter PRGCounter = new Counter(0);
 		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
-		String fileName = "ISPO"+correctionStrategy; 
 		
 		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		String FullName = getFullName("ISPO"+correctionStrategy,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
+		
+		
+//		
+//		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
+//		File file = new File(Dir+fileName+".txt");
+//		if (!file.exists()) 
+//			file.createNewFile();
+//		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//		BufferedWriter bw = new BufferedWriter(fw);
 		
 		int i = 0;
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtilsISB.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+//		long seed = System.currentTimeMillis();
+//		RandUtilsISB.setSeed(seed);	
+//		String line = "# function 0 dim "+problemDimension+" A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
+//		bw.write(line);
+//		line = null;
+//		line = new String();
 		
-		
+		writeHeader(" A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop, problem);
+		String line = new String();
 		// particle
 		double[] particle = new double[problemDimension];
 		double fParticle;
@@ -165,7 +167,8 @@ public class ISPO extends AlgorithmBias
 		FT.add(i, fParticle);
 		bw.close();
 		
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }
