@@ -124,6 +124,7 @@ public class TELO extends ISBMain
 		
 		
 		a = new ISPO();
+		a.setDir("CMAES11"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0",1.0);
 		a.setParameter("p1",10.0);
