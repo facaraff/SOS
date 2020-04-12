@@ -28,20 +28,16 @@ either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.Misc.generateRandomSolution;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 
 import static utils.algorithms.Misc.fillAWithB;
 import static utils.MatLab.multiply;
 import static utils.MatLab.sum;
-import static utils.MatLab.randUncorrelatedGauusian;
+import static utils.random.RandUtilsISB.randUncorrelatedGauusian;
 
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-import utils.random.RandUtils;
+import utils.algorithms.Counter;
 
 import static utils.RunAndStore.FTrend;
 
@@ -62,27 +58,17 @@ public class ES1p1OneFifthV2 extends AlgorithmBias
 		double fBest, newFit = Double.NaN;
 
 		
-		String fileName = "ES11V2"+this.correction; 
-		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		
+		String FullName = getFullName("ES11V2"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);	
 		
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" sigma "+sigma+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+
+		writeHeader(" sigma "+sigma, problem);
 		//prevID = newID;
 		
-		
+		String line = new String();
 		int i = 0;
 		if (initialSolution != null)
 		{
@@ -91,7 +77,7 @@ public class ES1p1OneFifthV2 extends AlgorithmBias
 		}
 		else
 		{
-			best = generateRandomSolution(bounds, problemDimension);		
+			best = generateRandomSolution(bounds, problemDimension, PRGCounter);		
 			fBest = problem.f(best);
 			i++; newID++;
 			
@@ -108,7 +94,7 @@ public class ES1p1OneFifthV2 extends AlgorithmBias
 		
 		while (i < maxEvaluations)
 		{
-			newPt = sum(best,multiply(sigma,randUncorrelatedGauusian(problemDimension)));
+			newPt = sum(best,multiply(sigma,randUncorrelatedGauusian(problemDimension, PRGCounter)));
 			newPt = correct(newPt,best,bounds);
 			newFit = problem.f(newPt);
 			i++;
@@ -138,7 +124,7 @@ public class ES1p1OneFifthV2 extends AlgorithmBias
 		
 		finalBest = best;
 		FT.add(i, fBest);
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		bw.close();
 		return FT;
 	}

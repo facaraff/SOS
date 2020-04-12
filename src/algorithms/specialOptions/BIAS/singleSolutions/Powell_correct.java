@@ -28,19 +28,15 @@ either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.specialOptions.BIAS.singleSolutions;
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.fillAWithB;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 
 import utils.MatLab;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
-import utils.random.RandUtils;
+import utils.algorithms.Counter;
 
 /**
  * This class implements Powell's minimization method which is quadratically convergent.
@@ -90,32 +86,22 @@ public class Powell_correct extends AlgorithmBias
 
 		p1dim = new double[n];
 		xi1dim = new double[n];
+			
 		
-
-		
-		
-		String fileName = "PM"+this.correction; 
-		
-		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
+		String FullName = getFullName("PM"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
 		
 		
 		int prevID = -1;
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+n+" ftol "+ftol+" maxIterations "+maxIterations+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+		
+		writeHeader(" ftol "+ftol+" maxIterations "+maxIterations, problem);
 		//prevID = newID;
 		
 
-
+		String line = new String();
+		
 		double del, fp, fptt, t;
 
 		// initial point
@@ -124,7 +110,7 @@ public class Powell_correct extends AlgorithmBias
 			p = initialSolution;
 		else
 		{
-			p = generateRandomSolution(bounds, n);
+			p = generateRandomSolution(bounds, n,PRGCounter);
 			fret = problem.f(p);
 			
 			newID++;
@@ -326,7 +312,8 @@ public class Powell_correct extends AlgorithmBias
 		}
 
 		finalBest = best;
-		wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		bw.close();
 		return FT;
 	}

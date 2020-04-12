@@ -435,173 +435,173 @@ public class TELO extends ISBMain
 //		a.setCorrection('c');
 //		a.setParameter("p0", 2.0);
 //		algorithms.add(a);
+//		
+//		a = new ES1p1OneFifthV2();
+//		a.setDir("ES11"+slash());
+//		a.setCorrection('t');
+//		a.setParameter("p0", 2.0);
+//		algorithms.add(a);
+//		
+//		a = new ES1p1OneFifthV2();
+//		a.setDir("ES11"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0", 2.0);
+//		algorithms.add(a);
+//		
+//		a = new ES1p1OneFifthV2();
+//		a.setDir("ES11"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0", 2.0);
+//		algorithms.add(a);
+//		
+//		a = new ES1p1OneFifthV2();
+//		a.setDir("ES11"+slash());
+//		a.setCorrection('m');
+//		a.setParameter("p0", 2.0);
+//		algorithms.add(a);
+//		
+//		a = new ES1p1OneFifthV2();
+//		a.setDir("ES11"+slash());
+//		a.setCorrection('c');
+//		a.setParameter("p0", 2.0);
+//		algorithms.add(a);
+//		
+//		a = new Powell_correct();
+//		a.setDir("Powell"+slash());
+//		a.setCorrection('t');
+//		a.setParameter("p0",  0.00001);
+//		a.setParameter("p1",  100.0);
+//		algorithms.add(a);
+//		
+//		a = new Powell_correct();
+//		a.setDir("Powell"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0",  0.00001);
+//		a.setParameter("p1",  100.0);
+//		algorithms.add(a);
+//	
+//		a = new Powell_correct();
+//		a.setDir("Powell"+slash());
+//		a.setCorrection('m');
+//		a.setParameter("p0",  0.00001);
+//		a.setParameter("p1",  100.0);
+//		algorithms.add(a);
+//		
+//		a = new Powell_correct();
+//		a.setDir("Powell"+slash());
+//		a.setCorrection('c');
+//		a.setParameter("p0",  0.00001);
+//		a.setParameter("p1",  100.0);
+//		algorithms.add(a);
+//		
+//		a = new Powell_correct();
+//		a.setDir("Powell"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0",  0.00001);
+//		a.setParameter("p1",  100.0);
+//		algorithms.add(a);
+//		
+//		a = new Powell_correct();
+//		a.setDir("Powell"+slash());
+//		a.setCorrection('c');
+//		a.setParameter("p0",  0.00001);
+//		a.setParameter("p1",  100.0);
+//		
+//		a = new NelderMeadBias();
+//		a.setDir("NMA"+slash());
+//		a.setCorrection('t');
+//		a.setParameter("p0", 1.0);
+//		a.setParameter("p1", 0.5);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3", 0.5);
+//		algorithms.add(a);
+//		
+//		a = new NelderMeadBias();
+//		a.setDir("NMA"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0", 1.0);
+//		a.setParameter("p1", 0.5);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3", 0.5);
+//		algorithms.add(a);
+//		
+//		a = new NelderMeadBias();
+//		a.setDir("NMA"+slash());
+//		a.setCorrection('d');
+//		a.setParameter("p0", 1.0);
+//		a.setParameter("p1", 0.5);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3", 0.5);
+//		algorithms.add(a);
+//		
+//		a = new NelderMeadBias();
+//		a.setDir("NMA"+slash());
+//		a.setCorrection('m');
+//		a.setParameter("p0", 1.0);
+//		a.setParameter("p1", 0.5);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3", 0.5);
+//		algorithms.add(a);
+//		
+//		a = new NelderMeadBias();
+//		a.setDir("NMA"+slash());
+//		a.setCorrection('c');
+//		a.setParameter("p0", 1.0);
+//		a.setParameter("p1", 0.5);
+//		a.setParameter("p2",2.0);
+//		a.setParameter("p3", 0.5);
+//		algorithms.add(a);
 		
-		a = new ES1p1OneFifthV2();
-		a.setDir("ES11"+slash());
+		
+		a = new SPSAv2();
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('t');
-		a.setParameter("p0", 2.0);
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
 		algorithms.add(a);
 		
-		a = new ES1p1OneFifthV2();
-		a.setDir("ES11"+slash());
+		a = new SPSAv2();
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('s');
-		a.setParameter("p0", 2.0);
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
 		algorithms.add(a);
 		
-		a = new ES1p1OneFifthV2();
-		a.setDir("ES11"+slash());
+		a = new SPSAv2();
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('d');
-		a.setParameter("p0", 2.0);
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
 		algorithms.add(a);
-		
-		a = new ES1p1OneFifthV2();
-		a.setDir("ES11"+slash());
-		a.setCorrection('m');
-		a.setParameter("p0", 2.0);
-		algorithms.add(a);
-		
-		a = new ES1p1OneFifthV2();
-		a.setDir("ES11"+slash());
+
+		a = new SPSAv2();
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('c');
-		a.setParameter("p0", 2.0);
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
 		algorithms.add(a);
-//		
-//		a = new Powell_correct();
-//		a.setDir("Powell"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
-////		
-//		a = new Powell_correct();
-//		a.setDir("Powell"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
-////		
-//		a = new Powell_correct();
-//		a.setDir("Powell"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
-////		
-//		a = new Powell_correct();
-//		a.setDir("Powell"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
 		
-//		a = new Powell_correct();
-//		a.setDir("Powell"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
-		
-//		a = new Powell_correct();
-//		a.setDir("Powell"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		
-//		a = new NelderMeadBias();
-//		a.setDir("NMA"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0", 1.0);
-//		a.setParameter("p1", 0.5);
-//		a.setParameter("p2",2.0);
-//		a.setParameter("p3", 0.5);
-//		algorithms.add(a);
-//		
-//		a = new NelderMeadBias();
-//		a.setDir("NMA"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0", 1.0);
-//		a.setParameter("p1", 0.5);
-//		a.setParameter("p2",2.0);
-//		a.setParameter("p3", 0.5);
-//		algorithms.add(a);
-//		
-//		a = new NelderMeadBias();
-//		a.setDir("NMA"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0", 1.0);
-//		a.setParameter("p1", 0.5);
-//		a.setParameter("p2",2.0);
-//		a.setParameter("p3", 0.5);
-//		algorithms.add(a);
-//		
-//		a = new NelderMeadBias();
-//		a.setDir("NMA"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0", 1.0);
-//		a.setParameter("p1", 0.5);
-//		a.setParameter("p2",2.0);
-//		a.setParameter("p3", 0.5);
-//		algorithms.add(a);
-//		
-//		a = new NelderMeadBias();
-//		a.setDir("NMA"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0", 1.0);
-//		a.setParameter("p1", 0.5);
-//		a.setParameter("p2",2.0);
-//		a.setParameter("p3", 0.5);
-//		algorithms.add(a);
-//		
-//		
-//		a = new SPSAv2();
-//		a.setDir("SPSAv2"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0", 0.5);
-//		a.setParameter("p1", 1.0 );
-//		a.setParameter("p2", 0.602);
-//		a.setParameter("p3", 0.032);
-//		a.setParameter("p4", 0.1);
-//		algorithms.add(a);
-//		
-//		a = new SPSAv2();
-//		a.setDir("SPSAv2"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0", 0.5);
-//		a.setParameter("p1", 1.0 );
-//		a.setParameter("p2", 0.602);
-//		a.setParameter("p3", 0.032);
-//		a.setParameter("p4", 0.1);
-//		algorithms.add(a);
-//		
-//		a = new SPSAv2();
-//		a.setDir("SPSAv2"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0", 0.5);
-//		a.setParameter("p1", 1.0 );
-//		a.setParameter("p2", 0.602);
-//		a.setParameter("p3", 0.032);
-//		a.setParameter("p4", 0.1);
-//		algorithms.add(a);
-//
-//		a = new SPSAv2();
-//		a.setDir("SPSAv2"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0", 0.5);
-//		a.setParameter("p1", 1.0 );
-//		a.setParameter("p2", 0.602);
-//		a.setParameter("p3", 0.032);
-//		a.setParameter("p4", 0.1);
-//		algorithms.add(a);
-//		
-//		a = new SPSAv2();
-//		a.setDir("SPSAv2"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0", 0.5);
-//		a.setParameter("p1", 1.0 );
-//		a.setParameter("p2", 0.602);
-//		a.setParameter("p3", 0.032);
-//		a.setParameter("p4", 0.1);
-//		algorithms.add(a);
+		a = new SPSAv2();
+		a.setDir("SPSAv2"+slash());
+		a.setCorrection('m');
+		a.setParameter("p0", 0.5);
+		a.setParameter("p1", 1.0 );
+		a.setParameter("p2", 0.602);
+		a.setParameter("p3", 0.032);
+		a.setParameter("p4", 0.1);
+		algorithms.add(a);
 		
 		execute(algorithms, problems, expSettings);	
 			

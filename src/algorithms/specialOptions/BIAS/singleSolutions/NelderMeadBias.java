@@ -4,15 +4,11 @@ import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Misc.fillAWithB;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
 import utils.MatLab;
-import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Counter;
 
 /**
  * A Nelder-Mead simplex search.
@@ -43,24 +39,17 @@ public final class NelderMeadBias extends AlgorithmBias {
 		double fBest = Double.POSITIVE_INFINITY;
         int[] ids = new int[populationSize];
         int killed = -1;
-			
-		
-        String fileName = "NMA"+this.correction+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1);
-		File file = new File(Dir+fileName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		
+
+		String FullName = getFullName("NMA"+this.correction,problem); 
+		Counter PRGCounter = new Counter(0);
+		createFile(FullName);
+        
+        String line = new String();
 		
 		
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
-		String line = "# function 0 dim "+problemDimension+" pop (verteces: n+1) "+populationSize+" alpha "+alpha+" beta "+beta+" gamma "+gamma+" delta "+delta+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
-		bw.write(line);
-		line = null;
-		line = new String();
+		
+		writeHeader(" pop (verteces: n+1) "+populationSize+" alpha "+alpha+" beta "+beta+" gamma "+gamma+" delta "+delta, problem);
 		//bw.close();
 		
 		int i = 0;
@@ -101,19 +90,6 @@ public final class NelderMeadBias extends AlgorithmBias {
 				killed = ids[j];
 				
 			}
-			
-			
-//			newID++;
-//			ids[j] = newID;
-//			
-//			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fSimplex[j])+" "+i+" -1";
-//			for(int n = 0; n < problemDimension; n++)
-//				line+=" "+formatter(simplex[j][n]);
-//			line+="\n";
-//			bw.write(line);
-//			line = null;
-//			line = new String();
-			
 		}
 
 		double[] reflect = cloneSolution(best); double[] prevReflect = cloneSolution(best);
@@ -516,7 +492,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 		FT.add(i, fBest);
 		
 		bw.close();
-		wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		
 		return FT;
 	}
