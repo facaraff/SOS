@@ -137,15 +137,16 @@ public class PPSN2020 extends ISBMain
 			algorithms.add(a);
 			a = null;
 			
-			a = new cGA_real();
-			a.setDir("COMPACTS"+slash());
-			a.setParameter("p0",300.0);
-//			a.setParameter("p1",200.0);
-			a.setCorrection('x');
-			algorithms.add(a);
 			
 		}
 			
+		a = new cGA_real();
+		a.setDir("COMPACTS"+slash());
+		a.setParameter("p0",300.0);
+//		a.setParameter("p1",200.0);
+		a.setCorrection('x');
+		algorithms.add(a);
+		
 		execute(algorithms, problems, expSettings);
 	
 		}
