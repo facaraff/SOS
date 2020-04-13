@@ -39,7 +39,7 @@ public class SolisWets extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		
-		writeHeader(" rho "+rho, problem);
+		writeHeader("rho "+rho, problem);
 		//prevID = newID;
 
 		// current best

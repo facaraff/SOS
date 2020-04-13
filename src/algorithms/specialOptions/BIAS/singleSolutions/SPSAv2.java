@@ -67,7 +67,7 @@ public class SPSAv2 extends AlgorithmBias {
 		int prevID = -1;
 		int newID = 0;
 		
-		writeHeader(" a "+a+" A "+A, problem);
+		writeHeader("a "+a+" A "+A, problem);
 		
 		String line = new String();
 		

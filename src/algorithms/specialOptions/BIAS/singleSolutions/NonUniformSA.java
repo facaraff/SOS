@@ -43,7 +43,7 @@ public class NonUniformSA extends AlgorithmBias
 		int newID = 0;
 		String line =new String();
 		
-		writeHeader(" B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions, problem);
+		writeHeader("B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions, problem);
 //		String line = "# function 0 dim "+problemDimension+" B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		
 		// initialize first point

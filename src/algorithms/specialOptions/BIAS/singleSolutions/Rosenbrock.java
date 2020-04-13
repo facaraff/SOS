@@ -45,7 +45,7 @@ public class Rosenbrock extends AlgorithmBias {
 		
 		int prevID = -1;
 		int newID = 0;
-		writeHeader(" eps "+eps+" alpha "+alpha+" beta "+beta, problem);
+		writeHeader("eps "+eps+" alpha "+alpha+" beta "+beta, problem);
 		
 		int iter = 0;
 		String line = new String();

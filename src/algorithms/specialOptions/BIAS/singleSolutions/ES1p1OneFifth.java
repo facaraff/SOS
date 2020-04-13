@@ -66,7 +66,7 @@ public class ES1p1OneFifth extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 	
-		writeHeader(" sigma "+sigma, problem);
+		writeHeader("sigma "+sigma, problem);
 		//prevID = newID;
 		
 		String line = new String();

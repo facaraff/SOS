@@ -60,7 +60,7 @@ public class CMAES11 extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		
-		writeHeader(" p_target_succ "+p_target_succ+" c_p "+c_p+" p_thresh "+p_thresh+" sigma0 "+sigma0, problem);
+		writeHeader("p_target_succ "+p_target_succ+" c_p "+c_p+" p_thresh "+p_thresh+" sigma0 "+sigma0, problem);
 		
 		
 		//compute and evaluate initial solution

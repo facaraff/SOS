@@ -66,7 +66,7 @@ public class SA extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		String line = new String();
-		writeHeader(" alpha "+alpha+" initialSolutions "+initialSolutions, problem);
+		writeHeader("alpha "+alpha+" initialSolutions "+initialSolutions, problem);
 		
 		// initialize first point
 		bestPt = generateRandomSolution(bounds, problemDimension, PRGCounter);

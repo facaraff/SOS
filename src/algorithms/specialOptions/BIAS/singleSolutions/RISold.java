@@ -51,7 +51,7 @@ public class RISold extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		
-		writeHeader(" globalAlpha "+globalAlpha+" radius "+radius+" xi "+xi, problem);
+		writeHeader("globalAlpha "+globalAlpha+" radius "+radius+" xi "+xi, problem);
 			
 		
 		best = generateRandomSolution(bounds, problemDimension,PRGCounter);

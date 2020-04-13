@@ -49,7 +49,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 		
 		int newID = 0;
 		
-		writeHeader(" pop (verteces: n+1) "+populationSize+" alpha "+alpha+" beta "+beta+" gamma "+gamma+" delta "+delta, problem);
+		writeHeader("pop (verteces: n+1) "+populationSize+" alpha "+alpha+" beta "+beta+" gamma "+gamma+" delta "+delta, problem);
 		//bw.close();
 		
 		int i = 0;

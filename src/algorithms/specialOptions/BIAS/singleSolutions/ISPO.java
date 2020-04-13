@@ -61,7 +61,7 @@ public class ISPO extends AlgorithmBias
 //		line = null;
 //		line = new String();
 		
-		writeHeader(" A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop, problem);
+		writeHeader("A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop, problem);
 		String line = new String();
 		// particle
 		double[] particle = new double[problemDimension];

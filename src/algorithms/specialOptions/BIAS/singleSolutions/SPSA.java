@@ -72,7 +72,7 @@ public class SPSA extends AlgorithmBias {
 		int newID = 0;
 	
 
-		writeHeader(" a "+a+" A "+A+"lpha "+alpha+" c "+c+" gamma "+gamma+" epsylon "+myEps, problem);
+		writeHeader("a "+a+" A "+A+"lpha "+alpha+" c "+c+" gamma "+gamma+" epsylon "+myEps, problem);
 		
 		
 		double[] best;

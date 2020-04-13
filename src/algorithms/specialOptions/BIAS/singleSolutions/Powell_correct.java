@@ -96,7 +96,7 @@ public class Powell_correct extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		
-		writeHeader(" ftol "+ftol+" maxIterations "+maxIterations, problem);
+		writeHeader("ftol "+ftol+" maxIterations "+maxIterations, problem);
 		//prevID = newID;
 		
 
