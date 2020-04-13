@@ -169,6 +169,7 @@ public class SolisWets extends AlgorithmBias
 		FT.add(i, fBest);
 		//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
 		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
+		bw.close();
 		return FT;
 	}
 }
