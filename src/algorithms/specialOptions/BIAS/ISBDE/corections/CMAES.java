@@ -28,7 +28,7 @@ either expressed or implied, of the FreeBSD Project.
 */
 
 
-package algorithms.specialOptions.BIAS.corrections;
+package algorithms.specialOptions.BIAS.ISBDE.corections;
 
 
 

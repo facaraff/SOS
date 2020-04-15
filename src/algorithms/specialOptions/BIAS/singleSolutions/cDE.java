@@ -67,7 +67,6 @@ public class cDE extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 
-		RandUtilsISB.setSeed(seed);	
 		writeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F, problem);
 
 		double[] best = new double[problemDimension];

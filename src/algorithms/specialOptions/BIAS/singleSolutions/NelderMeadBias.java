@@ -40,7 +40,7 @@ public final class NelderMeadBias extends AlgorithmBias {
         int[] ids = new int[populationSize];
         int killed = -1;
 
-		String FullName = getFullName("NMA"+this.correction,problem); 
+		String FullName = getFullName("NMA"+this.correction+"p"+populationSize,problem); 
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
         
@@ -48,7 +48,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 		
 		
 		int newID = 0;
-		
+		//NMA{correction}p31D30f0
 		writeHeader("pop (verteces: n+1) "+populationSize+" alpha "+alpha+" beta "+beta+" gamma "+gamma+" delta "+delta, problem);
 		//bw.close();
 		

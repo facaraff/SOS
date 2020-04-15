@@ -43,7 +43,7 @@ import static utils.RunAndStore.slash;
 	
 public class TELO extends ISBMain
 {
-	static int nrRepetitions = 50;
+	static int nrRepetitions = 100;
 	static int budgetFactor = 10000;
 	static int problemDimension = 30;
 	
@@ -89,14 +89,6 @@ public class TELO extends ISBMain
 		a.setParameter("p2",0.44);
 		a.setParameter("p3",1.0);
 		algorithms.add(a);	
-		
-//		a = new CMAES11('e');
-//		a.setDir("CMAES11"+slash());
-//		a.setParameter("p0",(2.0/11.0));
-//		a.setParameter("p1",(1.0/12.0));
-//		a.setParameter("p2",0.44);
-//		a.setParameter("p3",1.0);
-//		algorithms.add(a);
 		
 		a = new CMAES11('d');
 		a.setDir("CMAES11"+slash());
@@ -603,6 +595,85 @@ public class TELO extends ISBMain
 		a.setParameter("p3", 0.032);
 		a.setParameter("p4", 0.1);
 		algorithms.add(a);
+		
+		
+		
+		char[] corrections = {'s','t','d','m','c'};
+		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
+		char[] CrossOvers = {'b','e'};
+		
+		for (char correction : corrections)
+		{
+			for (String mutation : DEMutations)
+				if(mutation.equals("ctro"))
+				{
+					a = new cDE(mutation);
+					a.setDir("COMPACTS"+slash());
+					a.setCorrection(correction);
+					a.setParameter("p0", 300.0);
+					a.setParameter("p1", 0.25);
+					a.setParameter("p2", 0.5);
+					algorithms.add(a);	
+					a = null;				
+				}
+				else
+					for(char xover : CrossOvers)
+						{
+							a = new cDE(mutation,xover);
+							a.setDir("COMPACTS"+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", 300.0);
+							a.setParameter("p1", 0.25);
+							a.setParameter("p2", 0.5);
+							algorithms.add(a);	
+							a = null;
+						}
+			
+			a = new cDELight();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 300.0);
+			a.setParameter("p1", 0.25);
+			a.setParameter("p2", 0.5);
+			algorithms.add(a);	
+			a = null;
+			
+			a = new cPSO();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 50.0);
+			a.setParameter("p1", 0.2);
+			a.setParameter("p2", 0.07);
+			a.setParameter("p3", 3.74);
+			a.setParameter("p4", 1.0);
+			a.setParameter("p5", 1.0);
+			algorithms.add(a);
+			a = null;
+			
+			a = new cBFO();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 300.0);
+			a.setParameter("p1", 0.1);
+			a.setParameter("p2", 4.0);
+			a.setParameter("p3", 1.0);
+			a.setParameter("p4", 10.0);
+			a.setParameter("p5", 2.0);
+			a.setParameter("p6", 2.0);
+			algorithms.add(a);
+			a = null;
+			
+			
+		}
+			
+		a = new cGA_real();
+		a.setDir("COMPACTS"+slash());
+		a.setParameter("p0",300.0);
+		a.setCorrection('x');
+		algorithms.add(a);
+		
+		
+		
 		
 		execute(algorithms, problems, expSettings);	
 			

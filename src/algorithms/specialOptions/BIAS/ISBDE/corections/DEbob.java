@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2019, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -26,9 +26,10 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package algorithms.specialOptions.BIAS.corrections;
 
-import static utils.algorithms.operators.DEOp.crossOverExp;
+package algorithms.specialOptions.BIAS.ISBDE.corections;
+
+import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
@@ -49,19 +50,21 @@ import static utils.RunAndStore.FTrend;
 //import static utils.RunAndStore.slash;
 
 
-public class DEboe extends AlgorithmBias
+public class DEbob extends AlgorithmBias
 {
-	
-	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
+
+//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String Dir = "C:\\Users\\Badddobaby\\Desktop\\KONONOVA\\";
+//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
+	//static String Dir = "/home/facaraff/Desktop/KONODATA/";
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
 	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
 	protected int run = 0;
 	
-	
-	public DEboe(char correction) { super(); this.correctionStrategy = correction;}
+	public DEbob(char correction) { super(); this.correctionStrategy = correction;}
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -70,7 +73,7 @@ public class DEboe extends AlgorithmBias
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 //		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
-		String fileName = "DEboe"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
+		String fileName = "DEbob"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
 		FTrend FT = new FTrend(); 
 		
@@ -141,7 +144,7 @@ public class DEboe extends AlgorithmBias
 				for (int n = 0; n < problemDimension; n++)
 					newPt[n] = population[indexBest][n] + F*(population[r2][n]-population[r3][n]);
 							
-				crossPt = crossOverExp(currPt, newPt, CR);
+				crossPt = crossOverBin(currPt, newPt, CR);
 				
 				double[] output = new double[problemDimension];
 				

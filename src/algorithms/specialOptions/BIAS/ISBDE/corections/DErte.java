@@ -27,15 +27,14 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
-package algorithms.specialOptions.BIAS.corrections;
 
-
+package algorithms.specialOptions.BIAS.ISBDE.corections;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.mirroring;
 
 import java.util.Arrays;
 
@@ -51,22 +50,24 @@ import static utils.RunAndStore.FTrend;
 //import static utils.RunAndStore.slash;
 
 
-public class DEroe extends AlgorithmBias
+public class DErte extends AlgorithmBias
 {
+	
+	char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty 'm'------> mirroring
+	protected int run = 0;
+	
+	public DErte(char correction)
+	{
+		super();
+		
+		this.correctionStrategy = correction;
+	}
 	
 	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
-	//static String Dir = "/home/facaraff/Desktop/KONODATA/2018"+slash();
-	//static String Dir = "/home/facaraff/Dropbox/AnnaFabio/";
+	
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
-	FTrend FT = new FTrend();
-	
-	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty 'm'----> mirroring
-	protected int run = 0;
-	
-	public DEroe(char correction){super(); this.correctionStrategy = correction;}
-	
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -74,10 +75,11 @@ public class DEroe extends AlgorithmBias
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-//		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
-		String fileName = "DEroe"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
+
+		String fileName = "DErte"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
-	
+		
+		FTrend FT =new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 
@@ -88,10 +90,10 @@ public class DEroe extends AlgorithmBias
 		double fBest = Double.NaN;
 		
 		int i = 0;
-
+		
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
-		
+			
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
 		{
@@ -101,6 +103,7 @@ public class DEroe extends AlgorithmBias
 			fitnesses[j] = problem.f(population[j]);
 			
 			i++;
+
 			
 			if (j == 0 || fitnesses[j] < fBest)
 			{
@@ -109,6 +112,7 @@ public class DEroe extends AlgorithmBias
 					best[n] = population[j][n];
 				FT.add(i, fBest);
 			}
+			
 		}
 
 		// temp variables
@@ -131,7 +135,8 @@ public class DEroe extends AlgorithmBias
 					currPt[n] = population[j][n];
 				currFit = fitnesses[j];
 				
-				
+			
+					
 				int[] r = new int[populationSize];
 				for (int n = 0; n < populationSize; n++)
 					r[n] = n;
@@ -140,11 +145,13 @@ public class DEroe extends AlgorithmBias
 				int r1 = r[0];
 				int r2 = r[1];
 				int r3 = r[2];
+				int r4 = r[3];
+				int r5 = r[4];
 				
 				for (int n = 0; n < problemDimension; n++)
-					newPt[n] = population[r1][n] + F*(population[r2][n]-population[r3][n]);
-			
-			    crossPt = crossOverExp(currPt, newPt, CR);
+					newPt[n] = population[r1][n] + F*(population[r2][n]-population[r3][n]) + F*(population[r4][n]-population[r5][n]);
+		
+				crossPt = crossOverExp(currPt, newPt, CR);
 
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
@@ -224,7 +231,6 @@ public class DEroe extends AlgorithmBias
 				// replacement
 				if (crossFit < currFit)
 				{
-				
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = crossPt[n];
 					temp2[j] = crossFit;
@@ -233,7 +239,6 @@ public class DEroe extends AlgorithmBias
 				{
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = currPt[n];
-						//population[j][n] = currPt[n];
 					temp2[j] = currFit;
 				}
 			}
@@ -248,8 +253,9 @@ public class DEroe extends AlgorithmBias
 		
 		FT.add(i, fBest);
 		
+
+//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy, F, CR, seed);
 		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
-		//wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy, F, CR, seed);
 		return FT;
 	}
 	
@@ -288,6 +294,7 @@ public class DEroe extends AlgorithmBias
 	}
 	
 
+	
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
 	{
 		File f = new File(Dir+"correctionsTEMP2.txt");
@@ -299,7 +306,6 @@ public class DEroe extends AlgorithmBias
 		BW.close();
 	}
 	
-
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double[] finalFitnesses, char boundaHendler, double F_value, double CR_value, long SEED) throws Exception
 	{
 		if(boundaHendler != 'e')
@@ -320,5 +326,7 @@ public class DEroe extends AlgorithmBias
 		}
 	}
 	
+	
 }
+
 

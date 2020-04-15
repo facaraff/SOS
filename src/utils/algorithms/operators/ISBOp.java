@@ -198,6 +198,25 @@ public class ISBOp
 		
 			return newPt;
 		}
+		 /**
+		* current-to-best/1 mutation scheme
+		* 
+		* @param current current individual from the population .
+		* @param best best individual.
+		* @param r1 a randomly selected individual.
+		* @param r2 a randomly selected individual.
+		* @param F scale factor.
+		* * @param counter A counter to monitor PRG activations.
+		* @return newPt mutant individual.
+		*/
+		public static double[] currentToBest1(double[] current, double[] best, double[] r1, double[] r2, double F, Counter counter)
+		{
+			int problemDimension = current.length;
+			double[] newPt = new double[problemDimension];
+			for (int i = 0; i < problemDimension; i++)
+				newPt[i] = current[i] + F*(best[i]-current[i]) + F*(r1[i]-r2[i]);
+			return newPt;
+		}
 	
 		 /**
 		* rand-to-best/1 mutation scheme
@@ -412,6 +431,26 @@ public class ISBOp
 		
 			return newPt;
 		}
+		/**
+		* best/1 mutation scheme
+		* 
+		* @param best best individual in the population.
+		* @param r1 a randomly selected individual from the population.
+		* @param r2 a randomly selected individual from the population.
+		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
+		* @return mutant individual.
+		*/
+		public static double[] best1(double[] best, double[] r1, double[] r2, double F, Counter counter)
+		{
+			int problemDimension = best.length;
+			double[] newPt = new double[problemDimension];
+			for (int i = 0; i < problemDimension; i++)
+				newPt[i] = best[i] + F*(r1[i]-r2[i]);
+		
+			return newPt;
+		}
+
 
 
 		/**
@@ -789,6 +828,10 @@ public class ISBOp
 					r[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(counter);
 				return r;
 			}
+			
+			
+			
+			 
 			
 }
 

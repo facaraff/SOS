@@ -8,6 +8,8 @@ public class Counter {
 	private int failure;
 	
 	private double score;
+	
+	private String s;
 
 	
 	public Counter() {this.counter = 0; this.success = 0; this.success = 0; this.success = 0; this.score = 0;};
@@ -22,11 +24,13 @@ public class Counter {
 	public void setSuccess(int success) {this.success = success;}
 	public void setFailure(int failure) {this.failure = failure;}
 	public void setsSore(double score) {this.score = score;}
+	public void setS(String s) {this.s = s;}
 	
 	public int getCounter() {return this.counter;}
 	public int getSuccess() {return this.success;}
 	public int getFailure() {return this.failure;}
 	public double getScore() {return this.score;}
+	public String getS() {return this.s;}
 	
 	public void incrementCounter(){this.counter++;}
 	public void incrementSuccess(){this.success++;}
@@ -35,5 +39,9 @@ public class Counter {
 	public void incrementSuccess(int increment){this.success+=increment;}
 	public void incrementFailure(int increment){this.failure+=-increment;}
 	public void incrementScorer(double increment){this.score+=score;}
+	
+
+	
+	
 	
 }

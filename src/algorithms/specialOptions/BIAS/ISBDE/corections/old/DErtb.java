@@ -27,12 +27,11 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
-package algorithms.specialOptions.BIAS.corrections;
+package algorithms.specialOptions.BIAS.ISBDE.corections.old;
+
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
-import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
@@ -45,26 +44,28 @@ import java.text.DecimalFormat;
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-import  utils.MatLab;
 import static utils.RunAndStore.FTrend;
-//import static utils.RunAndStore.slash;
+import static utils.RunAndStore.slash;
 
 
-public class DEbob extends AlgorithmBias
+public class DErtb extends AlgorithmBias
 {
-	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
-
-//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
-	//static String Dir = "C:\\Users\\Badddobaby\\Desktop\\KONONOVA\\";
-//	static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
-	//static String Dir = "/home/facaraff/Desktop/KONODATA/";
+	
+//	private int run = 0;
+//	
+//	public void setRun(int r)
+//	{
+//		this.run = r;
+//	}
+	
+	
+//	static String Dir = "/home/facaraff/Desktop/KONODATA/";
+	static String Dir = "/home/facaraff/Dropbox/AnnaFabio"+slash();
+	protected int run = 0;
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
-	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
-	protected int run = 0;
-	
-	public DEbob(char correction) { super(); this.correctionStrategy = correction;}
+	FTrend FT = new FTrend();
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -72,25 +73,24 @@ public class DEbob extends AlgorithmBias
 		int populationSize = getParameter("p0").intValue(); 
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-//		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
-		String fileName = "DEbob"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
+		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation 'e'--->penalty
+		String fileName = "DErtb"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
-		FTrend FT = new FTrend(); 
 		
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
-		
+
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
 		
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
 		
-		int i = 0;		
+		int i = 0;
 		
 		long seed = System.currentTimeMillis();
 		RandUtils.setSeed(seed);	
-		
+			
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
 		{
@@ -100,6 +100,7 @@ public class DEbob extends AlgorithmBias
 			fitnesses[j] = problem.f(population[j]);
 			
 			i++;
+
 			
 			if (j == 0 || fitnesses[j] < fBest)
 			{
@@ -108,6 +109,7 @@ public class DEbob extends AlgorithmBias
 					best[n] = population[j][n];
 				FT.add(i, fBest);
 			}
+			
 		}
 
 		// temp variables
@@ -123,7 +125,6 @@ public class DEbob extends AlgorithmBias
 		{
 			double[][] temp = new double[populationSize][problemDimension];
 			double[] temp2 = new double[populationSize];
-//			int[] idsTemp = new int[populationSize];
 			
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -131,23 +132,25 @@ public class DEbob extends AlgorithmBias
 					currPt[n] = population[j][n];
 				currFit = fitnesses[j];
 				
-				int indexBest = MatLab.indexMin(fitnesses);
-				int[] r = new int[populationSize-1];
-				for (int n = 0; n < populationSize-1; n++)
-					if(n != indexBest)
-						r[n] = n;
+			
+					
+				int[] r = new int[populationSize];
+				for (int n = 0; n < populationSize; n++)
+					r[n] = n;
 				r = RandUtils.randomPermutation(r); 
 				
-				int r2 = r[0];
-				int r3 = r[1];
-
+				int r1 = r[0];
+				int r2 = r[1];
+				int r3 = r[2];
+				int r4 = r[3];
+				int r5 = r[4];
+				
 				for (int n = 0; n < problemDimension; n++)
-					newPt[n] = population[indexBest][n] + F*(population[r2][n]-population[r3][n]);
-							
+					newPt[n] = population[r1][n] + F*(population[r2][n]-population[r3][n]) + F*(population[r4][n]-population[r5][n]);
+		
 				crossPt = crossOverBin(currPt, newPt, CR);
-				
+
 				double[] output = new double[problemDimension];
-				
 				if(correctionStrategy == 't')
 				{
 					//System.out.println("TORO");
@@ -156,7 +159,7 @@ public class DEbob extends AlgorithmBias
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;
+						ciccio++;//incCorrected();
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -168,7 +171,7 @@ public class DEbob extends AlgorithmBias
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;
+						ciccio++;//incCorrected();
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -181,33 +184,13 @@ public class DEbob extends AlgorithmBias
 						crossFit = 2;
 					}
 				}
-				else if(correctionStrategy== 'm')
-				{
-					output = mirroring(crossPt, bounds);
-					if(!Arrays.equals(output, crossPt))
-					{
-						ciccio++;
-						crossPt = output;
-					}
-				}
-				else if(correctionStrategy == 'c')
-				{
-					output = completeOneTailedNormal(crossPt, bounds, 3.0);
-					
-					if(!Arrays.equals(output, crossPt))
-					{
-						crossPt = output;
-						ciccio++;
-					}
-					crossFit = problem.f(crossPt);
-				}
 				else
 					System.out.println("No bounds handling shceme seleceted");
 				
 //				if(!Arrays.equals(output, crossPt))
 //				{
 //					crossPt = output;
-//					ciccio++;
+//					ciccio++;//incCorrected();
 //				}
 //				crossFit = problem.f(crossPt);
 				i++;
@@ -227,7 +210,7 @@ public class DEbob extends AlgorithmBias
 				{
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = crossPt[n];
-					temp2[j] = crossFit;	
+					temp2[j] = crossFit;
 				}
 				else
 				{
@@ -247,8 +230,8 @@ public class DEbob extends AlgorithmBias
 		
 		FT.add(i, fBest);
 		
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
-		//wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy, F, CR, seed);
+		//wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
+		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy, F, CR, seed);
 		return FT;
 	}
 	
@@ -286,35 +269,11 @@ public class DEbob extends AlgorithmBias
 		return xs;
 	}
 	
-/*	
-	public double[] correction(double[] x, double[][] bounds, char correctionType)
-	{ 
-		//boolean equal = false;
-		double[] output = new double[x.length];
-		for(int i=0; i<x.length; i++)
-			output[i] = x[i];
-		if(correctionType=='t')
-		{
-			//System.out.println("TORO");
-			output = toro(x, bounds);
-		}
-		else
-		{
-			//System.out.println("SAT");
-			output = saturation(x, bounds);
-		}
-		//for(int i=0; i<x.length; i++)
-			//if(output[i] != x[i])
-				//equal = false;
-		//if(!Arrays.equals(output, x))
-			//incCorrected();
-		return output;
-	}
-*/	
 
+	
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
 	{
-		File f = new File(Dir+"correctionsTEMP2.txt");
+		File f = new File(Dir+"correctionsTEMP.txt");
 		if(!f.exists()) 
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
@@ -322,7 +281,6 @@ public class DEbob extends AlgorithmBias
 		BW.write(name+" "+percentage+" "+F_value+" "+CR_value+" "+SEED+"\n");
 		BW.close();
 	}
-	
 	
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double[] finalFitnesses, char boundaHendler, double F_value, double CR_value, long SEED) throws Exception
 	{
@@ -334,7 +292,7 @@ public class DEbob extends AlgorithmBias
 			for(int n=0; n<finalFitnesses.length; n++)
 				if(finalFitnesses[n]==2)
 					counter++;
-			File f = new File(Dir+"correctionsTEMP2.txt");
+			File f = new File(Dir+"correctionsTEMP.txt");
 			if(!f.exists()) 
 				f.createNewFile();
 			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
@@ -342,30 +300,9 @@ public class DEbob extends AlgorithmBias
 			BW.write(name+" "+percentage+" "+formatter((double)counter/finalFitnesses.length)+" "+F_value+" "+CR_value+" "+SEED+"\n");
 			BW.close();
 		}
-	}	
+	}
 	
 	
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
-				
