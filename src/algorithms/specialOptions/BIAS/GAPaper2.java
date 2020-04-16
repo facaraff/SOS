@@ -238,7 +238,7 @@ public class GAPaper2 extends AlgorithmBias
 				
 			}
 		else
-			System.out.println("FUCK OFF, NO ADMISSIBLE OXVER SELECTED");
+			System.out.println("NO ADMISSIBLE OXVER SELECTED");
 		
 		return output;
 	}

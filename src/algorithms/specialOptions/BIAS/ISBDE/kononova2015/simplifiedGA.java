@@ -1,4 +1,4 @@
-package algorithms.specialOptions.BIAS;
+package algorithms.specialOptions.BIAS.ISBDE.kononova2015;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 

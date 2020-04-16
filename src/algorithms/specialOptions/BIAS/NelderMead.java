@@ -28,7 +28,7 @@ import utils.MatLab;
 /**
  * A Nelder-Mead simplex search.
  */
-public final class NelderMeadISB extends AlgorithmBias {
+public final class NelderMead extends AlgorithmBias {
 
 	static String Dir = "/home/facaraff/Desktop/KONODATA/NelderMead/";
 	

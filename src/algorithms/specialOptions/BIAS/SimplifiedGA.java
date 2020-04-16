@@ -1,11 +1,37 @@
+/**
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer. 
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those
+of the authors and should not be interpreted as representing official policies, 
+either expressed or implied, of the FreeBSD Project.
+*/
 package algorithms.specialOptions.BIAS;
 
-import static utils.algorithms.Misc.generateRandomSolution;
+import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 
-
-import java.text.DecimalFormat;
-
-import utils.random.RandUtils;
+import utils.algorithms.Counter;
+import utils.random.RandUtilsISB;
 
 import static utils.MatLab.subtract;
 import static utils.MatLab.dot;
@@ -15,48 +41,22 @@ import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
-
-public class simplified3 extends AlgorithmBias
+public class SimplifiedGA extends AlgorithmBias
 {
-	
-	private int run = 0;
-	
-	public void setRun(int r)
-	{
-		this.run = r;
-	}
-	
-
-	
-	
-	//static String Dir = "/home/fabio/Desktop/kylla/Kononova/GA";
-	static String Dir = "/home/facaraff/Desktop/kononova/GA";
-	
-	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{	
-		String s = new String();
 		int populationSize = getParameter("p0").intValue(); 
-		//double nt =  getParameter("p1").intValue();
 		double md = getParameter("p1").doubleValue();
 		double d = getParameter("p2").doubleValue();
 			
 		
+		String FullName = getFullName("SimplifiedGA"+this.correction+"p"+populationSize,problem); 
+		Counter PRNGCounter = new Counter(0);
+		createFile(FullName);
 		
-		File file = new File(Dir+"/GAs"+"p"+populationSize+"D"+problem.getDimension()+"f01-"+(run+1)+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		
-		
-		
+		String line = new String();		
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
@@ -67,11 +67,8 @@ public class simplified3 extends AlgorithmBias
 		
 		
 		int newID = 0;
-		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);
-		String line = "# dim "+problemDimension+" pop "+populationSize+" md "+md+" SEED  "+seed+"\n";
-		s+=line;
-		
+
+		writeHeader(" pop "+populationSize+" md "+md, problem);
 		
 		
 		double[] best = new double[problemDimension];
@@ -85,7 +82,7 @@ public class simplified3 extends AlgorithmBias
 		for (int j = 0; j < populationSize; j++)
 		{
 			
-			double[] tmp = generateRandomSolution(bounds, problemDimension);
+			double[] tmp = generateRandomSolution(bounds, problemDimension, PRNGCounter);
 			for (int n = 0; n < problemDimension; n++)
 				population[j][n] = tmp[n];
 			fitnesses[j] = problem.f(population[j]);
@@ -93,11 +90,15 @@ public class simplified3 extends AlgorithmBias
 			i++;
 			newID++;
 			ids[j] = newID;
+			
 			line =""+newID+" -1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
 			for(int n = 0; n < problemDimension; n++)
 				line+=" "+formatter(population[j][n]);
 			line+="\n";
-			s+=line;
+			bw.write(line);
+			line = null;
+			line = new String();
+			
 			
 			if (j == 0 || fitnesses[j] < fBest)
 			{
@@ -112,38 +113,24 @@ public class simplified3 extends AlgorithmBias
 		// iterate
 		while (i < maxEvaluations)
 		{ 	
-			//int[] indices = getIndices(populationSize);
-			//indices = RandUtils.randomPermutation(indices); 
-			//if(fitnesses[indices[0]] < fitnesses[indices[1]])
-				//parent1 = indices[0];
-			//else
-				//parent1 = indices[1];
-			//indices = RandUtils.randomPermutation(indices); 
-			//if(fitnesses[indices[0]] < fitnesses[indices[1]])
-				//parent2 = indices[0];
-			//else
-				//parent2 = indices[1];
-			
 			int[] indices = getIndices(populationSize);
-			indices = RandUtils.randomPermutation(indices); 
+			indices = RandUtilsISB.randomPermutation(indices, PRNGCounter); 
 			parent1 = indices[0];
 			parent2 = indices[1];
 			indices = null;
 			double[] alpha = new double[problemDimension];
 			for(int n=0; n<problemDimension; n++)
-				alpha[n] = RandUtils.uniform(-d,1+d);
+				alpha[n] = RandUtilsISB.uniform(-d,1+d, PRNGCounter);
 			
 			double[] xChild = sum(population[parent1],dot(alpha, subtract(population[parent2],population[parent1])));
 			
 			for(int n=0; n<problemDimension; n++)
-				xChild[n] += RandUtils.gaussian(0, md*(bounds[n][1]-bounds[n][0]));
-			//xChild = saturateToro(xChild, bounds);
-			xChild = saturation(xChild, bounds);
+				xChild[n] += RandUtilsISB.gaussian(0, md*(bounds[n][1]-bounds[n][0]), PRNGCounter);
+			xChild = correct(xChild, population[parent1], bounds);
 			double fChild = problem.f(xChild);
 			i++;
 			
-			//worst = indexMax(fitnesses);
-			random = RandUtils.randomInteger(populationSize-1);
+			random = RandUtilsISB.randomInteger(populationSize-1, PRNGCounter);
 			if(fChild<fitnesses[random])
 			{
 				newID++;
@@ -160,11 +147,9 @@ public class simplified3 extends AlgorithmBias
 				for(int n = 0; n < problemDimension; n++)
 					line+=" "+formatter(xChild[n]);
 				line+="\n";
-				s+=line;
-				bw.write(s);
-				s = null;
-				s = new String();
-				
+				bw.write(line);
+				line = null;
+				line = new String();		
 			}
 				
 			
@@ -174,28 +159,13 @@ public class simplified3 extends AlgorithmBias
 		
 		FT.add(i, fBest);
 		
-		bw.close();
+		closeAll();	
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsDE");
 		
 		return FT;
 	}
 	
 	
-	
-	//bw.write(simpga.getFile());
-	//bw.write(ga.getFile());
-	//bw.close();
-   // simpga.delFile();
-	
-	
-	
-	public String formatter(double value)
-	{
-		String str =""+value;
-		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
-			str = str.replace("e", "e+");
-		return str;
-	}
 	
 	public int[] getIndices(int popSize)
 	{
@@ -205,19 +175,5 @@ public class simplified3 extends AlgorithmBias
 		return indices;
 	}
 	
-	public double[] saturation(double[] x, double[][] bounds)
-	{
-		double[] xs = new double[x.length];
-		for(int i=0; i<x.length; i++)
-		{
-			if(x[i]>bounds[i][1])
-				xs[i] = bounds[i][1];
-			else if(x[i]<bounds[i][0])
-				xs[i] = bounds[i][0];
-			else
-				xs[i] = x[i];
-		}		
-		return xs;
-	}
 	
 }

@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 
-public class randomKO extends AlgorithmBias
+public class randomISB extends AlgorithmBias
 {
 	static String Dir = "/home/fabio/Desktop/kylla/random";
 	
@@ -37,10 +37,10 @@ public class randomKO extends AlgorithmBias
 		this.file = null;
 	}
 	
-	int indiceporcodio;
-	public void setIndicePorcodio(int ind)
+	int INDEX;
+	public void setINDEX(int ind)
 	{
-		this.indiceporcodio = ind;
+		this.INDEX = ind;
 	}
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
@@ -52,7 +52,7 @@ public class randomKO extends AlgorithmBias
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
-		File Ffile = new File(Dir+"/RAND"+(indiceporcodio+1)+".txt");
+		File Ffile = new File(Dir+"/RAND"+(INDEX+1)+".txt");
 		//File file = new File(Dir+"/"+ga.getClass().getSimpleName()+"p"+ga.pullParameter("p0").intValue()+"D"+problemDimension+"f0-"+(i+1)+".txt");
 		
 		if (!Ffile.exists()) 

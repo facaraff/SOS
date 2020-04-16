@@ -51,7 +51,7 @@ import utils.RunAndStore.FTrend;
 /*
  * Covariance Matrix Adaptation Evolutionary Strategy 
  */
-public class CMAESISB extends AlgorithmBias
+public class CMAES extends AlgorithmBias
 {
 	
 
@@ -65,8 +65,8 @@ public class CMAESISB extends AlgorithmBias
 	
 	public void setCorrectionStrategy(char c) {this.setCorrection(c);}
 	
-	public CMAESISB() {super();}
-	public CMAESISB(char c) {super(); this.correction = c;}
+	public CMAES() {super();}
+	public CMAES(char c) {super(); this.correction = c;}
 	
 	
 	

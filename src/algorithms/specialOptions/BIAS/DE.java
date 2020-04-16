@@ -26,7 +26,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package algorithms.specialOptions.BIAS.ISBDE;
+package algorithms.specialOptions.BIAS;
 
 import utils.random.RandUtilsISB;
 
@@ -41,9 +41,6 @@ import static utils.algorithms.operators.ISBOp.best2;
 import static utils.algorithms.operators.ISBOp.randToBest2;
 import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.operators.ISBOp.crossOverBin;
-
-
-
 
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
@@ -93,7 +90,7 @@ public class DE extends AlgorithmBias
 		int i = 0;
 		
 		
-		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction,problem); 
+		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 
@@ -101,7 +98,7 @@ public class DE extends AlgorithmBias
 		int newID = 0;
 		int bestID = -1;
 		
-		writeHeader(" pop "+populationSize+" F "+F+" CR "+CR, problem);
+		writeHeader(" pop "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
 		
 		String line = new String();
 		
@@ -218,23 +215,23 @@ public class DE extends AlgorithmBias
 				{
 					case "ro":
 						// DE/rand/1
-//						newPt = rand1(population, F, PRNGCounter);
 						newPt = rand1(population[r1], population[r2],  population[r3], F, PRNGCounter);
 						s += ids[r2]+" "+ids[r3]+" "+ids[r1];
 						break;
 					case "ctbo":
 						// DE/cur-to-best/1
-//						newPt = currentToBest1(population, best, j, F, PRNGCounter);
 						newPt = currentToBest1(currPt, population[indexBest], population[r1], population[r2], F, PRNGCounter);
 						s += ids[j]+" "+ids[indexBest]+" "+ids[r1]+" "+ids[r2];
 						break;
 					case "rt":
 						// DE/rand/2
-						newPt = rand2(population, F, PRNGCounter);
+						newPt = rand2(population[r1], population[r2], population[r3], population[r4], population[r5],  F, PRNGCounter);
+						s+= ids[r1]+" "+ids[r2]+" "+ids[r3]+" "+ids[r4]+" "+ids[r5];
 						break;
 					case "ctro":
 						// DE/current-to-rand/1
-						crossPt = currentToRand1(population, j, F,PRNGCounter);
+						crossPt = currentToRand1(population[r1], population[r2],  population[r3], currPt, F, PRNGCounter);
+						s += ids[j]+" "+ids[r1]+" "+ids[r2]+" "+ids[r3];
 						break;
 					case "rtbt":
 						// DE/rand-to-best/2
@@ -242,13 +239,13 @@ public class DE extends AlgorithmBias
 						break;
 					case "bo":
 						// DE/best/1
-//						newPt = best1(population, best, F, PRNGCounter);
 						newPt = best1(population[indexBest], population[r1], population[r2], F, PRNGCounter);
 						 s+= ids[indexBest]+" "+ids[r1]+" "+ids[r2];
 						break;
 					case "bt":
 						// DE/best/2
-						newPt = best2(population, best, F, PRNGCounter);
+						newPt =  best2(population[indexBest], population[r1], population[r2], population[r3], population[r4], F, PRNGCounter);
+						s+= ids[indexBest]+" "+ids[r1]+" "+ids[r2]+" "+ids[r3]+" "+ids[r4];
 						break;
 					default:
 						break;
@@ -277,13 +274,12 @@ public class DE extends AlgorithmBias
 				{
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = crossPt[n];
-//						newPop[j][n] = crossPt[n];
+
 					fitnesses[j] = crossFit;
 					
 					temp2[j] = crossFit;
 					idsTemp[j] = newID;
 					
-					//line =""+newID+" "+ids[r2]+" "+ids[r3]+" "+ids[indexBest]+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
 					line =""+newID+" "+s+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
 					for(int n = 0; n < problemDimension; n++)
 						line+=" "+formatter(population[j][n]);
@@ -324,7 +320,6 @@ public class DE extends AlgorithmBias
 			idsTemp=null;
 			
 		}
-
 		
 		closeAll();	
 		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsDE");

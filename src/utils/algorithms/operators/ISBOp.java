@@ -450,9 +450,6 @@ public class ISBOp
 		
 			return newPt;
 		}
-
-
-
 		/**
 		* best/2 mutation scheme
 		* 
@@ -484,6 +481,25 @@ public class ISBOp
 			for (int i = 0; i < problemDimension; i++)
 				newPt[i] = population[index][i] + F*(population[r1][i]-population[r2][i]) +  F*(population[r3][i]-population[r4][i]);
 		
+			return newPt;
+		}
+		/**
+		* best/2 mutation scheme
+		* 
+		* @param population set of candidate solutions/individuals.
+		* @param fitnesses fitness value of each individual in the population.
+		* @param F scale factor.
+		* @param counter A counter to monitor PRG activations.
+		* @return mutant individual.
+		*/
+		public static double[] best2(double[] best, double[] r1, double[] r2, double[] r3, double[] r4, double F, Counter counter)
+		{
+			int problemDimension = best.length;
+	
+			double[] newPt = new double[problemDimension];
+			for (int i = 0; i < problemDimension; i++)
+				newPt[i] = best[i] + F*(r1[i]-r2[i]) +  F*(r3[i]-r4[i]);
+			
 			return newPt;
 		}
 	   /**

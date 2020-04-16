@@ -1,4 +1,4 @@
-package algorithms.specialOptions.BIAS;
+package algorithms.specialOptions.BIAS.ISBDE.kononova2015;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 
@@ -129,7 +129,6 @@ public class simplifiedGA2 extends AlgorithmBias
 				for(int n=0; n<problemDimension; n++)
 					population[rand][n] = xChild[n];
 				fitnesses[rand] = fChild;
-				
 				
 				line =""+newID+" "+indexParent1+" "+indexParent2+" "+formatter(fChild)+" "+i+" "+indexRand;
 				for(int n = 0; n < problemDimension; n++)
