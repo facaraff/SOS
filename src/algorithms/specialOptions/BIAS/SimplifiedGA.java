@@ -68,7 +68,7 @@ public class SimplifiedGA extends AlgorithmBias
 		
 		int newID = 0;
 
-		writeHeader(" pop "+populationSize+" md "+md, problem);
+		writeHeader(" popSize "+populationSize+" md "+md, problem);
 		
 		
 		double[] best = new double[problemDimension];
@@ -160,7 +160,7 @@ public class SimplifiedGA extends AlgorithmBias
 		FT.add(i, fBest);
 		
 		closeAll();	
-		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsDE");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsGA");
 		
 		return FT;
 	}

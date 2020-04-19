@@ -829,7 +829,7 @@ public class ISBOp
 			 *            problem dimension.
 			 * @return r randomly generated point.
 			 */
-			public static double[] generateRandomSolution(double[][] bounds, int n,Counter counter) {
+			public static double[] generateRandomSolution(double[][] bounds, int n, Counter counter) {
 				double[] r = new double[n];
 				for (int i = 0; i < n; i++)
 					r[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(counter);
@@ -847,8 +847,156 @@ public class ISBOp
 			
 			
 			
+			/**
+			 * Roulette wheel selection with PRNG counter
+			 * 
+			 * @param values fitness values
+			 * @param counter PRNG counter
+			 * @return
+			 */
+			public static int roulette(double[] values, Counter counter) 
+			{
+				double s = MatLab.sum(values);
+				double r = RandUtilsISB.random(counter) * s;
+				double thresh = 0.0;
+				for (int i = 0; i < values.length-1; i++) {
+					thresh += values[i];
+					if (r <= thresh) 
+						return i;
+				}
+				return values.length-1;
+			}
+			
+			
+			
+			/**
+			 * GA mutation switcher (with PSRNG counter)
+			 * 
+			 * @param point a candidate solution
+			 * @param mutation the mutation identifier
+			 * @param distributionParam a parameter used to set the std value (if Gaussian mutation is used); or the scalFactor (if Cauhcy is sued).  
+			 * @return a mutated individual
+			 */
+			public static double[] GAmutations(double[] point, char mutation, double distributionParam, double[][] bounds, Counter counter)
+			{
+				double[] output = new double[point.length];
+				if(mutation=='g')
+					for(int i = 0; i<point.length; i++)
+						output[i]=point[i]+RandUtilsISB.gaussian(0, distributionParam*(bounds[i][1]-bounds[i][0]), counter);
+				else if(mutation=='c')
+					for(int i = 0; i<point.length; i++)
+						output[i]=point[i]+RandUtilsISB.cauchy(0, distributionParam, counter);
+				else
+					System.out.println("Unrecognised mutation");
+				return output;
+			}
+			
+			
+			/**
+			 * GA parent selections switcher (with PSRNG counter)
+			 * 
+			 * @param selStrategy the selection strategy identifier
+			 * @param fitness fitness values of all individuals in the population
+			 * @param nt The tournament size
+			 * @param counter The PSRNG counter
+			 * @return a the index of the selected individual
+			 */
+			public static int GAParentSelections(char selStrategy, double[] fitness, int nt, Counter counter)
+			{
+				int index = -1;
+				
+				if(selStrategy=='r')
+				{
+					double sum = 0;
+					for(int i=0;i<fitness.length;i++)
+						sum+=fitness[i];
+					double[] prob = new double[fitness.length];
+					for(int i=0;i<fitness.length;i++)
+						prob[i] = fitness[i]/sum;
+					index = roulette(prob, counter);
+				}
+				else if(selStrategy=='t')
+				{
+					int[] ind = getIndices(fitness.length);
+					ind=RandUtilsISB.randomPermutation(ind, counter);
+					
+					if(nt>fitness.length)System.out.println("The tournament size cannot be grater that the polution size");
+					
+					int indexMin = ind[0];
+					double fitnessMin = fitness[ind[0]];
+					
+					for(int i=1; i<nt; i++)
+						if(fitness[ind[i]]<fitnessMin) 
+						{
+							fitnessMin = fitness[ind[i]];
+							indexMin = ind[i];
+						}
+					
+					index = indexMin;
+				}
+				else
+					System.out.println("Unrecognised parent selction strategy!");
+				
+				return index;
+			}
 			 
+			/**
+			 * Utility method for associating indices to the individuals of the population
+			 * 
+			 * @param popSize The population size
+			 * @return indices an array containing the indices
+			 */
+			public static int[] getIndices(int popSize)
+			{
+				int[] indices = new int[popSize];
+				for(int n=0; n<popSize; n++)
+					indices[n] = n;
+				return indices;
+			}
+			
+			
+			/**
+			 *  GA crossover operators switcher (with PSRNG counter)
+			 *  
+			 * @param parentA the first parent
+			 * @param parentB The second Parent
+			 * @param CR The cross over rate (for 'd' xover)
+			 * @param d defines the upper and lower bound for the uniform distribution in 'a' crossover
+			 * @param xover The crossover operator identifier
+			 * @param counter The PSRNG counter
+			 * @return output  Offspring solution
+			 */
+			public static double[] GACrossovers(double[] parentA, double[] parentB, double CR, double d, char xover, Counter counter)
+			{
+				double[] output = new double[parentA.length];
+				
+				if(xover=='d') //discrete recombination
+					for(int i=0;i<parentA.length;i++)
+						output[i]=(RandUtilsISB.random(counter)<CR)? parentA[i]:parentB[i];
+				else if(xover=='a')// WHOLE ARITHMETIC RECOMBINATION
+					for(int i=0;i<parentA.length;i++)
+					{
+						double alpha = RandUtilsISB.uniform(-d, 1+d,counter);
+						output[i]=alpha*parentA[i]+(1-alpha)*parentB[i];
+						
+					}
+				else
+					System.out.println("Unrecognised crossover operator!");
+				
+				return output;
+			}
+			
 			
 }
 
 
+
+
+//else if(selStrategy=='t') //one of the implemented methods in preparation of the 2015 study
+//{
+//	int[] ind = getIndices(fitness.length);
+//	ind=RandUtilsISB.randomPermutation(ind, counter);
+//	int ind1 = (fitness[ind[0]]<fitness[ind[1]])? ind[0] : ind[1];
+//	int ind2 = (fitness[ind[0]]<fitness[ind[1]])? ind[1] : ind[0];
+//	index = (RandUtilsISB.random(counter)<tournamentProb)? ind1 : ind2;
+//}

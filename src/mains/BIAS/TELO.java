@@ -34,7 +34,8 @@ import java.util.Vector;
 
 import algorithms.specialOptions.BIAS.singleSolutions.*;
 import algorithms.specialOptions.BIAS.DE;
-import algorithms.specialOptions.BIAS.SimplifiedGA;
+//import algorithms.specialOptions.BIAS.SimplifiedGA;
+import algorithms.specialOptions.BIAS.GA;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
@@ -606,7 +607,7 @@ public class TELO extends ISBMain
 //		
 		char[] corrections = {'s','t','d','m','c'};
 		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
-		char[] CrossOvers = {'b','e'};
+		char[] DECrossOvers = {'b','e'};
 //		
 //		for (char correction : corrections)
 //		{
@@ -623,7 +624,7 @@ public class TELO extends ISBMain
 //					a = null;				
 //				}
 //				else
-//					for(char xover : CrossOvers)
+//					for(char xover : DECrossOvers)
 //						{
 //							a = new cDE(mutation,xover);
 //							a.setDir("COMPACTS"+slash());
@@ -675,6 +676,12 @@ public class TELO extends ISBMain
 		
 		double[] populationSizes = {5, 20, 100};
 		
+		char[] GAParentSelections = {'r','t'};
+		char[] GACrossOvers = {'a','d'};
+		char[] GAMutations = {'c','g'};
+		
+		
+		
 		for (double popSize : populationSizes)
 		{
 			for (char correction : corrections)
@@ -694,7 +701,7 @@ public class TELO extends ISBMain
 						a = null;
 					}
 					else
-						for(char xover : CrossOvers)
+						for(char xover : DECrossOvers)
 						{
 							a = new DE(mutation,xover);
 							a.setDir("GA-TELO"+slash());
@@ -705,23 +712,28 @@ public class TELO extends ISBMain
 							a.setParameter("p3", 0.25); //Alpha
 							algorithms.add(a);		
 							a = null;
-						}	
+						}
 				
-				a = new SimplifiedGA();
-				a.setDir("GA-TELO"+slash());
-				a.setCorrection(correction);
-				a.setParameter("p0", popSize); //Population size
-				a.setParameter("p1", 666.0); //FIND PARAMETER
-				a.setParameter("p2", 666.0); //FIND PARAMETER
-				a.setParameter("p3", 666.0); //FIND PARAMETER
-				algorithms.add(a);		
-				a = null;
-			
+				
+				for (char selection : GAParentSelections)
+					for (char oxer : GACrossOvers)
+						for (char mutation : GAMutations)
+						{
+							a = new GA(selection, oxer, mutation);
+							a.setDir("GA-TELO"+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", popSize); //Population size
+							a.setParameter("p1", 2.0); //tournamentsize
+							a.setParameter("p2", 0.5); //CR
+							a.setParameter("p3", 0.25); //d
+							a.setParameter("p4", 0.01); //md
+							algorithms.add(a);		
+							a = null;
+						}
 			}
 			
 		}
 		
-			
 			
 		
 		execute(algorithms, problems, expSettings);	
@@ -729,4 +741,19 @@ public class TELO extends ISBMain
 		}
 }
 
+
+
+
+
+
+
+//a = new SimplifiedGA();
+//a.setDir("GA-TELO"+slash());
+//a.setCorrection(correction);
+//a.setParameter("p0", popSize); //Population size
+//a.setParameter("p1", 666.0); //FIND PARAMETER
+//a.setParameter("p2", 666.0); //FIND PARAMETER
+//a.setParameter("p3", 666.0); //FIND PARAMETER
+//algorithms.add(a);		
+//a = null;
 		

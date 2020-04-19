@@ -98,7 +98,7 @@ public class DE extends AlgorithmBias
 		int newID = 0;
 		int bestID = -1;
 		
-		writeHeader(" pop "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
+		writeHeader(" popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
 		
 		String line = new String();
 		
