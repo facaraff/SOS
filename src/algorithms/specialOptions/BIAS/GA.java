@@ -24,9 +24,10 @@ public class GA extends AlgorithmBias
 	{	
 		int populationSize = getParameter("p0").intValue(); 
 		int nt =  getParameter("p1").intValue();
-		double CR = getParameter("p2").doubleValue();
-		double d = getParameter("p3").doubleValue(); //fixed to 0.25 in Kononova 2015
-		double md = getParameter("p4").doubleValue(); //fixed to ; 0.01 in Kononova 2015
+		int pt =  getParameter("p2").intValue(); //selection probability for stochastic tournament
+		double CR = getParameter("p3").doubleValue();
+		double d = getParameter("p4").doubleValue(); //fixed to 0.25 in Kononova 2015
+		double md = getParameter("p5").doubleValue(); //fixed to ; 0.01 in Kononova 2015
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 
@@ -45,9 +46,11 @@ public class GA extends AlgorithmBias
 		
 		
 		if(this.selectionStrategy == 't') 
-			line+=" popSize "+populationSize+" nt "+nt;
+			line+="popSize "+populationSize+" nt "+nt;
 		else if(this.selectionStrategy == 'r') 
-			line+=" popSize "+populationSize;
+			line+="popSize "+populationSize;
+		else if(this.selectionStrategy == 's') 
+			line+="popSize "+populationSize+" pt "+pt;
 		else
 			System.out.println("Unrecognised selection stratgy!");
 		
@@ -114,8 +117,8 @@ public class GA extends AlgorithmBias
 		while (i < maxEvaluations)
 		{
 			
-			parent1 = GAParentSelections( selectionStrategy, fitnesses, nt, PRNGCounter);
-			parent2 = GAParentSelections( selectionStrategy, fitnesses, nt,PRNGCounter);
+			parent1 = GAParentSelections( selectionStrategy, fitnesses, nt,pt, PRNGCounter);
+			parent2 = GAParentSelections( selectionStrategy, fitnesses, nt,pt,PRNGCounter);
 			double[] child = GACrossovers(population[parent1], population[parent2], CR, d, crossoverStrategy, PRNGCounter);
 			
 			

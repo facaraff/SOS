@@ -901,7 +901,7 @@ public class ISBOp
 			 * @param counter The PSRNG counter
 			 * @return a the index of the selected individual
 			 */
-			public static int GAParentSelections(char selStrategy, double[] fitness, int nt, Counter counter)
+			public static int GAParentSelections(char selStrategy, double[] fitness, int nt, double pt, Counter counter)
 			{
 				int index = -1;
 				
@@ -933,6 +933,14 @@ public class ISBOp
 						}
 					
 					index = indexMin;
+				}
+				else if(selStrategy=='s') //Stochastic tournament (this implementation currently works only with a tournament size of 2)
+				{
+					int[] ind = getIndices(fitness.length);
+					ind=RandUtilsISB.randomPermutation(ind, counter);
+					int ind1 = (fitness[ind[0]]<fitness[ind[1]])? ind[0] : ind[1];
+					int ind2 = (fitness[ind[0]]<fitness[ind[1]])? ind[1] : ind[0];
+					index = (RandUtilsISB.random(counter)<pt)? ind1 : ind2;
 				}
 				else
 					System.out.println("Unrecognised parent selction strategy!");
