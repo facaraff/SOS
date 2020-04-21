@@ -30,12 +30,8 @@ either expressed or implied, of the FreeBSD Project.
 
 
 /** @file Algorithm.java
- * @author Fabio Caraffini
- *  
- *
- * A software platform for learning Computational Intelligence Optimisation
- * 
- *  @author Fabio Caraffini
+ * @author Fabio Caraffini (fabio.caraffini@gmail.com)
+ *   
 */
 package interfaces;
 
@@ -53,11 +49,14 @@ import java.util.Map;
 import static java.time.Instant.now;
 import static utils.RunAndStore.slash;
 import static utils.RunAndStore.createFolder;
+import static utils.RunAndStore.createPathOfFolders;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.toro;
+import  utils.algorithms.ISBHelper;
+
 
 import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
@@ -77,6 +76,7 @@ public abstract class AlgorithmBias
 	protected char correction;
 	protected String Dir="."+slash()+"ResultsISB"+slash();
 	protected String minMaxProb = "min";
+	protected int nonPositionColumns = 0;
 //	protected long seed = System.currentTimeMillis();
 	protected long seed = -666;
 	
@@ -151,7 +151,8 @@ public abstract class AlgorithmBias
 	 * This method sets the path of the directory for storing ISB results.
 	 * @param Dir the string containing the path to the results folder.
 	 */
-	public void setDir(String Dir){createFolder(this.Dir); this.Dir+=Dir;}
+//	public void setDir(String Dir){createFolder(this.Dir); this.Dir+=Dir;}
+	public void setDir(String Dir){ this.Dir+=Dir; createPathOfFolders(this.Dir);}
 	/**
 	 * This method returns the path of the directory for storing BIAS results.
 	 * @return Dir the string containing the path to the results folder
@@ -167,7 +168,6 @@ public abstract class AlgorithmBias
 	 * @return  the number of the performed run.
 	 */
 	public int getRun(){return this.run;}
-	
 	/**
 	 * Set the correction strategy.
 	 * @param correction the char value identifier of the used correction strategy. 
@@ -179,11 +179,30 @@ public abstract class AlgorithmBias
 	 * 
 	 */
 	public char getCorrection(){return this.correction;}
-	
+	/**
+	 * Store the number of the first columns in the "finpos" ISB result files which are meant for saving details other than the coordinates of a solution 
+	 *
+	 *@param npc The required number of columns
+	 */
+	public void setNPC(int npc) {this.nonPositionColumns = npc;};
+	/**
+	 * Return the number of the first columns in the "finpos" ISB result files whih not used to store coordinate of a solution 
+	 * @return npc The required number of non-position-columns
+	 */
+	public int getNPC() {return this.nonPositionColumns;};
 	/**
 	 * update the header to indicate that a maximisation process is taking place.
 	 */
 	public void maximisationProblem(){this.minMaxProb = "max";}
+	
+	/**
+	 * Return the header for the ISB result file
+	 */
+	protected String getHeader(){return this.header;}
+	/**
+	 * Close all buffers
+	 */
+	protected void closeAll() throws Exception {this.bw.close();} 
 	
 	
 	//**   UTILS METHODS   **//
@@ -263,14 +282,58 @@ public abstract class AlgorithmBias
 	 *@param value the double number to format.
 	 *@return A string containing the formatted version of the input number.
 	 */
-	public String formatter(double value)
+	protected String formatter(double value){return ISBHelper.formatter(value, this.DF);}
+	
+	
+	
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds)
 	{
-		String str =""+value;
-		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
-			str = str.replace("e", "e+");
-		return str;
+		int n = infeasiblePt.length;
+		double[][] BOUNDS = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			BOUNDS[i][0] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
 	}
+	
+	
+	
+	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);}; 
+	
+	
+	protected void createFile(String fullName) throws Exception
+	{
+		createFolder(Dir);
+		
+		file = new File(Dir+fullName+".txt");
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		bw = new BufferedWriter(fw);
+	}
+	
+	protected void writeHeader(String parameters, Problem problem) throws Exception
+	{  
+		this.seed = System.currentTimeMillis();
+		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+		bw.write(line);
+	}
+	
+	/**
+	 * Write the coordinate values of an individual at the end of a line and terminate the line
+	 *
+	 *@param x A solution
+	 *@param line A line previously filled with other details according to the pre-defined ISB notation
+	 *@return A complete line, including the coordinates of the solution at hand, ready to be writte into a text file 
+	 */
+	protected String getCompleteLine(double[] x, String line) {return ISBHelper.addCoordinatesToEOL(x, line, this.DF);}
+
+	/**
+	 * Wrapper for the prepareInitialLine method of the class ISBHelper
+	 */
+	public String preparePopInitialationLines(int columns, int currentIndex, double currentFitness, int FECounter) {return ISBHelper.prepareInitialLine(columns, currentIndex, currentFitness, FECounter, this.DF);}
 	
 	
 	/**
@@ -330,46 +393,6 @@ public abstract class AlgorithmBias
 	
 		return feasible;
 	}
-	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds)
-	{
-		int n = infeasiblePt.length;
-		double[][] BOUNDS = new double[n][2];
-		for(int i=0; i<n; i++)
-		{
-			BOUNDS[i][0] = bounds[0];
-			BOUNDS[i][1] = bounds[1];
-		}	
-		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
-	}
-	
-	
-	
-	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);}; 
-	
-	
-	protected void createFile(String fullName) throws Exception
-	{
-		createFolder(Dir);
-		
-		file = new File(Dir+fullName+".txt");
-		if (!file.exists()) 
-			file.createNewFile();
-		fw = new FileWriter(file.getAbsoluteFile());
-		bw = new BufferedWriter(fw);
-	}
-	
-	protected void writeHeader(String parameters, Problem problem) throws Exception
-	{  
-		this.seed = System.currentTimeMillis();
-		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
-		bw.write(line);
-	}
-
-	
-	protected String getHeader(){return this.header;}
-	
-
-	protected void closeAll() throws Exception {this.bw.close();} 
 	
 	
 	

@@ -511,7 +511,7 @@ public class RunAndStore
 	/**
 	 * This method facilitates the creation of a generic folder.
 	 * 
-	 * @param s path/name of the forder.  
+	 * @param s path/name of the folder.  
 	 * 
 	*/
 	public static void createFolder(String s)
@@ -528,6 +528,25 @@ public class RunAndStore
 		}
 	}
 	
+	/**
+	 * This method facilitates the creation of a generic path.
+	 * 
+	 * @param s path of nested folder.  
+	 * 
+	*/
+	public static void createPathOfFolders(String s)
+	{	
+		String[] S = s.split(slash());
+		String temp = resultsFolder;
+	    for (int i=0; i < S.length; i++)
+	    {
+	    	if(!S[i].equals("."))
+	    	{
+		    	temp += (slash()+S[i]);
+		    	createFolder(temp);
+	    	}	    	
+	    }
+	}
 	
 	/**
 	 * This method creates a folder algorithm within the main result forlder.

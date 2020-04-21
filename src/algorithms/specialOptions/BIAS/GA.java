@@ -94,6 +94,7 @@ public class GA extends AlgorithmBias
 			
 			i++;
 			newID++;
+			
 			ids[j] = newID;
 			line =""+newID+" -1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
 			for(int n = 0; n < problemDimension; n++)

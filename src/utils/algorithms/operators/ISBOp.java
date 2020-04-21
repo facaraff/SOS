@@ -306,7 +306,7 @@ public class ISBOp
 		
 			double[] newPt = new double[problemDimension];
 			for (int i = 0; i < problemDimension; i++)
-				newPt[i] = population[r3][i] + F*(bestPt[i]-population[r3][i]) + F*(population[r1][i]-population[r2][i]) + F*(population[r4][i]-population[r5][i]);
+				newPt[i] = population[r1][i] + F*(bestPt[i]-population[r1][i]) + F*(population[r2][i]-population[r3][i]) + F*(population[r4][i]-population[r5][i]);
 
 			return newPt;
 		}

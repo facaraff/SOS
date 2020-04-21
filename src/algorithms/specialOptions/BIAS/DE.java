@@ -41,6 +41,7 @@ import static utils.algorithms.operators.ISBOp.best2;
 import static utils.algorithms.operators.ISBOp.randToBest2;
 import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.operators.ISBOp.crossOverBin;
+import static utils.algorithms.ISBHelper.getNuberOfNonPositionColumnsForDE;
 
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
@@ -57,12 +58,16 @@ public class DE extends AlgorithmBias
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'X';
 	
-	public DE(String mut) {this.mutationStrategy = mut;}
+	public DE(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
+	
 	public DE(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
+		
 		if(!mut.equals("ctro"))
 			this.crossoverStrategy = xover;
+		
+		this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);
 	}
 	
 	@Override
@@ -89,14 +94,13 @@ public class DE extends AlgorithmBias
 		
 		int i = 0;
 		
-		
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 
 		int[] ids = new int[populationSize]; //int prevID = -1;
 		int newID = 0;
-		int bestID = -1;
+//		int bestID = -1;
 		
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
 		
@@ -111,7 +115,6 @@ public class DE extends AlgorithmBias
 			fitnesses[j] = problem.f(population[j]);
 			
 			i++;
-			
 			newID++;
 			ids[j] = newID;
 			
@@ -123,14 +126,15 @@ public class DE extends AlgorithmBias
 					FT.add(i, fBest);
 			}
 
-			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
-			for(int n = 0; n < problemDimension; n++)
-				line+=" "+formatter(population[j][n]);
-			line+="\n";
+			
+//			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
+			
+			line = preparePopInitialationLines(this.nonPositionColumns, ids[j], fitnesses[j], i);
+			line = getCompleteLine(population[j],line);
 			bw.write(line);
 			line = null;
 			line = new String();
-
+			
 		}
 
 		// temp variables
@@ -235,7 +239,7 @@ public class DE extends AlgorithmBias
 						break;
 					case "rtbt":
 						// DE/rand-to-best/2
-						newPt = randToBest2(population, best, F, PRNGCounter);
+						newPt = randToBest2(population[r1], population[r2], population[r3], population[r4], population[r5], population[indexBest], F, PRNGCounter);
 						break;
 					case "bo":
 						// DE/best/1
@@ -266,12 +270,13 @@ public class DE extends AlgorithmBias
 				
 				crossPt = correct(crossPt, currPt, bounds);
 				crossFit = problem.f(crossPt);
-				i++;
+				i++; 
 
 
 				// replacement
 				if (crossFit < currFit)
 				{
+					newID++;
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = crossPt[n];
 
