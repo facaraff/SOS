@@ -348,7 +348,7 @@ public abstract class AlgorithmBias
 	{
 		
 		double[] output; 
-		double[] feasible = new double[infeasiblePt.length];
+		double[] feasible; 
 		
 		if(this.correction == 't')
 		{
@@ -364,6 +364,8 @@ public abstract class AlgorithmBias
 		{
 			output = toro(infeasiblePt, bounds);
 			if(!Arrays.equals(output, infeasiblePt)) 
+				feasible = cloneSolution(previousFeasiblePt);
+			else
 				feasible = cloneSolution(previousFeasiblePt);
 		}
 		else if(this.correction == 'm')

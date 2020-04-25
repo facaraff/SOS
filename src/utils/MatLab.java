@@ -1331,8 +1331,8 @@ public class MatLab
 	public static String format(double n){return decimalFormat.format(n);}
 	
 	/** 
-	 * Clone an array.
-	 * @param array Tnput array.
+	 * Clone an array of double vaues.
+	 * @param array Input array.
 	 * @return result a copy of the same array.
 	 */
 	public static double[] cloneArray(double[] array)
@@ -1349,7 +1349,7 @@ public class MatLab
 		return clone;
 	}
 		/** 
-		 * Clone n-by-m matrix.
+		 * Clone n-by-m matrix of double values.
 		 * @param matrix n-by-m array.
 		 * @return clone a copy of the same n-by-m array.
 		 */
@@ -1369,4 +1369,43 @@ public class MatLab
 			return clone;
 		}
 	
+		
+		/** 
+		 * Clone an array of integer values.
+		 * @param array Tnput array.
+		 * @return result a copy of the same array.
+		 */
+		public static int[] cloneArray(int[] array)
+		{
+			int n = array.length;
+			int[] clone = new int[n];
+			try {
+					for(int j=0;j<n;j++)
+						clone[j]=array[j];
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+			return clone;
+		}
+			/** 
+			 * Clone n-by-m matrix of integer values.
+			 * @param matrix n-by-m array.
+			 * @return clone a copy of the same n-by-m array.
+			 */
+			public static int[][] cloneArray(int[][] matrix)
+			{
+				int rows = matrix.length;
+				int col = matrix[0].length;
+				int[][] clone = new int[rows][col];
+				try {
+					for(int i=0;i<rows;i++)
+						for(int j=0;j<col;j++)
+							clone[i][j]=matrix[i][j];
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
+				return clone;
+			}
 }

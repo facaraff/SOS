@@ -55,14 +55,14 @@ public class Debugging extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(1000);
-		expSettings.setNrRepetition(1);
+		expSettings.setNrRepetition(100);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
 		for(int i=0; i<n; i++)
 		{
-			bounds[i][0] = 0;
-			bounds[i][1] = 1;
+			bounds[i][0] = 0.0;
+			bounds[i][1] = 1.0;
 		}	
 		
 		
@@ -73,7 +73,8 @@ public class Debugging extends ISBMain
 		
 		
 		
-		char[] corrections = {'s','t','d','m','c'};
+//		char[] corrections = {'s','t','d','m','c'};
+		char[] corrections = {'d'};
 		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
 		char[] DECrossOvers = {'b','e'};
 
@@ -89,7 +90,7 @@ public class Debugging extends ISBMain
 					if(mutation.equals("ctro"))
 					{
 						a = new DE(mutation);
-						a.setDir("DE-BUG"+slash()+a.getNPC()+slash());
+						a.setDir("DE"+slash()+a.getNPC()+slash());
 						a.setCorrection(correction);
 						a.setParameter("p0", popSize); //Population size
 						a.setParameter("p1", 0.5); //F - scale factor
@@ -102,7 +103,7 @@ public class Debugging extends ISBMain
 						for(char xover : DECrossOvers)
 						{
 							a = new DE(mutation,xover);
-							a.setDir("DE-BUG"+slash()+a.getNPC()+slash());
+							a.setDir("DE"+slash()+a.getNPC()+slash());
 							a.setCorrection(correction);
 							a.setParameter("p0", popSize); //Population size
 							a.setParameter("p1", 0.5); //F - scale factor

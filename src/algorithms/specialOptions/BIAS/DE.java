@@ -43,6 +43,8 @@ import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.operators.ISBOp.crossOverBin;
 import static utils.algorithms.ISBHelper.getNuberOfNonPositionColumnsForDE;
 
+import static utils.MatLab.cloneArray;
+
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.MatLab;
@@ -138,11 +140,16 @@ public class DE extends AlgorithmBias
 		}
 
 		// temp variables
-		double[] currPt = new double[problemDimension];
-		double[] newPt = new double[problemDimension];
+		double[] currPt = cloneArray(population[0]); //new double[problemDimension];
+		double[] newPt = cloneArray(currPt);//new double[problemDimension];
 		double[] crossPt = new double[problemDimension];
 		double currFit = Double.NaN;
 		double crossFit = Double.NaN;
+		
+		double[][] temp = cloneArray(population); //new double[populationSize][problemDimension];
+		double[] temp2 = cloneArray(fitnesses); //new double[populationSize];
+		int[] idsTemp = cloneArray(ids); //new int[populationSize];
+		
 
 		// iterate
 		while (i < maxEvaluations)
@@ -150,9 +157,9 @@ public class DE extends AlgorithmBias
 		
 			//double[][] newPop = new double[populationSize][problemDimension];
 			
-			double[][] temp = new double[populationSize][problemDimension];
-			double[] temp2 = new double[populationSize];
-			int[] idsTemp = new int[populationSize];
+//			double[][] temp = new double[populationSize][problemDimension];
+//			double[] temp2 = new double[populationSize];
+//			int[] idsTemp = new int[populationSize];
 
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -267,8 +274,11 @@ public class DE extends AlgorithmBias
 						crossPt = newPt;
 				}
 				
+		
 				
 				crossPt = correct(crossPt, currPt, bounds);
+				
+				
 				crossFit = problem.f(crossPt);
 				i++; 
 
@@ -314,15 +324,15 @@ public class DE extends AlgorithmBias
 					idsTemp[j] = ids[j];
 					temp2[j] = currFit;
 				}
-				crossPt = null; newPt = null;
+				//crossPt = null; newPt = null;
 			}
 			
-			population = temp;
-			temp=null;
-			fitnesses = temp2;
-			temp2=null;
-			ids = idsTemp;
-			idsTemp=null;
+			population = cloneArray(temp);
+			//temp=null;
+			fitnesses = cloneArray(temp2);
+			//temp2=null;
+			ids = cloneArray(idsTemp);
+			//idsTemp=null;
 			
 		}
 		
