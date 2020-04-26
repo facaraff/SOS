@@ -73,8 +73,7 @@ public class Debugging extends ISBMain
 		
 		
 		
-//		char[] corrections = {'s','t','d','m','c'};
-		char[] corrections = {'d'};
+		char[] corrections = {'s','t','d','m','c'};
 		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
 		char[] DECrossOvers = {'b','e'};
 

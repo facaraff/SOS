@@ -252,6 +252,7 @@ public class DE extends AlgorithmBias
 					case "rtbt":
 						// DE/rand-to-best/2
 						newPt = randToBest2(population[r1], population[r2], population[r3], population[r4], population[r5], population[indexBest], F, PRNGCounter);
+						 s+= ids[indexBest]+" "+ids[r1]+" "+ids[r2]+" "+ids[r3]+" "+ids[r4]+" "+ids[r5];
 						break;
 					case "bo":
 						// DE/best/1
