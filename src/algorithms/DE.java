@@ -32,8 +32,6 @@ import  utils.algorithms.operators.DEOp;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 
-//import java.util.Vector; serve?
-
 import interfaces.Algorithm;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
@@ -41,6 +39,7 @@ import utils.RunAndStore.FTrend;
 /**
  * Differential Evolution (all established variants)
  */
+
 public class DE extends Algorithm
 {
 	

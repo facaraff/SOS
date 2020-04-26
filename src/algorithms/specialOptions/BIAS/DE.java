@@ -52,7 +52,12 @@ import utils.RunAndStore.FTrend;
 import utils.algorithms.Counter;
 
 /**
+ * @author Fabio Caraffini (fabio.caraffini@gmail.com)
+ * @link www.tinyurl.com/FabioCaraffini
+ * 
+ * 
  * Differential Evolution (all established variants)
+ * 
  */
 public class DE extends AlgorithmBias
 {
