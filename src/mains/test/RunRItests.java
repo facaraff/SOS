@@ -37,7 +37,7 @@ either expressed or implied, of the FreeBSD Project.
 
 import java.util.Vector;
 
-import experiments.RIRestartStudy;
+import experiments.RiCompact.RIRestartStudy;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;

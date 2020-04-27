@@ -26,7 +26,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package experiments;
+package experiments.RiCompact;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
@@ -38,66 +38,38 @@ import benchmarks.problemsImplementation.BaseFunctions.Sphere;
 
 import interfaces.Problem;
 
-public class RIRestartStudy extends Experiment
+public class RiBinVsExp extends Experiment
 {
 	
-	public RIRestartStudy(int probDim) throws Exception
+	public RiBinVsExp(int probDim) throws Exception
 	{
-		//super(probDim,"RIBudgetStudy");
-		super(probDim,5000,"RIBudgetStudy");
+		super(probDim,5000,"BinVersusExp");
 		setNrRuns(30);
 
-
-		Algorithm a;// ///< A generic optimiser.
-	    //Problem p;// ///< A generic problem.
-		
-		double[] budgets = {0.1, 0.15, 0.20, 0.25, 0.30};
-		
-		double[] alphas = {0.05, 0.1, 0.15, 0.2, 0.25};
-		
-
-		for(int i=0; i<5; i++)
-		{
-			for(int j=0; j<5; j++)
-			{
-				a = new RIcDEexp();
-				//a.setID("RIcDE-10");
-				a.setParameter("p0", alphas[j]);
-				a.setParameter("p1", budgets[i]);
-				a.setID("RIcDEb"+( (int) ( a.getParameter("p1").doubleValue()*100) )+"a"+((int)(a.getParameter("p0").doubleValue()*100))+"exp");
-				add(a);
-			}
-			
-		}
-
-		
-		for(int i=0; i<5; i++)
-		{
-			for(int j=0; j<5; j++)
-			{
-				a = new RIcDEbin();
-				a.setParameter("p0", alphas[j]);
-				a.setParameter("p1", budgets[i]);
-				a.setID("RIcDEb"+( (int) ( a.getParameter("p1").doubleValue()*100) )+"a"+((int)(a.getParameter("p0").doubleValue()*100))+"bin");
-				add(a);
-			}
-			
-		}
-
-	
+		Algorithm a;
+	    	
+		//RIcDEb30a25exp
+		a = new RIcDEexp();
+		a.setParameter("p0", 0.25);
+		a.setParameter("p1",0.3);
+		a.setID("RIcDEb"+( (int) ( a.getParameter("p1").doubleValue()*100) )+"a"+((int)(a.getParameter("p0").doubleValue()*100))+"exp");
+		add(a);
+				
+		//RIcDEb20a25bin
+		a = new RIcDEbin();
+		a.setParameter("p0", 0.25);
+		a.setParameter("p1", 0.2);
+		a.setID("RIcDEb"+( (int) ( a.getParameter("p1").doubleValue()*100) )+"a"+((int)(a.getParameter("p0").doubleValue()*100))+"bin");
+		add(a);
 
 		Problem p;
 		
 		p = new Sphere(probDim);
 		add(p);
-		p = new Ackley(probDim); // M and NS
-		add(p);//add it to the list
+		p = new Ackley(probDim); 
+		add(p);
 		p = new Rastigin(probDim);
 		add(p);
-
-		
-
-
 
 	}
 }

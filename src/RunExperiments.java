@@ -36,7 +36,7 @@ either expressed or implied, of the FreeBSD Project.
 
 import java.util.Vector;
 
-import experiments.earlyDE.AnilBBOB2018;
+import experiments.RiCompact.RiBinVsExp;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
@@ -46,7 +46,6 @@ import static utils.RunAndStore.resultsFolder;
 */
 public class RunExperiments
 {
-	
 	
 	/** 
 	* Main method.
@@ -69,6 +68,7 @@ public class RunExperiments
 //		 experiments.add(new CEC14(10));
 //		 experiments.add(new CEC14(50));
 //		 experiments.add(new CEC14(100));
+//		experiments.add(new Bbob2018(10));
 		
 //		experiments.add(new contros(10));
 //		experiments.add(new RotCEC14(10));
@@ -83,16 +83,17 @@ public class RunExperiments
 //		experiments.add(new Anil(10));
 //		experiments.add(new Anil(50));
 //		experiments.add(new Anil(100));
+//		experiments.add(new AnilBBOB2018(10, 100));
+		
+//		experiments.add(new Bbob2018(10));
 
 		
-//		experiments.add(new ReviewEvo19(10));
-//		experiments.add(new ReviewEvo19(50));
-//		experiments.add(new ReviewEvo19(100));
-		
-		//experiments.add(new Bbob2018(10));
-		
-		
-		experiments.add(new AnilBBOB2018(10, 100));
+		experiments.add(new RiBinVsExp(10));
+		experiments.add(new RiBinVsExp(50));
+		experiments.add(new RiBinVsExp(100));
+		experiments.add(new RiBinVsExp(1000));
+
+
 
 		//@@@@@@
 	
