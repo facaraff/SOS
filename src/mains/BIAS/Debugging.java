@@ -31,13 +31,13 @@ package mains.BIAS;
 
 import java.util.Vector;
 
-import algorithms.specialOptions.BIAS.DE;
-import algorithms.PSO;
-//import algorithms.specialOptions.BIAS.SimplifiedGA;
+import algorithms.specialOptions.BIAS.PSO;
+
+//import AlgorithmBiass.specialOptions.BIAS.SimplifiedGA;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import utils.RunAndStore.FTrend;
-import interfaces.Algorithm;
+import interfaces.AlgorithmBias;
 import interfaces.Problem;
 
 
@@ -48,11 +48,11 @@ public class Debugging extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
-		Algorithm a;
+		AlgorithmBias a;
 		Problem p;
 
 		
-		Vector<Algorithm> algorithms = new Vector<Algorithm>();
+		Vector<AlgorithmBias> AlgorithmBiass = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
@@ -97,7 +97,7 @@ public class Debugging extends ISBMain
 //						a.setParameter("p1", 0.5); //F - scale factor
 //						a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
 //						a.setParameter("p3", 0.25); //Alpha
-//						algorithms.add(a);	
+//						AlgorithmBiass.add(a);	
 //						a = null;
 //					}
 //					else
@@ -110,7 +110,7 @@ public class Debugging extends ISBMain
 //							a.setParameter("p1", 0.5); //F - scale factor
 //							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
 //							a.setParameter("p3", 0.25); //Alpha
-//							algorithms.add(a);		
+//							AlgorithmBiass.add(a);		
 //							a = null;
 //						}
 				
@@ -124,7 +124,7 @@ public class Debugging extends ISBMain
 				a.setParameter("p3", 3.74); //Alpha
 				a.setParameter("p4", 1.0); //Alpha
 				a.setParameter("p5", 1.0); //Alpha
-				algorithms.add(a);		
+				AlgorithmBiass.add(a);		
 				a = null;	
 			}
 			
@@ -139,9 +139,9 @@ public class Debugging extends ISBMain
 
 
 
-protected static double runAlgorithmRepetition(Algorithm algorithm, Problem problem, ExperimentHelper expSettings) throws Exception
+protected static double runAlgorithmBiasRepetition(AlgorithmBias AlgorithmBias, Problem problem, ExperimentHelper expSettings) throws Exception
 {
-	FTrend FT = algorithm.execute(problem, expSettings.getBudgetFactor()*problem.getDimension());
+	FTrend FT = AlgorithmBias.execute(problem, expSettings.getBudgetFactor()*problem.getDimension());
 
 	return FT.getLastF();
 }
@@ -156,6 +156,6 @@ protected static double runAlgorithmRepetition(Algorithm algorithm, Problem prob
 //a.setParameter("p1", 666.0); //FIND PARAMETER
 //a.setParameter("p2", 666.0); //FIND PARAMETER
 //a.setParameter("p3", 666.0); //FIND PARAMETER
-//algorithms.add(a);		
+//AlgorithmBiass.add(a);		
 //a = null;
 		
