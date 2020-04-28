@@ -28,12 +28,15 @@ either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.specialOptions.BIAS;
 
+import static utils.algorithms.ISBHelper.getNuberOfNonPositionColumnsForPSO;
 import static utils.algorithms.operators.ISBOp.generateRandomSolution;
 
 import utils.algorithms.Counter;
-import utils.algorithms.operators.PSOOp;// to change
+import static utils.algorithms.operators.ISBOp.initVelocityVector;
+import static utils.algorithms.operators.ISBOp.classicVelocityUpdate;
+import static utils.algorithms.operators.PSOOp.moveParticle;
 
-import utils.random.RandUtilsISB;
+//import utils.random.RandUtilsISB;
 
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
@@ -48,15 +51,16 @@ import utils.RunAndStore.FTrend;
 
 public class PSO extends AlgorithmBias
 {
-	protected String vInitMethod = ""; 
-	protected String velocityUpdteStrategy = null;
-	protected String perturbationStrategy = null;
+	protected char vInitMethod; 
+	protected char velocityUpdteStrategy;
+	protected char perturbationStrategy;
+
 	
-	public PSO() {this.velocityUpdteStrategy = "classic"; this.perturbationStrategy = "classic";}
-	public PSO(String velocityUpdteStrategy) {this.velocityUpdteStrategy = velocityUpdteStrategy; this.perturbationStrategy = "classic";}
-	public PSO(String mut, String velocityUpdteStrategy, String perturbationStrategy) {{this.velocityUpdteStrategy = velocityUpdteStrategy; this.perturbationStrategy = perturbationStrategy;}}
+	public PSO() {this.velocityUpdteStrategy = 'o'; this.perturbationStrategy = 'a'; this.nonPositionColumns = getNuberOfNonPositionColumnsForPSO(velocityUpdteStrategy);}
+	public PSO(char velocityUpdteStrategy) {this.velocityUpdteStrategy = velocityUpdteStrategy; this.perturbationStrategy = 'w'; this.nonPositionColumns = getNuberOfNonPositionColumnsForPSO(velocityUpdteStrategy);}
+	public PSO(char velocityUpdteStrategy, char perturbationStrategy) {this.velocityUpdteStrategy = velocityUpdteStrategy; this.perturbationStrategy = perturbationStrategy; this.nonPositionColumns = getNuberOfNonPositionColumnsForPSO(velocityUpdteStrategy);}
 	
-	public void setInitialVMethod(String method) {this.vInitMethod = method;}
+	public void setInitialVMethod(char method) {this.vInitMethod = method;}
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -82,7 +86,7 @@ public class PSO extends AlgorithmBias
 		double fBest = Double.NaN;
 		double newFitness = Double.NaN;
 		
-		
+		double[] newInfeasibleX = new double[problemDimension];
 		
 		//************ ISB *************
 //		String FullName = getFullName("PSO"+this.vInitMethod+this.velocityUpdteStrategy+this.perturbationStrategy+this.correction+"p"+swarmSize,problem); 
@@ -90,8 +94,15 @@ public class PSO extends AlgorithmBias
 		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 		
+		
 		int[] ids = new int[swarmSize]; //int prevID = -1;
 		int newID = 0;
+		int gBestID = 0;
+		
+		writeHeader("popSize "+swarmSize+" phi1 "+phi1+" phi2 "+phi2+" phi3 "+phi3+" gamma1 "+gamma1+" gamma2 "+gamma2, problem);
+		
+		String line = new String();
+		
 		//******************************
 		
 		
@@ -105,23 +116,31 @@ public class PSO extends AlgorithmBias
 			{
 				swarm[j][n] = tmp[n];
 				pBest[j][n] = tmp[n];
-				v[j] = PSOOp.initVelocityVector(vInitMethod, problem);
+				v[j] = initVelocityVector(vInitMethod, problem, PRNGCounter);
 			}
 			pBestFitness[j] = problem.f(swarm[j]);
 //			pFitness[j] = fitness[j];
 			
 			newID++;
 			ids[j] = newID;
-			//TODOfrom here
+			i++;
+			
 			if (j == 0 || pBestFitness[j] < fBest)
 			{
 				fBest = pBestFitness[j];
 				for (int n = 0; n < problemDimension; n++)
 					gBest[n] = swarm[j][n];
-					FT.add(i, fBest);
+				gBestID = newID;
+				FT.add(i, fBest);
+				
 			}
 			
-			i++;
+
+			line = preparePopInitialationLines(this.nonPositionColumns, ids[j], pBestFitness[j], i);
+			line = getCompleteLine(pBest[j],line);
+			bw.write(line);
+			line = null;
+			line = new String();
 		}
 
 
@@ -133,25 +152,29 @@ public class PSO extends AlgorithmBias
 			for (int j = 0; j < swarmSize && i < maxEvaluations; j++)
 			{
 				
+				String s = "";
 				
 				switch (velocityUpdteStrategy)
 				{
-				case "classic":
-					v[j] = PSOOp.classicVelocityUpdate(v[j], swarm[j], pBest[j], gBest, phi1, phi2, phi3);
+				case 'o': // --> original
+					v[j] = classicVelocityUpdate(v[j], swarm[j], pBest[j], gBest, phi1, phi2, phi3, PRNGCounter);
+					//s += ids[r2]+" "+ids[r3]+" "+ids[r1]; what to put here?
 					break;
 				default:
 					System.out.println("Unrecognised velocity update method!"); 
 					break;
 				}
 				
-
+				
 				switch (perturbationStrategy)
 				{
-				case "classic":
-					swarm[j] = PSOOp.moveParticle(swarm[j], v[j]);
+				case 'a': // --> add
+					newInfeasibleX = moveParticle(swarm[j], v[j]);
+//					swarm[j] = moveParticle(swarm[j], v[j]);
 					break;
-				case "weighted":
-					swarm[j] = PSOOp.moveParticle(swarm[j], v[j], gamma1, gamma2);
+				case  'w': //--> weighted
+					newInfeasibleX = moveParticle(swarm[j], v[j], gamma1, gamma2);
+//					swarm[j] = moveParticle(swarm[j], v[j], gamma1, gamma2);
 					break;
 				default:
 					System.out.println("Unrecognised perturbation method!"); 
@@ -159,7 +182,8 @@ public class PSO extends AlgorithmBias
 				}
 		
 				
-				swarm[j] = correct(swarm[j], bounds);
+				
+				swarm[j] = correct(newInfeasibleX, swarm[j], bounds);
 				newFitness = problem.f(swarm[j]);
 				i++;
 
@@ -167,9 +191,24 @@ public class PSO extends AlgorithmBias
 				// update personal best position
 				if (newFitness < pBestFitness[j])
 				{
+					newID++;
+					
 					for (int n = 0; n < problemDimension; n++)
 						pBest[j][n] = swarm[j][n];
 					pBestFitness[j] = newFitness;
+					
+					
+					//what to put in S?
+					line =""+newID+" "+s+" "+formatter(pBestFitness[j])+" "+i+" "+ids[j];
+					for(int n = 0; n < problemDimension; n++)
+						line+=" "+formatter(swarm[j][n]);
+					line+="\n";
+					bw.write(line);
+					line = null;
+					s = null;
+					line = new String();
+					
+					ids[j] = newID;
 					
 					// best update
 					if (newFitness < fBest)
@@ -177,6 +216,7 @@ public class PSO extends AlgorithmBias
 						fBest = newFitness;
 						for (int n = 0; n < problemDimension; n++)
 							gBest[n] = swarm[j][n];
+						gBestID = newID;
 						FT.add(i, fBest);
 					}
 				}
@@ -184,6 +224,10 @@ public class PSO extends AlgorithmBias
 			}
 			
 		}
+		
+		closeAll();	
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsPSO");
+		
 		
 		finalBest = gBest;
 		

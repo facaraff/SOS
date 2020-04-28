@@ -79,7 +79,7 @@ public class ISBHelper {
 	}
 
 	/**
-	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files.
+	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files (for DE).
 	 * 
 	 * The notation to follow is {ID of the new fitter individual} followed by {IDs of the individuals taking pat of the newly generate one (in this case these are all -1 since this methods is used during the initialisation of the population)} followed by {the fitness value of the newly generated individual} followed by {the fitness evaluation counter} followed by {the index of the individuals which got replaced by the new fitter one (in this case this is -1 has dueing the initialisation there are no previous individuals to replace)}
 	 * As an example, this line for a DE\rand\1 algorithm would be implemented as line +=""+ids[j]+" -1 "+"-1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
@@ -125,6 +125,40 @@ public class ISBHelper {
 			case "bt":
 				// DE/best/2
 				columns = 9;
+				break;
+			default:
+				columns = -1;
+				break;
+		}	
+		
+		return columns;
+	}
+	
+	/**
+	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files (for PSO).
+	 * 
+	 * The notation to follow is {ID of the new fitter individual} followed by {IDs of the individuals taking pat of the newly generate one (in this case these are all -1 since this methods is used during the initialisation of the population)} followed by {the fitness value of the newly generated individual} followed by {the fitness evaluation counter} followed by {the index of the individuals which got replaced by the new fitter one (in this case this is -1 has dueing the initialisation there are no previous individuals to replace)}
+	 * As an example, this line for a DE\rand\1 algorithm would be implemented as line +=""+ids[j]+" -1 "+"-1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
+	 *
+	 * NB This method only prepare the initial part of the line which will be subsequently completed 
+	 *@param mutationStrategy The employed DE mutation strategy (each strategy requires a different number of individual from the population to generate the mutant and then the offspring via crossover)
+	 *@param FECounter The counter of the fitness function evaluations
+	 *
+	 *@return columns The number of columns required before attaching the coordinate of the newly generated individual 
+	 *
+	 */
+
+	public static int getNuberOfNonPositionColumnsForPSO(char velocityUpdteStrategy)
+	{
+		int columns;
+		
+		switch (velocityUpdteStrategy)
+		{
+			case 'w':
+				columns = 7;
+				break;
+			case 'a':
+				columns = 7;
 				break;
 			default:
 				columns = -1;

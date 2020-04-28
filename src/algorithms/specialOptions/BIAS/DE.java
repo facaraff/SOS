@@ -61,7 +61,6 @@ import utils.algorithms.Counter;
  */
 public class DE extends AlgorithmBias
 {
-	
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'X';
 	

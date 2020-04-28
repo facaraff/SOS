@@ -1028,6 +1028,63 @@ public class ISBOp
 			}
 			
 			
+			
+			//****************************** PSO **********************************
+			
+			
+			/**
+			* This method is used to initialise the velocity vector
+			* 
+			* @param s The initialisation method identifier.
+			* @param p The problem to be optimised.
+			* @param counter The PSRNG counter
+			* 
+			* @return v  The generated velocity vector.
+			*/
+			public static double[] initVelocityVector(char s, Problem p, Counter counter) 
+			{
+				int n = p.getDimension();
+				double[] v = new double[n];
+				
+				switch (s)
+				{
+					case 'k': //--> Kononova2015 --> //https://doi.org/10.1016/j.ins.2014.11.035
+						for(int i=0; i<n; i++)
+							v[i] = RandUtilsISB.uniform(0, 0.1, counter);
+						break;
+					default:
+						v = generateRandomSolution(p, counter);
+						break;
+				}
+				
+				return v;
+			}
+			
+			/**
+			* This is the classic PSO velocity update method
+			* 
+			* @param v The current velocity vector associated to a particle P
+			* @param x The current position of the particle P
+			* @param pBest The personal best position occupied by the particle P.
+			* @param gBest The global best particle.
+			* @param phi1 The inertia weight 
+			* @param phi2 The first acceleration coefficient
+			* @param phi3 The second acceleration coefficient
+			* @param counter The PSRNG counter
+			* 
+			* @return newV The updated velocity vector.
+			*/
+			public static double[] classicVelocityUpdate(double[] v, double[] x, double[] pBest, double[] gBest, double phi1, double phi2, double phi3, Counter counter) 
+			{
+				int n = v.length;
+				double[] newV = new double[n];
+				for(int i =0; i<n; i++)
+					newV[i] = phi1*v[i]+phi2*RandUtilsISB.random(counter)*(pBest[i]-x[i])+phi3*RandUtilsISB.random(counter)*(gBest[i]-x[i]);
+			 	return newV;
+			}
+			
+			
+			
 }
 
 

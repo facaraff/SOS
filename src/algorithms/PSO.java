@@ -79,6 +79,8 @@ public class PSO extends Algorithm
 		double fBest = Double.NaN;
 		double newFitness = Double.NaN;
 		
+		double[] newInfeasibleX = new double[problemDimension];
+		
 		int i = 0;
 		
 		// evaluate initial swarm and initialise velocity vectors
@@ -129,10 +131,12 @@ public class PSO extends Algorithm
 				switch (perturbationStrategy)
 				{
 				case "classic":
-					swarm[j] = PSOOp.moveParticle(swarm[j], v[j]);
+					newInfeasibleX = PSOOp.moveParticle(swarm[j], v[j]);
+//					swarm[j] = PSOOp.moveParticle(swarm[j], v[j]);
 					break;
 				case "weighted":
-					swarm[j] = PSOOp.moveParticle(swarm[j], v[j], gamma1, gamma2);
+					newInfeasibleX = PSOOp.moveParticle(swarm[j], v[j], gamma1, gamma2);
+//					swarm[j] = PSOOp.moveParticle(swarm[j], v[j], gamma1, gamma2);
 					break;
 				default:
 					System.out.println("Unrecognised perturbation method!"); 
@@ -140,7 +144,8 @@ public class PSO extends Algorithm
 				}
 		
 				
-				swarm[j] = correct(swarm[j], bounds);
+//				swarm[j] = correct(swarm[j], bounds);
+				swarm[j] = correct(newInfeasibleX, bounds);
 				newFitness = problem.f(swarm[j]);
 				i++;
 
