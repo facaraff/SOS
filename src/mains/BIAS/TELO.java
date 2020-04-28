@@ -691,7 +691,7 @@ public class TELO extends ISBMain
 					if(mutation.equals("ctro"))
 					{
 						a = new DE(mutation);
-						a.setDir("DE-TELO"+slash());
+						a.setDir("DE"+slash()+a.getNPC()+slash());
 						a.setCorrection(correction);
 						a.setParameter("p0", popSize); //Population size
 						a.setParameter("p1", 0.5); //F - scale factor
@@ -704,7 +704,7 @@ public class TELO extends ISBMain
 						for(char xover : DECrossOvers)
 						{
 							a = new DE(mutation,xover);
-							a.setDir("DE-TELO"+slash());
+							a.setDir("DE"+slash()+a.getNPC()+slash());
 							a.setCorrection(correction);
 							a.setParameter("p0", popSize); //Population size
 							a.setParameter("p1", 0.5); //F - scale factor

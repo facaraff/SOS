@@ -5,9 +5,7 @@ import java.util.Vector;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
 import benchmarks.BBOB2010;
-
-
-
+import algorithms.PSO;
 import algorithms.paperReviews.*;
 
 import utils.MatLab;
@@ -40,14 +38,17 @@ public class TestBBOB2010
 
 		double[] bias = null;
 
-//		a = new ISPO();
-//		a.pushParameter("p0", 1.0);
-//		a.pushParameter("p1", 10.0);
-//		a.pushParameter("p2", 2.0);
-//		a.pushParameter("p3", 4.0);
-//		a.pushParameter("p4", 1e-5);
-//		a.pushParameter("p5", 30.0);
-//		algorithms.add(a);
+		a = new PSO();
+		//aa.setDir("PSO");
+		a.setCorrection('s');
+		a.setParameter("p0", 20.0); //swarm size
+		a.setParameter("p1", -0.2); //F - scale factor
+		a.setParameter("p2", -0.07); //CR - Crossover Ratio
+		a.setParameter("p3", 3.74); //Alpha
+		a.setParameter("p4", 1.0); //Alpha
+		a.setParameter("p5", 1.0); //Alpha
+		algorithms.add(a);		
+		a = null;
 
 		a = new HyperSPAMnoSnoR();
 		algorithms.add(a);
