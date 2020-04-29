@@ -52,7 +52,7 @@ public class Debugging extends ISBMain
 		Problem p;
 
 		
-		Vector<AlgorithmBias> AlgorithmBiass = new Vector<AlgorithmBias>();
+		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
@@ -124,17 +124,16 @@ public class Debugging extends ISBMain
 				a.setParameter("p3", 3.74); //Alpha
 				a.setParameter("p4", 1.0); //Alpha
 				a.setParameter("p5", 1.0); //Alpha
-				AlgorithmBiass.add(a);		
+				algorithms.add(a);		
 				a = null;	
 			}
 			
 		}
 		
 		
-		
-
+		execute(algorithms, problems, expSettings);	
 			
-		}
+	}
 
 
 
