@@ -116,7 +116,7 @@ public class Debugging extends ISBMain
 				
 				
 				a = new PSO();
-				//aa.setDir("PSO");
+				a.setDir("PSO"+slash()+a.getNPC()+slash());
 				a.setCorrection(correction);
 				a.setParameter("p0", popSize); //swarm size
 				a.setParameter("p1", -0.2); //F - scale factor

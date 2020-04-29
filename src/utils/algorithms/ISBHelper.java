@@ -154,11 +154,11 @@ public class ISBHelper {
 		
 		switch (velocityUpdteStrategy)
 		{
-			case 'w':
-				columns = 7;
+			case 'o':
+				columns = 2;
 				break;
-			case 'a':
-				columns = 7;
+			case 'k':
+				columns = 2;
 				break;
 			default:
 				columns = -1;

@@ -55,7 +55,6 @@ public class PSO extends AlgorithmBias
 	protected char velocityUpdteStrategy;
 	protected char perturbationStrategy;
 
-	
 	public PSO() {this.velocityUpdteStrategy = 'o'; this.perturbationStrategy = 'a'; this.nonPositionColumns = getNuberOfNonPositionColumnsForPSO(velocityUpdteStrategy);}
 	public PSO(char velocityUpdteStrategy) {this.velocityUpdteStrategy = velocityUpdteStrategy; this.perturbationStrategy = 'w'; this.nonPositionColumns = getNuberOfNonPositionColumnsForPSO(velocityUpdteStrategy);}
 	public PSO(char velocityUpdteStrategy, char perturbationStrategy) {this.velocityUpdteStrategy = velocityUpdteStrategy; this.perturbationStrategy = perturbationStrategy; this.nonPositionColumns = getNuberOfNonPositionColumnsForPSO(velocityUpdteStrategy);}
@@ -159,6 +158,7 @@ public class PSO extends AlgorithmBias
 				case 'o': // --> original
 					v[j] = classicVelocityUpdate(v[j], swarm[j], pBest[j], gBest, phi1, phi2, phi3, PRNGCounter);
 					//s += ids[r2]+" "+ids[r3]+" "+ids[r1]; what to put here?
+					s += ids[j]+" "+gBestID; //what to put here????????????????
 					break;
 				default:
 					System.out.println("Unrecognised velocity update method!"); 
@@ -193,13 +193,10 @@ public class PSO extends AlgorithmBias
 				{
 					newID++;
 					
-					for (int n = 0; n < problemDimension; n++)
-						pBest[j][n] = swarm[j][n];
-					pBestFitness[j] = newFitness;
 					
 					
 					//what to put in S?
-					line =""+newID+" "+s+" "+formatter(pBestFitness[j])+" "+i+" "+ids[j];
+					line =""+newID+" "+s+" "+formatter(newFitness)+" "+i+" "+ids[j];
 					for(int n = 0; n < problemDimension; n++)
 						line+=" "+formatter(swarm[j][n]);
 					line+="\n";
@@ -207,6 +204,12 @@ public class PSO extends AlgorithmBias
 					line = null;
 					s = null;
 					line = new String();
+					
+					
+					
+					for (int n = 0; n < problemDimension; n++)
+						pBest[j][n] = swarm[j][n];
+					pBestFitness[j] = newFitness;
 					
 					ids[j] = newID;
 					
