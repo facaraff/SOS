@@ -31,12 +31,10 @@ package mains.BIAS;
 
 import java.util.Vector;
 
-import algorithms.specialOptions.BIAS.PSO;
-
-//import AlgorithmBiass.specialOptions.BIAS.SimplifiedGA;
+import algorithms.specialOptions.BIAS.DE;
+//import algorithms.specialOptions.BIAS.SimplifiedGA;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
-import utils.RunAndStore.FTrend;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 
@@ -44,7 +42,7 @@ import interfaces.Problem;
 
 import static utils.RunAndStore.slash;
 	
-public class Debugging extends ISBMain
+public class InconsistencyIssue extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -75,78 +73,88 @@ public class Debugging extends ISBMain
 		
 		
 		
-		char[] corrections = {'s','t','d','m','c'};
-//		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
+//		char[] corrections = {'s','t','d','m','c'};
+		char[] corrections = {'s', 't'};
+		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
+//		String[] DEMutations = {"ctbo"};
 //		char[] DECrossOvers = {'b','e'};
+		char[] DECrossOvers = {'b'};
 
-		double[] populationSizes = {5, 20, 100};
+//		double[] populationSizes = {5, 20, 100};
+		double[] populationSizes = {100};
+		
+		
+		double[] FValues = new double[10];
+		double[] CRValues = new double[5];
+		
+		
+		
+		for (int i=0; i<5; i++)
+			FValues[i] = 0.05+i*(1.95/9.0);
+		for (int i=0; i<5; i++)
+			CRValues[i] = 0.05 +i*((0.94/4.0));
+		
+
+		
+		
+		
 		
 		
 		for (double popSize : populationSizes)
 		{
+			
 			for (char correction : corrections)
 			{
 				
-//				for (String mutation : DEMutations)
-//					if(mutation.equals("ctro"))
+//				for (double F : FValues) 
+//				{
+//					for (double CR : CRValues)
 //					{
-//						a = new DE(mutation);
-//						a.setDir("DE"+slash()+a.getNPC()+slash());
-//						a.setCorrection(correction);
-//						a.setParameter("p0", popSize); //Population size
-//						a.setParameter("p1", 0.5); //F - scale factor
-//						a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-//						a.setParameter("p3", 0.25); //Alpha
-//						AlgorithmBiass.add(a);	
-//						a = null;
+
+						for (String mutation : DEMutations)
+							if(mutation.equals("ctro"))
+							{
+								a = new DE(mutation);
+								a.setDir("DE"+slash()+a.getNPC()+slash());
+								a.setCorrection(correction);
+								a.setParameter("p0", popSize); //Population size
+								a.setParameter("p1", 0.1); //F - scale factor
+								a.setParameter("p2", 0.2); //CR - Crossover Ratio
+								a.setParameter("p3", Double.NaN); //Alpha
+								algorithms.add(a);	
+								a = null;
+							}
+							else
+								for(char xover : DECrossOvers)
+								{
+									a = new DE(mutation,xover);
+									a.setDir("DE"+slash()+a.getNPC()+slash());
+									a.setCorrection(correction);
+									a.setParameter("p0", popSize); //Population size
+									a.setParameter("p1", 0.1); //F - scale factor
+									a.setParameter("p2", 0.2); //CR - Crossover Ratio
+									a.setParameter("p3", Double.NaN); //Alpha
+									algorithms.add(a);		
+									a = null;
+								}
 //					}
-//					else
-//						for(char xover : DECrossOvers)
-//						{
-//							a = new DE(mutation,xover);
-//							a.setDir("DE"+slash()+a.getNPC()+slash());
-//							a.setCorrection(correction);
-//							a.setParameter("p0", popSize); //Population size
-//							a.setParameter("p1", 0.5); //F - scale factor
-//							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-//							a.setParameter("p3", 0.25); //Alpha
-//							AlgorithmBiass.add(a);		
-//							a = null;
-//						}
-				
-				
-				a = new PSO();
-				a.setDir("PSO"+slash()+a.getNPC()+slash());
-				a.setCorrection(correction);
-				a.setParameter("p0", popSize); //swarm size
-				a.setParameter("p1", -0.2); //F - scale factor
-				a.setParameter("p2", -0.07); //CR - Crossover Ratio
-				a.setParameter("p3", 3.74); //Alpha
-				a.setParameter("p4", 1.0); //Alpha
-				a.setParameter("p5", 1.0); //Alpha
-				algorithms.add(a);		
-				a = null;	
+//
+//				}
 			}
 			
 		}
 		
-		
+			
 		execute(algorithms, problems, expSettings);	
 			
-	}
-
-
-
-
-protected static double runAlgorithmBiasRepetition(AlgorithmBias AlgorithmBias, Problem problem, ExperimentHelper expSettings) throws Exception
-{
-	FTrend FT = AlgorithmBias.execute(problem, expSettings.getBudgetFactor()*problem.getDimension());
-
-	return FT.getLastF();
+		}
 }
 
 
-}
+
+
+
+
 
 //a = new SimplifiedGA();
 //a.setDir("GA-TELO"+slash());
@@ -155,6 +163,6 @@ protected static double runAlgorithmBiasRepetition(AlgorithmBias AlgorithmBias, 
 //a.setParameter("p1", 666.0); //FIND PARAMETER
 //a.setParameter("p2", 666.0); //FIND PARAMETER
 //a.setParameter("p3", 666.0); //FIND PARAMETER
-//AlgorithmBiass.add(a);		
+//algorithms.add(a);		
 //a = null;
 		

@@ -31,7 +31,7 @@ public class cBFO extends AlgorithmBias
 		double beta = this.getParameter("p6").doubleValue();					// epsilon reduction ratio 2
 
 		// enable ABFO0 flag
-		boolean enableAdaptation0 = this.getParameter("p2").intValue()!=0;
+		boolean enableAdaptation0 = false; //this.getParameter("p2").intValue()!=0;
 
 		FTrend FT = new FTrend();
 		int problemDimension = problem.getDimension(); 

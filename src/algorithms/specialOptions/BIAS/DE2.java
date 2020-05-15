@@ -59,14 +59,14 @@ import utils.algorithms.Counter;
  * Differential Evolution (all established variants)
  * 
  */
-public class DE extends AlgorithmBias
+public class DE2 extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'X';
 	
-	public DE(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
+	public DE2(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
 	
-	public DE(String mut, char xover)
+	public DE2(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
 		
@@ -100,7 +100,7 @@ public class DE extends AlgorithmBias
 		
 		int i = 0;
 		
-		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
+		String FullName = getFullName("DE2"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 
@@ -150,9 +150,9 @@ public class DE extends AlgorithmBias
 		double currFit = Double.NaN;
 		double crossFit = Double.NaN;
 		
-//		double[][] temp = cloneArray(population); //new double[populationSize][problemDimension];
-//		double[] temp2 = cloneArray(fitnesses); //new double[populationSize];
-//		int[] idsTemp = cloneArray(ids); //new int[populationSize];
+		double[][] temp = cloneArray(population); //new double[populationSize][problemDimension];
+		double[] temp2 = cloneArray(fitnesses); //new double[populationSize];
+		int[] idsTemp = cloneArray(ids); //new int[populationSize];
 		
 
 		// iterate
@@ -161,9 +161,9 @@ public class DE extends AlgorithmBias
 		
 			//double[][] newPop = new double[populationSize][problemDimension];
 			
-			double[][] temp = new double[populationSize][problemDimension];
-			double[] temp2 = new double[populationSize];
-			int[] idsTemp = new int[populationSize];
+//			double[][] temp = new double[populationSize][problemDimension];
+//			double[] temp2 = new double[populationSize];
+//			int[] idsTemp = new int[populationSize];
 
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -329,15 +329,15 @@ public class DE extends AlgorithmBias
 					idsTemp[j] = ids[j];
 					temp2[j] = currFit;
 				}
-				crossPt = null; newPt = null;
+				//crossPt = null; newPt = null;
 			}
 			
 			population = cloneArray(temp);
-			temp=null;
+			//temp=null;
 			fitnesses = cloneArray(temp2);
-			temp2=null;
+			//temp2=null;
 			ids = cloneArray(idsTemp);
-			idsTemp=null;
+			//idsTemp=null;
 			
 		}
 		
