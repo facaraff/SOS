@@ -146,7 +146,7 @@ public class BFO extends Algorithm
 		                        previousFitness[b] = fitness[b];
 		                        
 		                        // move in new direction (chemotactic)
-		                        for (int n = 0; n <= problemDimension; n++) 
+		                        for (int n = 0; n < problemDimension; n++) 
 		                            colony[b][n] += (runLengthUnit*tumble[n])/norm;
 		                        
 
@@ -175,7 +175,7 @@ public class BFO extends Algorithm
 				                     previousFitness[b] = fitness[b];
 				                     
 		                            // keep moving in the same direction
-		                            for (int n = 0; n <= problemDimension; n++) 
+		                            for (int n = 0; n < problemDimension; n++) 
 			                            colony[b][n] += (runLengthUnit*tumble[n])/norm;	                  
 				                     
 		                            // correct and evaluate objective function
