@@ -47,8 +47,6 @@ import static utils.RunAndStore.resultsFolder;
 */
 public class RunDebugNewAlgorithm
 {
-	
-	
 	/** 
 	* Main method.
 	* This method has to be modified in order to launch a new experiment.
