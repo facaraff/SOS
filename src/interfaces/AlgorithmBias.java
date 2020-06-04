@@ -55,6 +55,7 @@ import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.uniform;
 import  utils.algorithms.ISBHelper;
 
 
@@ -376,6 +377,12 @@ public abstract class AlgorithmBias
 		else if(this.correction== 'c')
 		{
 			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0);
+			feasible = cloneSolution(output);
+		}
+		else if(this.correction== 'u')
+		{
+			// re-sampling with uniform distribution
+			output = uniform(infeasiblePt, bounds);
 			feasible = cloneSolution(output);
 		}
 		else
