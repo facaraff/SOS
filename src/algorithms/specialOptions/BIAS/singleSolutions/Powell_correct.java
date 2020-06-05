@@ -170,8 +170,8 @@ public class Powell_correct extends AlgorithmBias
 					xit[j] = xi[j][i];
 				fptt = fret;
 				
-				fret = lineMinimization(p, xit, maxIterations);
-				p = correct(p,this.dismissPreviousPt, bounds);
+				fret = lineMinimization(p, xit, maxIterations, PRGCounter);
+				p = correct(p,this.dismissPreviousPt, bounds, PRGCounter);
 				
 
 				for(int k = 0; k < n; k++)
@@ -228,7 +228,7 @@ public class Powell_correct extends AlgorithmBias
 
 //			fptt = fConstraint(ptt, bounds, PENALTY,problem, FT);
 //			ptt = correct(ptt,best,bounds);
-			ptt = correct(ptt,this.dismissPreviousPt,bounds);
+			ptt = correct(ptt,this.dismissPreviousPt,bounds, PRGCounter);
 			fptt = problem.f(ptt);
 			iter+=FT.getExtraInt();
 
@@ -259,8 +259,8 @@ public class Powell_correct extends AlgorithmBias
 				{
 //					fret = lineMinimization(p, xit,maxIterations);				
 //					double[] prevP = cloneSolution(p);
-					fret = lineMinimization(p, xit, maxIterations);
-					p = correct(p,this.dismissPreviousPt,bounds);
+					fret = lineMinimization(p, xit, maxIterations, PRGCounter);
+					p = correct(p,this.dismissPreviousPt,bounds, PRGCounter);
 					
 					if (fret < fBest)
 					{
@@ -326,7 +326,7 @@ public class Powell_correct extends AlgorithmBias
 	 * @return
 	 * @throws Exception
 	 */
-	private double lineMinimization(double[] p, double[] xit, int maxIterations) throws Exception
+	private double lineMinimization(double[] p, double[] xit, int maxIterations, Counter PRGCounter) throws Exception
 	{
 		
 		for(int j=0; j<n; j++)
@@ -336,9 +336,9 @@ public class Powell_correct extends AlgorithmBias
 		}
 
 		// bracket minimum
-		BracketMin bm = new BracketMin(this, 0.0, 1.0);
+		BracketMin bm = new BracketMin(this, 0.0, 1.0, PRGCounter);
 		// optimize along direction
-		Brent br = new Brent(this, bm.ax, bm.bx, bm.cx, maxIterations);
+		Brent br = new Brent(this, bm.ax, bm.bx, bm.cx, maxIterations, PRGCounter);
 
 //		
 //		for(int k = 0; k < n; k++)
@@ -362,7 +362,7 @@ public class Powell_correct extends AlgorithmBias
 		private final static double GOLD = 1.618034, GLIMIT = 100.0, TINY = 1.0e-20;
 		private double ax, bx, cx, fa, fb, fc;
 
-		public BracketMin(Powell_correct powell, double ax, double bx) throws Exception
+		public BracketMin(Powell_correct powell, double ax, double bx, Counter PRGCounter) throws Exception
 		{
 			//if (ax==bx)
 			//	throw new IllegalArgumentException("ax == bx");
@@ -370,15 +370,15 @@ public class Powell_correct extends AlgorithmBias
 			this.bx = bx;
 
 			double ulim, u, r, q, fu, temp;
-			fa = powell.f1dim(ax);
-			fb = powell.f1dim(bx);
+			fa = powell.f1dim(ax, PRGCounter);
+			fb = powell.f1dim(bx, PRGCounter);
 			if (fb>fa)
 			{
 				temp = ax; ax = bx; bx = temp;
 				temp = fa; fa = fb; fb = temp;
 			}
 			cx = bx+GOLD*(bx-ax);
-			fc = powell.f1dim(cx);
+			fc = powell.f1dim(cx, PRGCounter);
 			while (fb>fc && powell.iter < powell.maxEvaluations)
 			{
 				r = (bx-ax)*(fb-fc);
@@ -387,7 +387,7 @@ public class Powell_correct extends AlgorithmBias
 				ulim = bx+GLIMIT*(cx-bx);
 				if ((bx-u)*(u-cx)>0.0)
 				{
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, PRGCounter);
 					if(fu<fc)
 					{
 						ax = bx; bx = u; fa = fb; fb = fu;
@@ -399,26 +399,26 @@ public class Powell_correct extends AlgorithmBias
 						return;
 					}
 					u = cx+GOLD*(cx-bx);
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, PRGCounter);
 				}
 				else if ((cx-u)*(u-ulim)>0.0)
 				{
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, PRGCounter);
 					if (fu<fc)
 					{
 						bx = cx; cx = u; u = cx+GOLD*(cx-bx);
-						fb = fc; fc = fu; fu = powell.f1dim(u);
+						fb = fc; fc = fu; fu = powell.f1dim(u, PRGCounter);
 					}
 				}
 				else if ((u-ulim)*(ulim-cx)>=0.0)
 				{
 					u = ulim;
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, PRGCounter);
 				}
 				else
 				{
 					u = cx+GOLD*(cx-bx);
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u,PRGCounter);
 				}
 				ax = bx; bx = cx; cx = u;
 				fa = fb; fb = fc; fc = fu;
@@ -440,7 +440,7 @@ public class Powell_correct extends AlgorithmBias
 		private double xmin, fmin = 0.0;
 		private int brentIter;
 
-		public Brent(Powell_correct powell, double ax, double bx, double cx, int maxIterations) throws Exception {
+		public Brent(Powell_correct powell, double ax, double bx, double cx, int maxIterations, Counter PRGCounter) throws Exception {
 			//if(!((ax<bx&&bx<cx)||(ax>bx&&bx>cx)))
 			//	throw new ArithmeticException("Invalid arguments");
 
@@ -456,7 +456,7 @@ public class Powell_correct extends AlgorithmBias
 			a = ax<cx ? ax : cx;
 			b = ax>cx ? ax : cx;
 			x = w = v = bx;
-			fw = fv = fx = powell.f1dim(x);
+			fw = fv = fx = powell.f1dim(x, PRGCounter);
 			
 			// maximum iterations		
 //			int maxIterations = powell.getParameter("p1").intValue(); //100
@@ -502,7 +502,7 @@ public class Powell_correct extends AlgorithmBias
 					d = CGOLD*(e = (x>=xm ? a-x : b-x));
 				}
 				u = (Math.abs(d)>=tol1 ? x+d : x+sign(tol1, d));
-				fu = powell.f1dim(u);
+				fu = powell.f1dim(u, PRGCounter);
 
 				if(fu<=fx)
 				{
@@ -541,12 +541,12 @@ public class Powell_correct extends AlgorithmBias
 	 * @return
 	 * @throws Exception
 	 */
-	private double f1dim(double x) throws Exception
+	private double f1dim(double x, Counter PRGCounter) throws Exception
 	{
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
 			xt[j] = p1dim[j]+x*xi1dim[j];		
-		return problem.f(correct(xt,this.dismissPreviousPt,bounds));
+		return problem.f(correct(xt,this.dismissPreviousPt,bounds, PRGCounter));
 	}
 
 	private static double sign(double a, double b)

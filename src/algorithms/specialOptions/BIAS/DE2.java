@@ -281,7 +281,7 @@ public class DE2 extends AlgorithmBias
 				
 		
 				
-				crossPt = correct(crossPt, currPt, bounds);
+				crossPt = correct(crossPt, currPt, bounds, PRNGCounter);
 				
 				
 				crossFit = problem.f(crossPt);

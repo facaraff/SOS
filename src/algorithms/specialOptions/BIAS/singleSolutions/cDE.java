@@ -234,7 +234,7 @@ public class cDE extends AlgorithmBias
 			
 			
 			
-			b = correct(b,best,normalizedBounds);
+			b = correct(b,best,normalizedBounds,PRGCounter);
 			
 			
 			bScaled = scale(b, bounds, mu);

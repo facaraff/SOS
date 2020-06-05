@@ -101,7 +101,7 @@ public class Rosenbrock extends AlgorithmBias {
 						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
 					
 					//xCurrent = toro(xCurrent, bounds);
-					xCurrent = correct(xCurrent,prevCurrent, bounds);
+					xCurrent = correct(xCurrent,prevCurrent, bounds, PRGCounter);
 					
 					yCurrent = problem.f(xCurrent);
 					iter++;

@@ -4,15 +4,18 @@ import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.MatLab.max;
 
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
 
-import utils.random.RandUtils;
+import utils.random.RandUtilsISB;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+
+import utils.algorithms.Counter;
 
 public class RIS extends AlgorithmBias
 {	
@@ -32,6 +35,7 @@ public class RIS extends AlgorithmBias
 		double fBest;
 		double[] temp;
 		this.numberOfCorrections = 0;
+		Counter PRGCounter = new Counter(0);
 		
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
 		String fileName = "RIS"+correctionStrategy; 
@@ -47,7 +51,7 @@ public class RIS extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtilsISB.setSeed(seed);	
 		String line = "# function 0 dim "+problemDimension+" globalAlpha "+globalAlpha+" radius "+radius+" xi "+xi+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		bw.write(line);
 		line = null;
@@ -188,7 +192,7 @@ public class RIS extends AlgorithmBias
 					
 				
 					
-					Xk = correct(Xk,Xk_orig,bounds);
+					Xk = correct(Xk,Xk_orig,bounds, PRGCounter);
 					
 					
 					
@@ -280,7 +284,7 @@ public class RIS extends AlgorithmBias
 //									ciccio++;
 //								}
 								
-								Xk = correct(Xk,Xk_orig,bounds);
+								Xk = correct(Xk,Xk_orig,bounds, PRGCounter);
 								
 								fXk = problem.f(Xk);
 								i++; 

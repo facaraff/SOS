@@ -152,7 +152,7 @@ public class NonUniformSA extends AlgorithmBias
 //					fNew=problem.f(newPt);
 //				i++;
 
-				newPt = correct(newPt,oldPt,bounds);
+				newPt = correct(newPt,oldPt,bounds,PRGCounter);
 				fNew=problem.f(newPt);
 				i++;
 				

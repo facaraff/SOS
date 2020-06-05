@@ -42,6 +42,7 @@ import static utils.MatLab.multiply;
 import utils.MatLab;
 
 import static utils.algorithms.Misc.centroid;
+import static utils.algorithms.Misc.inDomain;
 import static utils.algorithms.Misc.orthonormalise;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.CompactAlgorithms.truncateRandn;
@@ -1084,6 +1085,91 @@ public class ISBOp
 			}
 			
 			
+			
+			
+
+			
+			
+			
+			/** Corrections using RandUtils are duplicated here to count PRNG activations*/
+			
+			
+			
+			
+			
+			/**
+			 * complete one tailed normal correction
+			 * 
+			 * implement complete one tailed normal correction.
+			 * 
+			 * @param x
+			 * @param bounds
+			 * @param counter The PSRNG counter
+			 * @return corrected x
+			 */
+			public static double[] completeOneTailedNormal(double[] x, double[][] bounds, double scaleFactor, Counter PRNG) 
+			{
+				int n = x.length;
+				double[] x_complete = new double[n];
+				for (int i = 0; i < n; i++)
+					x_complete[i] = completeOneTailedNormalRecursive(x[i], bounds[i][0], bounds[i][1], scaleFactor, PRNG);
+				return x_complete;
+			}
+			public static double[] completeOneTailedNormal(double[] x, double[] bounds, double scaleFactor, Counter PRNG)
+			{
+				double[][] BOUNDS = new double[x.length][2];
+				for(int i=0; i<x.length; i++)
+				{
+					BOUNDS[i][1] = bounds[0];
+					BOUNDS[i][1] = bounds[1];
+				}	
+				return completeOneTailedNormal(x, BOUNDS,scaleFactor, PRNG);
+			}
+
+			protected static double completeOneTailedNormalRecursive(double x, double lb, double ub, double scaleFactor, Counter PRNG) {
+				double x_complete = Double.NaN;
+				if (inDomain(x, lb, ub))
+					x_complete = x;
+				else {
+					x_complete = generateOneTailedNormalValue(x, lb, ub, scaleFactor, PRNG);
+					while (!inDomain(x_complete, lb, ub))
+						x_complete = generateOneTailedNormalValue(x_complete, lb, ub, scaleFactor, PRNG);
+
+				}
+				return x_complete;
+			}
+
+			protected static double generateOneTailedNormalValue(double x, double lb, double up, double scaleFactor, Counter PRNG)// N.B. to use after inDomain()!!!
+			{
+				double r = Math.abs(RandUtilsISB.gaussian(0, (up - lb) / scaleFactor, PRNG));
+				return (x < lb) ? (lb + r) : (up - r);
+			}
+
+			
+			
+			
+			/**
+			 * uniform correction strategy -- i.e. resample infeasible components using a uniform distribution
+			 * 
+			 * @param x solution to be corrected.
+			 * @param bounds search space boundaries.
+			 * @param counter The PSRNG counter
+			 * @return x_tor corrected solution.
+			 */
+			public static double[] uniform(double[] x, double[][] bounds, Counter PRNG)
+			{
+				double[] xu = new double[x.length];
+				for(int i=0; i<x.length; i++)
+				{
+					if(x[i]>bounds[i][1])
+						xu[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(PRNG);
+					else if(x[i]<bounds[i][0])
+						xu[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(PRNG);
+					else
+						xu[i] = x[i];
+				}		
+				return xu;
+			}
 			
 }
 

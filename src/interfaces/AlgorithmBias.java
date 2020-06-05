@@ -51,12 +51,13 @@ import static utils.RunAndStore.slash;
 import static utils.RunAndStore.createFolder;
 import static utils.RunAndStore.createPathOfFolders;
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.toro;
-import static utils.algorithms.Corrections.uniform;
+import static utils.algorithms.operators.ISBOp.completeOneTailedNormal;
+import static utils.algorithms.operators.ISBOp.uniform;
 import  utils.algorithms.ISBHelper;
+import utils.algorithms.Counter;
 
 
 import utils.RunAndStore.FTrend;
@@ -287,7 +288,7 @@ public abstract class AlgorithmBias
 	
 	
 	
-	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds)
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds, Counter PRNG)
 	{
 		int n = infeasiblePt.length;
 		double[][] BOUNDS = new double[n][2];
@@ -296,7 +297,7 @@ public abstract class AlgorithmBias
 			BOUNDS[i][0] = bounds[0];
 			BOUNDS[i][1] = bounds[1];
 		}	
-		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
+		return correct(infeasiblePt, previousFeasiblePt, BOUNDS, PRNG);
 	}
 	
 	
@@ -343,9 +344,10 @@ public abstract class AlgorithmBias
 	 *@param infeasiblePt A point that might be infeasible 
 	 *@param previousFeasiblePt The previous point that was surely feasible
 	 *@param bounds The boundaries of the optimisation problem.
+	 *@param PRNG The PRNG activations counter
 	 *@return The corrected (i.e. feasible) solution. 
 	 */
-	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds)
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds, Counter PRNG)
 	{
 		
 		double[] output; 
@@ -376,13 +378,13 @@ public abstract class AlgorithmBias
 		}
 		else if(this.correction== 'c')
 		{
-			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0);
+			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0,PRNG);
 			feasible = cloneSolution(output);
 		}
 		else if(this.correction== 'u')
 		{
 			// re-sampling with uniform distribution
-			output = uniform(infeasiblePt, bounds);
+			output = uniform(infeasiblePt, bounds, PRNG);
 			feasible = cloneSolution(output);
 		}
 		else

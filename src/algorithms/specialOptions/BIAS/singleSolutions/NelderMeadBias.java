@@ -146,7 +146,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 			//reflect = saturateToro(reflect, bounds);
 			
 			
-			reflect = correct(reflect,prevReflect,bounds);
+			reflect = correct(reflect,prevReflect,bounds, PRGCounter);
 			reflectVal = problem.f(reflect);
 			i++;
 			
@@ -174,7 +174,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 				
 				//expand = saturateToro(expand, bounds);
 				
-				reflect = correct(expand,prevExpand,bounds);
+				reflect = correct(expand,prevExpand,bounds, PRGCounter);
 				expandVal = problem.f(expand);
 				i++;
 				
@@ -292,7 +292,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 					contract[j] = mean[j] + beta*(reflect[j] - mean[j]);
 				
 				
-				contract = correct(contract,prevContract,bounds);
+				contract = correct(contract,prevContract,bounds,PRGCounter);
 				contractVal = problem.f(contract);
 				i++;
 
@@ -351,7 +351,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 							//simplex[k] = saturateToro(simplex[k], bounds);
 								
 								
-							simplex[k] = correct(simplex[k], prevSimplex,bounds);
+							simplex[k] = correct(simplex[k], prevSimplex,bounds, PRGCounter);
 							fSimplex[k] = problem.f(simplex[k]);
 								
 							i++;
@@ -399,7 +399,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 				for (int j = 0; j < problemDimension; j++)
 					contract[j] = mean[j] + beta*(simplex[h][j] - mean[j]);
 				
-				contract = correct(contract, prevContract, bounds);
+				contract = correct(contract, prevContract, bounds, PRGCounter);
 				
 				contractVal = problem.f(contract);
 				i++;
@@ -446,7 +446,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
 							
-							simplex[k] = correct(simplex[k], prevSimplex, bounds);
+							simplex[k] = correct(simplex[k], prevSimplex, bounds,PRGCounter);
 							
 							fSimplex[k] = problem.f(simplex[k]);
 							

@@ -125,7 +125,7 @@ public class GA extends AlgorithmBias
 			
 			child = GAmutations(child, mutationStrategy, md, bounds, PRNGCounter);
  			
-			child = correct(child,population[parent1],bounds);
+			child = correct(child,population[parent1],bounds, PRNGCounter);
 			double fChild = problem.f(child);
 			i++;
 			

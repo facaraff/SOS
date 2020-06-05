@@ -167,7 +167,7 @@ public class BFO extends AlgorithmBias
 		                        
 
 		                        // correct and evaluate new solution
-		                        colony[b] = correct(colony[b], previousFeasibleSol, bounds);
+		                        colony[b] = correct(colony[b], previousFeasibleSol, bounds, PRNGCounter);
 		                        fitness[b] = problem.f(colony[b]);
 		                        i++;
 		               
@@ -218,7 +218,7 @@ public class BFO extends AlgorithmBias
 			                            colony[b][n] += (runLengthUnit*tumble[n])/norm;	                  
 				                     
 		                            // correct and evaluate objective function
-			                        colony[b] = correct(colony[b], previousFeasibleSol, bounds);
+			                        colony[b] = correct(colony[b], previousFeasibleSol, bounds,PRNGCounter);
 			                        fitness[b] = problem.f(colony[b]);
 			                        i++;
 			       

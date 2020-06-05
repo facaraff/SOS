@@ -121,7 +121,7 @@ public class ISPO extends AlgorithmBias
 					//particle[j] = min(max(particle[j], bounds[j][0]), bounds[j][1]);
 					 				
 					
-					particle = correct(particle, particleOld, bounds);
+					particle = correct(particle, particleOld, bounds, PRGCounter);
 
 					// calculate new fitness
 					fParticle = problem.f(particle);

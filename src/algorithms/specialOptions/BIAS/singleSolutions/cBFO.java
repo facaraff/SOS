@@ -211,7 +211,7 @@ public class cBFO extends AlgorithmBias
 					a[n] = a[n] + C_i * delta[n]/stepNorm;
 
 
-				a = correct(a,best,normalizedBounds);
+				a = correct(a,best,normalizedBounds, PRGCounter);
 				
 				aScaled = scale(a, bounds, xc);
 				fA = problem.f(aScaled);
@@ -268,7 +268,7 @@ public class cBFO extends AlgorithmBias
 						for (int n = 0; n < problemDimension; n++)
 							a[n] = a[n] + C_i * delta[n]/stepNorm;
 						
-						a = correct(a,best,normalizedBounds);
+						a = correct(a,best,normalizedBounds, PRGCounter);
 						
 						aScaled = scale(a, bounds, xc);
 						fA = problem.f(aScaled);

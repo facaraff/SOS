@@ -183,7 +183,7 @@ public class PSO extends AlgorithmBias
 		
 				
 				
-				swarm[j] = correct(newInfeasibleX, swarm[j], bounds);
+				swarm[j] = correct(newInfeasibleX, swarm[j], bounds, PRNGCounter);
 				newFitness = problem.f(swarm[j]);
 				i++;
 
