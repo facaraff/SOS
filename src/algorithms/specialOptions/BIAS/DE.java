@@ -55,10 +55,10 @@ import utils.algorithms.Counter;
  * @author Fabio Caraffini (fabio.caraffini@gmail.com)
  * @link www.tinyurl.com/FabioCaraffini
  * 
- * 
  * Differential Evolution (all established variants)
  * 
  */
+
 public class DE extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
@@ -99,6 +99,10 @@ public class DE extends AlgorithmBias
 		double fBest = Double.NaN;
 		
 		int i = 0;
+		
+		int period = maxEvaluations/3;
+		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
+
 		
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
@@ -282,12 +286,13 @@ public class DE extends AlgorithmBias
 		
 				
 				crossPt = correct(crossPt, currPt, bounds, PRNGCounter);
-				
+				storeNumberOfCorrectedSolutions(period,i);
 				
 				crossFit = problem.f(crossPt);
 				i++; 
 
 
+				
 				// replacement
 				if (crossFit < currFit)
 				{
@@ -336,16 +341,15 @@ public class DE extends AlgorithmBias
 			temp=null;
 			fitnesses = cloneArray(temp2);
 			temp2=null;
-			ids = cloneArray(idsTemp);
+			ids = cloneArray(idsTemp); 
 			idsTemp=null;
 			
 		}
 		
 		closeAll();	
-		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsDE");
-		
 		finalBest = best;
 		FT.add(i, fBest);
+		writeStats(FullName, (double) (this.numberOfCorrections1/period), (double) (this.numberOfCorrections2/(period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),"", "correctionsDE");
 		return FT;
 		
 		

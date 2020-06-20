@@ -74,6 +74,8 @@ public abstract class AlgorithmBias
 	
 	/**AlgorithmsBias global variables **/
 	protected String ID = this.getClass().getSimpleName();
+	protected int numberOfCorrections1 = 0; 
+	protected int numberOfCorrections2 = 0; 
 	protected int numberOfCorrections = 0; 
 	protected char correction;
 	protected String Dir="."+slash()+"ResultsISB"+slash();
@@ -261,6 +263,33 @@ public abstract class AlgorithmBias
 		BW.close();
 	}
 	/**
+	 * Generate the file "fileName".text containing extended info
+	 * @param algName the full name of the algorithm (as it has to appear in the corrections.txt file).
+	 * @param percentage1 the percentage of corrected solutions after 1/3 of FEs.
+	 * @param percentage2 the percentage of corrected solutions after 2/3 of FEs.
+	 * @param percentage the percentage of corrected solutions.
+	 * @param PRG the number of PRG activations during the optimisation process.
+	 * @param extra a string containing all possible extra information to be added in the produced txt file (each space will results in a new column).
+	 * @param fileName the name of the txt file where results are stored. 
+	 * @throws Exception this methods must be able to handle I/O exceptions.
+	 */
+	public void writeStats(String algName, double percentage1, double percentage2, double percentage, int PRG, String extra, String fileName) throws Exception
+	{
+		// <output filename> <POIS value> <optionally: algorithm's parameters>  <seed value> <no of PRG calls>
+
+		String tmp = algName+" "+percentage1+" "+percentage2+" "+percentage+" "+this.seed+" "+PRG;
+		if(extra == null) tmp+="\n";
+		else tmp+=" "+extra+"\n";
+		
+		File f = new File(Dir+fileName+".txt");
+		if(!f.exists()) 
+			f.createNewFile();
+		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
+		BufferedWriter BW = new BufferedWriter(FW);
+		BW.write(tmp);
+		BW.close();
+	}
+	/**
 	 * Generate the file a txt file containing useful information, e.g. number of corrected solutions and PRG activations, on the performed optimisation process.
 	 * @param algName the full name of the algorithm (as it has to appear in the correction txt file).
 	 * @param percentage the percentage of corrected solutions.
@@ -278,6 +307,19 @@ public abstract class AlgorithmBias
 	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	protected void writeStats(String algName, double percentage, int PRG) throws Exception {writeStats(algName, percentage, PRG, "corrections");}
+	
+	/**
+	 *Store the number of corrected solutions after every "period" FEs 
+	 *@param period The period value.
+	 *@param i The FE counter.
+	 */
+	protected void storeNumberOfCorrectedSolutions(int period, int i)
+	{
+		if(i==period) 
+			numberOfCorrections1 = numberOfCorrections;
+		if(i==2*period) 
+			numberOfCorrections2 = numberOfCorrections; 
+	}
 	
 	/**
 	 *Fixes the scientific notation format 

@@ -57,7 +57,7 @@ public class Debugging extends ISBMain
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
-		expSettings.setBudgetFactor(1000);
+		expSettings.setBudgetFactor(10000);
 		expSettings.setNrRepetition(100);
 		
 		int n = expSettings.getProblemDimension();
