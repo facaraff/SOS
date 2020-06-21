@@ -36,8 +36,6 @@ either expressed or implied, of the FreeBSD Project.
 package interfaces;
 
 
-
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -379,6 +377,10 @@ public abstract class AlgorithmBias
 	 */
 	public String preparePopInitialationLines(int columns, int currentIndex, double currentFitness, int FECounter) {return ISBHelper.prepareInitialLine(columns, currentIndex, currentFitness, FECounter, this.DF);}
 	
+	/**
+	 * Wrapper for the BestPositionAndFitnessToString method of the class ISBHelper
+	 */
+	public String positionAndFitnessToString(double[] x, double fx) {return ISBHelper.positionAndFitnessToString(x, fx, this.DF);}
 	
 	/**
 	 *Perform t, s and d corrections  (e=penalty must be performed separately)

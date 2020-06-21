@@ -26,7 +26,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package algorithms.specialOptions.BIAS;
+package algorithms.specialOptions.BIAS.ISBDE;
 
 import utils.random.RandUtilsISB;
 
@@ -59,15 +59,15 @@ import utils.algorithms.Counter;
  * 
  */
 
-public class DE extends AlgorithmBias
+public class DEPoC extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'X';
 	protected boolean addBestDetails = false;
 	
-	public DE(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
+	public DEPoC(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
 	
-	public DE(String mut, char xover)
+	public DEPoC(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
 		
@@ -77,7 +77,7 @@ public class DE extends AlgorithmBias
 		this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);
 	}
 	
-	public DE(String mut, char xover, boolean bestDetails)
+	public DEPoC(String mut, char xover, boolean bestDetails)
 	{
 		this.mutationStrategy = mut;
 		
@@ -100,7 +100,7 @@ public class DE extends AlgorithmBias
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
-		if(CR==-1.0)
+		if(CR==-1)
 			CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
 		
 		
@@ -118,15 +118,12 @@ public class DE extends AlgorithmBias
 		
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
-		createFile(FullName);
 
-		int[] ids = new int[populationSize]; //int prevID = -1;
-		int newID = 0;
-//		int bestID = -1;
+
+	
 		
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
 		
-		String line = new String();
 		
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
@@ -137,8 +134,7 @@ public class DE extends AlgorithmBias
 			fitnesses[j] = problem.f(population[j]);
 			
 			i++;
-			newID++;
-			ids[j] = newID;
+
 			
 			if (j == 0 || fitnesses[j] < fBest)
 			{
@@ -149,14 +145,7 @@ public class DE extends AlgorithmBias
 			}
 
 			
-//			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
-			
-			line = preparePopInitialationLines(this.nonPositionColumns, ids[j], fitnesses[j], i);
-			line = getCompleteLine(population[j],line);
-			bw.write(line);
-			line = null;
-			line = new String();
-			
+
 		}
 
 		// temp variables
@@ -166,9 +155,7 @@ public class DE extends AlgorithmBias
 		double currFit = Double.NaN;
 		double crossFit = Double.NaN;
 		
-//		double[][] temp = cloneArray(population); //new double[populationSize][problemDimension];
-//		double[] temp2 = cloneArray(fitnesses); //new double[populationSize];
-//		int[] idsTemp = cloneArray(ids); //new int[populationSize];
+
 		
 
 		// iterate
@@ -179,7 +166,6 @@ public class DE extends AlgorithmBias
 			
 			double[][] temp = new double[populationSize][problemDimension];
 			double[] temp2 = new double[populationSize];
-			int[] idsTemp = new int[populationSize];
 
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -240,44 +226,36 @@ public class DE extends AlgorithmBias
 					r5 = r[4];
 				}			
 				
-				String s = "";
 				// mutation
 				switch (mutationStrategy)
 				{
 					case "ro":
 						// DE/rand/1
 						newPt = rand1(population[r1], population[r2],  population[r3], F, PRNGCounter);
-						s += ids[r2]+" "+ids[r3]+" "+ids[r1];
 						break;
 					case "ctbo":
 						// DE/cur-to-best/1
 						newPt = currentToBest1(currPt, population[indexBest], population[r1], population[r2], F, PRNGCounter);
-						s += ids[j]+" "+ids[indexBest]+" "+ids[r1]+" "+ids[r2];
 						break;
 					case "rt":
 						// DE/rand/2
 						newPt = rand2(population[r1], population[r2], population[r3], population[r4], population[r5],  F, PRNGCounter);
-						s+= ids[r1]+" "+ids[r2]+" "+ids[r3]+" "+ids[r4]+" "+ids[r5];
 						break;
 					case "ctro":
 						// DE/current-to-rand/1
 						crossPt = currentToRand1(population[r1], population[r2],  population[r3], currPt, F, PRNGCounter);
-						s += ids[j]+" "+ids[r1]+" "+ids[r2]+" "+ids[r3];
 						break;
 					case "rtbt":
 						// DE/rand-to-best/2
 						newPt = randToBest2(population[r1], population[r2], population[r3], population[r4], population[r5], population[indexBest], F, PRNGCounter);
-						 s+= ids[indexBest]+" "+ids[r1]+" "+ids[r2]+" "+ids[r3]+" "+ids[r4]+" "+ids[r5];
 						break;
 					case "bo":
 						// DE/best/1
 						newPt = best1(population[indexBest], population[r1], population[r2], F, PRNGCounter);
-						 s+= ids[indexBest]+" "+ids[r1]+" "+ids[r2];
 						break;
 					case "bt":
 						// DE/best/2
 						newPt =  best2(population[indexBest], population[r1], population[r2], population[r3], population[r4], F, PRNGCounter);
-						s+= ids[indexBest]+" "+ids[r1]+" "+ids[r2]+" "+ids[r3]+" "+ids[r4];
 						break;
 					default:
 						break;
@@ -308,23 +286,16 @@ public class DE extends AlgorithmBias
 				// replacement
 				if (crossFit < currFit)
 				{
-					newID++;
+					
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = crossPt[n];
 
 					fitnesses[j] = crossFit;
 					
 					temp2[j] = crossFit;
-					idsTemp[j] = newID;
+				
 					
-					line =""+newID+" "+s+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
-					for(int n = 0; n < problemDimension; n++)
-						line+=" "+formatter(population[j][n]);
-					line+="\n";
-					bw.write(line);
-					line = null;
-					s = null;
-					line = new String();
+					
 					
 					// best update
 					if (crossFit < fBest)
@@ -343,7 +314,7 @@ public class DE extends AlgorithmBias
 						//newPop[j][n] = currPt[n];
 					fitnesses[j] = currFit;
 					
-					idsTemp[j] = ids[j];
+				
 					temp2[j] = currFit;
 				}
 				crossPt = null; newPt = null;
@@ -353,8 +324,7 @@ public class DE extends AlgorithmBias
 			temp=null;
 			fitnesses = cloneArray(temp2);
 			temp2=null;
-			ids = cloneArray(idsTemp); 
-			idsTemp=null;
+			
 			
 		}
 		

@@ -33,7 +33,7 @@ import java.util.Vector;
 
 
 
-import algorithms.specialOptions.BIAS.DE;
+import algorithms.specialOptions.BIAS.ISBDE.DEPoC;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
@@ -41,9 +41,9 @@ import interfaces.Problem;
 
 
 
-import static utils.RunAndStore.slash;
+//import static utils.RunAndStore.slash;
 	
-public class TELODE extends ISBMain
+public class MainDEPoC extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -56,7 +56,7 @@ public class TELODE extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
-		expSettings.setNrRepetition(100);
+		expSettings.setNrRepetition(10);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -71,11 +71,16 @@ public class TELODE extends ISBMain
 		
 		problems.add(p);
 		
-		char[] corrections = {'s','t','d','m','c'};
+		char[] corrections = {'s','t','d','m','c', 'u'};
 		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
 		char[] DECrossOvers = {'b','e'};
 		double[] populationSizes = {5, 20, 100};
 		
+
+		
+		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};
+	
+		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
 		
 		
 		for (double popSize : populationSizes)
@@ -84,31 +89,44 @@ public class TELODE extends ISBMain
 			{
 				
 				for (String mutation : DEMutations)
-					if(mutation.equals("ctro"))
+				{
+					for (double F : FSteps)
 					{
-						a = new DE(mutation);
-						a.setDir("DE"+slash()+a.getNPC()+slash());
-						a.setCorrection(correction);
-						a.setParameter("p0", popSize); //Population size
-						a.setParameter("p1", 0.5); //F - scale factor
-						a.setParameter("p2", -1.0); //CR - Crossover Ratio
-						a.setParameter("p3", 0.25); //Alpha
-						algorithms.add(a);	
-						a = null;
-					}
-					else
-						for(char xover : DECrossOvers)
+						if(mutation.equals("ctro"))
 						{
-							a = new DE(mutation,xover);
-							a.setDir("DE"+slash()+a.getNPC()+slash());
+							a = new DEPoC(mutation,'b',false);
+							a.setDir("DEPoC/");
 							a.setCorrection(correction);
 							a.setParameter("p0", popSize); //Population size
-							a.setParameter("p1", 0.5); //F - scale factor
-							a.setParameter("p2", -1.0); //CR - Crossover Ratio
-							a.setParameter("p3", 0.25); //Alpha
-							algorithms.add(a);		
+							a.setParameter("p1", F); //F - scale factor
+							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+							a.setParameter("p3", Double.NaN); //Alpha
+							algorithms.add(a);	
 							a = null;
 						}
+						else
+							for(char xover : DECrossOvers)
+							{
+								for (double CR : CRSteps)
+								{
+									a = new DEPoC(mutation,xover, false);
+									a.setDir("DEPoC/");
+									a.setCorrection(correction);
+									a.setParameter("p0", popSize); //Population size
+									a.setParameter("p1", F); //F - scale factor
+									a.setParameter("p2", CR); //CR - Crossover Ratio
+									a.setParameter("p3", Double.NaN); //Alpha
+									algorithms.add(a);		
+									a = null;
+									
+								}
+							}
+			
+									
+					}
+					
+					
+					}
 				}	
 			}
 			

@@ -81,6 +81,26 @@ public class ISBHelper {
 		
 		return completeLine;
 	}
+	
+	/**
+	 * Return a string containing the coordinate values of an individual followed by its corresponding fitness value (values are separated with a blank space " ").
+	 *
+	 *@param x A solution
+	 *@param fx The fitness value of x.
+	 *@param DF Specifies the Decimal Format to use.
+	 *
+	 *@return s A string containing the desired values
+	 */
+	public static String positionAndFitnessToString(double[] x, double fx, DecimalFormat DF) 
+	{
+		String s =""+formatter(x[0], DF);
+		int problemDimension = x.length;
+		for(int n = 1; n < problemDimension; n++)
+			s+=" "+formatter(x[n], DF);
+		s+=formatter(fx, DF);
+		
+		return s;
+	}
 
 	/**
 	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files (for DE).

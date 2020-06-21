@@ -33,6 +33,8 @@ import java.util.Vector;
 
 
 import algorithms.specialOptions.BIAS.singleSolutions.*;
+import algorithms.specialOptions.BIAS.BFO;
+import algorithms.specialOptions.BIAS.PSO;
 import algorithms.specialOptions.BIAS.DE;
 //import algorithms.specialOptions.BIAS.SimplifiedGA;
 import algorithms.specialOptions.BIAS.GA;
@@ -695,7 +697,7 @@ public class TELO extends ISBMain
 						a.setCorrection(correction);
 						a.setParameter("p0", popSize); //Population size
 						a.setParameter("p1", 0.5); //F - scale factor
-						a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+						a.setParameter("p2", -1.0); //CR - Crossover Ratio
 						a.setParameter("p3", 0.25); //Alpha
 						algorithms.add(a);	
 						a = null;
@@ -708,7 +710,7 @@ public class TELO extends ISBMain
 							a.setCorrection(correction);
 							a.setParameter("p0", popSize); //Population size
 							a.setParameter("p1", 0.5); //F - scale factor
-							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+							a.setParameter("p2", -1.0); //CR - Crossover Ratio
 							a.setParameter("p3", 0.25); //Alpha
 							algorithms.add(a);		
 							a = null;
@@ -732,6 +734,30 @@ public class TELO extends ISBMain
 							a = null;
 						}
 				
+				a = new PSO();
+				a.setDir("PSO"+slash()+a.getNPC()+slash());
+				a.setCorrection(correction);
+				a.setParameter("p0", popSize); //swarm size
+				a.setParameter("p1", -0.2); //F - scale factor
+				a.setParameter("p2", -0.07); //CR - Crossover Ratio
+				a.setParameter("p3", 3.74); //Alpha
+				a.setParameter("p4", 1.0); //Alpha
+				a.setParameter("p5", 1.0); //Alpha
+				algorithms.add(a);		
+				a = null;	
+				
+				a = new BFO();
+				a.setDir("BFO"+slash()+a.getNPC()+slash());
+				a.setCorrection(correction);
+				a.setParameter("p0", popSize);
+				a.setParameter("p1", 20.0);
+				a.setParameter("p2", 25.0);
+				a.setParameter("p3", 28.0);
+				a.setParameter("p4", 24.0);
+				a.setParameter("p5", 0.25);
+				a.setParameter("p6", 0.05);
+				algorithms.add(a);
+				
 			}
 			
 		}
@@ -742,10 +768,6 @@ public class TELO extends ISBMain
 			
 		}
 }
-
-
-
-
 
 
 
