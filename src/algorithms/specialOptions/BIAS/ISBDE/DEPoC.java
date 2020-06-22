@@ -62,7 +62,7 @@ import utils.algorithms.Counter;
 public class DEPoC extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
-	protected char crossoverStrategy = 'X';
+	protected char crossoverStrategy = 'x';
 	protected boolean addBestDetails = false;
 	
 	public DEPoC(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
@@ -119,11 +119,7 @@ public class DEPoC extends AlgorithmBias
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 
-
-	
-		
-		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
-		
+		setSeedWithCurrentTime();
 		
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
@@ -328,14 +324,15 @@ public class DEPoC extends AlgorithmBias
 			
 		}
 		
-		closeAll();	
+	
 		
 		String s = "";
 		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
+		writeStats(FullName,  (((double)this.numberOfCorrections1)/((double)period)),  (((double)this.numberOfCorrections2)/((double)period*2)), (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRNGCounter.getCounter(),s, "DEPOIS");
 		
 		finalBest = best;
 		FT.add(i, fBest);
-		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),s, "correctionsDE");
+		
 		return FT;
 		
 		

@@ -326,6 +326,10 @@ public abstract class AlgorithmBias
 	 */
 	protected String formatter(double value){return ISBHelper.formatter(value, this.DF);}
 	
+	/**
+	 *Set the seed value as the current time expressed in millisecond
+	 */
+	protected void setSeedWithCurrentTime(){this.seed = System.currentTimeMillis();}
 	
 	
 	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds, Counter PRNG)

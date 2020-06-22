@@ -26,7 +26,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS;
+package mains.BIAS.temp;
 
 
 import java.util.Vector;
@@ -40,8 +40,7 @@ import utils.ExperimentHelper;
 import utils.RunAndStore.FTrend;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-
-
+import mains.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	

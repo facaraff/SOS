@@ -26,7 +26,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS;
+package mains.BIAS.temp;
 
 
 import java.util.Vector;
@@ -38,12 +38,13 @@ import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
+import mains.BIAS.ISBMain;
 
 
 
-//import static utils.RunAndStore.slash;
+import static utils.RunAndStore.slash;
 	
-public class MainDEPoC extends ISBMain
+public class MainDEPOIS extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -56,7 +57,7 @@ public class MainDEPoC extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
-		expSettings.setNrRepetition(10);
+		expSettings.setNrRepetition(100);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -71,16 +72,16 @@ public class MainDEPoC extends ISBMain
 		
 		problems.add(p);
 		
-		char[] corrections = {'s','t','d','m','c', 'u'};
-		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
+		char[] corrections = {'d','s', 'u'};
+		String[] DEMutations = {"ro"};
 		char[] DECrossOvers = {'b','e'};
 		double[] populationSizes = {5, 20, 100};
 		
 
 		
-		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};
+		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
 	
-		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
+		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
 		
 		for (double popSize : populationSizes)
@@ -94,8 +95,8 @@ public class MainDEPoC extends ISBMain
 					{
 						if(mutation.equals("ctro"))
 						{
-							a = new DEPoC(mutation,'b',false);
-							a.setDir("DEPoC/");
+							a = new DEPoC(mutation,'b',true);
+							a.setDir("DEPOIS"+slash());
 							a.setCorrection(correction);
 							a.setParameter("p0", popSize); //Population size
 							a.setParameter("p1", F); //F - scale factor
@@ -109,8 +110,8 @@ public class MainDEPoC extends ISBMain
 							{
 								for (double CR : CRSteps)
 								{
-									a = new DEPoC(mutation,xover, false);
-									a.setDir("DEPoC/");
+									a = new DEPoC(mutation,xover,true);
+									a.setDir("DEPOIS"+slash());
 									a.setCorrection(correction);
 									a.setParameter("p0", popSize); //Population size
 									a.setParameter("p1", F); //F - scale factor

@@ -62,7 +62,7 @@ import utils.algorithms.Counter;
 public class DE extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
-	protected char crossoverStrategy = 'X';
+	protected char crossoverStrategy = 'x';
 	protected boolean addBestDetails = false;
 	
 	public DE(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
