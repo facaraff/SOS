@@ -550,20 +550,26 @@ public class ISBOp
 			int n = x.length;
 			int startIndex = RandUtilsISB.randomInteger(n-1, counter);
 			int index = startIndex;
+			
+			
 
 			double[] x_off = new double[n];
 			for (int i = 0; i < n; i++)
 				x_off[i] = x[i];
 			          
 			x_off[index] = y[index];
-
+			
 			index = index + 1;
+			
+			if (index >= n)
+				index = 0;
+
 			while ((RandUtilsISB.random(counter) <= CR) && (index != startIndex))
 			{
-				if (index >= n)
-					index = 0;
 				x_off[index] = y[index];
 				index++;
+				if (index >= n)
+					index = 0;
 			}
 
 			return x_off;

@@ -97,7 +97,7 @@ public class ISBHelper {
 		int problemDimension = x.length;
 		for(int n = 1; n < problemDimension; n++)
 			s+=" "+formatter(x[n], DF);
-		s+=formatter(fx, DF);
+		s+=" "+formatter(fx, DF);
 		
 		return s;
 	}

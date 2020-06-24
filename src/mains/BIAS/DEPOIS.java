@@ -26,7 +26,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS.temp;
+package mains.BIAS;
 
 
 import java.util.Vector;
@@ -44,15 +44,17 @@ import mains.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	
-public class MainDEPOIS extends ISBMain
+public class DEPOIS extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
 		AlgorithmBias a;
 		Problem p;
 
-		
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
+//		Vector<AlgorithmBias> algorithms5 = new Vector<AlgorithmBias>();
+//		Vector<AlgorithmBias> algorithms20 = new Vector<AlgorithmBias>();
+//		Vector<AlgorithmBias> algorithms100 = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
@@ -74,75 +76,51 @@ public class MainDEPOIS extends ISBMain
 		
 		char[] corrections = {'d','s','u'};
 //		String[] DEMutations = {"ro"};
-		char[] DECrossOvers = {'e'};
+		char[] DECrossOvers = {'b','e'};
 		double[] populationSizes = {5, 20, 100};
 		
-	
-//		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-//	
-//		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
 	double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+	double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
-		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
-		
-		for (double popSize : populationSizes)
-		{
-			for (char correction : corrections)
+			for(double popSize : populationSizes)
 			{
-				
-				//for (String mutation : DEMutations)
-				//{
-					//for (double F : FSteps)
-					//{
-//						if(mutation.equals("ctro"))
-//						{
-//							a = new DEPoC(mutation,'b',true);
-//							a.setDir("DEPOIS"+slash());
-//							a.setCorrection(correction);
-//							a.setParameter("p0", popSize); //Population size
-//							a.setParameter("p1", F); //F - scale factor
-//							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-//							a.setParameter("p3", Double.NaN); //Alpha
-//							algorithms.add(a);	
-//							a = null;
-//						}
-//						else
-							for(char xover : DECrossOvers)
+				for (char correction : corrections)
+				{
+						for(char xover : DECrossOvers)
+						{
+							for (double F : FSteps)
 							{
-								for (double F : FSteps)
+								for (double CR : CRSteps)
 								{
-									for (double CR : CRSteps)
-									{
-										a = new DEPoC("ro",xover,true);
-										a.setDir("DEPOIS"+slash());
-										a.setCorrection(correction);
-										a.setParameter("p0", popSize); //Population size
-										a.setParameter("p1", F); //F - scale factor
-										a.setParameter("p2", CR); //CR - Crossover Ratio
-										a.setParameter("p3", Double.NaN); //Alpha
-										algorithms.add(a);		
-										a = null;
-									}
+									a = new DEPoC("ro",xover,true);
+									a.setDir("DEPOIS"+slash());
+									a.setCorrection(correction);
+									a.setParameter("p0", popSize); //Population size
+									a.setParameter("p1", F); //F - scale factor
+									a.setParameter("p2", CR); //CR - Crossover Ratio
+									a.setParameter("p3", Double.NaN); //Alpha
+									algorithms.add(a);		
+									a = null;
 								}
 							}
-			
-									
-					//}
-					
-					
-					//}
-				}	
+						}
+					}	
+				
+				execute(algorithms, problems, expSettings);
+				algorithms = null;
+				algorithms = new Vector<AlgorithmBias>();
 			}
+		
 			
 		
-		execute(algorithms, problems, expSettings);	
+//		execute(algorithms5, problems, expSettings);
+//		algorithms5 = null;
+////		execute(algorithms20, problems, expSettings);	
+//		algorithms20 = null;
+////		execute(algorithms100, problems, expSettings);
+//		algorithms100 = null;
 			
 		}
 }
-
-
-
-
-
 		

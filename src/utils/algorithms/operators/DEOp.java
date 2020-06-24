@@ -43,6 +43,7 @@ import static utils.algorithms.Misc.Cov;
 
 import utils.random.RandUtils;
 
+
 /** 
  *@author Fabio Caraffini (fabio.caraffini@gmail.com)
  * 
@@ -534,14 +535,17 @@ public class DEOp
 			x_off[index] = y[index];
 
 			index = index + 1;
+			if (index >= n)
+				index = 0;
+			
 			while ((RandUtils.random() <= CR) && (index != startIndex))
 			{
-				if (index >= n)
-					index = 0;
 				x_off[index] = y[index];
 				index++;
+				if (index >= n)
+					index = 0;
 			}
-
+			
 			return x_off;
 		}
 	

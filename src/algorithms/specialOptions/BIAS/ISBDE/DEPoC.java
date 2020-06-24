@@ -101,7 +101,15 @@ public class DEPoC extends AlgorithmBias
 		double[][] bounds = problem.getBounds();
 		
 		if(CR==-1)
-			CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
+		{
+			if(crossoverStrategy == 'b')
+				CR = alpha;
+			else
+				CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
+		}
+		
+			
+
 		
 		
 		double[][] population = new double[populationSize][problemDimension];
@@ -115,7 +123,8 @@ public class DEPoC extends AlgorithmBias
 		int period = maxEvaluations/3;
 		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
 
-		
+//		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize;
+		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy;
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 
@@ -328,7 +337,7 @@ public class DEPoC extends AlgorithmBias
 		
 		String s = "";
 		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
-		writeStats(FullName,  (((double)this.numberOfCorrections1)/((double)period)),  (((double)this.numberOfCorrections2)/((double)period*2)), (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRNGCounter.getCounter(),s, "DEPOIS");
+		writeStats(FullName+" "+F+" "+CR,  (((double)this.numberOfCorrections1)/((double)period)),  (((double)this.numberOfCorrections2)/((double)period*2)), (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRNGCounter.getCounter(),s,pois);
 		
 		finalBest = best;
 		FT.add(i, fBest);

@@ -100,8 +100,14 @@ public class DE extends AlgorithmBias
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
-		if(CR==-1.0)
-			CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
+		if(CR==-1)
+		{
+			if(crossoverStrategy == 'b')
+				CR = alpha;
+			else
+				CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
+		}
+		
 		
 		
 		double[][] population = new double[populationSize][problemDimension];
@@ -363,9 +369,10 @@ public class DE extends AlgorithmBias
 		String s = "";
 		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
 		
+		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),s, "correctionsDE");
+		
 		finalBest = best;
 		FT.add(i, fBest);
-		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),s, "correctionsDE");
 		return FT;
 		
 		
