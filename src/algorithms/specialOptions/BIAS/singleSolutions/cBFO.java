@@ -40,6 +40,7 @@ public class cBFO extends AlgorithmBias
 
 		int evalCount = 0;
 		
+		this.numberOfCorrections = 0;
 		
 		String FullName = getFullName("cBFO"+this.correction,problem); 
 		Counter PRGCounter = new Counter(0);
@@ -140,6 +141,7 @@ public class cBFO extends AlgorithmBias
 		
 		while (evalCount < maxEvaluations)
 		{
+			
 			/*
 			 * chemotaxis (iterate on bacteria)
 			 */
@@ -325,7 +327,7 @@ public class cBFO extends AlgorithmBias
 		FT.add(evalCount, fBest);
 		bw.close();
 	
-		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
+		writeStats(FullName, (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }

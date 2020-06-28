@@ -33,7 +33,7 @@ import java.util.Vector;
 
 import algorithms.specialOptions.BIAS.BFO;
 //import algorithms.specialOptions.BIAS.PSO;
-
+//import algorithms.specialOptions.BIAS.singleSolutions.cBFO;
 //import AlgorithmBiass.specialOptions.BIAS.SimplifiedGA;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
@@ -138,6 +138,19 @@ public class Debugging extends ISBMain
 				a.setParameter("p5", 0.25);
 				a.setParameter("p6", 0.05);
 				algorithms.add(a);
+				
+//				a = new cBFO();
+//				a.setDir("cBFO"+slash());
+//				a.setCorrection(correction);
+//				a.setParameter("p0", 300.0);
+//				a.setParameter("p1", 0.1);
+//				a.setParameter("p2", 4.0);
+//				a.setParameter("p3", 1.0);
+//				a.setParameter("p4", 10.0);
+//				a.setParameter("p5", 2.0);
+//				a.setParameter("p6", 2.0);
+//				algorithms.add(a);
+//				a = null;
 				
 				
 			}

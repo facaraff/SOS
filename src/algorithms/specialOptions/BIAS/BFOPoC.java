@@ -46,10 +46,15 @@ import interfaces.AlgorithmBias;
  * {@link http://downloads.hindawi.com/journals/ddns/2012/409478.pdf}
  */
 
-public class BFO extends AlgorithmBias
+public class BFOPoC extends AlgorithmBias
 {
+	protected boolean addBestDetails = false;
 	
-	public BFO() {this.nonPositionColumns = 5;}
+	public BFOPoC() {this.nonPositionColumns = 5;}
+	
+	public BFOPoC( boolean bestDetails) {this.nonPositionColumns = 5; this.addBestDetails = bestDetails;}
+	
+	
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -96,7 +101,8 @@ public class BFO extends AlgorithmBias
 		
 		int i = 0;
 		
-		this.numberOfCorrections = 0;
+		int period = maxEvaluations/3;
+		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
 	
 		// initialize and evaluate a colony of bacteria
 		for (int j = 0; j < colonySize; j++)
@@ -170,6 +176,7 @@ public class BFO extends AlgorithmBias
 
 		                        // correct and evaluate new solution
 		                        colony[b] = correct(colony[b], previousFeasibleSol, bounds, PRNGCounter);
+		                        storeNumberOfCorrectedSolutions(period,i);
 		                        fitness[b] = problem.f(colony[b]);
 		                        i++;
 		               
@@ -221,6 +228,7 @@ public class BFO extends AlgorithmBias
 				                     
 		                            // correct and evaluate objective function
 			                        colony[b] = correct(colony[b], previousFeasibleSol, bounds,PRNGCounter);
+			                        storeNumberOfCorrectedSolutions(period,i);
 			                        fitness[b] = problem.f(colony[b]);
 			                        i++;
 			       
@@ -326,8 +334,15 @@ public class BFO extends AlgorithmBias
 			
 		}
 		
+		
+		
+		
+		String s = "";
+		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
+		writeStats(FullName,  (((double)this.numberOfCorrections1)/((double)period)),  (((double)this.numberOfCorrections2)/((double)period*2)), (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRNGCounter.getCounter(),s,"correctionsBFO");
+//		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsBFO");
+		
 		closeAll();	
-		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsBFO");
 		
 		  finalBest = best;
 		
