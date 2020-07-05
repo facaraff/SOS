@@ -1,11 +1,15 @@
-package mains.test;
+ package mains.test;
 
-import static utils.algorithms.Misc.generateRandomSolution;
-
+ import static utils.algorithms.Misc.generateRandomSolution;
+ import static utils.MatLab.mean;
+ import static utils.RunAndStore.toText;
+ import static utils.RunAndStore.slash;
+ import static java.time.Instant.now;
+ 
 import java.util.Vector;
 
-import algorithms.CMAES;
-import algorithms.SEP_CMAES;
+//import algorithms.*;
+import algorithms.singleSolution.*;
 import benchmarks.problemsImplementation.CEC2014.CEC2014TestFunc;
 import interfaces.Algorithm;
 import interfaces.Problem;
@@ -23,151 +27,55 @@ public class TestOverhead
 		
 		public double f(double[] x) { return p.f(x); }
 	}
-	
-//	public static class CEC05_F3 extends Problem 
-//	{
-//		public CEC05_F3(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2005.f3(x); }
-//	}
-//	
-//	public static class CEC2013_F1 extends Problem 
-//	{
-//		public CEC2013_F1(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2013.f1(x); }
-//	}
-//	
-//	public static class CEC2013_F3 extends Problem 
-//	{
-//		public CEC2013_F3(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2013.f3(x); }
-//	}
-//	
-//	public static class CEC2013_F14 extends Problem 
-//	{
-//		public CEC2013_F14(int dimension, double[] bounds) { super(dimension, bounds); }
-//		public double f(double[] x) { return BenchmarkCEC2013.f14(x); }
-//	}
 
 	public static void main(String[] args) throws Exception
 	{	
-		// the dimensions we want to test
-		int [] sizes = {2, 10, 30, 50};
+		// the dimensionsNr we want to test
+		int [] dimensions = {2, 10, 30, 50};
 		
 		// the algorithms whose overhead must be compared
 		Vector<Algorithm> algorithms = new Vector<Algorithm>();
 
 		Algorithm alg;
 		
-		/*
-		alg = new EPSDE_LS();
-		alg.pushParameter("p0",50.0);
-		alg.pushParameter("p1",200.0);
-		alg.pushParameter("p2",1000.0);
-		alg.pushParameter("p3",1.0);
-		algorithms.add(alg);
-		
-		alg = new EPSDE_LS();
-		alg.pushParameter("p0",50.0);
-		alg.pushParameter("p1",200.0);
-		alg.pushParameter("p2",1000.0);
-		alg.pushParameter("p3",0.0);
-		algorithms.add(alg);
 
-		alg = new SADE();
-		alg.pushParameter("p0", 50.0);
-		alg.pushParameter("p1", 4.0);
-		alg.pushParameter("p2", 20.0);
-		algorithms.add(alg);
 		
-		alg = new MDE_pBX();
-		alg.pushParameter("p0", 100.0);
-		alg.pushParameter("p1", 0.15);
-		algorithms.add(alg);
-		
-		alg = new JADE();
-		alg.pushParameter("p0",60.0);
-		alg.pushParameter("p1",0.05);
-		alg.pushParameter("p2",0.1); 
-		algorithms.add(alg);
-
-		alg = new CLPSO();
-		alg.pushParameter("p0", 60.0);
-		algorithms.add(alg);
-
-		alg = new CCPSO2();
-		alg.pushParameter("p0", 30.0);
-		alg.pushParameter("p1", 0.5);
-		algorithms.add(alg);
-		
-		alg = new PMS();
-		alg.pushParameter("p0", 0.95);
-		alg.pushParameter("p1", 150.0);
-		alg.pushParameter("p2", 0.4);
-		alg.pushParameter("p3", 10e-5);
-		alg.pushParameter("p4", 2.0);
-		alg.pushParameter("p5", 0.5);
-		algorithms.add(alg);
-		*/
-
-		alg = new CMAES();
-		algorithms.add(alg);
-		
-		alg = new SEP_CMAES();
-		algorithms.add(alg);
-
-		/*
 		alg = new RIS();
-		alg.pushParameter("p0", 0.5);
-		alg.pushParameter("p1", 0.4);
-		alg.pushParameter("p2", 0.000001);
+		alg.setParameter("p0", 0.5);
+		alg.setParameter("p1", 0.4);
+		alg.setParameter("p2", 0.000001);
 		algorithms.add(alg);
 		
 		alg = new ThreeSome();
-		alg.pushParameter("p0", 0.95);
-		alg.pushParameter("p1", 4.0);
-		alg.pushParameter("p2", 0.1);
-		alg.pushParameter("p3", 150.0);
-		alg.pushParameter("p4", 0.4);
+		alg.setParameter("p0", 0.95);
+		alg.setParameter("p1", 4.0);
+		alg.setParameter("p2", 0.1);
+		alg.setParameter("p3", 150.0);
+		alg.setParameter("p4", 0.4);
 		algorithms.add(alg);
 
-		alg = new MALSChSSW();
-		alg.pushParameter("p0", 100.0);
-		alg.pushParameter("p1", 3.0);
-		alg.pushParameter("p2", 0.5);
-		alg.pushParameter("p3", 0.125);
-		alg.pushParameter("p4", 0.8);
-		alg.pushParameter("p5", 500.0);
-		alg.pushParameter("p6", 0.0);
-		algorithms.add(alg);
-
-		alg = new MALSChCMA();
-		alg.pushParameter("p0",60.0);
-		alg.pushParameter("p1",3.0);
-		alg.pushParameter("p2",0.5);
-		alg.pushParameter("p3",0.125);
-		alg.pushParameter("p4",0.5);
-		alg.pushParameter("p5",100.0);
-		alg.pushParameter("p6",1E-8);
-		algorithms.add(alg);
-		*/
-
+		
+		
 		// fixed budget
 		int budget = 10000;
 		// number of runs per algorithm
 		int numOfRuns = 10;
 
-		int numberOfSizes = sizes.length;
+		int dimensionsNr = dimensions.length;
 		int numOfAlgs = algorithms.size();
 
-		long[][] timesEval = new long[numberOfSizes][numOfRuns];
-		long[][][] times = new long[numberOfSizes][numOfAlgs][numOfRuns];
+		long[][] timesEval = new long[dimensionsNr][numOfRuns];
+		double[] timesEvalAVG = new double[dimensionsNr];
+		long[][][] times = new long[dimensionsNr][numOfAlgs][numOfRuns];
+		double[][] timesAVG = new double[dimensionsNr][numOfAlgs];
+		
+		double[][] overhead = new double[dimensionsNr][numOfAlgs];
 
-		//double[] bounds = {-5, 5};
 		double[] bounds = {-100, 100};
 
 		// dummy runs (needed to fix preallocation time)
 		{
-			Problem problem = new CEC2014_F1(sizes[0], bounds);
+			Problem problem = new CEC2014_F1(dimensions[0], bounds);
 
 			for (int j = 0; j < numOfAlgs; j++)
 			{
@@ -176,9 +84,9 @@ public class TestOverhead
 			}
 		}
 		
-		for (int i = 0; i < numberOfSizes; i++)
+		for (int i = 0; i < dimensionsNr; i++)
 		{
-			Problem problem = new CEC2014_F1(sizes[i], bounds);
+			Problem problem = new CEC2014_F1(dimensions[i], bounds);
 			
 			for (int j = 0; j < numOfAlgs; j++)
 			{
@@ -195,9 +103,9 @@ public class TestOverhead
 			}
 		}
 
-		for (int i = 0; i < numberOfSizes; i++)
+		for (int i = 0; i < dimensionsNr; i++)
 		{
-			Problem problem = new CEC2014_F1(sizes[i], bounds);
+			Problem problem = new CEC2014_F1(dimensions[i], bounds);
 			
 			for (int j = 0; j < numOfRuns; j++)
 			{
@@ -208,41 +116,59 @@ public class TestOverhead
 				timesEval[i][j] = System.currentTimeMillis()-t0;
 			}
 		}
+		
+		String report = "Perfomed: "+now()+"\nNumber of runs = "+numOfRuns+"\nBdget (FEs) = "+budget+"\n\n";
+		
+		report += "*** Function evaluation times ***\n";
 
-		for (int i = 0; i < numberOfSizes; i++)
+		for (int i = 0; i < dimensionsNr; i++)
 		{
-			System.out.print(sizes[i]);
-			if (i < numberOfSizes-1)
-				System.out.print("\t");
-		}
-		System.out.println();
-		for (int j = 0; j < numOfAlgs; j++)
-		{
-			System.out.print(algorithms.get(j).getClass().getSimpleName());
-			if (j < numOfAlgs-1)
-				System.out.print("\t");
-		}
-		System.out.println();
-		System.out.println("*****************************");
-
-		for (int i = 0; i < numberOfSizes; i++)
-		{
+			report += dimensions[i]+"D:\t";
 			for (int j = 0; j < numOfRuns-1; j++)
-				System.out.print(timesEval[i][j] + "\t");
-			System.out.println(timesEval[i][numOfRuns-1]);
+				report +=timesEval[i][j] + "\t";
+			timesEvalAVG[i] = mean(timesEval[i]);
+			report +=timesEval[i][numOfRuns-1]+"\t==> AVG: "+timesEvalAVG[i]+"\n\n";
 		}
-		System.out.println("*****************************");
-				
-		for (int i = 0; i < numberOfSizes; i++)
+		
+		report += "*** Algorithms evaluation times ***\n";
+		
+		for (int i = 0; i < dimensionsNr; i++)
 		{
+			report += "--- "+dimensions[i]+"D ---\n";
+					
 			for (int j = 0; j < numOfAlgs; j++)
 			{
+				report += algorithms.get(j).getClass().getSimpleName()+":"+"\t";
+				
 				for (int k = 0; k < numOfRuns-1; k++)
-					System.out.print(times[i][j][k] + "\t");
-				System.out.println(times[i][j][numOfRuns-1]);
+					report += times[i][j][k] + "\t";
+				timesAVG[i][j] = mean(times[i][j]);
+				report += times[i][j][numOfRuns-1]+"\t==> AVG: "+timesAVG[i][j]+"\n";
 			}
-
-			System.out.println("*****************************");
 		}
+		
+		report += "\n***  AVG Algorithmich Overhead over increasing dimension values***\n";
+		
+		
+		
+		for (int j = 0; j < numOfAlgs; j++)
+		{
+			report += algorithms.get(j).getClass().getSimpleName()+":"+"\t";
+					
+			for (int i = 0; i < dimensionsNr-1; i++)
+			{
+				overhead[i][j] = timesAVG[i][j]-timesEvalAVG[i];
+				report += overhead[i][j] + "\t";
+			}
+			overhead[dimensionsNr-1][j] = timesAVG[dimensionsNr-1][j]-timesEvalAVG[dimensionsNr-1];
+			report += overhead[dimensionsNr-1][j] + "\n";
+		}
+		
+		report +="\n****************************************\n\n";
+		System.out.println(report);
+		toText("results"+slash()+"overhead",report);
+		
+		
+		
 	}
 }
