@@ -52,14 +52,12 @@ public class DEPOIS extends ISBMain
 		Problem p;
 
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
-//		Vector<AlgorithmBias> algorithms5 = new Vector<AlgorithmBias>();
-//		Vector<AlgorithmBias> algorithms20 = new Vector<AlgorithmBias>();
-//		Vector<AlgorithmBias> algorithms100 = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
 		expSettings.setNrRepetition(100);
+
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -79,9 +77,13 @@ public class DEPOIS extends ISBMain
 		char[] DECrossOvers = {'b','e'};
 		double[] populationSizes = {5, 20, 100};
 		
+		//ISBDE setting
+		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};	
+		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
 		
-	double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-	double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
+		//High F-Cr values
+//		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+//		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
 			for(double popSize : populationSizes)
 			{
@@ -111,16 +113,8 @@ public class DEPOIS extends ISBMain
 				algorithms = null;
 				algorithms = new Vector<AlgorithmBias>();
 			}
-		
 			
-		
-//		execute(algorithms5, problems, expSettings);
-//		algorithms5 = null;
-////		execute(algorithms20, problems, expSettings);	
-//		algorithms20 = null;
-////		execute(algorithms100, problems, expSettings);
-//		algorithms100 = null;
-			
+			System.out.println("Done And Dusted");
 		}
 }
 		
