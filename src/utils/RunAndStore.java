@@ -19,16 +19,16 @@ import static utils.MatLab.mean;
 
 /**
  * This class contains static methods for displaying information and 3 static classes for running the optimisation process through the available processors, collecting the results and save them.
-*/	
+*/
 public class RunAndStore
 {
 	private static String resultsFolder = ".";
 	private static DecimalFormat formatter = new DecimalFormat("0.000E00");
-	private static MannWhitneyUTest mannWhitneyUTest;	
+	private static MannWhitneyUTest mannWhitneyUTest;
 		
 	//--------------------------------------------------------------------------------------------------------------------------//
 //	private static String acknowledge = "Acknowledgements:\n\n PAPERUNDERREVIEW";
-//	public static String getAcknowledgement(){return acknowledge;}    
+//	public static String getAcknowledgement(){return acknowledge;}
 	//---------------------------------------------------------------------------------------------------------------------------//
 			
 	
@@ -38,7 +38,7 @@ public class RunAndStore
 	
 	/**
 	 * This class contains the methods for running MULTITHREAD experiments.
-	*/	
+	*/
 	public static class AlgorithmRepetitionThread implements Callable<AlgorithmResult>
 	{
 		Algorithm algorithm;
@@ -52,42 +52,42 @@ public class RunAndStore
 		// TODO Binario? Database?
 		/**
 	     * This method sets the computational budget to be used ofr the optimisation process.
-	     *  
-	     * @param budget computationl budget. 
-	    */	
+	     * 
+	     * @param budget computationl budget.
+	    */
 		public void setBudget(int budget){this.budget = budget;}
 		/**
 	     * This method assigns a name to the experiment forlder.
-	     *  
+	     * 
 	     * @param folder name of the folder.
-	    */	
+	    */
 		public void setExpFolder(String folder){this.expFolder = folder;}
 		/**
 	     * This method returns the name of the enperiment folder.
-	     *  
-	     * @return expFolder experiment folder. 
-	    */	
+	     * 
+	     * @return expFolder experiment folder.
+	    */
 	    public String getExpFolder(){return this.expFolder;}
 		/**
 	     * This method specifies whther or not row data have to be stored.
-	     *  
-	     * @param saveRowData if true row data (fitness trends) are stored in files. 
-	    */	
+	     * 
+	     * @param saveRowData if true row data (fitness trends) are stored in files.
+	    */
 		public void saveRowData(boolean saveRowData){this.saveRowData = saveRowData;}
 		/**
 	     * This method shows the elapsed time.
-	     *  
-	     * @param showElapsedTime if true then the elapsed time is displayed.  
+	     * 
+	     * @param showElapsedTime if true then the elapsed time is displayed.
 	    */
 		public void showElapsedTime(boolean showElapsedTime){this.showElapsedTime = showElapsedTime;}
 		/**
 	     * Constructor 1.
-	     *  
-	     * @param algorithm optimiser to be executed. 
-	     * @param problem problem to be solved.  
-	     * @param repNr run identifier.   
-	    */	
-		public AlgorithmRepetitionThread(Algorithm algorithm, Problem problem, int repNr) 
+	     * 
+	     * @param algorithm optimiser to be executed.
+	     * @param problem problem to be solved.
+	     * @param repNr run identifier.
+	    */
+		public AlgorithmRepetitionThread(Algorithm algorithm, Problem problem, int repNr)
 		{
 			this.algorithm = algorithm;
 			this.problem = problem;
@@ -96,16 +96,16 @@ public class RunAndStore
 		/**
 	     * Constructor 2.
 	     * 
-	     * While working with real-world applications may require a customised computational budget, when dealing with benchmark problems is a common practice to use 
-	     * a fixed multipicative budget factor (usually = 5000 or 10000 fitness evaluations). Becnhmark functions can be usually tested at different dimensionality values and the budget factor is used to allocate a budget proportional to the number of desing variables. 
-	     *  
-	     * @param algorithm optimiser to be executed. 
-	     * @param problem problem to be solved.  
-	     * @param repNr run identifier.  
-	     * @param budgetFactor the computational budget will be automatically set up: budget = budgetFactor*(the dimensionality of the prpbem). 
-	     * @param saveRowData true to save row data.  
+	     * While working with real-world applications may require a customised computational budget, when dealing with benchmark problems is a common practice to use
+	     * a fixed multipicative budget factor (usually = 5000 or 10000 fitness evaluations). Becnhmark functions can be usually tested at different dimensionality values and the budget factor is used to allocate a budget proportional to the number of desing variables.
+	     * 
+	     * @param algorithm optimiser to be executed.
+	     * @param problem problem to be solved.
+	     * @param repNr run identifier.
+	     * @param budgetFactor the computational budget will be automatically set up: budget = budgetFactor*(the dimensionality of the prpbem).
+	     * @param saveRowData true to save row data.
 	     * @param expFolder if saveData is set to true, results are stored in this folder within the results folder. It can be left equal to ".".
-	    */	
+	    */
 		public AlgorithmRepetitionThread(Algorithm algorithm, Problem problem, int repNr, int budgetFactor, boolean saveRowData, String expFolder)
 		{
 			this.algorithm = algorithm;
@@ -123,11 +123,11 @@ public class RunAndStore
 		/**
 	     * This method executes an optimiser.
 	     * 
-	     * @param algorithm optimiser to be executed. 
-	     * @param problem problem to be solved.  
-	     * @param runIndex run identifier.  
-	     * @return best solution.  
-	    */	
+	     * @param algorithm optimiser to be executed.
+	     * @param problem problem to be solved.
+	     * @param runIndex run identifier.
+	     * @return best solution.
+	    */
 		public double runAlgorithmRepetition(Algorithm algorithm, Problem problem, int runIndex) throws Exception
 		{
 			long t0, t1;
@@ -143,10 +143,10 @@ public class RunAndStore
 			{
 				for (int j = n-1; j < n; j++)
 					System.out.println(FT.toString(j));
-				System.out.println("Elapsed time: " + (long)(t1-t0) + " ms.");
+				System.out.println("Elapsed time: " + (t1-t0) + " ms.");
 			}
 		return FT.getF(n-1);
-		}		
+		}
 	}
 	
 
@@ -176,21 +176,19 @@ public class RunAndStore
 	*/
 	private int extraValuesColumns = 1;
 	
-	//double sepindex; non necessariamente un vector usa questa classe per salvarci la peggio merda
-	
 	/**
 	* Constructor I.
 	*/
-	public FTrend(){this.fValue = new Vector<Double>(); this.index =  new Vector<Integer>(); this.extraValues =  null;}
+	public FTrend(){this.fValue = new Vector<>(); this.index =  new Vector<>(); this.extraValues =  null;}
 	/**
 	* Constructor II.
 	*/
 	public FTrend(boolean extra)
 	{
-		this.fValue = new Vector<Double>(); 
-		this.index =  new Vector<Integer>();
+		this.fValue = new Vector<>();
+		this.index =  new Vector<>();
 		if(extra)
-			this.extraValues =  new Vector<Double>();
+			this.extraValues =  new Vector<>();
 		else
 			 this.extraValues =  null;
 	}
@@ -276,16 +274,16 @@ public class RunAndStore
 	public boolean hasExtraValues() { return extraValues!=null;}
 	/**
 	* check if fitness and extra values need to be saved side by side or in separate files
-	*  
+	* 
 	*/
 	public boolean separateFile() { return hasExtraValues() && !together;}
 	/**
-	* reshape extra (Double) values into a (String) matrix of n columns 
-	*  
+	* reshape extra (Double) values into a (String) matrix of n columns
+	* 
 	*/
-	public String[] reshapeExtraValues(Vector<Double> extra, int n) 
+	public String[] reshapeExtraValues(Vector<Double> extra, int n)
 	{
-		String s = ""; 
+		String s = "";
 		for(int i=0; i<extra.size(); i++)
 			s+=extra.get(i)+"\t";
 
@@ -298,7 +296,7 @@ public class RunAndStore
 			if(counter%n!=0)
 				s+=temp+"\t";
 			else
-				s+=temp+"\n";	
+				s+=temp+"\n";
 		}
 
 		array = s.split("\n");
@@ -306,8 +304,8 @@ public class RunAndStore
 		return removeNaN(array);
 	}
 	/**
-	* Remove NaN from double extra values (USED WHEN EXTRA VALUES ARE ADDED NEXT TO FITNESSES but there are less extra values that fitness values) 
-	*  
+	* Remove NaN from double extra values (USED WHEN EXTRA VALUES ARE ADDED NEXT TO FITNESSES but there are less extra values that fitness values)
+	* 
 	*/
 	protected String[] removeNaN(String[] s)
 	{
@@ -323,20 +321,20 @@ public class RunAndStore
 	* add a new couple (i,f)
 	* 
 	* @param i i-th FE counter value.
-	* @param f Fitness value at i-th FE. 
+	* @param f Fitness value at i-th FE.
 	*/
 	public void add(int i, double f){this.index.add(i); this.fValue.add(f);}
 	/**
 	* Check if index is empty
 	* 
-	* @return boolean value for index to be empty or non-empty. 
+	* @return boolean value for index to be empty or non-empty.
 	*/
 	public boolean iIsEmpty(){return this.index.isEmpty();}
 	/**
 	* Merge two fitness trends.
 	* 
 	* Useful when an algorithms is run inside another. The fitness trend of the inner algorithm, i.e. FT, is appended to the bottom of the trend of the main algorithm.
-	* The FE value is appropriately modified.  
+	* The FE value is appropriately modified.
 	* 
 	* @param FT fitness trend to be included in the main trend.
 	* @param startI last FE counter value of the main fitness trend.
@@ -346,7 +344,7 @@ public class RunAndStore
 	* Join two fitness trends.
 	* 
 	* Useful when an algorithms is run inside another. The fitness trend of the inner algorithm, i.e. FT, is appended to the bottom of the trend of the main algorithm.
-	* The FE value is appropriately modified.  
+	* The FE value is appropriately modified.
 	* 
 	* @param FT fitness trend to be included in the main trend.
 	* @param startI last FE counter value of the main fitness trend.
@@ -356,7 +354,7 @@ public class RunAndStore
 	* Join two fitness trends so that the resulting one is monotone decreasing.
 	* 
 	* Useful when an algorithms is run inside another. The fitness trend of the inner algorithm, i.e. FT, is merged with in the trend of the main algorithm.
-	* The FE value is appropriately modified.  
+	* The FE value is appropriately modified.
 	* 
 	* @param FT fitness trend to be included in the main trend.
 	* @param startI last FE counter value of the main fitness trend.
@@ -368,7 +366,7 @@ public class RunAndStore
 		for(int i = 0; i<FT.index.size(); i++)
 		{
 			double currentFitness = FT.getF(i);
-			//if(currentFitness>currentBestFitness) System.out.println("cazzo");
+
 			if(currentFitness<currentBestFitness)
 			{
 //				System.out.println("starting index="+startI);
@@ -391,21 +389,21 @@ public class RunAndStore
 		
 		if(hasExtraValues())
 		{
-			if(together) 
+			if(together)
 			{
 				try {
 					//NB: in the algorithm you need to add as many extra value lines as fitness values... if not needed that many estradouble values that add Double.NaN!
 					String[] extra = reshapeExtraValues(extraValues,extraValuesColumns);
 					
 					for(int i = 0; i<this.index.size()-1; i++)
-						s+=this.index.get(i) + "\t" + fValue.get(i)+ "\t" +extra[i] + "\n"; 
+						s+=this.index.get(i) + "\t" + fValue.get(i)+ "\t" +extra[i] + "\n";
 					s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1)+ "\t" +extra[this.index.size()-1];
 					}
 					catch(Exception e) {
 					  System.out.println("NB: in the algorithm you need to add as many extra value lines as fitness values... if not needed that many estradouble values that add Double.NaN!");
 					}
 					
-//					
+//
 //				for(int i = 0; i<this.index.size()-1; i++)
 //					s+=this.index.get(i) + "\t" + fValue.get(i)+ "\t" +extraValues.get(i) + "\n";
 //				s+=this.index.get(this.index.size()-1) + "\t" + fValue.get(this.index.size()-1)+ "\t" +extraValues.get(this.index.size()-1);//THERE IS NO NEED TO SAVE THE LAST VALUE TWICE!!! CHECK!!!!! (FORSE PER NON ANDARE A CAPO?)
@@ -440,7 +438,7 @@ public class RunAndStore
 	* 
 	* @return s fitness trend.
 	*/
-	public String classicToString() 
+	public String classicToString()
 	{
 		String s = new String();
 		for(int i = 0; i<this.index.size()-1; i++)
@@ -461,7 +459,7 @@ public class RunAndStore
 	 public int size(){return index.size();}
 	
 	/**
-	* @todo vector containing extra info Vector<Double> extra. 
+	* @todo vector containing extra info Vector<Double> extra.
 	* @todo leave here the possibility of adding strings so that is possible to add extra info... in tis case duplicate the method add so that we can add those info al well and create a nother contructor.
 	*/
 	//	public String toString()
@@ -487,12 +485,12 @@ public class RunAndStore
 		/**
 		* The constructor requires the solution (best) found during the corresponding run (repNr).
 		*/
-		public AlgorithmResult(double fbest, int repNr) 
+		public AlgorithmResult(double fbest, int repNr)
 		{
 			super();
 			this.fbest = fbest;
 			this.repNr = repNr;
-		}		
+		}
 	}
 	
 	
@@ -501,17 +499,17 @@ public class RunAndStore
    
 	/**
 	 * This method makes sure that the main results folder exists.
-	*/	
+	*/
 	public static void resultsFolder()
 	{
-		resultsFolder+=slash()+"results"; 
-		createFolder(resultsFolder); 
+		resultsFolder+=slash()+"results";
+		createFolder(resultsFolder);
 	}
 	
 	/**
 	 * This method facilitates the creation of a generic folder.
 	 * 
-	 * @param s path/name of the folder.  
+	 * @param s path/name of the folder.
 	 * 
 	*/
 	public static void createFolder(String s)
@@ -519,7 +517,7 @@ public class RunAndStore
 		try
 		{
 			File file = new File(s);
-			if (!file.exists()) 
+			if (!file.exists())
 				file.mkdir();
 		}
 		catch (Exception e)
@@ -531,11 +529,11 @@ public class RunAndStore
 	/**
 	 * This method facilitates the creation of a generic path.
 	 * 
-	 * @param s path of nested folder.  
+	 * @param s path of nested folder.
 	 * 
 	*/
 	public static void createPathOfFolders(String s)
-	{	
+	{
 		String[] S = s.split(slash());
 		String temp = resultsFolder;
 	    for (int i=0; i < S.length; i++)
@@ -544,23 +542,23 @@ public class RunAndStore
 	    	{
 		    	temp += (slash()+S[i]);
 		    	createFolder(temp);
-	    	}	    	
+	    	}
 	    }
 	}
 	
 	/**
 	 * This method creates a folder algorithm within the main result forlder.
 	 * 
-	 * @param s name of the folder.  
+	 * @param s name of the folder.
 	 * 
-	*/	
+	*/
 	public static void createRFolder(String s)
 	{
 		s = resultsFolder+slash()+s;
 		try
 		{
 			File file = new File(s);
-			if (!file.exists()) 
+			if (!file.exists())
 				file.mkdir();
 		}
 		catch (Exception e)
@@ -574,7 +572,7 @@ public class RunAndStore
 	 * 
 	 * @return slash contains a slash if the program is executed in a Unix systems, a backslach in case of Microsoft Windows.
 	 * 
-	*/	
+	*/
 	public static String slash()
 	{
 		String slash = "/";
@@ -592,11 +590,11 @@ public class RunAndStore
 	 * @param fileName name of the file
 	 * @param saveAsText if true, dta are stored in txt files, otherwise, in binary files.
 	 * 
-	*/	
+	*/
 	public static void saveTrend(FTrend FT, double[] bestSolution, String fileName, boolean saveAsText)
 	{
 		try
-		{	
+		{
 			// save results to file
 			if (saveAsText)
 			{
@@ -612,15 +610,15 @@ public class RunAndStore
 				
 				if(FT.separateFile())
 				{
-					String[] parts = s.split("extras");	
+					String[] parts = s.split("extras");
                    s = parts[0];
                    
                    FileWriter FWriter = new FileWriter(fileName+"-Extras" + ".txt");
-                   FWriter.write(parts[1]);	
+                   FWriter.write(parts[1]);
                    FWriter.close();
                 }
 				
-				fileWriter.write(s);		
+				fileWriter.write(s);
 				fileWriter.close();
 					
 					
@@ -658,7 +656,7 @@ public class RunAndStore
 	public static String format(double value)
 	{
         String str = formatter.format(value).toLowerCase();
-        if (!str.contains("e-"))  
+        if (!str.contains("e-"))
             str = str.replace("e", "e+");
         return str;
 	}
@@ -667,7 +665,7 @@ public class RunAndStore
 	 * This method print on screen a + or a - sign according to the outcome of the Wilcoxon test.
 	 * 
 	 * The test is performed by taking into consideration two realisations of the same optimisation process performed with two different optimisers: the reference and the comparison algorithm.
-	 * The distribution of the final results, obtained by applying the reference for a fixed number of runs, is compared with that one obtained by applying the comparsion algorithm for the same amout of runs.  
+	 * The distribution of the final results, obtained by applying the reference for a fixed number of runs, is compared with that one obtained by applying the comparsion algorithm for the same amout of runs.
 	 * 
 	 * @param referenceValues array contating final solutions from multiple runs of the reference algorithm.
 	 * @param comparisonValues array contating final solutions from multiple runs of the comparison algorithm.
@@ -675,8 +673,8 @@ public class RunAndStore
 	 * @param threshold for comparing the p-value (i.e. 1 - (confidence level), commoly equal to 1-0.95 = 0.05)
 	*/
 	public static void displayWilcoxon(double[] referenceValues, double[] comparisonValues, boolean showPValue, double threshold)
-	{	
-		if(mannWhitneyUTest == null) mannWhitneyUTest= new MannWhitneyUTest();	
+	{
+		if(mannWhitneyUTest == null) mannWhitneyUTest= new MannWhitneyUTest();
 
 		double pValue = mannWhitneyUTest.mannWhitneyUTest(referenceValues, comparisonValues);
 		char w = '=';
@@ -687,7 +685,7 @@ public class RunAndStore
 			else
 				w = '-';
 		}
-		System.out.print(w + "\t");		
+		System.out.print(w + "\t");
 		if (showPValue)
 			System.out.print(format(pValue) + "\t");
 	}
@@ -697,14 +695,14 @@ public class RunAndStore
 	 * This method writes the content of a string into a txt file.
 	 * 
 	 * If the file already exists, the content is apended in the file, otherwise it is created.
-	 *  
+	 * 
 	 * @param name name/path of the txt file.
 	 * @param content content string to be written into the file.
 	*/
     public static void toText(String name, String content) throws Exception
     {
         File f = new File(name+".txt");
-        if(!f.exists()) 
+        if(!f.exists())
             f.createNewFile();
         FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
         BufferedWriter BW = new BufferedWriter(FW);
@@ -715,7 +713,7 @@ public class RunAndStore
 	 * This method writes the content of a string into a txt file within the results folder.
 	 * 
 	 * If the file already exists, the content is apended in the file, otherwise it is created.
-	 *  
+	 * 
 	 * @param name name/path of the txt file.
 	 * @param content content string to be written into the file.
 	*/
@@ -731,7 +729,7 @@ public class RunAndStore
 	 * @return names full name of the class.
 	*/
     public static String getFullName(Object o)
-    {	
+    {
 		String name = o.getClass().getName();
 		name = name.replace("$", ".");
 		return name;

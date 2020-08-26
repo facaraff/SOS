@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,29 +23,17 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package experiments.paperReviews;
 
-import interfaces.Experiment;
-import interfaces.Algorithm;
-//import algorithms.singleSolution.RandomSampling;
-//import algorithms.compact.review.RecDE_light;
-import algorithms.compact.review.RecGA;
 import algorithms.compact.review.RecBFO;
+import algorithms.compact.review.RecGA;
 import algorithms.compact.review.RecPSO;
-//import algorithms.inProgress.VACCABOIA4;
-//import algorithms.inProgress.VACCABOIA;
-//import algorithms.inProgress.VACCABOIA2;
-//import algorithms.inProgress.VACCABOIA3;
-//import algorithms.compact.cDE_exp_light;
-//import algorithms.compact.memeticCDE;
-//import algorithms.inProgress.CMO;
-//import algorithms.singleSolution.Powell;
-//import algorithms.singleSolution.Powell_toro;
-//import algorithms.singleSolution.Rosenbrock;
 import benchmarks.CEC2014;
+import interfaces.Algorithm;
+import interfaces.Experiment;
 
 
 public class ReviewEvo19 extends Experiment
@@ -65,43 +53,43 @@ public class ReviewEvo19 extends Experiment
 //		a = new RandomSampling();
 //		add(a);
 		
-//		
+//
 //		a = new RecDE_light();
 //		a.setParameter("p0", 0.25);
-//		add(a);	
-//		
+//		add(a);
+//
 		
 		
 		a = new RecGA();
 		a.setParameter("p0", 0.25);
-		add(a);	
+		add(a);
 		
 		
 		a = new RecBFO();
 		a.setParameter("p0", 0.25);
-		add(a);	
+		add(a);
 		
 		
 		a = new RecPSO();
 		a.setParameter("p0", 0.25);
-		add(a);	
+		add(a);
 		
 		
-//		
+//
 //		a = new RIcGA();
 //		a.setParameter("p0", 0.95);
 //		a.setParameter("p1", 0.25);
-//		add(a);	
-//		
+//		add(a);
+//
 //		a = new RIcBFO();
 //		a.setParameter("p0", 0.95);
 //		a.setParameter("p1", 0.25);
-//		add(a);	
-//		
+//		add(a);
+//
 //		a = new RIcPSO();
 //		a.setParameter("p0", 0.95);
 //		a.setParameter("p1", 0.25);
-//		add(a);	
+//		add(a);
 		
 
 		for(int i = 1; i<=30; i++)

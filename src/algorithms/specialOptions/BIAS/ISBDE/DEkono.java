@@ -2,7 +2,7 @@ package algorithms.specialOptions.BIAS.ISBDE;
 
 import utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 
 import java.io.BufferedWriter;
@@ -156,7 +156,7 @@ public class DEkono extends AlgorithmBias
 						crossPt = DEOp.crossOverExp(currPt, newPt, CR);
 				}
 				
-				crossPt = toro(crossPt, bounds);
+				crossPt = torus(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 				newID++;

@@ -4,7 +4,7 @@ import utils.algorithms.operators.DEOp;
 
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 import java.util.Arrays;
 import java.io.BufferedWriter;
@@ -29,16 +29,16 @@ public class DErt extends AlgorithmBias
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'b'; //e-->exponential  b-->binary
-		char correctionStrategy = 'c';  // t --> toroidal   s-->saturation
-		String fileName = "DErt"+crossoverStrategy+""+correctionStrategy; 
+		char correctionStrategy = 'c';  // t --> torus   s-->saturation
+		String fileName = "DErt"+crossoverStrategy+""+correctionStrategy;
 		
 		
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 		int[] ids = new int[populationSize];
@@ -55,7 +55,7 @@ public class DErt extends AlgorithmBias
 		fileName+="p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1);
 		File file = new File(Dir+fileName+".txt");
 		//File file = new File(Dir+"/DEroe"+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
-		if (!file.exists()) 
+		if (!file.exists())
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -64,7 +64,7 @@ public class DErt extends AlgorithmBias
 		
 		int newID = 0;
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtils.setSeed(seed);
 		String line = "# function 0 dim "+problemDimension+" pop "+populationSize+" F "+F+" CR "+CR+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		bw.write(line);
 		line = null;
@@ -129,7 +129,7 @@ public class DErt extends AlgorithmBias
 				int[] r = new int[populationSize];
 				for (int n = 0; n < populationSize; n++)
 					r[n] = n;
-				r = RandUtils.randomPermutation(r); 
+				r = RandUtils.randomPermutation(r);
 				
 				int r1 = r[0];
 				int r2 = r[1];
@@ -152,8 +152,8 @@ public class DErt extends AlgorithmBias
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(crossPt, bounds);
+					//System.out.println("TORUS");
+					output = torus(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -269,7 +269,7 @@ public class DErt extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -293,24 +293,24 @@ public class DErt extends AlgorithmBias
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 	
 	
 	
 	
-/*	
+/*
 	public double[] correction(double[] x, double[][] bounds, char correctionType)
-	{ 
+	{
 		//boolean equal = false;
 		double[] output = new double[x.length];
 		for(int i=0; i<x.length; i++)
 			output[i] = x[i];
 		if(correctionType=='t')
 		{
-			//System.out.println("TORO");
-			output = toro(x, bounds);
+			//System.out.println("TORUS");
+			output = torus(x, bounds);
 		}
 		else
 		{
@@ -324,12 +324,12 @@ public class DErt extends AlgorithmBias
 			//incCorrected();
 		return output;
 	}
-*/	
+*/
 	
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
 	{
 		File f = new File(Dir+"corrections.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -340,7 +340,7 @@ public class DErt extends AlgorithmBias
 	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
 	{
 		File f = new File(Dir+"corrections.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -359,7 +359,7 @@ public class DErt extends AlgorithmBias
 				if(finalFitnesses[n]==2)
 					counter++;
 			File f = new File(Dir+"corrections.txt");
-			if(!f.exists()) 
+			if(!f.exists())
 				f.createNewFile();
 			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 			BufferedWriter BW = new BufferedWriter(FW);

@@ -133,17 +133,17 @@ public class MTwister {
 			i++; j++;
 			if (i>=624) {
 				state[0] = state[624 -1];
-				i=1; 
+				i=1;
 			}
-			if (j>=key_length) 
+			if (j>=key_length)
 				j=0;
 		}
 		for (k=624 -1; k>0; k--) {
 			state[i] = (state[i] ^ ((state[i-1] ^ (state[i-1] >> 30)) * 1566083941L)) - i;
 			state[i] &= 0xffffffffL;
 			i++;
-			if (i>=624) { 
-				state[0] = state[624 -1]; i=1; 
+			if (i>=624) {
+				state[0] = state[624 -1]; i=1;
 			}
 		}
 		state[0] = 0x80000000L;
@@ -164,7 +164,7 @@ public class MTwister {
 		state[ip] = state[ip+397 -624] ^ ((( ((state[ip+0]) & 0x80000000L) | ((state[0]) & 0x7fffffffL) ) >> 1) ^ (((state[0]) & 1L) != 0L ? 0x9908b0dfL : 0L));
 	}
 
-	// generates a random number on [0,0xffffffff]-interval 
+	// generates a random number on [0,0xffffffff]-interval
 	long genrand_int32() {
 		long y;
 		if (--left == 0) next_state();
@@ -176,7 +176,7 @@ public class MTwister {
 		return y;
 	}
 
-	// generates a random number on [0,0x7fffffff]-interval 
+	// generates a random number on [0,0x7fffffff]-interval
 	long genrand_int31() {
 		long y;
 		if (--left == 0) next_state();
@@ -185,10 +185,10 @@ public class MTwister {
 		y ^= (y << 7) & 0x9d2c5680L;
 		y ^= (y << 15) & 0xefc60000L;
 		y ^= (y >> 18);
-		return (long)(y>>1);
+		return y>>1;
 	}
 
-	// generates a random number on [0,1]-real-interval 
+	// generates a random number on [0,1]-real-interval
 	public double genrand_real1() {
 		long y;
 		if (--left == 0) next_state();
@@ -197,10 +197,10 @@ public class MTwister {
 		y ^= (y << 7) & 0x9d2c5680L;
 		y ^= (y << 15) & 0xefc60000L;
 		y ^= (y >> 18);
-		return (double)y * (1.0/4294967295.0);
+		return y * (1.0/4294967295.0);
 	}
 
-	// generates a random number on [0,1)-real-interval 
+	// generates a random number on [0,1)-real-interval
 	public double genrand_real2() {
 		long y;
 		if (--left == 0) next_state();
@@ -209,10 +209,10 @@ public class MTwister {
 		y ^= (y << 7) & 0x9d2c5680L;
 		y ^= (y << 15) & 0xefc60000L;
 		y ^= (y >> 18);
-		return (double)y * (1.0/4294967296.0);
+		return y * (1.0/4294967296.0);
 	}
 
-	// generates a random number on (0,1)-real-interval 
+	// generates a random number on (0,1)-real-interval
 	public double genrand_real3() {
 		long y;
 		if (--left == 0)
@@ -222,7 +222,7 @@ public class MTwister {
 		y ^= (y << 7) & 0x9d2c5680L;
 		y ^= (y << 15) & 0xefc60000L;
 		y ^= (y >> 18);
-		return ((double)y + 0.5) * (1.0/4294967296.0);
+		return (y + 0.5) * (1.0/4294967296.0);
 	}
 
 	// generates a random number on [0,1) with 53-bit resolution
@@ -231,7 +231,7 @@ public class MTwister {
 		return(a*67108864.0+b)*(1.0/9007199254740992.0);
 	}
 
-	// generates a standardized gaussian random number 
+	// generates a standardized gaussian random number
 	public double genrand_gaussian() {
 		int i;
 		double a;
@@ -243,18 +243,18 @@ public class MTwister {
 		return a;
 	}
 
-	// returns the state of the random number generator 
+	// returns the state of the random number generator
 	public long[] getState() {
 		int i;
 		long[] savedState=new long[627];
 		for(i=0; i<624; i++) savedState[i] = state[i];
-		savedState[624] = (long) left;
-		savedState[625] = (long) initf;
-		savedState[626] = (long) inext;
+		savedState[624] = left;
+		savedState[625] = initf;
+		savedState[626] = inext;
 		return savedState;
 	}
 
-	// restores the state of the random number generator 
+	// restores the state of the random number generator
 	public void setState(long[] savedState) {
 		int i;
 		for(i=0; i<624; i++) state[i] = savedState[i];
@@ -262,32 +262,4 @@ public class MTwister {
 		initf = (int) savedState[625];
 		inext = (int) savedState[626];
 	}
-
-	/*
-	// main program for testing as a standalone program
-	// same variables printed as in the C program plus
-	// 100000 gaussian draws
-	public static void main(String[] args) {
-		int i;
-		long[] init={0x123, 0x234, 0x345, 0x456};
-		long length=4;
-		MTwister mt0 = new MTwister();
-		mt0.init_by_array(init);
-		LogManager.println("1000 outputs of genrand_int32()");
-		for (i=0; i<10; i++) {
-			LogManager.println(mt0.genrand_int32());
-			if (i%5==4) LogManager.println("\n");
-		}
-		LogManager.println("\n1000 outputs of genrand_real2()\n");
-		for (i=0; i<10; i++) {
-			LogManager.println(mt0.genrand_real2());
-			if (i%5==4) LogManager.println("\n");
-		}
-		LogManager.println("\n100000 outputs of genrand_gaussian()\n");
-		for (i=0; i<10; i++) {
-			LogManager.println(mt0.genrand_gaussian());
-			if (i%5==4) LogManager.println("\n");
-		}
-	}
-	*/
 }

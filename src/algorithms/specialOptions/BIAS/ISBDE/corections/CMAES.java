@@ -3,13 +3,13 @@ Copyright (c) 2019, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
@@ -42,7 +42,7 @@ import utils.random.RandUtils;
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 
 import interfaces.Algorithm;
@@ -50,7 +50,7 @@ import interfaces.Problem;
 import static utils.RunAndStore.FTrend;
 
 /*
- * Covariance Matrix Adaptation Evolutionary Strategy 
+ * Covariance Matrix Adaptation Evolutionary Strategy
  */
 public class CMAES extends Algorithm
 {
@@ -86,7 +86,7 @@ private int run = 0;
 		double fBest = Double.NaN;
 		
 		
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		
 		
 
@@ -96,7 +96,7 @@ private int run = 0;
 		cma.setRepairMatrix(true);				// repair ill-conditioned matrix
 		cma.setDimension(problemDimension);		// overwrite some loaded properties
 		cma.setInitialX(best);					// in each dimension, also setTypicalX can be used
-		cma.setInitialStandardDeviation(0.2);	// also a mandatory setting 
+		cma.setInitialStandardDeviation(0.2);	// also a mandatory setting
 		cma.options.verbosity = -1;
 		cma.options.writeDisplayToFile = -1;
 		String s = new String();
@@ -107,10 +107,10 @@ private int run = 0;
 			rank[p]=-1;
 		//System.out.println(cma.getDataC());
 		
-		char correctionStrategy = 'd';  // t --> toroidal   s-->saturation  'e'--> penalty 'd'--->discard
+		char correctionStrategy = 'd';  // t --> torus   s-->saturation  'e'--> penalty 'd'--->discard
 		String fileName = "CMAES"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		File file = new File(Dir+"/"+fileName);
-		if (!file.exists()) 
+		if (!file.exists())
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -133,15 +133,15 @@ private int run = 0;
 		// iteration loop
 		int g = 1;
 		int j = 0;
-		int ciccio = 0; 
-		double[] previousFit = new double[populationSize]; 
+		int ciccio = 0;
+		double[] previousFit = new double[populationSize];
 		
 //		double[][] previousPop = cma.samplePopulation();
 //		if(correctionStrategy == 'd')
 //		{
 //			for(int p=0;p<populationSize;p++)
 //			{
-//				previousPop[p] = toro(previousPop[p], bounds);
+//				previousPop[p] = torus(previousPop[p], bounds);
 //				previousFit[p] = problem.f(previousPop[p]);
 //				System.out.println(previousFit[p]);
 //			}
@@ -178,18 +178,18 @@ private int run = 0;
 			double[][] pop = cma.samplePopulation();
 			
 			for(int i = 0; i < pop.length && j < maxEvaluations; ++i)
-			{ 
-				// saturate solution inside bounds 
-				//pop[i] = toro(pop[i], bounds);//RIMPIAZZZA SAT KONO
+			{
+				// saturate solution inside bounds
+				//pop[i] = torus(pop[i], bounds);//TODO: replace with SAT KONO
 				//pop[i] = saturation(pop[i],bounds);
 				
-				// compute fitness/objective value	
+				// compute fitness/objective value
 				//fitness[i] = problem.f(pop[i]);
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(pop[i], bounds);
+					//System.out.println("TORUS");
+					output = torus(pop[i], bounds);
 					
 					if(!Arrays.equals(output, pop[i]))
 					{
@@ -221,8 +221,7 @@ private int run = 0;
 				}
 				else if(correctionStrategy == 'd')
 				{
-					//System.out.println("madonna berra");
-					output = toro(pop[i], bounds);
+					output = torus(pop[i], bounds);
 //					if(!Arrays.equals(output, pop[i]))
 					if(!equal(output, pop[i]) || infinity(pop[i]))
 					{
@@ -289,7 +288,7 @@ private int run = 0;
 //				//pop = null;
 //				for(int p=0;p<populationSize;p++)
 //					previousFit[p] = fitness[p];
-//				
+//
 //			}
 			
 		}
@@ -306,7 +305,7 @@ private int run = 0;
 	}
 	
 	public int rank(int index, double fit, double[] sorted)
-	{   
+	{
 		for(int i=0; i < sorted.length; ++i)
 			if(fit <= sorted[i])
 				return i+1;
@@ -319,7 +318,7 @@ private int run = 0;
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -343,14 +342,14 @@ private int run = 0;
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 	
 	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
 	{
 		File f = new File(Dir+"corrections.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -369,7 +368,7 @@ private int run = 0;
 				if(finalFitnesses[n]==2)
 					counter++;
 			File f = new File(Dir+"corrections.txt");
-			if(!f.exists()) 
+			if(!f.exists())
 				f.createNewFile();
 			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 			BufferedWriter BW = new BufferedWriter(FW);

@@ -37,15 +37,15 @@ public class simplifiedGA2 extends AlgorithmBias
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
-	{	
+	{
 		this.file = new String();
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		//double nt =  getParameter("p1").intValue();
 		double md = getParameter("p1").doubleValue();
 		double d = getParameter("p2").doubleValue();
 			
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 		
 		int[] ids = new int[populationSize];
@@ -66,7 +66,7 @@ public class simplifiedGA2 extends AlgorithmBias
 		
 		int i = 0;
 		int parent1 = 0;
-		int parent2 = 0; 
+		int parent2 = 0;
 		int rand = 0;
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
@@ -92,7 +92,7 @@ public class simplifiedGA2 extends AlgorithmBias
 				for (int n = 0; n < problemDimension; n++)
 					best[n] = population[j][n];
 				FT.add(i,fBest);
-			} 
+			}
 				
 		}
 							
@@ -100,7 +100,7 @@ public class simplifiedGA2 extends AlgorithmBias
 		while (i < maxEvaluations)
 		{
 			int[] indices = getIndices(populationSize);
-			indices = RandUtils.randomPermutation(indices); 
+			indices = RandUtils.randomPermutation(indices);
 			parent1 = indices[0]; parent2 = indices[1];
 			
 				
@@ -113,7 +113,6 @@ public class simplifiedGA2 extends AlgorithmBias
 			
 			for(int n=0; n<problemDimension; n++)
 				xChild[n] += RandUtils.gaussian(0, md*(bounds[n][1]-bounds[n][0]));
-			//xChild = saturateToro(xChild, bounds);
 			xChild = saturation(xChild, bounds);
 			double fChild = problem.f(xChild);
 			i++;
@@ -138,7 +137,7 @@ public class simplifiedGA2 extends AlgorithmBias
 			}
 				
 			
-		}	
+		}
 		
 		finalBest = best;
 		
@@ -151,7 +150,7 @@ public class simplifiedGA2 extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -175,7 +174,7 @@ public class simplifiedGA2 extends AlgorithmBias
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 	

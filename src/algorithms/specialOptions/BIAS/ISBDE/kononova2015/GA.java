@@ -42,15 +42,15 @@ public class GA extends AlgorithmBias
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
-	{	
+	{
 		this.file = new String();
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		double nt =  getParameter("p1").intValue();
 		double md = getParameter("p2").doubleValue();
 		double d = getParameter("p3").doubleValue();
 			
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 		
 		int[] ids = new int[populationSize];
@@ -71,7 +71,7 @@ public class GA extends AlgorithmBias
 		
 		int i = 0;
 		int parent1 = 0;
-		int parent2 = 0; 
+		int parent2 = 0;
 		int worst = 0;
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
@@ -97,7 +97,7 @@ public class GA extends AlgorithmBias
 				for (int n = 0; n < problemDimension; n++)
 					best[n] = population[j][n];
 				FT.add(i, fBest);
-			} 
+			}
 				
 		}
 							
@@ -105,12 +105,12 @@ public class GA extends AlgorithmBias
 		while (i < maxEvaluations)
 		{
 			int[] indices = getIndices(populationSize);
-			indices = RandUtils.randomPermutation(indices); 
+			indices = RandUtils.randomPermutation(indices);
 			if(fitnesses[indices[0]] < fitnesses[indices[1]])
 				parent1 = indices[0];
 			else
 				parent1 = indices[1];
-			indices = RandUtils.randomPermutation(indices); 
+			indices = RandUtils.randomPermutation(indices);
 			if(fitnesses[indices[0]] < fitnesses[indices[1]])
 				parent2 = indices[0];
 			else
@@ -124,7 +124,6 @@ public class GA extends AlgorithmBias
 			
 			for(int n=0; n<problemDimension; n++)
 				xChild[n] += RandUtils.gaussian(0, md*(bounds[n][1]-bounds[n][0]));
-			//xChild = saturateToro(xChild, bounds);
 			xChild = saturation(xChild, bounds);
 			double fChild = problem.f(xChild);
 			i++;
@@ -150,7 +149,7 @@ public class GA extends AlgorithmBias
 			}
 				
 			
-		}	
+		}
 		
 		finalBest = best;
 		
@@ -163,7 +162,7 @@ public class GA extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -187,8 +186,7 @@ public class GA extends AlgorithmBias
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
-	
 }

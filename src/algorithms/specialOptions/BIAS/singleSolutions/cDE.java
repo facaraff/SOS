@@ -28,7 +28,7 @@ import utils.RunAndStore.FTrend;
  * compact Differential Evolution
  */
 public class cDE extends AlgorithmBias
-{	
+{
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'X';
 	
@@ -50,16 +50,16 @@ public class cDE extends AlgorithmBias
 		double F = this.getParameter("p2").doubleValue();//0.5
 			
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
-		double[] normalizedBounds = {-1.0, 1.0};		
+		double[] normalizedBounds = {-1.0, 1.0};
 
 		String line = new String();
 				
-		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
+		char correctionStrategy = this.correction;  // t --> torus   s --> saturation  d -->  discard  e ---> penalty
 
 		
-		String FullName = getFullName("cDE"+mutationStrategy+crossoverStrategy+correctionStrategy,problem); 
+		String FullName = getFullName("cDE"+mutationStrategy+crossoverStrategy+correctionStrategy,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		
@@ -125,7 +125,7 @@ public class cDE extends AlgorithmBias
 			FT.add(i, fB);
 
 			
-			newID++; 
+			newID++;
 			
 			line =""+newID+" "+formatter(fB)+" "+i+" "+prevID;
 			for(int n = 0; n < problemDimension; n++)
@@ -134,7 +134,7 @@ public class cDE extends AlgorithmBias
 			bw.write(line);
 			line = null;
 			line = new String();
-			prevID = newID;		
+			prevID = newID;
 		}
 		
 
@@ -211,7 +211,7 @@ public class cDE extends AlgorithmBias
 					xu = generateIndividual(mean, sigma2,PRGCounter);
 					xv = generateIndividual(mean, sigma2,PRGCounter);
 					b = randToBest2(xr, xs, xt, xu, xv, best, F,PRGCounter);
-					break;		
+					break;
 				case "rsf":
 					 // DE/rand/1-Random-Scale-Factor
 					xr = generateIndividual(mean, sigma2,PRGCounter);
@@ -253,7 +253,7 @@ public class cDE extends AlgorithmBias
 				
 				
 				
-				newID++; 
+				newID++;
 				
 				line =""+newID+" "+formatter(fB)+" "+i+" "+prevID;
 				for(int n = 0; n < problemDimension; n++)
@@ -262,7 +262,7 @@ public class cDE extends AlgorithmBias
 				bw.write(line);
 				line = null;
 				line = new String();
-				prevID = newID;		
+				prevID = newID;
 				
 				FT.add(i, fBest);
 				

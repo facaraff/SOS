@@ -3,13 +3,13 @@ Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.specialOptions.BIAS.ISBDE.corections;
@@ -32,7 +32,7 @@ import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 import java.util.Arrays;
 
@@ -57,7 +57,7 @@ public class DEboe extends AlgorithmBias
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
-	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
+	protected char correctionStrategy = 'e';  // t --> torus   s-->saturation
 	protected int run = 0;
 	
 	
@@ -66,15 +66,15 @@ public class DEboe extends AlgorithmBias
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-//		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation
+//		char correctionStrategy = 'e';  // t --> torus   s-->saturation
 		String fileName = "DEboe"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
-		FTrend FT = new FTrend(); 
+		FTrend FT = new FTrend();
 		
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 		
 		double[][] population = new double[populationSize][problemDimension];
@@ -83,10 +83,10 @@ public class DEboe extends AlgorithmBias
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
 		
-		int i = 0;		
+		int i = 0;
 		
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtils.setSeed(seed);
 		
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
@@ -133,7 +133,7 @@ public class DEboe extends AlgorithmBias
 				for (int n = 0; n < populationSize-1; n++)
 					if(n != indexBest)
 						r[n] = n;
-				r = RandUtils.randomPermutation(r); 
+				r = RandUtils.randomPermutation(r);
 				
 				int r2 = r[0];
 				int r3 = r[1];
@@ -147,8 +147,8 @@ public class DEboe extends AlgorithmBias
 				
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(crossPt, bounds);
+					//System.out.println("TORUS");
+					output = torus(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -224,7 +224,7 @@ public class DEboe extends AlgorithmBias
 				{
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = crossPt[n];
-					temp2[j] = crossFit;	
+					temp2[j] = crossFit;
 				}
 				else
 				{
@@ -255,7 +255,7 @@ public class DEboe extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -279,21 +279,21 @@ public class DEboe extends AlgorithmBias
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 	
-/*	
+/*
 	public double[] correction(double[] x, double[][] bounds, char correctionType)
-	{ 
+	{
 		//boolean equal = false;
 		double[] output = new double[x.length];
 		for(int i=0; i<x.length; i++)
 			output[i] = x[i];
 		if(correctionType=='t')
 		{
-			//System.out.println("TORO");
-			output = toro(x, bounds);
+			//System.out.println("TORUS");
+			output = torus(x, bounds);
 		}
 		else
 		{
@@ -307,12 +307,12 @@ public class DEboe extends AlgorithmBias
 			//incCorrected();
 		return output;
 	}
-*/	
+*/
 
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
 	{
 		File f = new File(Dir+"correctionsTEMP2.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -332,14 +332,14 @@ public class DEboe extends AlgorithmBias
 				if(finalFitnesses[n]==2)
 					counter++;
 			File f = new File(Dir+"correctionsTEMP2.txt");
-			if(!f.exists()) 
+			if(!f.exists())
 				f.createNewFile();
 			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 			BufferedWriter BW = new BufferedWriter(FW);
 			BW.write(name+" "+percentage+" "+formatter((double)counter/finalFitnesses.length)+" "+F_value+" "+CR_value+" "+SEED+"\n");
 			BW.close();
 		}
-	}	
+	}
 	
 	
 }

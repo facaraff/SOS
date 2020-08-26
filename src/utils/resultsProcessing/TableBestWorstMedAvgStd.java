@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package utils.resultsProcessing;
@@ -56,8 +56,8 @@ public class TableBestWorstMedAvgStd extends TableStatistics
 
 			// for each sub-experiment (benchmark and problem size)
 			for (int subE=0; subE < subExperiments; subE++)
-			{	
-				int dimensions = data[subE].getDimension(); 
+			{
+				int dimensions = data[subE].getDimension();
 				this.Tables[subE] = data[subE].getName() + ".COMPETITION"+"("+tabNum+")";
 				int functions = data[subE].getFunctionsNumber();
 
@@ -79,26 +79,26 @@ public class TableBestWorstMedAvgStd extends TableStatistics
 				if (this.getErrorFlag())
 				{
 					double[] minima = data[subE].getMinima();
-					double temp;	
+					double temp;
 					for (int i=0; i < functions; i++)
 					{
-						temp = (double)(AVGs[i] - minima[i]); 
-						avgTab[i] = this.D2S(temp); 
+						temp = AVGs[i] - minima[i];
+						avgTab[i] = this.D2S(temp);
 						System.out.println("AVG");
 						System.out.println(AVGs[i]);
 						System.out.println(temp);
 						System.out.println(avgTab[i]);
-						temp = (double)(STDs[i]);
+						temp = (STDs[i]);
 						stdTab[i] = this.D2S(temp);
-						temp = (double)(BESTs[i] - minima[i]);
+						temp = BESTs[i] - minima[i];
 						bestTab[i] = this.D2S(temp);
 						System.out.println("BEST");
 						System.out.println(BESTs[i]);
 						System.out.println(temp);
 						System.out.println(bestTab[i]);
-						temp = (double)(WORSTs[i] - minima[i]);
+						temp = WORSTs[i] - minima[i];
 						worstTab[i] = this.D2S(temp);
-						temp = (double)(MEDIANs[i] - minima[i]);
+						temp = MEDIANs[i] - minima[i];
 						medianTab[i] = this.D2S(temp);
 					}
 				}
@@ -112,11 +112,11 @@ public class TableBestWorstMedAvgStd extends TableStatistics
 						worstTab[i] = this.D2S(WORSTs[i]);
 						medianTab[i] = this.D2S(MEDIANs[i]);
 					}
-				}	
+				}
 
 				String[] table = new String[7 + 2*functions + 3];
 				table[0] = "\\begin{table}"; //\begin{table*}
-				table[1] = "\\caption{Results for $"+dimensions+"$D.}\\label{tab:"+dimensions+"}";
+				table[1] = "\\caption{Algorithm " + AlgList[a].getName() + ". Results for $"+dimensions+"$D.}\\label{tab:"+dimensions+"}";
 				table[2] = "\\begin{center}";
 				table[3] = "\\begin{tabular}{|c|c|c|c|c|c|}";
 				table[4] = "\\hline";
@@ -134,7 +134,7 @@ public class TableBestWorstMedAvgStd extends TableStatistics
 				table[table.length-2] = "\\end{center}";
 				table[table.length-1] = "\\end{table}";//\end{table*}
 
-				this.table(table, "", this.Tables[subE]);	
+				this.table(table, "", this.Tables[subE]);
 			}
 			String tableName = "SINGLETABLE("+tabNum+")";
 			this.mainLatex(this.getTables(), "", tableName);

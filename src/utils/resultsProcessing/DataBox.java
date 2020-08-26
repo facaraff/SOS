@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package utils.resultsProcessing;
@@ -62,8 +62,8 @@ public class DataBox
 
 	public String getBenchmark() {return this.benchmark;}
 	
-	public void setBenchmark(String benchmark) 
-	{ 
+	public void setBenchmark(String benchmark)
+	{
 		this.benchmark = benchmark;
 		if (benchmark.equals("BBOB2010"))
 		{
@@ -87,7 +87,7 @@ public class DataBox
 			this.citation = "\\cite{bib:Tang2007CEC08}";
 			double[] temp = {-450.0, -450, 390, -330, -180, -140, Double.NaN};
 			this.minima = temp;
-		} 
+		}
 		else if (benchmark.equals("CEC2010"))
 		{
 			this.functionsNumber = 20;
@@ -125,10 +125,10 @@ public class DataBox
 		else if (benchmark.equals("CEC2015"))
 		{
 			this.functionsNumber = 15;
-			this.citation = "\\cite{AGGIORNAMI DIOCANE!!!!}";
-			double[] temp = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0, 1300.0, 1400.0, 1500.0}; 
+			this.citation = "\\cite{bib:cec2015}";
+			double[] temp = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0, 1300.0, 1400.0, 1500.0};
 			this.minima = temp;
-			//this.minima = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0, 1300.0, 1400.0, 1500.0}; 
+			//this.minima = {100.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0, 1100.0, 1200.0, 1300.0, 1400.0, 1500.0};
 		}
 		else if (benchmark.equals("CEC2013_LSGO"))
 		{
@@ -152,7 +152,7 @@ public class DataBox
 		}
 
 		this.initFinalValues();
-	}	
+	}
 
 	public int getFunctionsNumber(){return this.functionsNumber;}
 	public String getCitation(){return this.citation;}
@@ -163,25 +163,24 @@ public class DataBox
 	@SuppressWarnings("unchecked")
 	public void initFinalValues()
 	{
-		this.finalValues = new Vector[functionsNumber]; 
+		this.finalValues = new Vector[functionsNumber];
 		for (int i=0; i < functionsNumber; i++)
-			this.finalValues[i] = new Vector<Double>();
+			this.finalValues[i] = new Vector<>();
 	}
 	
 	public void insertValue(double value, int function)
 	{
-		//System.out.println(function+" "+finalValues.length);System.out.println("dio cane");
 		this.finalValues[function].add(value);
 	}
 	
 	public void sortFinalValues()
-	{	
+	{
 		this.check();
 		if (!sorted)
 			for (int i=0; i < this.functionsNumber; i++)
 				if (finalValues[i] != null)
 					Collections.sort(finalValues[i]);
-		this.sorted = true;	
+		this.sorted = true;
 	}
 	
 	public void deleteFinalValues()
@@ -202,19 +201,19 @@ public class DataBox
 
 	public int getProblems(){return this.problems;}
 
-	public void computeAVG() 
+	public void computeAVG()
 	{
 		this.check();
 		if (this.avg == null)
 		{
 			this.avg = new double[this.functionsNumber];
 			for (int i=0; i < this.functionsNumber; i++)
-			{	
-				double temp = 0; 
+			{
+				double temp = 0;
 				if (finalValues[i] != null)
 				{
 					for (int n=0; n < this.finalValues[i].size(); n++)
-						temp += (Double)(this.finalValues[i].get(n));
+						temp += (this.finalValues[i].get(n));
 					this.avg[i] = temp/this.finalValues[i].size();
 				}
 				else
@@ -223,57 +222,57 @@ public class DataBox
 		}
 	}
 	
-	public double[] getAVG(){return this.avg;} 
+	public double[] getAVG(){return this.avg;}
 
-	public void computeMedian() 
-	{ 
+	public void computeMedian()
+	{
 		this.sortFinalValues();
 		if (this.median == null)
 		{
 			this.median = new double[functionsNumber];
 			for (int i=0; i < this.functionsNumber; i++)
 				if (this.finalValues[i] != null)
-					this.median[i] = (Double)(this.finalValues[i].get(finalValues[i].size()/2)); 
+					this.median[i] = (this.finalValues[i].get(finalValues[i].size()/2));
 				else
 					this.median[i] = Double.NaN;
 		}
 	}
 
-	public double[] getMedian(){return this.median;} 
+	public double[] getMedian(){return this.median;}
 
-	public void findMin() 
-	{ 
+	public void findMin()
+	{
 		this.sortFinalValues();
 		if (this.min == null)
 		{
 			this.min = new double[functionsNumber];
 			for (int i=0; i < this.functionsNumber; i++)
 				if (this.finalValues[i] != null)
-					this.min[i] = (Double)(this.finalValues[i].get(0)); 
+					this.min[i] = (this.finalValues[i].get(0));
 				else
 					this.min[i] = Double.NaN;
 		}
 	}
 
-	public double[] getMin(){return this.min;} 
+	public double[] getMin(){return this.min;}
 
-	public void findMax() 
-	{ 
+	public void findMax()
+	{
 		this.sortFinalValues();
 		if (this.max == null)
 		{
 			this.max = new double[functionsNumber];
 			for (int i=0; i < this.functionsNumber; i++)
 				if (this.finalValues[i] != null)
-					this.max[i] = (Double)(this.finalValues[i].get(finalValues[i].size()-1)); 
+					this.max[i] = (this.finalValues[i].get(finalValues[i].size()-1));
 				else
 					this.max[i] = Double.NaN;
 		}
 	}
 
-	public double[] getMax(){return this.max;} 
+	public double[] getMax(){return this.max;}
 
-	public void computeSTD() 
+	public void computeSTD()
 	{
 		this.check();
 		if (this.std == null)
@@ -281,11 +280,11 @@ public class DataBox
 			this.std = new double[functionsNumber];
 			for (int i=0; i < this.functionsNumber; i++)
 			{
-				double temp = 0; 
+				double temp = 0;
 				if (this.finalValues[i] != null)
 				{
 					for (int n=0; n < this.finalValues[i].size(); n++)
-						temp += Math.pow((Double)(this.finalValues[i].get(n)) - this.avg[i], 2); 
+						temp += Math.pow((this.finalValues[i].get(n)) - this.avg[i], 2);
 					this.std[i] = Math.sqrt(temp/this.finalValues[i].size());
 				}
 				else
@@ -294,7 +293,7 @@ public class DataBox
 		}
 	}
 	
-	public double[] getSTD(){return this.std;} 
+	public double[] getSTD(){return this.std;}
 
 	public void displayMedian()
 	{

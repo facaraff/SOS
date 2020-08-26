@@ -1,34 +1,23 @@
 package algorithms.specialOptions.MoAlgs;
 
-import utils.algorithms.Corrections;
-//import static utils.algorithms.operators.DEOp.crossOverBin;
-//import static utils.algorithms.operators.DEOp.rand1;
-//import static utils.algorithms.Corrections.toro;
-//import utils.algorithms.Modality.TestModality.Basins;
-import utils.algorithms.Modality.TestModality;
+import static utils.MatLab.cloneArray;
+import static utils.MatLab.indexMin;
 import static utils.MatLab.min;
 import static utils.MatLab.multiply;
 import static utils.MatLab.subtract;
 import static utils.MatLab.sum;
 import static utils.MatLab.transpose;
-import static utils.MatLab.cloneArray;
-import static utils.MatLab.indexMin;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.Misc.generateRandomSolution;
-//import static utils.algorithms.operators.MemesLibrary.intermediatePerturbation;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
-//import org.apache.commons.math3.stat.clustering.Cluster;
-//import org.apache.commons.math3.stat.clustering.EuclideanDoublePoint;
 
-//import java.util.Arrays;
-//
-//import utils.random.RandUtils;
 import interfaces.Algorithm;
 import interfaces.Problem;
-//import utils.MatLab;
 import utils.RunAndStore.FTrend;
+import utils.algorithms.Corrections;
+import utils.algorithms.Modality.TestModality;
 /*
  * MoTest
  */
@@ -46,12 +35,12 @@ public class MoTestAlg extends Algorithm
 		
 		
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
-//		
+//
 //		double[][] population = new double[populationSize][problemDimension];
 //		double[] fitnesses = new double[populationSize];
-//		
+//
 		double[] best = new double[problemDimension];
 		double fBest = Double.NaN;
 		
@@ -79,7 +68,7 @@ public class MoTestAlg extends Algorithm
 		
 		//System.out.println("Cluster = "+centroids.length);
 		
-//		for (int ii = 0; ii < centroids.length; ii++) 
+//		for (int ii = 0; ii < centroids.length; ii++)
 //		{
 //			for (int j = 0; j < centroids[0].length; j++)
 //				System.out.print(centroids[ii][j]+" ");
@@ -87,12 +76,12 @@ public class MoTestAlg extends Algorithm
 //		}
 		
 		double[] centroidFtness = new double[centroids.length];
-		for (int k = 0; k < centroids.length && i< maxEvaluations; k++) 
+		for (int k = 0; k < centroids.length && i< maxEvaluations; k++)
 		{
 			centroidFtness[k] = problem.f(centroids[k]);
 			i++;
 				
-		}		
+		}
 		
 		int index = indexMin(centroidFtness);
 		
@@ -133,7 +122,7 @@ public class MoTestAlg extends Algorithm
 			boolean improve = true;
 			int j = 0;
 			
-//			double[] samplesFitnesses = new double[samplesNr];		
+//			double[] samplesFitnesses = new double[samplesNr];
 			
 			
 //			double[][] cov = Cov(samples);
@@ -143,7 +132,7 @@ public class MoTestAlg extends Algorithm
 //					System.out.println(cov[m][q]);
 //				System.out.println();
 //			}
-//			
+//
 			//generate the P matrix and free memory
 			EigenDecomposition E =  new EigenDecomposition(new Array2DRowRealMatrix(Cov(samples)));
 
@@ -168,7 +157,7 @@ public class MoTestAlg extends Algorithm
 					Xk_orig[k] = best[k];//temp[k];
 				}
 
-				if (!improve) //@fabio this can be done on each dimension 
+				if (!improve) //@fabio this can be done on each dimension
 				{
 					for(int k=0;k<problemDimension;k++)
 						half(R,k);
@@ -179,7 +168,7 @@ public class MoTestAlg extends Algorithm
 				while ((k < problemDimension) && (i < maxEvaluations))
 				{
 					Xk = subtract(Xk,R[k]);
-					Xk = Corrections.toro(Xk, bounds);
+					Xk = Corrections.torus(Xk, bounds);
 					double fXk = problem.f(Xk);
 					i++;
 					
@@ -196,7 +185,7 @@ public class MoTestAlg extends Algorithm
 					{
 						Xk = cloneArray(Xk_orig);
 						Xk = sum(Xk,multiply(0.5, R[k]));
-						Xk = Corrections.toro(Xk, bounds);
+						Xk = Corrections.torus(Xk, bounds);
 						fXk = problem.f(Xk);
 						i++;
 						
@@ -232,7 +221,7 @@ public class MoTestAlg extends Algorithm
 	
 	//helpers methods
 	
-	protected double[][] scale(double[][] P, double[] SR) 
+	protected double[][] scale(double[][] P, double[] SR)
 	{
 		double[][] R = new double[SR.length][SR.length];
 		
@@ -244,7 +233,7 @@ public class MoTestAlg extends Algorithm
 		
 	}
 	
-	protected void half(double[][] PT, int k) 
+	protected void half(double[][] PT, int k)
 	{
 		for(int c=0;c<PT.length;c++)
 			PT[k][c] = PT[k][c]/2;

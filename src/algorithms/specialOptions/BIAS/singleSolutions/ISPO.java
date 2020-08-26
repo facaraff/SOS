@@ -31,22 +31,22 @@ public class ISPO extends AlgorithmBias
 		int PartLoop = this.getParameter("p5").intValue();		//30
 
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 		
-		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
+		char correctionStrategy = this.correction;  // t --> torus   s --> saturation  d -->  discard  e ---> penalty
 		
 		
-		String FullName = getFullName("ISPO"+correctionStrategy,problem); 
+		String FullName = getFullName("ISPO"+correctionStrategy,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		
 		
-//		
+//
 //		fileName+="D"+problem.getDimension()+"f0-"+(run+1);
 //		File file = new File(Dir+fileName+".txt");
-//		if (!file.exists()) 
+//		if (!file.exists())
 //			file.createNewFile();
 //		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 //		BufferedWriter bw = new BufferedWriter(fw);
@@ -55,7 +55,7 @@ public class ISPO extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 //		long seed = System.currentTimeMillis();
-//		RandUtilsISB.setSeed(seed);	
+//		RandUtilsISB.setSeed(seed);
 //		String line = "# function 0 dim "+problemDimension+" A "+A+" P "+P+" B "+B+" S "+S+" E "+E+" PartLoop "+PartLoop+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 //		bw.write(line);
 //		line = null;
@@ -125,7 +125,7 @@ public class ISPO extends AlgorithmBias
 
 					// calculate new fitness
 					fParticle = problem.f(particle);
-					i++; 
+					i++;
 //					newID++;
 
 					// estimate performance

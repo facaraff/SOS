@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package utils.resultsProcessing;
@@ -50,20 +50,20 @@ public abstract class TableStatistics
 
 	private boolean errorFlag = false;
 
-	public abstract void execute() throws Exception;	
+	public abstract void execute() throws Exception;
 
 	public void setTables(int n){this.Tables = new String[n];}
 	public String[] getTables(){return this.Tables;}
 
 	public void setExperiment(Experiment experiment){this.experiment = experiment;}
-	public Experiment getExperiment(){return this.experiment;}	
+	public Experiment getExperiment(){return this.experiment;}
 
 	public void setSignificanceProbability(double SP){this.SP = SP;}
-	public double getSignificanceProbability(){return this.SP;}	
+	public double getSignificanceProbability(){return this.SP;}
 
 	public void setReferenceAlgorithm() throws Exception
 	{
-		AlgorithmInfo[] algorithms = this.experiment.getAlgorithms(); 
+		AlgorithmInfo[] algorithms = this.experiment.getAlgorithms();
 		System.out.println("Select the reference algorithm from the list below:");
 		for (int i=0; i < algorithms.length; i++)
 			System.out.println("["+i+"] "+algorithms[i].getName());
@@ -188,7 +188,7 @@ public abstract class TableStatistics
 				}
 				else if(y[i] == smin)
 				{
-					//XXX (fabio) handle results with same mean/std 
+					//XXX (fabio) handle results with same mean/std
 				}
 			}
 		}
@@ -201,9 +201,9 @@ public abstract class TableStatistics
 		if(Double.isNaN(value))
 			str = "";
 		else
-		{	
+		{
 			str = this.DF.format(value).toLowerCase();
-			if (!str.contains("e-"))  
+			if (!str.contains("e-"))
 				str = str.replace("e", "e+");
 		}
 		return str;
@@ -213,17 +213,17 @@ public abstract class TableStatistics
 
 	public void table(String[] table, String location, String name) throws Exception
 	{
-//		String Dir = "./results/"; 
-		String Dir = "./tables/"; 
+//		String Dir = "./results/";
+		String Dir = "./tables/";
 		boolean success = (new File(Dir)).mkdir();
-		Dir += location; 
+		Dir += location;
 		success = (new File(Dir)).mkdir();
 		if(success)
 			System.out.println("Path: " + Dir + " has been created");
 
 		File file = new File(Dir + "/"+name+".tex");
 		// if file doesn't exists, then create it
-		if (!file.exists()) 
+		if (!file.exists())
 			file.createNewFile();
 
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -239,7 +239,7 @@ public abstract class TableStatistics
 	}
 
 	public void mainLatex(String[] tables, String location, String mainName) throws Exception
-	{		
+	{
 		String[] str = new String[10 + tables.length + 1];
 		str[0] = "\\documentclass[a4paper,12pt]{article}";
 		str[1] = "\\usepackage[latin1]{inputenc}";
@@ -256,18 +256,18 @@ public abstract class TableStatistics
 		str[str.length-1] = "\\end{document}";
 
 //		String Dir = "./results/";
-		//XXX aggiungere un a variabile con la quale si decide la directory  altrimenti e' fissa
-		String Dir = "."+slash()+"tables"+slash(); 
+		//TODO allow user to choose the folder
+		String Dir = "."+slash()+"tables"+slash();
 
 		boolean success = (new File(Dir)).mkdir();
-		Dir += location; 
+		Dir += location;
 		success = (new File(Dir)).mkdir();
 		if(success)
 			System.out.println("Path: " + Dir + " has been created");
 		mainName +=".tex";
 		File file = new File(Dir +slash()+mainName);
 		// if file doesn't exists, then create it
-		if (!file.exists()) 
+		if (!file.exists())
 			file.createNewFile();
 
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -285,7 +285,7 @@ public abstract class TableStatistics
 
 	public void getPDF(String str) throws Exception
 	{
-		//XXX aggiungi la compilazione windows!!!! https://stackoverflow.com/questions/14942473/windows-batch-file-to-compile-latex
+		//TODO add compiling for Windows https://stackoverflow.com/questions/14942473/windows-batch-file-to-compile-latex
 		File file = new File("./compileLatex.sh");
 		file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
@@ -298,7 +298,7 @@ public abstract class TableStatistics
 
 		Process p = Runtime.getRuntime().exec("sh compileLatex.sh");
 		p.waitFor();
-		Runtime.getRuntime().exec("rm compileLatex.sh"); 
+		Runtime.getRuntime().exec("rm compileLatex.sh");
 	}
 
 	public boolean getErrorFlag(){return this.errorFlag;}

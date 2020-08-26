@@ -13,20 +13,20 @@ public class NonUniformSA extends AlgorithmBias
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
-	{		
+	{
 		int B = this.getParameter("p0").intValue(); //5
 		double alpha = this.getParameter("p1").intValue(); //0.9
 		int Lk = this.getParameter("p2").intValue(); //3
 		int initialSolutions = this.getParameter("p3").intValue(); //10
 		
-		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
+		char correctionStrategy = this.correction;  // t --> torus   s --> saturation  d -->  discard  e ---> penalty
 		
-		String FullName = getFullName("nuSA"+correctionStrategy,problem); 
+		String FullName = getFullName("nuSA"+correctionStrategy,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 				
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 		double[] bestPt = new double[problemDimension];
@@ -58,7 +58,7 @@ public class NonUniformSA extends AlgorithmBias
 		fOld = fNew;
 		fWorst = fNew;
 		FT.add(i, fNew);
-		newID++; 
+		newID++;
 		
 		line =""+newID+" "+formatter(fNew)+" "+i+" "+prevID;
 		for(int n = 0; n < problemDimension; n++)
@@ -106,7 +106,7 @@ public class NonUniformSA extends AlgorithmBias
 		// initialize temperature
 		double delt0 = fWorst-fOld;
 		double accept0 = 0.9;
-		double T0 = -delt0/Math.log(accept0);		
+		double T0 = -delt0/Math.log(accept0);
 		double tk = T0;
 
 		//i += initialSolutions;
@@ -131,18 +131,18 @@ public class NonUniformSA extends AlgorithmBias
 				}
 				
 //				// evaluate fitness
-//				newPt = toro(newPt, bounds);
+//				newPt = torus(newPt, bounds);
 //				fNew = problem.f(newPt);
 //				i++;
 				
 //				double[] output = new double[problemDimension];
 //
 //				if(correctionStrategy== 'e')
-//					output = toro(newPt, bounds);
+//					output = torus(newPt, bounds);
 //				else
 //					newPt = correct(newPt,oldPt,bounds);
 //
-//				
+//
 //				if( (correctionStrategy == 'e') && (!Arrays.equals(output, newPt)) )
 //				{
 //					fNew = 2;

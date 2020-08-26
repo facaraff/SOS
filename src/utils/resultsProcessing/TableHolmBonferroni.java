@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package utils.resultsProcessing;
@@ -34,7 +34,7 @@ import jsc.distributions.Normal;
 
 
 public class TableHolmBonferroni extends TableStatistics
-{	
+{
 	public TableHolmBonferroni(Experiment experiment)
 	{
 		this.setExperiment(experiment);
@@ -55,23 +55,23 @@ public class TableHolmBonferroni extends TableStatistics
 			double[] averageRank = averageRank(AVGs);
 
 			double[] z = new double[algorithms - 1];
-			int ii = 0; 
+			int ii = 0;
 			for (int i=0; i < algorithms; i++)
 			{
 				if (i != this.referenceAlgorithm)
-				{	
+				{
 					z[ii] = (averageRank[i] - averageRank[this.referenceAlgorithm])/Math.sqrt((double)(algorithms*(algorithms -1))/(6*problems) );
 					ii++;
 				}
 			}
 
-			Normal N = new Normal(); 		
-			double[] p = new double[algorithms - 1]; 
+			Normal N = new Normal();
+			double[] p = new double[algorithms - 1];
 			for (int i=0; i < p.length; i++)
 				p[i] = N.cdf(z[i]);
 
 			String[] table = new String[6 + algorithms -1 +3];
-			table[0] = "\\begin{table}"; 
+			table[0] = "\\begin{table}";
 			table[1] = "\\caption{Holm-Bonferroni procedure (reference: "+A[this.referenceAlgorithm].getName()+", Rank = "+D2S(averageRank[this.referenceAlgorithm])+")}\\label{holm-test}";
 			table[2] = "\\begin{tabular}{c|c|c|c|c|c|c}";
 			table[3] = "\\hline\\hline";
@@ -83,7 +83,7 @@ public class TableHolmBonferroni extends TableStatistics
 			String hypothesis = new String();
 
 			for (int i=0; i < algorithms -1; i++)
-				System.out.println(z[i]); 
+				System.out.println(z[i]);
 
 			int j = 1; double mem = Double.NaN;
 			for (int i=0; i < algorithms -1; i++)
@@ -129,7 +129,7 @@ public class TableHolmBonferroni extends TableStatistics
 					out[i] = R;
 			R--;
 		}
-		return out;	
+		return out;
 	}
 
 	public double[] averageRank(double[][] avg)
@@ -177,6 +177,6 @@ public class TableHolmBonferroni extends TableStatistics
 				}
 			}
 		}
-		return out;	
+		return out;
 	}
 }

@@ -2,12 +2,9 @@ package utils.random;
 
 import utils.algorithms.Counter;
 
-public class RandUtilsISB extends PRNG 
-{	
-	
-	
-	
-	/**Return a real number with a Cauchy distribution 
+public class RandUtilsISB extends PRNG
+{
+	/**Return a real number with a Cauchy distribution
 	 * @param locationFactor The location factor of the Cauchy distribution.
 	 * @param scaleFactor The scale factor of the Cauchy distribution.
 	 *  @param counter A counter Object for monitoring the number of PRG activations.
@@ -28,12 +25,12 @@ public class RandUtilsISB extends PRNG
 	 * @param counter A counter Object for monitoring the number of PRG activations.
 	 * @return Return a real Uniformly distributed number in [a,b].
 	 * */
-	public static double uniform(double a, double b, Counter counter){counter.incrementCounter(); return uniform(a,b);}	
+	public static double uniform(double a, double b, Counter counter){counter.incrementCounter(); return uniform(a,b);}
 	/** Return random uniform number in [0,1)
 	 * @param counter A counter Object for monitoring the number of PRG activations.
 	 * */
 	public static double random(Counter counter){counter.incrementCounter(); return random();}
-	/** Random integer in [0,n]. 
+	/** Random integer in [0,n].
 	 * @param n The upper-bound of the interval.
 	 * @param counter A counter Object for monitoring the number of PRG activations.
 	 * @return A random number in [0,n].
@@ -88,7 +85,7 @@ public class RandUtilsISB extends PRNG
 	public static int[] randomPermutation(int[] a, Counter counter)
 	{
 		int n = a.length;
-		int[] b = (int[])a.clone();
+		int[] b = a.clone();
 		for (int k = n-1; k > 0; k--)
 		{
 			int w = (int) Math.floor(random(counter)*(k+1));
@@ -122,7 +119,7 @@ public class RandUtilsISB extends PRNG
 	}
 	
 	/**
-	 * Random permutation of array elements, excluding an 
+	 * Random permutation of array elements, excluding an
 	 * element at the specified index.
 	 * 
 	 * @param a
@@ -139,7 +136,7 @@ public class RandUtilsISB extends PRNG
 		for (int i = 0; i < n; i++)
 		{
 			if (i != excludedIndex)
-				b[k++] = a[i]; 
+				b[k++] = a[i];
 		}
 		
 		for (k = n-2; k > 0; k--)
@@ -152,7 +149,7 @@ public class RandUtilsISB extends PRNG
 		return b;
 	}
 	
-	/** 
+	/**
 	 * Returns a sample from the uncorrelated normal distribution N(0, I).
 	 * @param dim dimension.
 	 * @return x an array where each i^th vomprnrn is.
@@ -162,14 +159,7 @@ public class RandUtilsISB extends PRNG
 
 		double[] x = new double[dim];
 		for(int i=0; i<dim; i++)
-				x[i]= gaussian(0, 1, counter);		
+				x[i]= gaussian(0, 1, counter);
 		return x;
 	}
-	
-	
-	
-
-	
 }
-
-

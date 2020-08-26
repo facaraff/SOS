@@ -114,11 +114,4 @@ public abstract class PRNG
 	{
 		return random;
 	}
-	
-	
-	
-	
-	
-	
-	
 }

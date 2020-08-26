@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package utils.resultsProcessing;
@@ -42,7 +42,7 @@ public class Experiment
 
 	private String directory;
 
-	public AlgorithmInfo[] getAlgorithms(){return this.algorithms;}	
+	public AlgorithmInfo[] getAlgorithms(){return this.algorithms;}
 
 	private boolean trendsFlag = false;
 	private boolean errorTrendsFlag = true;
@@ -99,7 +99,7 @@ public class Experiment
 		System.out.println("Algorithms list:");
 		
 		nrFolders = 0;
-		for (int i=0; i < list.length; i++) 
+		for (int i=0; i < list.length; i++)
 		{
 			String name = list[i].getName();
 			if (list[i].isDirectory())
@@ -108,8 +108,8 @@ public class Experiment
 					algorithms[nrFolders++] = new AlgorithmInfo(name, importDataTrends(name));
 				else
 				{
-					System.out.println(name); 
-					algorithms[nrFolders++] = new AlgorithmInfo(name, importDataAlgorithm(name));						
+					System.out.println(name);
+					algorithms[nrFolders++] = new AlgorithmInfo(name, importDataAlgorithm(name));
 				}
 			}
 		}
@@ -123,9 +123,9 @@ public class Experiment
 		File dir2 = null;
 		String input;
 		String temp = null;
-		Vector<String> v = new Vector<String>();
+		Vector<String> v = new Vector<>();
 
-		dir = new File(this.directory + "/" + alg); 
+		dir = new File(this.directory + "/" + alg);
 		File[] list = dir.listFiles();
 
 		String ben = null;
@@ -133,9 +133,10 @@ public class Experiment
 		String comp = null;
 		String s =null;
 
-		for (int i=0; i < list.length; i++) 
-		{	
+		for (int i=0; i < list.length; i++)
+		{
 			s = list[i].getName();
+			System.out.println(s);
 			if (s.charAt(0) != '.') //hidden folders
 			{
 				ben = getBenchmark(s);
@@ -147,20 +148,20 @@ public class Experiment
 						b = true;
 				if (!b)
 					v.add(comp);
-			}	
-		} 
-
-		DataBox[] dataBoxes = new DataBox[v.size()];
-		for (int k=0; k < v.size(); k++) 
-		{	 
-			dataBoxes[k] = new DataBox();
-			dataBoxes[k].setName(v.get(k)); 
-			dataBoxes[k].setBenchmark(v.get(k).substring(0, v.get(k).indexOf("-")));
-			dataBoxes[k].setDimension(Integer.parseInt(v.get(k).substring(v.get(k).indexOf("-") + 1)));	
+			}
 		}
 
-		for (int i=0; i < list.length; i++) 
-		{	
+		DataBox[] dataBoxes = new DataBox[v.size()];
+		for (int k=0; k < v.size(); k++)
+		{
+			dataBoxes[k] = new DataBox();
+			dataBoxes[k].setName(v.get(k));
+			dataBoxes[k].setBenchmark(v.get(k).substring(0, v.get(k).indexOf("-")));
+			dataBoxes[k].setDimension(Integer.parseInt(v.get(k).substring(v.get(k).indexOf("-") + 1)));
+		}
+
+		for (int i=0; i < list.length; i++)
+		{
 			s = list[i].getName();
 			if (s.charAt(0) != '.')
 			{
@@ -169,13 +170,13 @@ public class Experiment
 				int index = getIndex(dataBoxes, comp);
 				int f = getFunction(list[i].getName());
 
-				dir2 = new File(list[i].getPath()); 
+				dir2 = new File(list[i].getPath());
 				File[] list2 = dir2.listFiles();
 
-				for (int n=0; n< list2.length; n++) 
+				for (int n=0; n< list2.length; n++)
 				{
-					if (!list2[n].isDirectory() && 
-						!list2[n].getName().equals("catalog") && 
+					if (!list2[n].isDirectory() &&
+						!list2[n].getName().equals("catalog") &&
 						!list2[n].getName().contains("~"))
 					{
 						BufferedReader fileBufereReader = new BufferedReader(new FileReader(list2[n].getPath()));
@@ -190,9 +191,9 @@ public class Experiment
 							emptyRuns++;
 							System.out.println(list2[n].getPath());
 						}
-						else 
+						else
 						{
-							int firstIndex = temp.indexOf("N"); 
+							int firstIndex = temp.indexOf("N");
 							int firstTab = temp.indexOf("\t");
 
 							if (firstIndex == -1)
@@ -200,13 +201,13 @@ public class Experiment
 								// this check is needed only with the results obtained with the extra handling option
 								temp = temp.substring(temp.indexOf("\t") + 1);
 								dataBoxes[index].insertValue(Double.parseDouble(temp), f-1);
-							}							
+							}
 							else
 							{
 								//NaN
 								if (firstIndex - firstTab != 1)
 								{
-									temp = temp.substring(temp.indexOf("\t") + 1, firstIndex-1); 
+									temp = temp.substring(temp.indexOf("\t") + 1, firstIndex-1);
 									dataBoxes[index].insertValue(Double.parseDouble(temp), f-1);
 								}
 								else
@@ -216,9 +217,9 @@ public class Experiment
 								}
 							}
 						}
-					} 
+					}
 				}
-			}		
+			}
 		}
 
 		if (emptyRuns != 0)
@@ -234,9 +235,9 @@ public class Experiment
 		File dir2 = null;
 		String input;
 		String temp = null;
-		Vector<String> v = new Vector<String>();
+		Vector<String> v = new Vector<>();
 
-		dir = new File(this.directory + "/" + alg); 
+		dir = new File(this.directory + "/" + alg);
 		File[] list = dir.listFiles();
 
 		String ben = null;
@@ -244,8 +245,8 @@ public class Experiment
 		String comp = null;
 		String s = null;
 
-		for (int i=0; i < list.length; i++) 
-		{	
+		for (int i=0; i < list.length; i++)
+		{
 			s = list[i].getName();
 			if (s.charAt(0) != '.') //hidden folders
 			{
@@ -258,18 +259,18 @@ public class Experiment
 						b = true;
 				if (!b)
 					v.add(comp);
-			}	
-		} 
+			}
+		}
 
 		DataBox[] dataBoxes = new DataBox[v.size()];
-		for (int k=0; k < v.size(); k++) 
-		{	 
+		for (int k=0; k < v.size(); k++)
+		{
 			dataBoxes[k] = new DataBox();
-			dataBoxes[k].setName(v.get(k)); 
+			dataBoxes[k].setName(v.get(k));
 			dataBoxes[k].setBenchmark(v.get(k).substring(0, v.get(k).indexOf("-")));
 			dataBoxes[k].setDimension(Integer.parseInt(v.get(k).substring(v.get(k).indexOf("-") + 1)));
 
-		} 
+		}
 //		String DirRes = "./results/";
 		String DirRes = "./tables/";
 		String DirFV = DirRes+"FinalValues";;
@@ -281,7 +282,7 @@ public class Experiment
 			boolean successFV;
 			success = (new File(DirRes)).mkdir();
 			successFV = (new File(DirFV)).mkdir();
-			for (int k=0; k < dataBoxes.length; k++) 
+			for (int k=0; k < dataBoxes.length; k++)
 			{
 				String name = dataBoxes[k].getName();
 				success = (new File(DirRes+"/"+name)).mkdir();
@@ -291,12 +292,12 @@ public class Experiment
 				if (successFV)
 					System.out.println("Path: " + DirFV+"/"+name+" has been created");
 			}
-			this.FVDistrFolderFlag = false;	
+			this.FVDistrFolderFlag = false;
 		}
 		else if (this.trendsFolderFlag)
 		{
 			success = (new File(DirRes)).mkdir();
-			for (int k=0; k < dataBoxes.length; k++) 
+			for (int k=0; k < dataBoxes.length; k++)
 			{
 				String name = dataBoxes[k].getName();
 				success = (new File(DirRes+"/"+name)).mkdir();
@@ -307,7 +308,7 @@ public class Experiment
 		}
 
 		for (int i=0; i < list.length; i++)
-		{	
+		{
 			s = list[i].getName();
 			if (s.charAt(0) != '.')
 			{
@@ -316,20 +317,20 @@ public class Experiment
 				int index = getIndex(dataBoxes, comp);
 				int f = getFunction(list[i].getName());
 
-				dir2 = new File(list[i].getPath()); 
-				File[] list2 = dir2.listFiles();	
+				dir2 = new File(list[i].getPath());
+				File[] list2 = dir2.listFiles();
 
-				//boolean checkOnRun = false; 
+				//boolean checkOnRun = false;
 				double[] avg_trend = null;
 
 				String Siter = null;
 				String Ssample = null;
 				int delta = 0;
 				boolean check = true; int lines = -1;
-				for (int n=0; n< list2.length; n++) 
+				for (int n=0; n< list2.length; n++)
 				{
 					if (!list2[n].getName().equals("catalog") && !list2[n].getName().contains("~"))
-					{	
+					{
 						boolean checkOnRun = false;
 						BufferedReader fileBufferedReader = new BufferedReader(new FileReader(list2[n].getPath()));
 						while ((input = fileBufferedReader.readLine()) != null)
@@ -342,9 +343,9 @@ public class Experiment
 							emptyRuns++;
 							System.out.println(list2[n].getPath());
 						}
-						else 
+						else
 						{
-							int firstIndex = temp.indexOf("N"); 
+							int firstIndex = temp.indexOf("N");
 							int firstTab = temp.indexOf("\t");
 
 							if (firstIndex == -1)
@@ -371,7 +372,7 @@ public class Experiment
 										delta++;
 									}
 								}
-							}							
+							}
 							else
 							{
 								if (firstIndex - firstTab != 1)
@@ -379,7 +380,7 @@ public class Experiment
 									Siter = temp.substring(0,temp.indexOf("\t"));
 									Ssample = temp.substring(temp.indexOf("\t")+1,temp.length());
 
-									temp = temp.substring(temp.indexOf("\t") + 1, firstIndex-1); 
+									temp = temp.substring(temp.indexOf("\t") + 1, firstIndex-1);
 									dataBoxes[index].insertValue(Double.parseDouble(temp), f-1);
 
 									if (check)
@@ -416,7 +417,7 @@ public class Experiment
 							for (int a=0; a<avg_trend.length;a++)
 								avg_trend_temp[a] = Double.NaN;
 							fileBufferedReader = new BufferedReader(new FileReader(list2[n].getPath()));
-							fileBufferedReader.readLine(); 
+							fileBufferedReader.readLine();
 
 							while ((input = fileBufferedReader.readLine()) != null)
 							{
@@ -434,12 +435,12 @@ public class Experiment
 							for (int a=0; a<avg_trend.length;a++)
 								avg_trend[a] += avg_trend_temp[a];
 						}
-					} 				
+					}
 				}
 				
 				if(avg_trend == null)
 					System.out.println("The avg_trend variable is null here!");
-				else 
+				else
 				{
 					if (this.errorTrendsFlag)
 					{
@@ -456,7 +457,7 @@ public class Experiment
 					}
 					else
 					{
-							for (int a=0; a<avg_trend.length;a++) 
+							for (int a=0; a<avg_trend.length;a++)
 								if(Double.isNaN(avg_trend[a]))
 									System.out.println("NaN value found at position="+" in algorithm: "+alg);
 								else
@@ -468,7 +469,7 @@ public class Experiment
 					String fileName = alg +"_"+f+".txt";
 					File fileTrend = new File(DirRes + "/"+folder+"/"+fileName);
 					// if file doesn't exists, then create it
-					if (!fileTrend.exists()) 
+					if (!fileTrend.exists())
 						fileTrend.createNewFile();
 					FileWriter fw = new FileWriter(fileTrend.getAbsoluteFile());
 					BufferedWriter bw = new BufferedWriter(fw);
@@ -489,7 +490,7 @@ public class Experiment
 						
 						File fileFVDistribution = new File(DirFV + "/"+folder+"/"+fileName);
 						// if file doesn't exists, then create it
-						if (!fileFVDistribution.exists()) 
+						if (!fileFVDistribution.exists())
 							fileFVDistribution.createNewFile();
 						FileWriter fwFV = new FileWriter(fileFVDistribution.getAbsoluteFile());
 						BufferedWriter bwFV = new BufferedWriter(fwFV);
@@ -501,66 +502,6 @@ public class Experiment
 					//fw.close();
 					//bw.close();
 				}
-
-//				if (this.errorTrendsFlag)
-//				{
-//					double[] minima = dataBoxes[index].getMinima();
-//					
-//					for (int a=0; a<avg_trend.length; a++)
-//						if(Double.isNaN(avg_trend[a]))
-//							System.out.println("null value found at a="+a);
-//						else
-//						{
-//							avg_trend[a] /= delta;
-//							avg_trend[a] = avg_trend[a] - minima[f-1];
-//						}
-//				}
-//				else
-//				{
-//						for (int a=0; a<avg_trend.length;a++) 
-//							if(Double.isNaN(avg_trend[a]))
-//								System.out.println("null value found at a="+a);
-//							else
-//								avg_trend[a] /= delta;
-//					
-//				}
-//
-//				String folder = dataBoxes[index].getName();
-//				String fileName = alg +"_"+f+".txt";
-//				File fileTrend = new File(DirRes + "/"+folder+"/"+fileName);
-//				// if file doesn't exists, then create it
-//				if (!fileTrend.exists()) 
-//					fileTrend.createNewFile();
-//				FileWriter fw = new FileWriter(fileTrend.getAbsoluteFile());
-//				BufferedWriter bw = new BufferedWriter(fw);
-//				int rate = avg_trend.length/this.samples;
-//				for (int a=0; a < avg_trend.length; a++)
-//				{
-//					if (a==0 || a==avg_trend.length-1 || a%rate==0)
-//					{
-//						bw.write(a+"\t"+avg_trend[a]);
-//						bw.newLine();
-//					}
-//				}
-//				bw.close();
-				
-//				if(FVDistributionFlag)
-//				{
-//					Vector<Double>[] V = dataBoxes[index].getFinalValues();
-//					
-//					File fileFVDistribution = new File(DirFV + "/"+folder+"/"+fileName);
-//					// if file doesn't exists, then create it
-//					if (!fileFVDistribution.exists()) 
-//						fileFVDistribution.createNewFile();
-//					FileWriter fwFV = new FileWriter(fileFVDistribution.getAbsoluteFile());
-//					BufferedWriter bwFV = new BufferedWriter(fwFV);
-//					for (int a=0; a < V[f-1].size(); a++)
-//						bwFV.write(V[f-1].get(a)+"\n");
-//					//fw.close();
-//					bwFV.close();
-//				}
-//				//fw.close();
-//				//bw.close();
 			}
 		}
 
@@ -612,8 +553,9 @@ public class Experiment
 	}
 
 	public String getBenchmark(String str)
-	{                                  
-		int end = str.lastIndexOf("."); 
+	{
+		System.out.println(str);
+		int end = str.lastIndexOf(".");
 		//int start = str.indexOf(".") + 10;
 		int start = str.indexOf(".")+1;
 		return str.substring(start,end);
@@ -640,12 +582,12 @@ public class Experiment
 
 	public void describeExperiment()
 	{
-		String s = new String("Algorithms: ");	
+		String s = new String("Algorithms: ");
 		for (int i=0; i < algorithms.length; i++)
 			s += algorithms[i].getName()+", ";
 		System.out.println(s);
 		for (int i=0; i < algorithms.length; i++)
-			algorithms[i].describe();	
+			algorithms[i].describe();
 	}
 
 	public void algorithNameCheck()
@@ -659,12 +601,12 @@ public class Experiment
 			if (list[i].isDirectory())
 			{
 				if (list[i].getName().contains("_"))
-				{	
+				{
 					String newName = list[i].getName().replace('_','-');
 					System.out.println("Folder \""+list[i].getName()+"\" has been renamed \""+newName+"\"");
 					File newDir = new File(this.directory+"/"+newName);
-					list[i].renameTo(newDir);   
-				}			
+					list[i].renameTo(newDir);
+				}
 			}
 		}
 	}

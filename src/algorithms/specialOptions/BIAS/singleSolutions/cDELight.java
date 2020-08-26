@@ -29,14 +29,14 @@ public class cDELight extends AlgorithmBias
 		double F = this.getParameter("p2").doubleValue();//0.5
 		
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 		
 		
-		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
+		char correctionStrategy = this.correction;  // t --> torus   s --> saturation  d -->  discard  e ---> penalty
 
 	
-		String FullName = getFullName("cDEla"+correctionStrategy,problem); 
+		String FullName = getFullName("cDEla"+correctionStrategy,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		
@@ -44,7 +44,7 @@ public class cDELight extends AlgorithmBias
 		int prevID = -1;
 		int newID = 0;
 		
-		RandUtilsISB.setSeed(this.seed);	
+		RandUtilsISB.setSeed(this.seed);
 		writeHeader("virtualPopulationSize "+virtualPopulationSize+" alpha "+alpha+" F "+F, problem);
 		
 
@@ -106,7 +106,7 @@ public class cDELight extends AlgorithmBias
 				best[n] = b[n];
 			
 			FT.add(i, fB);
-			newID++; 
+			newID++;
 			
 			line =""+newID+" "+formatter(fB)+" "+i+" "+prevID;
 			for(int n = 0; n < problemDimension; n++)
@@ -115,7 +115,7 @@ public class cDELight extends AlgorithmBias
 			bw.write(line);
 			line = null;
 			line = new String();
-			prevID = newID;		
+			prevID = newID;
 		}
 		
 		
@@ -151,7 +151,7 @@ public class cDELight extends AlgorithmBias
 				}
 				fBest = fB;
 				
-				newID++; 
+				newID++;
 				
 				line =""+newID+" "+formatter(fB)+" "+i+" "+prevID;
 				for(int n = 0; n < problemDimension; n++)
@@ -160,7 +160,7 @@ public class cDELight extends AlgorithmBias
 				bw.write(line);
 				line = null;
 				line = new String();
-				prevID = newID;		
+				prevID = newID;
 			
 				FT.add(i, fBest);
 			}

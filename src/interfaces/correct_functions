@@ -7,12 +7,12 @@ public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, dou
 		double[] output;
 		
 		if(this.correction == 't')
-			output = toro(infeasiblePt, bounds);
+			output = torus(infeasiblePt, bounds);
 		else if(this.correction== 's')
 			output = saturation(infeasiblePt, bounds);
 		else if(this.correction== 'd')
 		{
-			output = toro(infeasiblePt, bounds);
+			output = torus(infeasiblePt, bounds);
 			if(!Arrays.equals(output, infeasiblePt)) 
 				output = previousFeasiblePt;
 		}
@@ -51,7 +51,7 @@ public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, dou
 		
 		if(this.correction == 't')
 		{
-			output = toro(infeasiblePt, bounds);
+			output = torus(infeasiblePt, bounds);
 			feasible = cloneSolution(output);
 		}
 		else if(this.correction== 's')
@@ -61,7 +61,7 @@ public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, dou
 		}
 		else if(this.correction== 'd')
 		{
-			output = toro(infeasiblePt, bounds);
+			output = torus(infeasiblePt, bounds);
 			if(!Arrays.equals(output, infeasiblePt)) 
 				feasible = cloneSolution(previousFeasiblePt);
 		}

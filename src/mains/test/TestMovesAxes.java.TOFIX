@@ -349,7 +349,7 @@ public class TestMovesAxes
 			new File(currentDir).mkdirs();
 			//succeed = new File(currentDir).mkdirs();
 			//if(!succeed)
-				//System.out.println("Mannaggia al core de cristo!"); 
+				//System.out.println("ERROR"); 
 		
 			String fitTrend ="#EvaluationCount	Fitness";
 					for (int j = 0; j < n; j++)

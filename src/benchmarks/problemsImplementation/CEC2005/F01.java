@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package benchmarks.problemsImplementation.CEC2005;
@@ -50,7 +50,7 @@ public class F01 extends CEC2005TestFunction {
 	
 	public F01 (int dimension) {this(dimension, DEFAULT_FILE_DATA);}
 	
-	public F01 (int dimension, String file_data) 
+	public F01 (int dimension, String file_data)
 	{
 		super(dimension, FUNCTION_NAME);
 		
@@ -62,23 +62,13 @@ public class F01 extends CEC2005TestFunction {
 		setBias(1);
 		loadFromFile(file_data, this.dimension, this.m_o);//XXX fabio
 	}
-	
-
-	
-	
-	
 
 	// Function body
 	public double f(double[] x) {
 		double result = 0.0;
-//		System.out.println("porco: "+x[0]);
 		shift(m_z, x, m_o);
-
 		result = this.sphere(m_z);
-//		System.out.println("dio: "+result);
-//		System.out.println("bias: "+bias);
 		result += bias;
-//		System.out.println("cane: "+result);
 		return (result);
 	}
 	
@@ -88,7 +78,7 @@ public class F01 extends CEC2005TestFunction {
 		
 		double sum = 0.0;
 
-		for (int i = 0 ; i < x.length ; i ++) 
+		for (int i = 0 ; i < x.length ; i ++)
 		{
 			sum += x[i] * x[i];
 		}

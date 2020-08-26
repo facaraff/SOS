@@ -3,7 +3,7 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.operators.ISBOp.generateRandomSolution;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Corrections.mirroring;
@@ -18,7 +18,7 @@ import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 
 public class RISold extends AlgorithmBias
-{	
+{
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
@@ -31,18 +31,18 @@ public class RISold extends AlgorithmBias
 		double xi = getParameter("p2").doubleValue(); // 0.000001
 		double CR = Math.pow(0.5, (1/(problemDimension*globalAlpha)));
 			
-		double[] best; 
+		double[] best;
 		double fBest;
 		double[] temp;
 		
 		
 		
 		
-		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
+		char correctionStrategy = this.correction;  // t --> torus   s --> saturation  d -->  discard  e ---> penalty
 		
 		
 		
-		String FullName = getFullName("RIS"+correctionStrategy,problem); 
+		String FullName = getFullName("RIS"+correctionStrategy,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 
@@ -83,7 +83,7 @@ public class RISold extends AlgorithmBias
 			
 			double fx = problem.f(x);
 
-			i++; 
+			i++;
 //			newID++;
 						
 			if(fx < fBest)
@@ -120,7 +120,7 @@ public class RISold extends AlgorithmBias
 
 			//while ((SR[0] > precision) && (iter < totalBudget))
 			while ((max(SR) > xi) && (i < maxEvaluations))
-			{	
+			{
 				double[] Xk = new double[problemDimension];
 				double[] Xk_orig = new double[problemDimension];
 				for (int k = 0; k < problemDimension; k++)
@@ -143,13 +143,11 @@ public class RISold extends AlgorithmBias
 				{
 					Xk[k] = Xk[k] - SR[k];
 					
-					
-					//Xk = saturateToro(Xk, bounds);
 					double[] output = new double[problemDimension];
 					if(correctionStrategy == 't')
 					{
-						//System.out.println("TORO");
-						output = toro(Xk, bounds);
+						//System.out.println("TORUS");
+						output = torus(Xk, bounds);
 					}
 					else if(correctionStrategy== 's')
 					{
@@ -158,12 +156,12 @@ public class RISold extends AlgorithmBias
 					}
 					else if(correctionStrategy== 'd')
 					{
-						output = toro(Xk, bounds);
+						output = torus(Xk, bounds);
 						
 						if(!Arrays.equals(output, Xk))
 						{
 							output = cloneSolution(Xk_orig);
-							//output[k] = Xk_orig[k]; 
+							//output[k] = Xk_orig[k];
 							
 							for(int n = 0; n < problemDimension; n++)
 								if(output[n]<0 || output[n]>1) System.out.println("OUT!");
@@ -192,7 +190,7 @@ public class RISold extends AlgorithmBias
 					
 					
 					double fXk = problem.f(Xk);
-					i++; 
+					i++;
 
 					// best update
 					if (fXk < fx)
@@ -243,13 +241,11 @@ public class RISold extends AlgorithmBias
 								Xk[k] = Xk_orig[k];
 								Xk[k] = Xk[k] + 0.5*SR[k];
 								
-								
-								//Xk = saturateToro(Xk, bounds);
 								output = new double[problemDimension];
 								if(correctionStrategy == 't')
 								{
-									//System.out.println("TORO");
-									output = toro(Xk, bounds);
+									//System.out.println("TORUS");
+									output = torus(Xk, bounds);
 								}
 								else if(correctionStrategy== 's')
 								{
@@ -258,13 +254,12 @@ public class RISold extends AlgorithmBias
 								}
 								else if(correctionStrategy== 'd')
 								{
-									output = toro(Xk, bounds);
+									output = torus(Xk, bounds);
 									if(!Arrays.equals(output, Xk))
 									{
 										output = cloneSolution(Xk_orig);
 										//Xk[k] = Xk_orig[k];
 									}
-										
 								}
 								else if(correctionStrategy== 'c')
 								{
@@ -287,7 +282,7 @@ public class RISold extends AlgorithmBias
 								}
 								
 								fXk = problem.f(Xk);
-								i++; 
+								i++;
 
 					
 								if (fXk < fx)
@@ -332,7 +327,7 @@ public class RISold extends AlgorithmBias
 					k++;
 				}
 
-			}	
+			}
 							
 
 

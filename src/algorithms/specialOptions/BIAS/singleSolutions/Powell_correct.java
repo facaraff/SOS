@@ -3,13 +3,13 @@ Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.specialOptions.BIAS.singleSolutions;
@@ -88,7 +88,7 @@ public class Powell_correct extends AlgorithmBias
 		xi1dim = new double[n];
 			
 		
-		String FullName = getFullName("PM"+this.correction,problem); 
+		String FullName = getFullName("PM"+this.correction,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		
@@ -135,7 +135,7 @@ public class Powell_correct extends AlgorithmBias
 		
 		double[] pt = new double[n], ptt = new double[n], xit = new double[n];
 //		fret = fConstraint(p, bounds, PENALTY,problem, FT);
-//		p=toro(p,bounds);
+//		p=torus(p,bounds);
 //		fret = problem.f(p);
 		for (int j=0; j<n; j++)
 		{
@@ -257,7 +257,7 @@ public class Powell_correct extends AlgorithmBias
 				t = 2.0*(fp-2.0*fret+fptt)*Math.pow(fp-fret-del,2)-del*Math.pow(fp-fptt,2);
 				if (t<0.0)
 				{
-//					fret = lineMinimization(p, xit,maxIterations);				
+//					fret = lineMinimization(p, xit,maxIterations);
 //					double[] prevP = cloneSolution(p);
 					fret = lineMinimization(p, xit, maxIterations);
 					p = correct(p,this.dismissPreviousPt,bounds);
@@ -291,7 +291,7 @@ public class Powell_correct extends AlgorithmBias
 						}
 						else
 						{
-							// from Numerical Recipes 
+							// from Numerical Recipes
 							for(int j=0; j<n; j++)
 							{
 								xi[j][ibig-1] = xi[j][n-1];
@@ -339,10 +339,6 @@ public class Powell_correct extends AlgorithmBias
 		BracketMin bm = new BracketMin(this, 0.0, 1.0);
 		// optimize along direction
 		Brent br = new Brent(this, bm.ax, bm.bx, bm.cx, maxIterations);
-
-//		
-//		for(int k = 0; k < n; k++)
-//		if(p[k] == 0.0) System.out.println("cazzo!");
 		
 		double xmin = br.xmin;
 		for(int j=0; j<n; j++)
@@ -458,7 +454,7 @@ public class Powell_correct extends AlgorithmBias
 			x = w = v = bx;
 			fw = fv = fx = powell.f1dim(x);
 			
-			// maximum iterations		
+			// maximum iterations
 //			int maxIterations = powell.getParameter("p1").intValue(); //100
 			
 			for (brentIter=0; brentIter<maxIterations && powell.iter < powell.maxEvaluations; brentIter++)
@@ -545,7 +541,7 @@ public class Powell_correct extends AlgorithmBias
 	{
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
-			xt[j] = p1dim[j]+x*xi1dim[j];		
+			xt[j] = p1dim[j]+x*xi1dim[j];
 		return problem.f(correct(xt,this.dismissPreviousPt,bounds));
 	}
 

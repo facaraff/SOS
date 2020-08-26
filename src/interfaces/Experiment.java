@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,12 +23,12 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
 /** @file Experiment.java
- *  
+ * 
  *
  *  @author Fabio Caraffini
 */
@@ -50,8 +50,8 @@ import interfaces.Experiment;
 import utils.MatLab;
 import utils.RunAndStore; ///< Utilities for runnig algorithms and storing results.
 import utils.RunAndStore.AlgorithmRepetitionThread; ///< Execure a single run in a thread.
-import utils.RunAndStore.AlgorithmResult; ///< Utilities 
-//import static utils.RunAndStore.getAcknowledgement; ///< Utilities 
+import utils.RunAndStore.AlgorithmResult; ///< Utilities
+//import static utils.RunAndStore.getAcknowledgement; ///< Utilities
 import static utils.MatLab.std;
 import static utils.MatLab.mean;
 
@@ -60,15 +60,17 @@ import static utils.MatLab.mean;
  */
 public abstract class Experiment
 {
+	private int minIndex = 0;
+	private int maxIndex = 0;
 	private int nrRuns = 100; ///< Number of desired runs for each optimiser.
 	private int budgetFactor = 5000; ///< Budget factor. This coefficient is applied to the dimensionality of the problem to fix the computational budget.///<
-	private int problemDimension; ///< Dimensionality if the problem.  
-	private Vector<Algorithm> algorithms = new Vector<Algorithm>();// //!< List of optimisers
-	private Vector<Problem> problems = new Vector<Problem>();//  //!< List of problems 
+	private int problemDimension; ///< Dimensionality if the problem.
+	private Vector<Algorithm> algorithms = new Vector<>();// //!< List of optimisers
+	private Vector<Problem> problems = new Vector<>();//  //!< List of problems
 	private String expFolder = ".";
-	private boolean saveRowData = true; ///< If true, solutions generated in ageneric run are stored in a separate file 
+	private boolean saveRowData = true; ///< If true, solutions generated in ageneric run are stored in a separate file
 	private boolean showPValue = false; ///< If true, then p-value is displayed
-	//private boolean showPValue = false; se lo vuoi impostare fai un meto startExperiment sulla classe che eredita perche' tanto capita raramente.. 
+	//private boolean showPValue = false; se lo vuoi impostare fai un meto startExperiment sulla classe che eredita perche' tanto capita raramente..
 	private int nrProc = Runtime.getRuntime().availableProcessors();
 	private boolean MT = true; //Multithread experiments
 	private Date date = new Date();
@@ -97,7 +99,7 @@ public abstract class Experiment
 	/**
 	 *Constructr 3.
 	 * 
-	 * @param problemDimension dimensionality value for all the  problems in the experiment. 
+	 * @param problemDimension dimensionality value for all the  problems in the experiment.
 	 * @param budgetFactor set up the computational budget proportional to the dimensionality of the problem.
 	 * @param s expName name for the folder where to store results.
 	*/
@@ -105,7 +107,7 @@ public abstract class Experiment
 /**
 	 *Constructr 4.
 	 * 
-	 * @param problemDimension dimensionality value for all the  problems in the experiment. 
+	 * @param problemDimension dimensionality value for all the  problems in the experiment.
 	 * @param budgetFactor set up the computational budget proportional to the dimensionality of the problem.
 	 * @param s expName name for the folder where to store results.
 	 * @param saveRowData If true, solutions generated in ageneric run are stored in a separate file.
@@ -131,7 +133,27 @@ public abstract class Experiment
 	 * 
 	 * @param nrRuns number of repetitions for each problem in the experiment.
 	*/
-	public void setNrRuns(int nrRuns){this.nrRuns = nrRuns;}
+	public void setNrRuns(int nrRuns)
+	{
+		this.minIndex = 0;
+		this.maxIndex = nrRuns;
+		this.nrRuns = nrRuns;
+	}
+	
+	/**
+	 * 
+	 * @param minIndex
+	 * @param maxIndex
+	 * @throws Exception
+	 */
+	public void setRunsIndexes(int minIndex, int maxIndex) throws Exception
+	{
+		if (maxIndex <= minIndex)
+			throw new Exception("Illegal minIndex, maxIndex range: maxIndex must be greater than minIndex.");
+		this.minIndex = minIndex;
+		this.maxIndex = maxIndex;
+		this.nrRuns = maxIndex-minIndex;
+	}
 	/**
 	 * This method sets the budeget factor.
 	 * 
@@ -162,7 +184,7 @@ public abstract class Experiment
 	/**
 	 * This method returnd the dimensionality fof the problem.
 	 * 
-	 * It can be useful when the experiment include a single problem, or multiple anchmark problems tested at the same dimesionality value. 
+	 * It can be useful when the experiment include a single problem, or multiple anchmark problems tested at the same dimesionality value.
 	 * 
 	 * @return problemDimension dimensionality value for the problem.
 	*/
@@ -220,7 +242,7 @@ public abstract class Experiment
 	public void setUniqueIDs()
 	{
 		setIDs();
-		Vector<Algorithm> temp = new Vector<Algorithm>();
+		Vector<Algorithm> temp = new Vector<>();
 		for(Algorithm a : this.algorithms){temp.add(a);}
 		Algorithm a;
 		while(temp.size()!=0)
@@ -249,7 +271,7 @@ public abstract class Experiment
 		if(MT)
 			{
 			System.out.println("This experiment contains "+getNrAlgorithms()+" optimisers and "+getNrProblems()+" problems with dimension value "+getProblemDimension());
-			System.out.println("(Runs,"+getNrRuns()+" for each optimisation process, are spread over "+nrProc+" available processors)");
+			System.out.println("(" + getNrRuns() +" runs for each optimisation process, spread over "+nrProc+" available processors)");
 			System.out.println();
 			}
 		else
@@ -307,11 +329,11 @@ public abstract class Experiment
 			  catalog += "##################### "+getProblemDimension()+" D #####################\nNumber of runs: "+getNrRuns()+"\nAlgorithms: ";
 			  String setting = "";
 			  for(Algorithm a : algorithms){catalog+=a.getID()+" "; setting+=a.getParSetting()+"\n";} catalog+="\n"+setting+"Problems:\n"; setting = null;
-			  for(Problem p : problems)catalog+=RunAndStore.getFullName(p)+p.getFID()+"\n"; //catalog+="\n"+getAcknowledgement()+"\n"; 
+			  for(Problem p : problems)catalog+=RunAndStore.getFullName(p)+p.getFID()+"\n"; //catalog+="\n"+getAcknowledgement()+"\n";
 			RunAndStore.createRFolder(slash+expFolder);
 			
 			for (Algorithm algorithm : algorithms)
-			{	
+			{
 				String algName = algorithm.getID();
 				RunAndStore.createRFolder(slash+expFolder+slash+algName);
 				for(Problem p : problems)
@@ -336,7 +358,7 @@ public abstract class Experiment
 		tableHeader();
 		createExperimentFolders();
 		
-		if(MT) 
+		if(MT)
 			startMTExperiment();
 		else
 			startSTExperiment();
@@ -345,7 +367,7 @@ public abstract class Experiment
 	
 	
 	/**
-	 * These method starts a Multi-Thread experiments. 
+	 * These method starts a Multi-Thread experiments.
 	 * @throws Exception This method must be able to handle potential exceptions.
 	 */
 	
@@ -354,7 +376,7 @@ public abstract class Experiment
 		double[][] finalValues;
 		
 		ExecutorService threadPool = Executors.newFixedThreadPool(nrProc);
-		CompletionService<AlgorithmResult> pool = new ExecutorCompletionService<AlgorithmResult>(threadPool);
+		CompletionService<AlgorithmResult> pool = new ExecutorCompletionService<>(threadPool);
 
 		int problemIndex = 0;
 		for (Problem problem: problems)
@@ -364,18 +386,18 @@ public abstract class Experiment
 			finalValues = new double[algorithms.size()][nrRuns];
 			int algorithmIndex = 0;
 			for (Algorithm algorithm : algorithms)
-			{ 
-				for (int i = 0; i < nrRuns; i++) 
+			{
+				for (int i = minIndex; i < maxIndex; i++)
 				{
 					AlgorithmRepetitionThread thread = new AlgorithmRepetitionThread(algorithm, problem, i, budgetFactor, saveRowData, expFolder);
 					pool.submit(thread);
 				}
 	
-				for (int j = 0; j < nrRuns; j++)
+				for (int j = minIndex; j < maxIndex; j++)
 				{
 					Future<AlgorithmResult> result = pool.take();
 					AlgorithmResult algorithmResult = result.get();
-					finalValues[algorithmIndex][algorithmResult.repNr] = algorithmResult.fbest; //- bias[problemIndex];
+					finalValues[algorithmIndex][algorithmResult.repNr-minIndex] = algorithmResult.fbest; //- bias[problemIndex];
 				}
 
 				String mean = RunAndStore.format(mean(finalValues[algorithmIndex]));
@@ -395,7 +417,7 @@ public abstract class Experiment
 	
 	
 	/**
-	 * These methods start Multi-Thread experiments. 
+	 * These methods start Multi-Thread experiments.
 	 * @throws Exception This method must be able to handle potential exceptions.
 	 */
 	
@@ -411,14 +433,14 @@ public abstract class Experiment
 
 			int problemIndex = 0;
 			for (Problem problem: problems)
-			{	
+			{
 				System.out.print("f" + (problemIndex+1) + "\t");
 
 				finalValues = new double[algorithms.size()][nrRuns];
 				algorithmIndex = 0;
 				for (Algorithm algorithm : algorithms)
 				{
-					for (int i = 0; i < nrRuns; i++)
+					for (int i = minIndex; i < maxIndex; i++)
 					{
 						a = new AlgorithmRepetitionThread(algorithm, problem, i, budgetFactor, saveRowData, expFolder);
 						finalValues[algorithmIndex][i] = a.runAlgorithmRepetition(algorithm, problem,  i);
@@ -429,7 +451,7 @@ public abstract class Experiment
 					String std = RunAndStore.format(MatLab.std(finalValues[algorithmIndex]));
 					System.out.print(mean + " \u00b1 " + std + "\t");
 					if (algorithmIndex > 0)
-					{			
+					{
 						double pValue = mannWhitneyUTest.mannWhitneyUTest(finalValues[0], finalValues[algorithmIndex]);
 						char w = '=';
 						if (pValue < 0.05)
@@ -441,7 +463,7 @@ public abstract class Experiment
 						}
 						System.out.print(w + "\t");
 			
-						if (showPValue) 
+						if (showPValue)
 							System.out.print(RunAndStore.format(pValue) + "\t");
 				}
 				algorithmIndex++;
@@ -472,7 +494,7 @@ public abstract class Experiment
 		double[][] finalValues;
 		
 		ExecutorService threadPool = Executors.newFixedThreadPool(nrProc);
-		CompletionService<AlgorithmResult> pool = new ExecutorCompletionService<AlgorithmResult>(threadPool);
+		CompletionService<AlgorithmResult> pool = new ExecutorCompletionService<>(threadPool);
 
 		for (Problem problem: problems)
 		{
@@ -480,18 +502,18 @@ public abstract class Experiment
 			finalValues = new double[algorithms.size()][nrRuns];
 			int algorithmIndex = 0;
 			for (Algorithm algorithm : algorithms)
-			{ 
-				for (int i = 0; i < nrRuns; i++) 
+			{
+				for (int i = minIndex; i < maxIndex; i++)
 				{
 					AlgorithmRepetitionThread thread = new AlgorithmRepetitionThread(algorithm, problem, i, budgetFactor, saveRowData, expFolder);
 					pool.submit(thread);
 				}
 	
-				for (int j = 0; j < nrRuns; j++)
+				for (int j = minIndex; j < maxIndex; j++)
 				{
 					Future<AlgorithmResult> result = pool.take();
 					AlgorithmResult algorithmResult = result.get();
-					finalValues[algorithmIndex][algorithmResult.repNr] = algorithmResult.fbest; //- bias[problemIndex];
+					finalValues[algorithmIndex][algorithmResult.repNr-minIndex] = algorithmResult.fbest; //- bias[problemIndex];
 				}
 				
 		

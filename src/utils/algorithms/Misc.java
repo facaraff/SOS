@@ -3,13 +3,13 @@ Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,12 +23,12 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
 /** @file Misc.java
- *  
+ * 
  *
  * MISCELLANEOUS
  * 
@@ -124,28 +124,28 @@ public class Misc {
 	 * 
 	 * @param a array containing the values to be copied
 	 * @param b array receiving the values
-	 *           
+	 * 
 	 */
-	public static void fillAWithB(double[][] a, double[][] b) 
+	public static void fillAWithB(double[][] a, double[][] b)
 	{
 		int I = a.length;
 		int J = a[0].length;
 		try {
 			
-			for (int i = 0; i < I; i++) 
-				for (int j = 0; j < J; j++) 
+			for (int i = 0; i < I; i++)
+				for (int j = 0; j < J; j++)
 					b[i][j] = a[i][j];
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	public static void fillAWithB(double[] a, double[] b) 
+	public static void fillAWithB(double[] a, double[] b)
 	{
 		int I = a.length;
 		try {
 			
-			for (int i = 0; i < I; i++) 
+			for (int i = 0; i < I; i++)
 					a[i] = b[i];
 			
 		} catch (Exception ex) {
@@ -161,7 +161,7 @@ public class Misc {
 	 *            problam dimension.
 	 * @return r randomly generated point.
 	 */
-	public static double[] generateRandomSolution(double[] bounds, int n) 
+	public static double[] generateRandomSolution(double[] bounds, int n)
 	{
 		double[] r = new double[n];
 		for (int i = 0; i < n; i++)
@@ -419,11 +419,11 @@ public class Misc {
 	}
 
 	/**
-	 * Return Normilised p-th quantile of the input array
+	 * Return Normalised p-th quantile of the input array
 	 * (Implemented for the Diversity in DE study -Anil Yaman, Giovanni Iacca, Fabio Caraffini-)
 	 * 
 	 * @param p (0<p<=100).
-	 *            
+	 * 
 	 * @return normilised quantile (i.e. p=50--> normilised median; p=25--> normalised lower quartile; p=75-->normilised upper quartile; etc)
 	 */
 	public static double getNormalisedQuantile(double[] values, int p)
@@ -432,45 +432,4 @@ public class Misc {
 		
 		return getQuantile(normalisedValues,p);
 	}
-
-
-	
-	
-	
-
 }
-
-
-
-
-
-
-
-/// **
-// * Saturation with "rebound" on bounds of the search space ??????? MA CHE E'
-/// sta stronzata? non funziona!!! CANCELLA
-// *
-// * @param x
-// * @param bounds
-// * @return
-// */
-// public static double[] saturateRebound(double[] x, double[][] bounds)
-// {
-// int n = x.length;
-// double[] x_sat = new double[n];
-// double delta;
-// for (int i = 0; i < n; i++)
-// {
-// x_sat[i] = x[i];
-// while ((x_sat[i] < bounds[i][0]) || (x_sat[i] > bounds[i][1]))
-// {
-// delta = x_sat[i] - bounds[i][1];
-// if (delta > 0)
-// x_sat[i] = bounds[i][1] - delta;
-// delta = x_sat[i] - bounds[i][0];
-// if (delta < 0)
-// x_sat[i] = bounds[i][0] - delta;
-// }
-// }
-// return x_sat;
-// }

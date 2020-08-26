@@ -21,7 +21,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 		double beta  = getParameter("p1").doubleValue();	// 0.5
 		double gamma = getParameter("p2").doubleValue();	// 2
 		double delta = getParameter("p3").doubleValue();	// 0.5
-		 // t --> toroidal   s-->saturation   d--->discard
+		 // t --> torus   s-->saturation   d--->discard
 	
 		
 		FTrend FT = new FTrend();
@@ -40,7 +40,7 @@ public final class NelderMeadBias extends AlgorithmBias {
         int[] ids = new int[populationSize];
         int killed = -1;
 
-		String FullName = getFullName("NMA"+this.correction+"p"+populationSize,problem); 
+		String FullName = getFullName("NMA"+this.correction+"p"+populationSize,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
         
@@ -143,15 +143,13 @@ public final class NelderMeadBias extends AlgorithmBias {
 			// reflect
 			for (int j = 0; j < problemDimension; j++)
 				reflect[j] = mean[j] + alpha*(mean[j] - simplex[h][j]);
-			//reflect = saturateToro(reflect, bounds);
-			
 			
 			reflect = correct(reflect,prevReflect,bounds);
 			reflectVal = problem.f(reflect);
 			i++;
 			
 			
-			if (reflectVal < fBest)  
+			if (reflectVal < fBest)
 			{
 				fBest = reflectVal;
 				for (int j = 0; j < problemDimension; j++)
@@ -163,7 +161,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 				break;
 
 			
-			if (reflectVal < iSimplex[l][0]) 
+			if (reflectVal < iSimplex[l][0])
 			{
 				
 				// expand
@@ -171,8 +169,6 @@ public final class NelderMeadBias extends AlgorithmBias {
 				
 				for (int j = 0; j < problemDimension; j++)
 					expand[j] = mean[j] + gamma*(reflect[j] - mean[j]);
-				
-				//expand = saturateToro(expand, bounds);
 				
 				reflect = correct(expand,prevExpand,bounds);
 				expandVal = problem.f(expand);
@@ -190,7 +186,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 					break;
 				
 				// check if reflect or expand is better
-				if (expandVal < reflectVal) 
+				if (expandVal < reflectVal)
 				{
 					for (int j = 0; j < problemDimension; j++)
 						simplex[h][j] = expand[j];
@@ -284,7 +280,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 				line = null;
 				line = new String();
 			}
-			else if (reflectVal >= iSimplex[s][0] && reflectVal < iSimplex[h][0]) 
+			else if (reflectVal >= iSimplex[s][0] && reflectVal < iSimplex[h][0])
 			{
 				// contract outside
 				fillAWithB(prevContract,contract);
@@ -344,19 +340,16 @@ public final class NelderMeadBias extends AlgorithmBias {
 						if (k != l)
 						{
 							killed = ids[k];
-							// This should never geenrate infeasible points as it shrinks! (Fabio)
+							// This should never generate infeasible points as it shrinks! (Fabio)
 							fillAWithB(prevSimplex, simplex[k]);
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
-							//simplex[k] = saturateToro(simplex[k], bounds);
-								
-								
 							simplex[k] = correct(simplex[k], prevSimplex,bounds);
 							fSimplex[k] = problem.f(simplex[k]);
 								
 							i++;
 							newID++;
-							ids[k] = newID; 
+							ids[k] = newID;
 								
 							///////////////I HAD TO ADD THIS TO UPDATE THE INDEX FOR ANNA'S NOTATION (remove otherwise because it really slows down)
 							for (int n = 0; n < (problemDimension+1); n++)
@@ -392,7 +385,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 					}
 				}
 			}
-			else if (reflectVal >= iSimplex[h][0])//SERPE
+			else if (reflectVal >= iSimplex[h][0])
 			{
 				// contract inisde
 				fillAWithB(prevContract,contract);
@@ -452,7 +445,7 @@ public final class NelderMeadBias extends AlgorithmBias {
 							
 							i++;
 							newID++;
-							ids[k] = newID; 
+							ids[k] = newID;
 							
 							///////////////I HAD TO ADD THIS TO UPDATE THE INDEX FOR ANNA'S NOTATION (remove otherwise because it really slows down)
 							for (int n = 0; n < (problemDimension+1); n++)
@@ -506,8 +499,21 @@ public final class NelderMeadBias extends AlgorithmBias {
 		return indices;
 	}
 
-
-}	
+	public double[] saturation(double[] x, double[][] bounds)
+	{
+		double[] xs = new double[x.length];
+		for(int i=0; i<x.length; i++)
+		{
+			if(x[i]>bounds[i][1])
+				xs[i] = bounds[i][1];
+			else if(x[i]<bounds[i][0])
+				xs[i] = bounds[i][0];
+			else
+				xs[i] = x[i];
+		}
+		return xs;
+	}
+}
 	
 	
 	

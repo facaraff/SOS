@@ -32,22 +32,22 @@ public class CMAES11 extends AlgorithmBias
 		double p_thresh = getParameter("p2").doubleValue();// 0.44
 		double sigma0 = getParameter("p3").doubleValue();// 1 --> problem dependent!!
 
-//		char correctionStrategy = 'd';  // t --> toroidal   s-->saturation
-		char correctionStrategy = this.correction;  // t --> toroidal   s-->saturation
+//		char correctionStrategy = 'd';  // t --> torus   s-->saturation
+		char correctionStrategy = this.correction;  // t --> torus   s-->saturation
 
-		String FullName = getFullName("1p1CMAES"+correctionStrategy,problem); 
+		String FullName = getFullName("1p1CMAES"+correctionStrategy,problem);
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		
 		
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 		double d = 1+problemDimension/2;
 		double c_cov = 2/(Math.pow(problemDimension,2)+6);
 		double c_a = Math.sqrt(1-c_cov);
-		//double c_c = 2/(problemDimension+2); 
+		//double c_c = 2/(problemDimension+2);
 		double sigma=sigma0;
 		double p_succ_sign = p_target_succ;
 		int lambda_succ;
@@ -90,7 +90,7 @@ public class CMAES11 extends AlgorithmBias
 		
 //		int improvements=0;
 		while (i < maxEvaluations)
-		{	
+		{
 			z=newZ(problemDimension, PRGCounter);
 			Az = multiply(A,z);
 			x_offspring = sum(x_parent,multiply(sigma,Az));
@@ -154,14 +154,14 @@ public class CMAES11 extends AlgorithmBias
 	}
 
 	public  double[][] updateCholesky(double[][] A, double[] z, double c_a)
-	{   
+	{
 		//scalars factors
-		double z2 = norm2(z); z2=z2*z2; 
+		double z2 = norm2(z); z2=z2*z2;
 		double ca2 = c_a*c_a;
-		double factor = (c_a / z2)*(Math.sqrt(1+((1-ca2)*z2)/ca2)-1); 
+		double factor = (c_a / z2)*(Math.sqrt(1+((1-ca2)*z2)/ca2)-1);
 		//System.out.println(factor);
 		//matrix A*z*z'
-		double[][] temp = columnXrow(multiply(A,z),z); 
+		double[][] temp = columnXrow(multiply(A,z),z);
 		return sum( multiply(c_a,A) , multiply(factor,temp) );
 	}
 	
@@ -169,7 +169,7 @@ public class CMAES11 extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}

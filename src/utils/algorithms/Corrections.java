@@ -3,13 +3,13 @@ Copyright (c) 2019, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 package utils.algorithms;
@@ -35,7 +35,7 @@ import static utils.algorithms.Misc.*;
 import interfaces.Problem;
 import utils.random.RandUtils;
 
-public class Corrections 
+public class Corrections
 {
 	
 	/**
@@ -47,7 +47,7 @@ public class Corrections
 	 * @param bounds
 	 * @return corrected x
 	 */
-	public static double[] completeOneTailedNormal(double[] x, double[][] bounds, double scaleFactor) 
+	public static double[] completeOneTailedNormal(double[] x, double[][] bounds, double scaleFactor)
 	{
 		int n = x.length;
 		double[] x_complete = new double[n];
@@ -62,7 +62,7 @@ public class Corrections
 		{
 			BOUNDS[i][1] = bounds[0];
 			BOUNDS[i][1] = bounds[1];
-		}	
+		}
 		return completeOneTailedNormal(x, BOUNDS,scaleFactor);
 	}
 
@@ -109,7 +109,7 @@ public class Corrections
 		{
 			BOUNDS[i][1] = bounds[0];
 			BOUNDS[i][1] = bounds[1];
-		}	
+		}
 		return mirroring(x, BOUNDS);
 	}
 
@@ -186,7 +186,7 @@ public class Corrections
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 	/**
@@ -199,12 +199,12 @@ public class Corrections
 		{
 			BOUNDS[i][1] = bounds[0];
 			BOUNDS[i][1] = bounds[1];
-		}	
+		}
 		return saturation(x, BOUNDS);
 	}
 
 	/**
-	 * Toroidal correction within search space
+	 * Torus correction within search space
 	 * 
 	 * @param x
 	 *            solution to be corrected.
@@ -212,7 +212,7 @@ public class Corrections
 	 *            search space boundaries (general case).
 	 * @return x_tor corrected solution.
 	 */
-	public static double[] toro(double[] x, double[][] bounds) {
+	public static double[] torus(double[] x, double[][] bounds) {
 		int n = x.length;
 		double[] x_tor = new double[n];
 		for (int i = 0; i < n; i++) {
@@ -230,7 +230,7 @@ public class Corrections
 	}
 
 	/**
-	 * Toroidal correction within the search space
+	 * Torus correction within the search space
 	 * 
 	 * @param x
 	 *            solution to be corrected.
@@ -238,7 +238,7 @@ public class Corrections
 	 *            search space boundaries (hyper-parallelepiped).
 	 * @return x_tor corrected solution.
 	 */
-	public static double[] toro(double[] x, double[] bounds) {
+	public static double[] torusSameBounds(double[] x, double[] bounds) {
 		int n = x.length;
 		double[] x_tor = new double[n];
 		for (int i = 0; i < n; i++) {
@@ -316,7 +316,7 @@ public class Corrections
 	 * @param bounds search space boundaries (general case).
 	 * @return x_c corrected solution.
 	 */
-	public static double[] correct(char correction, double[] x, double[][] bounds) 
+	public static double[] correct(char correction, double[] x, double[][] bounds)
 	{
 		int n = x.length;
 		double[] x_c = new double[n];
@@ -324,8 +324,8 @@ public class Corrections
 		switch (correction)
 		{
 			case 't':
-				// toroidal
-				x_c = toro(x, bounds);
+				// toru
+				x_c = torus(x, bounds);
 				break;
 			case 's':
 				// saturation

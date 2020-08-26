@@ -16,7 +16,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public final class NelderMead extends AlgorithmBias {
 
 	static String Dir = "/home/facaraff/Desktop/KONODATA/NelderMead/";
 	
-	DecimalFormat DF = new DecimalFormat("0.00000000E00");	
+	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
@@ -40,7 +40,7 @@ public final class NelderMead extends AlgorithmBias {
 		double beta  = getParameter("p1").doubleValue();	// 0.5
 		double gamma = getParameter("p2").doubleValue();	// 2
 		double delta = getParameter("p3").doubleValue();	// 0.5
-		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation e---> penalise  d--->discard
+		char correctionStrategy = 'e';  // t --> torus   s-->saturation e---> penalise  d--->discard
 	
 		
 		FTrend FT = new FTrend();
@@ -62,7 +62,7 @@ public final class NelderMead extends AlgorithmBias {
         String fileName = "NMA"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1);
 		File file = new File(Dir+fileName+".txt");
 		//File file = new File(Dir+"/DEroe"+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
-		if (!file.exists()) 
+		if (!file.exists())
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -71,7 +71,7 @@ public final class NelderMead extends AlgorithmBias {
 		
 		int newID = 0;
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtils.setSeed(seed);
 		String line = "# function 0 dim "+problemDimension+" pop (verteces: n+1) "+populationSize+" alpha "+alpha+" beta "+beta+" gamma "+gamma+" delta "+delta+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		bw.write(line);
 		line = null;
@@ -120,7 +120,7 @@ public final class NelderMead extends AlgorithmBias {
 			
 //			newID++;
 //			ids[j] = newID;
-//			
+//
 //			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fSimplex[j])+" "+i+" -1";
 //			for(int n = 0; n < problemDimension; n++)
 //				line+=" "+formatter(simplex[j][n]);
@@ -179,12 +179,12 @@ public final class NelderMead extends AlgorithmBias {
 			for (int j = 0; j < problemDimension; j++)
 				reflect[j] = mean[j] + alpha*(mean[j] - simplex[h][j]);
 			
-			//reflect = toro(reflect, bounds);
+			//reflect = torus(reflect, bounds);
 			double[] output = new double[problemDimension];
 			if(correctionStrategy == 't')
 			{
-				//System.out.println("TORO");
-				output = toro(reflect, bounds);
+				//System.out.println("TORUS");
+				output = torus(reflect, bounds);
 				
 				if(!Arrays.equals(output, reflect))
 				{
@@ -227,7 +227,7 @@ public final class NelderMead extends AlgorithmBias {
 			i++;
 			
 			
-			if (reflectVal < fBest)  
+			if (reflectVal < fBest)
 			{
 				fBest = reflectVal;
 				for (int j = 0; j < problemDimension; j++)
@@ -239,18 +239,18 @@ public final class NelderMead extends AlgorithmBias {
 				break;
 
 			
-			if (reflectVal < iSimplex[l][0]) 
+			if (reflectVal < iSimplex[l][0])
 			{
 				// expand
 				for (int j = 0; j < problemDimension; j++)
 					expand[j] = mean[j] + gamma*(reflect[j] - mean[j]);
 				
-				//expand = toro(expand, bounds);
+				//expand = torus(expand, bounds);
 				output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(expand, bounds);
+					//System.out.println("TORUS");
+					output = torus(expand, bounds);
 					
 					if(!Arrays.equals(output, expand))
 					{
@@ -298,7 +298,7 @@ public final class NelderMead extends AlgorithmBias {
 					break;
 				
 				// check if reflect or expand is better
-				if (expandVal < reflectVal) 
+				if (expandVal < reflectVal)
 				{
 					for (int j = 0; j < problemDimension; j++)
 						simplex[h][j] = expand[j];
@@ -392,19 +392,19 @@ public final class NelderMead extends AlgorithmBias {
 				line = null;
 				line = new String();
 			}
-			else if (reflectVal >= iSimplex[s][0] && reflectVal < iSimplex[h][0]) 
+			else if (reflectVal >= iSimplex[s][0] && reflectVal < iSimplex[h][0])
 			{
 				// contract outside
 				for (int j = 0; j < problemDimension; j++)
 					contract[j] = mean[j] + beta*(reflect[j] - mean[j]);
 				
 				
-				//contract = toro(contract, bounds);
+				//contract = torus(contract, bounds);
 				output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(contract, bounds);
+					//System.out.println("TORUS");
+					output = torus(contract, bounds);
 					
 					if(!Arrays.equals(output, contract))
 					{
@@ -492,12 +492,12 @@ public final class NelderMead extends AlgorithmBias {
 							
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
-							//simplex[k] = toro(simplex[k], bounds);
+							//simplex[k] = torus(simplex[k], bounds);
 							output = new double[problemDimension];
 							if(correctionStrategy == 't')
 							{
-								//System.out.println("TORO");
-								output = toro(simplex[k], bounds);
+								//System.out.println("TORUS");
+								output = torus(simplex[k], bounds);
 								
 								if(!Arrays.equals(output, simplex[k]))
 								{
@@ -534,7 +534,7 @@ public final class NelderMead extends AlgorithmBias {
 								
 								i++;
 								newID++;
-								ids[k] = newID; 
+								ids[k] = newID;
 								
 								///////////////I HAD TO ADD THIS TO UPDATE THE INDEX FOR ANNA'S NOTATION (remove otherwise because it really slows down)
 								for (int n = 0; n < (problemDimension+1); n++)
@@ -570,17 +570,17 @@ public final class NelderMead extends AlgorithmBias {
 					}
 				}
 			}
-			else if (reflectVal >= iSimplex[h][0])//SERPE
+			else if (reflectVal >= iSimplex[h][0])
 			{
-				// contract inisde
+				// contract inside
 				for (int j = 0; j < problemDimension; j++)
 					contract[j] = mean[j] + beta*(simplex[h][j] - mean[j]);
-				//contract = toro(contract, bounds);
+				//contract = torus(contract, bounds);
 				output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(contract, bounds);
+					//System.out.println("TORUS");
+					output = torus(contract, bounds);
 					
 					if(!Arrays.equals(output, contract))
 					{
@@ -612,7 +612,7 @@ public final class NelderMead extends AlgorithmBias {
 					}
 					
 				}
-				else 
+				else
 					System.out.println("No bounds handling shceme seleceted");
 				//contractVal = problem.f(contract);
 				i++;
@@ -636,7 +636,7 @@ public final class NelderMead extends AlgorithmBias {
 					
 					for (int j = 0; j < problemDimension; j++)
 						simplex[h][j] = contract[j];
-					fSimplex[h] = contractVal;                                                                        //DONE
+					fSimplex[h] = contractVal;
 					
 					line =""+newID+" "+ids[l]+" "+ids[s]+" "+ids[h]+" "+formatter(fSimplex[h])+" "+i+" "+killed;
 					for(int n = 0; n < problemDimension; n++)
@@ -659,12 +659,12 @@ public final class NelderMead extends AlgorithmBias {
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
 							
-							//simplex[k] = toro(simplex[k], bounds);
+							//simplex[k] = torusSameBounds(simplex[k], bounds);
 							output = new double[problemDimension];
 							if(correctionStrategy == 't')
 							{
-								//System.out.println("TORO");
-								output = toro(simplex[k], bounds);
+								//System.out.println("TORUS");
+								output = torus(simplex[k], bounds);
 								
 								if(!Arrays.equals(output, simplex[k]))
 								{
@@ -702,7 +702,7 @@ public final class NelderMead extends AlgorithmBias {
 							
 							i++;
 							newID++;
-							ids[k] = newID; 
+							ids[k] = newID;
 							
 							///////////////I HAD TO ADD THIS TO UPDATE THE INDEX FOR ANNA'S NOTATION (remove otherwise because it really slows down)
 							for (int n = 0; n < (problemDimension+1); n++)
@@ -753,7 +753,7 @@ public String formatter(double value)
 {
 	String str =""+value;
 	str = this.DF.format(value).toLowerCase();
-	if (!str.contains("e-"))  
+	if (!str.contains("e-"))
 		str = str.replace("e", "e+");
 	return str;
 }
@@ -777,7 +777,7 @@ public double[] saturation(double[] x, double[][] bounds)
 			xs[i] = bounds[i][0];
 		else
 			xs[i] = x[i];
-	}		
+	}
 	return xs;
 }
 
@@ -786,7 +786,7 @@ public double[] saturation(double[] x, double[][] bounds)
 public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
 {
 	File f = new File(Dir+"corrections.txt");
-	if(!f.exists()) 
+	if(!f.exists())
 		f.createNewFile();
 	FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 	BufferedWriter BW = new BufferedWriter(FW);
@@ -805,14 +805,14 @@ public void wrtiteCorrectionsPercentage(String name, double percentage, double[]
 			if(finalFitnesses[n]==2)
 				counter++;
 		File f = new File(Dir+"corrections.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
 		BW.write(name+" "+percentage+" "+formatter((double)counter/finalFitnesses.length)+"\n");
 		BW.close();
 	}
-}	
+}
 	
 	
 	

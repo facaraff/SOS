@@ -3,13 +3,13 @@ Copyright (c) 2019, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
@@ -33,7 +33,7 @@ import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 import java.util.Arrays;
 
@@ -60,14 +60,14 @@ public class DEcboe extends AlgorithmBias
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
-	protected char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty 'm'---> mirroring
+	protected char correctionStrategy = 'e';  // t --> torus   s-->saturation  'e'--> penalty 'm'---> mirroring
 	
 	public DEcboe(char correction){super(); this.correctionStrategy = correction;}
 	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 
@@ -75,7 +75,7 @@ public class DEcboe extends AlgorithmBias
 		
 		
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 		
@@ -91,7 +91,7 @@ public class DEcboe extends AlgorithmBias
 		
 		int newID = 0;
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtils.setSeed(seed);
 
 		for (int j = 0; j < populationSize; j++)
 		{
@@ -142,24 +142,21 @@ public class DEcboe extends AlgorithmBias
 				for (int n = 0; n < populationSize-1; n++)
 					if(n != indexBest)
 						r[n] = n;
-				r = RandUtils.randomPermutation(r); 
+				r = RandUtils.randomPermutation(r);
 				
 				int r2 = r[0];
 				int r3 = r[1];
 
 				for (int n = 0; n < problemDimension; n++)
 					newPt[n] = population[j][n] + F*(population[indexBest][n]-population[j][n]) + F*(population[r2][n]-population[r3][n]);
-					
-
-							
 				
 				crossPt = crossOverExp(currPt, newPt, CR);
 				
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(crossPt, bounds);
+					//System.out.println("TORUS");
+					output = torus(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -268,7 +265,7 @@ public class DEcboe extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -292,7 +289,7 @@ public class DEcboe extends AlgorithmBias
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 		
@@ -300,7 +297,7 @@ public class DEcboe extends AlgorithmBias
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
 	{
 		File f = new File(Dir+"correctionsTEMP2.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -319,14 +316,14 @@ public class DEcboe extends AlgorithmBias
 				if(finalFitnesses[n]==2)
 					counter++;
 			File f = new File(Dir+"correctionsTEMP2.txt");
-			if(!f.exists()) 
+			if(!f.exists())
 				f.createNewFile();
 			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 			BufferedWriter BW = new BufferedWriter(FW);
 			BW.write(name+" "+percentage+" "+formatter((double)counter/finalFitnesses.length)+" "+F_value+" "+CR_value+" "+SEED+"\n");
 			BW.close();
 		}
-	}	
+	}
 	
 }
 

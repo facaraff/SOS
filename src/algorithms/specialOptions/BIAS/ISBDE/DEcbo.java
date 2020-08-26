@@ -5,7 +5,7 @@ import utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 import java.util.Arrays;
 
@@ -32,16 +32,16 @@ public class DEcbo extends AlgorithmBias
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'b'; //e-->exponential  b-->binary
-		char correctionStrategy = 'c';  // t --> toroidal   s-->saturation c---> complete
-		String fileName = "DEcbo"+crossoverStrategy+""+correctionStrategy; 
+		char correctionStrategy = 'c';  // t --> torus   s-->saturation c---> complete
+		String fileName = "DEcbo"+crossoverStrategy+""+correctionStrategy;
 		
 		
 		FTrend FT = new FTrend();
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 		int[] ids = new int[populationSize];
@@ -58,7 +58,7 @@ public class DEcbo extends AlgorithmBias
 		fileName+="p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1);
 		File file = new File(Dir+fileName+".txt");
 		//File file = new File(Dir+"/DEroe"+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
-		if (!file.exists()) 
+		if (!file.exists())
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
@@ -67,7 +67,7 @@ public class DEcbo extends AlgorithmBias
 		
 		int newID = 0;
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtils.setSeed(seed);
 		String line = "# function 0 dim "+problemDimension+" pop "+populationSize+" F "+F+" CR "+CR+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		bw.write(line);
 		line = null;
@@ -115,7 +115,7 @@ public class DEcbo extends AlgorithmBias
 		double[] crossPt = new double[problemDimension];
 		double currFit = Double.NaN;
 		double crossFit = Double.NaN;
-		int ciccio = 0;
+		int count = 0;
 		
 		// iterate
 		while (i < maxEvaluations)
@@ -137,7 +137,7 @@ public class DEcbo extends AlgorithmBias
 				for (int n = 0; n < populationSize-1; n++)
 					if(n != indexBest)
 						r[n] = n;
-				r = RandUtils.randomPermutation(r); 
+				r = RandUtils.randomPermutation(r);
 				
 				int r2 = r[0];
 				int r3 = r[1];
@@ -155,17 +155,17 @@ public class DEcbo extends AlgorithmBias
 				else
 					System.out.println("Crossover is not used");
 				
-				//crossPt = correction(crossPt, bounds, correctionStrategy);ciccio++; incCorrected();
+				//crossPt = correction(crossPt, bounds, correctionStrategy);count++; incCorrected();
 				double[] output = new double[problemDimension];
 //				if(correctionStrategy == 't')
 //				{
-//					//System.out.println("TORO");
-//					output = toro(crossPt, bounds);
-//					
+//					//System.out.println("TORUS");
+//					output = torus(crossPt, bounds);
+//
 //					if(!Arrays.equals(output, crossPt))
 //					{
 //						crossPt = output;
-//						ciccio++;
+//						count++;
 //					}
 //					crossFit = problem.f(crossPt);
 //				}
@@ -173,11 +173,11 @@ public class DEcbo extends AlgorithmBias
 //				{
 //					//System.out.println("SAT");
 //					output = saturation(crossPt, bounds);
-//					
+//
 //					if(!Arrays.equals(output, crossPt))
 //					{
 //						crossPt = output;
-//						ciccio++;
+//						count++;
 //					}
 //					crossFit = problem.f(crossPt);
 //				}
@@ -186,7 +186,7 @@ public class DEcbo extends AlgorithmBias
 //					output = saturation(crossPt, bounds);
 //					if(!Arrays.equals(output, crossPt))
 //					{
-//						ciccio++;
+//						count++;
 //						crossFit = 2;
 //					}
 //				}
@@ -194,13 +194,13 @@ public class DEcbo extends AlgorithmBias
 //					System.out.println("No bounds handling shceme seleceted");
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(crossPt, bounds);
+					//System.out.println("TORUS");
+					output = torus(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;
+						count++;
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -212,7 +212,7 @@ public class DEcbo extends AlgorithmBias
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;
+						count++;
 					}
 					crossFit = problem.f(crossPt);
 					
@@ -222,7 +222,7 @@ public class DEcbo extends AlgorithmBias
 					output = saturation(crossPt, bounds);
 					if(!Arrays.equals(output, crossPt))
 					{
-						ciccio++;
+						count++;
 						crossFit = 2;
 					}
 				}
@@ -231,7 +231,7 @@ public class DEcbo extends AlgorithmBias
 					output = mirroring(crossPt, bounds);
 					if(!Arrays.equals(output, crossPt))
 					{
-						ciccio++;
+						count++;
 						crossPt = output;
 					}
 				}
@@ -242,7 +242,7 @@ public class DEcbo extends AlgorithmBias
 					if(!Arrays.equals(output, crossPt))
 					{
 						crossPt = output;
-						ciccio++;
+						count++;
 					}
 					crossFit = problem.f(crossPt);
 				}
@@ -252,7 +252,7 @@ public class DEcbo extends AlgorithmBias
 //				if(!Arrays.equals(output, crossPt))
 //				{
 //					crossPt = output;
-//					ciccio++;
+//					count++;
 //				}
 //				crossFit = problem.f(crossPt);
 				i++;
@@ -308,9 +308,9 @@ public class DEcbo extends AlgorithmBias
 		FT.add(i, fBest);
 		bw.close();
 		
-//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
-//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fitnesses, correctionStrategy);
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, F, CR, seed);
+//		wrtiteCorrectionsPercentage(fileName, (double) count/maxEvaluations);
+//		wrtiteCorrectionsPercentage(fileName, (double) count/maxEvaluations, fitnesses, correctionStrategy);
+		wrtiteCorrectionsPercentage(fileName, (double) count/maxEvaluations, F, CR, seed);
 		return FT;
 	}
 	
@@ -320,7 +320,7 @@ public class DEcbo extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -344,21 +344,21 @@ public class DEcbo extends AlgorithmBias
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 	
-/*	
+/*
 	public double[] correction(double[] x, double[][] bounds, char correctionType)
-	{ 
+	{
 		//boolean equal = false;
 		double[] output = new double[x.length];
 		for(int i=0; i<x.length; i++)
 			output[i] = x[i];
 		if(correctionType=='t')
 		{
-			//System.out.println("TORO");
-			output = toro(x, bounds);
+			//System.out.println("TORUS");
+			output = torus(x, bounds);
 		}
 		else
 		{
@@ -372,12 +372,12 @@ public class DEcbo extends AlgorithmBias
 			//incCorrected();
 		return output;
 	}
-*/	
+*/
 	
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
 	{
 		File f = new File(Dir+"corrections.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -388,7 +388,7 @@ public class DEcbo extends AlgorithmBias
 	public void wrtiteCorrectionsPercentage(String name, double percentage) throws Exception
 	{
 		File f = new File(Dir+"corrections.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -408,14 +408,14 @@ public class DEcbo extends AlgorithmBias
 				if(finalFitnesses[n]==2)
 					counter++;
 			File f = new File(Dir+"corrections.txt");
-			if(!f.exists()) 
+			if(!f.exists())
 				f.createNewFile();
 			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 			BufferedWriter BW = new BufferedWriter(FW);
 			BW.write(name+" "+percentage+" "+formatter((double)counter/finalFitnesses.length)+"\n");
 			BW.close();
 		}
-	}	
+	}
 	
 	
 	

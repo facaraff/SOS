@@ -3,13 +3,13 @@ Copyright (c) 2019, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met: 
+modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
+   list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution. 
+   and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies, 
+of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
@@ -32,7 +32,7 @@ package algorithms.specialOptions.BIAS.ISBDE.corections.old;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.torus;
 
 import java.util.Arrays;
 
@@ -52,7 +52,7 @@ public class DEcbob extends AlgorithmBias
 {
 	
 //	private int run = 0;
-//	
+//
 //	public void setRun(int r)
 //	{
 //		this.run = r;
@@ -69,17 +69,17 @@ public class DEcbob extends AlgorithmBias
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
-		int populationSize = getParameter("p0").intValue(); 
+		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		//char crossoverStrategy = 'b'; 
-		char correctionStrategy = 'e';  // t --> toroidal   s-->saturation  'e'--> penalty
-//		String fileName = "DEcbo"+crossoverStrategy+""+correctionStrategy; 
+		//char crossoverStrategy = 'b';
+		char correctionStrategy = 'e';  // t --> torus   s-->saturation  'e'--> penalty
+//		String fileName = "DEcbo"+crossoverStrategy+""+correctionStrategy;
 		String fileName = "DEcbob"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
 		
 
-		int problemDimension = problem.getDimension(); 
+		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 //		int[] ids = new int[populationSize];
@@ -96,7 +96,7 @@ public class DEcbob extends AlgorithmBias
 //		fileName+="p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1);
 //		File file = new File(Dir+fileName+".txt");
 //		//File file = new File(Dir+"/DEroe"+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt");
-//		if (!file.exists()) 
+//		if (!file.exists())
 //			file.createNewFile();
 //		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 //		BufferedWriter bw = new BufferedWriter(fw);
@@ -105,7 +105,7 @@ public class DEcbob extends AlgorithmBias
 		
 		int newID = 0;
 		long seed = System.currentTimeMillis();
-		RandUtils.setSeed(seed);	
+		RandUtils.setSeed(seed);
 //		String line = "# function 0 dim "+problemDimension+" pop "+populationSize+" F "+F+" CR "+CR+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 //		bw.write(line);
 //		line = null;
@@ -175,7 +175,7 @@ public class DEcbob extends AlgorithmBias
 				for (int n = 0; n < populationSize-1; n++)
 					if(n != indexBest)
 						r[n] = n;
-				r = RandUtils.randomPermutation(r); 
+				r = RandUtils.randomPermutation(r);
 				
 				int r2 = r[0];
 				int r3 = r[1];
@@ -199,8 +199,8 @@ public class DEcbob extends AlgorithmBias
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORO");
-					output = toro(crossPt, bounds);
+					//System.out.println("TORUS");
+					output = torus(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -304,7 +304,7 @@ public class DEcbob extends AlgorithmBias
 	{
 		String str =""+value;
 		str = this.DF.format(value).toLowerCase();
-		if (!str.contains("e-"))  
+		if (!str.contains("e-"))
 			str = str.replace("e", "e+");
 		return str;
 	}
@@ -328,7 +328,7 @@ public class DEcbob extends AlgorithmBias
 				xs[i] = bounds[i][0];
 			else
 				xs[i] = x[i];
-		}		
+		}
 		return xs;
 	}
 		
@@ -336,7 +336,7 @@ public class DEcbob extends AlgorithmBias
 	public void wrtiteCorrectionsPercentage(String name, double percentage, double F_value, double CR_value, long SEED) throws Exception
 	{
 		File f = new File(Dir+"correctionsTEMP.txt");
-		if(!f.exists()) 
+		if(!f.exists())
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -355,14 +355,14 @@ public class DEcbob extends AlgorithmBias
 				if(finalFitnesses[n]==2)
 					counter++;
 			File f = new File(Dir+"correctionsTEMP.txt");
-			if(!f.exists()) 
+			if(!f.exists())
 				f.createNewFile();
 			FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 			BufferedWriter BW = new BufferedWriter(FW);
 			BW.write(name+" "+percentage+" "+formatter((double)counter/finalFitnesses.length)+" "+F_value+" "+CR_value+" "+SEED+"\n");
 			BW.close();
 		}
-	}	
+	}
 	
 }
 

@@ -2,8 +2,8 @@ package utils.random;
 
 import java.util.Vector;
 
-public class RandUtils extends PRNG 
-{	
+public class RandUtils extends PRNG
+{
 	
 	
 	/**
@@ -23,7 +23,7 @@ public class RandUtils extends PRNG
 	 * @param a The lower-bound of the interval.
 	 * @param b The upper-bound of the interval.
 	 * @param excl This value cannot be generated.
- 	 * @return a random value from the closed interval differing to excl. 
+ 	 * @return a random value from the closed interval differing to excl.
 	 */
 	public static int randomIntegerExcl(int a, int b, int excl)
 	{
@@ -41,7 +41,7 @@ public class RandUtils extends PRNG
 	 * 
 	 * @param n The lower-bound of the interval.
 	 * @param excl This value cannot be generated.
- 	 * @return a random value from the closed interval [0,n] differing to excl. 
+ 	 * @return a random value from the closed interval [0,n] differing to excl.
 	 */
 	public static int randomIntegerExcl(int n, int excl)
 	{
@@ -63,7 +63,7 @@ public class RandUtils extends PRNG
 	public static int[] randomPermutation(int[] a)
 	{
 		int n = a.length;
-		int[] b = (int[])a.clone();
+		int[] b = a.clone();
 		for (int k = n-1; k > 0; k--)
 		{
 			int w = (int) Math.floor(PRNG.random()*(k+1));
@@ -97,7 +97,7 @@ public class RandUtils extends PRNG
 	}
 	
 	/**
-	 * Random permutation of array elements, excluding an 
+	 * Random permutation of array elements, excluding an
 	 * element at the specified index.
 	 * 
 	 * @param a
@@ -114,7 +114,7 @@ public class RandUtils extends PRNG
 		for (int i = 0; i < n; i++)
 		{
 			if (i != excludedIndex)
-				b[k++] = a[i]; 
+				b[k++] = a[i];
 		}
 		
 		for (k = n-2; k > 0; k--)
@@ -127,16 +127,12 @@ public class RandUtils extends PRNG
 		return b;
 	}
 	
-	
-	
-	
-	
 	/**
 	 * Test main
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Vector<Double> vec = new Vector<Double>();
+		Vector<Double> vec = new Vector<>();
 		for(int i = 0; i <= 32766; i++) {
 			double next = getRNG().nextDouble();
 			if (vec.contains(next))
@@ -147,5 +143,3 @@ public class RandUtils extends PRNG
 	}
 	
 }
-
-
