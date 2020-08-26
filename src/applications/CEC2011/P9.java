@@ -123,10 +123,10 @@ public class P9 extends Problem {
 
 		
 		
-		Vector<Double> pgTemp= new Vector<Double>();
-		Vector<Double> pdTemp= new Vector<Double>();
-		Vector<Integer> gTemp= new Vector<Integer>();
-		Vector<Integer> dTemp= new Vector<Integer>();
+		Vector<Double> pgTemp= new Vector<>();
+		Vector<Double> pdTemp= new Vector<>();
+		Vector<Integer> gTemp= new Vector<>();
+		Vector<Integer> dTemp= new Vector<>();
 		
 		for(int i=0; i<bus.length; i++){
 			
@@ -149,7 +149,7 @@ public class P9 extends Problem {
 		
 		bt=MatLab.zeros(pg.length, pd.length);
 		
-		//50 MW BILATERAL TRANSACTION 
+		//50 MW BILATERAL TRANSACTION
 		bt[0][3]=0.05;   bt[0][4]=0.1;   bt[0][5]=0.05;
 		bt[1][2]=0.05;
 		bt[2][20]=0.025;
@@ -164,7 +164,7 @@ public class P9 extends Problem {
 		
 		for(int i=0; i<linedata.length; i++) {
 			
-			busA=linedata[i].busnl-1; busB=linedata[i].busnr-1; 
+			busA=linedata[i].busnl-1; busB=linedata[i].busnr-1;
 			yi=1/linedata[i].puI;
 			
 			if(busA>=0)
@@ -176,7 +176,7 @@ public class P9 extends Problem {
 			if(busA>=0&&busB>=0) {
 				YIbus[busA][busB]-=yi;
 				YIbus[busB][busA]-=yi;
-			}						
+			}
 		}
 		
 		RealMatrix rb=new Array2DRowRealMatrix(YIbus);
@@ -237,7 +237,7 @@ public class P9 extends Problem {
 			for(int i=0; i<bus.length-1; i++) {
 				for(int j=0; j<bus.length-1; j++) {
 					
-					flows+=Math.abs(ptdf[i][j][k]*gd[i][j])
+					flows+=Math.abs(ptdf[i][j][k]*gd[i][j])			//FIXME there's something wrong with these dimensions
 							+Math.abs(ptdf[i][j][k]*gd[i][j]);
 				}
 			}
@@ -288,7 +288,7 @@ public class P9 extends Problem {
 		
 		double genPen=0;
 		
-		for(int i=0; i<pg.length; i++) 
+		for(int i=0; i<pg.length; i++)
 			genPen+=100*Math.abs(pgx[i]-pg[i]);
 		
 		
@@ -333,7 +333,7 @@ public class P9 extends Problem {
 			injMVar=0;
 		}
 		
-		public busSpecification(int busNo,int busCode, double voltageM, double angleDegree, double loadMW, 
+		public busSpecification(int busNo,int busCode, double voltageM, double angleDegree, double loadMW,
 				double loadMVar, double genMW, double genMVar, double injQmin, double injQmax, double injMVar) {
 			
 			this.busNo=busNo;

@@ -15,10 +15,10 @@ public class P8 extends Problem {
 	
 	int nOriginalLine;
 	
-	//Fix Dimension 6
+	//FIXME Dimension 6 should be 7
 	public P8() //throws Exception
 	{
-		super(6); 
+		super(6);
 		this.setBounds(generateBounds(getDimension()));
 		
 		//Data Problem ref cod Matlab CEC2011
@@ -55,7 +55,7 @@ public class P8 extends Problem {
 		candidates[11]= new line(11,5,2,0.48,0,1,48,0);
 		candidates[12]= new line(12,3,4,0.63,0,0.75,63,0);
 		candidates[13]= new line(13,3,5,0.30,0,1,30,0);
-		candidates[14]= new line(14,4,5,0.61,0,0.78,61,0);	
+		candidates[14]= new line(14,4,5,0.61,0,0.78,61,0);
 		
 		this.setBounds(generateBounds(getDimension()));
 	
@@ -84,7 +84,7 @@ public class P8 extends Problem {
 			bline=1/linedata[i].x;
 			from=linedata[i].from; to=linedata[i].to;
 			
-			b[from][to]-=bline; 
+			b[from][to]-=bline;
 			b[to][from]=b[from][to];
 			
 			b[from][from]+=bline;
@@ -111,7 +111,7 @@ public class P8 extends Problem {
 			
 		}
 		
-		HashMap<Integer, Integer> no= new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> no= new HashMap<>();
 		
 		for(int i=0; i<n; i++) {
 			if(!no.containsKey(xr[i]))
@@ -142,7 +142,7 @@ public class P8 extends Problem {
 		for (int i = 0; i < probDim; i++)
 		{
 			bounds[i][0] = 0;
-			bounds[i][1] = 13;			
+			bounds[i][1] = 13;
 		}
 			
 		return bounds;
@@ -159,7 +159,7 @@ public class P8 extends Problem {
 			x=pijmax=cost=0;
 		}
 		
-		public line(line c) 
+		public line(line c)
 		{
 			this.no=c.no;
 			this.from=c.from;
