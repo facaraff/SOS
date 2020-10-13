@@ -96,6 +96,11 @@ public abstract class Problem
 	 */
 	public double[][] getBounds(){return bounds;}
 	/**
+	 * This method allows to stored the dimensionality of the problem passed as argument with the constructor.
+	 * @param dimension Dimensionaity of the problem. 
+	 */
+	public void setDimension(int dimension){this.dimension=dimension;}
+	/**
 	 * This method sets problem-specific boundaries
 	 * @param boundaries the bound of the problem.
 	 */
