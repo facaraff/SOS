@@ -45,7 +45,6 @@ public class ISBSuite extends Problem
 	
 	private double[][] getBoundaries(String name, int dimension)
 	{
-		
 		switch (name) 
 		{
 		case "f0":
@@ -54,11 +53,16 @@ public class ISBSuite extends Problem
 		case "g0":
 			setFID("g0");
 			return initBoundaries(0, 100, dimension); 
+		case "h0":
+			setFID("h0");
+			return initBoundaries(-0.6, 0.4, dimension); 
+		case "i0":
+			setFID("i0");
+			return initBoundaries(-0.2, 0.1, dimension); 
 		default:
 			System.out.println("This fucntion is not define din the ISB test suite");
 			return null; 
 		}
-		
 	}
 	
 	private double[][] initBoundaries(double lowerBound, double upperBound, int dimension) 

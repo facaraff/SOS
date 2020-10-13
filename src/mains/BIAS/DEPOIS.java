@@ -34,7 +34,8 @@ import java.util.Vector;
 
 
 import algorithms.specialOptions.BIAS.ISBDE.DEPoC;
-import benchmarks.Noise;
+//import benchmarks.Noise;
+import benchmarks.ISBSuite;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
@@ -55,20 +56,24 @@ public class DEPOIS extends ISBMain
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
-		expSettings.setBudgetFactor(10000);
-		expSettings.setNrRepetition(100);
+//		expSettings.setBudgetFactor(10000);
+//		expSettings.setNrRepetition(100);
 
 		
 		int n = expSettings.getProblemDimension();
-		double[][] bounds = new double[n][2];
-		for(int i=0; i<n; i++)
-		{
-			bounds[i][0] = 0;
-			bounds[i][1] = 1;
-		}	
 		
-		p = new Noise(n, bounds);
-		p.setFID("f0");
+//		double[][] bounds = new double[n][2];
+//		for(int i=0; i<n; i++)
+//		{
+//			bounds[i][0] = 0;
+//			bounds[i][1] = 1;
+//		}	
+//		
+//		p = new Noise(n, bounds);
+		
+		p = new ISBSuite("g0",n);
+		
+//		p.setFID("f0");
 		
 		problems.add(p);
 		
