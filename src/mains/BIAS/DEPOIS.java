@@ -62,18 +62,8 @@ public class DEPOIS extends ISBMain
 		
 		int n = expSettings.getProblemDimension();
 		
-//		double[][] bounds = new double[n][2];
-//		for(int i=0; i<n; i++)
-//		{
-//			bounds[i][0] = 0;
-//			bounds[i][1] = 1;
-//		}	
-//		
-//		p = new Noise(n, bounds);
 		
-		p = new ISBSuite("g0",n);
-		
-//		p.setFID("f0");
+		p = new ISBSuite("h0",n);
 		
 		problems.add(p);
 		
