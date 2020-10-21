@@ -41,7 +41,7 @@ import static utils.algorithms.operators.ISBOp.best2;
 import static utils.algorithms.operators.ISBOp.randToBest2;
 import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.operators.ISBOp.crossOverBin;
-import static utils.algorithms.ISBHelper.getNuberOfNonPositionColumnsForDE;
+import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
 import static utils.MatLab.cloneArray;
 
@@ -65,7 +65,7 @@ public class DEPoC extends AlgorithmBias
 	protected char crossoverStrategy = 'x';
 	protected boolean addBestDetails = false;
 	
-	public DEPoC(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
+	public DEPoC(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
 	
 	public DEPoC(String mut, char xover)
 	{
@@ -74,7 +74,7 @@ public class DEPoC extends AlgorithmBias
 		if(!mut.equals("ctro"))
 			this.crossoverStrategy = xover;
 		
-		this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);
+		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
 	}
 	
 	public DEPoC(String mut, char xover, boolean bestDetails)
@@ -84,7 +84,7 @@ public class DEPoC extends AlgorithmBias
 		if(!mut.equals("ctro"))
 			this.crossoverStrategy = xover;
 		
-		this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);
+		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
 		this.addBestDetails = bestDetails;
 	}
 	

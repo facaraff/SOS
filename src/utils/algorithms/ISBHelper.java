@@ -43,8 +43,6 @@ import java.text.DecimalFormat;
 public class ISBHelper {
 	
 	
-	
-	
 	/**
 	 *Fixes the scientific notation format 
 	 *@param value the double number to format.
@@ -116,7 +114,7 @@ public class ISBHelper {
 	 *
 	 */
 
-	public static int getNuberOfNonPositionColumnsForDE(String mutationStrategy)
+	public static int getNumberOfNonPositionColumnsForDE(String mutationStrategy)
 	{
 		int columns;
 		
@@ -216,5 +214,26 @@ public class ISBHelper {
 	
 		return  line +=formatter(currentFitness, DF)+" "+FECounter+" -1";
 	}
+	
+	
+	
+	/**
+	 * Prepare the first part of each line in the violation files. NB These lines starts with the values of the counters recording how many time the corresponding design variable has been been generated outside of the search space.
+	 *
+	 *@return line The line containing the values of each CID.
+	 *
+	 */
+	public static String CID2String(int[] CID) 
+	{
+		int n = CID.length;
+		String line ="";
+		for(int i=0; i < n; i++)
+			line+=CID[i]+"\t";
+		return  line;
+	}
+
+	
+	
+	
 
 }

@@ -41,7 +41,7 @@ import static utils.algorithms.operators.ISBOp.best2;
 import static utils.algorithms.operators.ISBOp.randToBest2;
 import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.operators.ISBOp.crossOverBin;
-import static utils.algorithms.ISBHelper.getNuberOfNonPositionColumnsForDE;
+import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
 import static utils.MatLab.cloneArray;
 
@@ -65,7 +65,7 @@ public class DE extends AlgorithmBias
 	protected char crossoverStrategy = 'x';
 	protected boolean addBestDetails = false;
 	
-	public DE(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);}
+	public DE(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
 	
 	public DE(String mut, char xover)
 	{
@@ -74,7 +74,7 @@ public class DE extends AlgorithmBias
 		if(!mut.equals("ctro"))
 			this.crossoverStrategy = xover;
 		
-		this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);
+		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
 	}
 	
 	public DE(String mut, char xover, boolean bestDetails)
@@ -84,7 +84,7 @@ public class DE extends AlgorithmBias
 		if(!mut.equals("ctro"))
 			this.crossoverStrategy = xover;
 		
-		this.nonPositionColumns = getNuberOfNonPositionColumnsForDE(mut);
+		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
 		this.addBestDetails = bestDetails;
 	}
 	
@@ -154,6 +154,7 @@ public class DE extends AlgorithmBias
 					FT.add(i, fBest);
 			}
 
+			writeCID(i, 20, best,fBest);
 			
 //			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
 			
@@ -301,15 +302,14 @@ public class DE extends AlgorithmBias
 						crossPt = newPt;
 				}
 				
-		
+				incrementViolatedDimensions(crossPt, bounds);
 				
+
 				crossPt = correct(crossPt, currPt, bounds, PRNGCounter);
 				storeNumberOfCorrectedSolutions(period,i);
 				
 				crossFit = problem.f(crossPt);
 				i++; 
-
-
 				
 				// replacement
 				if (crossFit < currFit)
@@ -353,6 +353,8 @@ public class DE extends AlgorithmBias
 					temp2[j] = currFit;
 				}
 				crossPt = null; newPt = null;
+				
+				writeCID(i, 20, best,fBest);
 			}
 			
 			population = cloneArray(temp);

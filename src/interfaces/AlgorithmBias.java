@@ -79,6 +79,8 @@ public abstract class AlgorithmBias
 	protected String Dir="."+slash()+"ResultsISB"+slash();
 	protected String minMaxProb = "min";
 	protected int nonPositionColumns = 0;
+	protected boolean CID = false;
+	protected int[] infeasibleDimensionCounter = null;
 //	protected long seed = System.currentTimeMillis();
 	protected long seed = -666;
 	
@@ -87,6 +89,13 @@ public abstract class AlgorithmBias
 	protected FileWriter fw = null;
 	protected BufferedWriter bw = null;
 //	private Instant timestamp = null;
+	
+	
+	/** For writing Counters of Infeasible Dimensions (CID) **/
+	protected File fileCID = null;
+	protected FileWriter fwCID = null;
+	protected BufferedWriter bwCID = null;
+
 
 //	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
 	protected String header = "# SOS_suite hostname "+System.getProperty("user.name")+" v2 ";
@@ -196,7 +205,16 @@ public abstract class AlgorithmBias
 	 * update the header to indicate that a maximisation process is taking place.
 	 */
 	public void maximisationProblem(){this.minMaxProb = "max";}
-	
+	/**
+	 * Activate the violated (infeasible) dimensions counting mechanism.
+	 * @param dim The dimensionality of the problem at hand.
+	 */
+	public void countInfeasibleDimenions(int dim, String fileName) {this.CID = true; this.infeasibleDimensionCounter = new int[dim];}
+	/**
+	 * Return the array containing the number of violations per dimeniosnality.
+	 * @return infeasibleDimensionCounter the counters.
+	 */
+	public int[] getCID(){return this.infeasibleDimensionCounter;}
 	/**
 	 * Return the header for the ISB result file
 	 */
@@ -204,7 +222,7 @@ public abstract class AlgorithmBias
 	/**
 	 * Close all buffers
 	 */
-	protected void closeAll() throws Exception {this.bw.close();} 
+	protected void closeAll() throws Exception {this.bw.flush();this.bw.close();this.bwCID.flush();this.bwCID.close();} 
 	
 	
 	//**   UTILS METHODS   **//
@@ -358,6 +376,19 @@ public abstract class AlgorithmBias
 			file.createNewFile();
 		fw = new FileWriter(file.getAbsoluteFile());
 		bw = new BufferedWriter(fw);
+		
+		if(CID) createViolationFile(fullName);
+	}
+	
+	protected void createViolationFile(String fullName) throws Exception
+	{
+		createFolder(Dir+"violations");
+		
+		fileCID = new File(Dir+"violations"+slash()+"violations"+fullName+".txt");
+		if (!fileCID.exists()) 
+			fileCID.createNewFile();
+		fwCID = new FileWriter(fileCID.getAbsoluteFile());
+		bwCID = new BufferedWriter(fwCID);
 	}
 	
 	protected void writeHeader(String parameters, Problem problem) throws Exception
@@ -365,6 +396,15 @@ public abstract class AlgorithmBias
 		this.seed = System.currentTimeMillis();
 		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
 		bw.write(line);
+		
+		if(CID)
+		{
+			this.seed = System.currentTimeMillis();
+			line = null;
+			line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+			bwCID.write(line);
+			//bwCID.flush();
+		}
 	}
 	
 	/**
@@ -385,6 +425,64 @@ public abstract class AlgorithmBias
 	 * Wrapper for the BestPositionAndFitnessToString method of the class ISBHelper
 	 */
 	public String positionAndFitnessToString(double[] x, double fx) {return ISBHelper.positionAndFitnessToString(x, fx, this.DF);}
+	
+	
+	
+	
+	/**
+	 * Increment the counter of the violated dimension.
+	 * @param dim The dimensionality of the problem at hand.
+	 */
+	protected void incrementViolatedDim(int dim){this.infeasibleDimensionCounter[dim]++;}
+	/**
+	 * Increment the counter of the violated dimension.
+	 * @param x The solution to check.
+	 * @param bouds The boundaries of the problem
+	 */
+	protected void incrementViolatedDimensions(double[] x, double[][] bounds)
+	{
+		int n = x.length;
+		for(int i=0; i<n; i++)
+			if(x[i]<bounds[i][0] || x[i]>bounds[i][1])
+				incrementViolatedDim(i);
+	}
+	protected void incrementViolatedDimensions(double[] x, double[] bounds)
+	{
+		int n = x.length;
+		double[][] BOUNDS = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			BOUNDS[i][0] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		
+		incrementViolatedDimensions(x, BOUNDS);
+	}
+	
+	/**
+	 * Writer the current status of violated dimensions to a line of the corresponding violation file. 
+	 * @param i The current value of the fitness evaluations counter.
+	 * @param period The desired period, in terms of fitness functional calls, every which a new line is added to the violation file.
+	 * @param x The solution (i.e. this is meant to be the best solution) whose coordinates need to be written in the line of the violation file. 
+	 * @param fx The fitness value of the solution (i.e. this is meant to be the best solution) whose coordinates are written in the line of the violation file. 
+	 */
+	protected void writeCID(int i, int period, double[] x, double fx) throws Exception
+	{
+		if(i%20==0)
+		{
+			String line = ISBHelper.CID2String(this.infeasibleDimensionCounter);
+			line+=ISBHelper.positionAndFitnessToString(x, fx, this.DF)+"\n";
+			bwCID.write(line);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 *Perform t, s and d corrections  (e=penalty must be performed separately)
@@ -454,6 +552,15 @@ public abstract class AlgorithmBias
 	}
 	
 	
+	
+	
+	//TO ADD
+	
+	// methodo che incrementa i contatori delle soluzioni infeasible
+	
+	//methodo che crea il file violations-XXXX  se non esiste, altrimenti ci attacca una linea --> questo puo' essere nell'helper?
+	
+	//methodo che wrappa il metodo che scrive la linea ma solo ogni certe periodo
 	
 }
 
