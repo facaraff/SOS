@@ -228,7 +228,7 @@ public class ISBHelper {
 		int n = CID.length;
 		String line ="";
 		for(int i=0; i < n; i++)
-			line+=CID[i]+"\t";
+			line+=CID[i]+" ";
 		return  line;
 	}
 

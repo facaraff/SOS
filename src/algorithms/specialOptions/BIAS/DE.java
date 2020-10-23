@@ -120,6 +120,8 @@ public class DE extends AlgorithmBias
 		
 		int period = maxEvaluations/3;
 		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
+		if(this.CID) this.infeasibleDimensionCounter = new int[problemDimension];
+
 
 		
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 

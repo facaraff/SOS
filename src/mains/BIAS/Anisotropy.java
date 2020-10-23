@@ -57,7 +57,7 @@ public class Anisotropy extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
-		expSettings.setNrRepetition(100);
+		expSettings.setNrRepetition(5);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
