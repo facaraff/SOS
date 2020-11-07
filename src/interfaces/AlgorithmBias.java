@@ -210,7 +210,7 @@ public abstract class AlgorithmBias
 	 * @param dim The dimensionality of the problem at hand.
 	 */
 //	public void countInfeasibleDimenions(int dim, String fileName) {this.CID = true; this.infeasibleDimensionCounter = new int[dim];}
-	public void countInfeasibleDimenions(int dim, String fileName) {this.CID = true;}
+	public void countInfeasibleDimenions(String fileName) {this.CID = true;}
 	/**
 	 * Return the array containing the number of violations per dimeniosnality.
 	 * @return infeasibleDimensionCounter the counters.

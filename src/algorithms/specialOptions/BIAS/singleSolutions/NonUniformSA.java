@@ -11,6 +11,9 @@ import utils.algorithms.Counter;
 
 public class NonUniformSA extends AlgorithmBias
 {
+	protected boolean addBestDetails = false;
+	
+	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{		
@@ -22,7 +25,7 @@ public class NonUniformSA extends AlgorithmBias
 		char correctionStrategy = this.correction;  // t --> toroidal   s --> saturation  d -->  discard  e ---> penalty
 		
 		String FullName = getFullName("nuSA"+correctionStrategy,problem); 
-		Counter PRGCounter = new Counter(0);
+		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 				
 		FTrend FT = new FTrend();
@@ -43,6 +46,10 @@ public class NonUniformSA extends AlgorithmBias
 		int newID = 0;
 		String line =new String();
 		
+		int period = maxEvaluations/3;
+		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
+		if(this.CID) this.infeasibleDimensionCounter = new int[problemDimension];
+		
 		writeHeader("B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions, problem);
 //		String line = "# function 0 dim "+problemDimension+" B "+B+" alpha "+alpha+" Lk "+Lk+" initialSolutions "+initialSolutions+" max_evals "+maxEvaluations+" SEED  "+seed+"\n";
 		
@@ -51,7 +58,7 @@ public class NonUniformSA extends AlgorithmBias
 			bestPt = initialSolution;
 		else
 		{
-			bestPt = generateRandomSolution(bounds, problemDimension,PRGCounter);
+			bestPt = generateRandomSolution(bounds, problemDimension,PRNGCounter);
 			i++;
 		}
 		fNew = problem.f(bestPt);
@@ -73,7 +80,7 @@ public class NonUniformSA extends AlgorithmBias
 		// evaluate initial solutions to set the initial temperature
 		for (int j = 0; j < initialSolutions; j++)
 		{
-			newPt = generateRandomSolution(bounds, problemDimension,PRGCounter);
+			newPt = generateRandomSolution(bounds, problemDimension,PRNGCounter);
 			fNew = problem.f(newPt);
 			i++;
 			// update best
@@ -122,9 +129,9 @@ public class NonUniformSA extends AlgorithmBias
 				for (int k = 0; k < problemDimension; k++)
 				{
 					//double temp = Math.pow(RandUtils.random(), Math.pow(1.0-(double)i/maxEvaluations, B));
-					double temp = Math.pow(RandUtilsISB.random(PRGCounter), Math.pow(1.0-(double)generationIndex/totalGenerations, B));
+					double temp = Math.pow(RandUtilsISB.random(PRNGCounter), Math.pow(1.0-(double)generationIndex/totalGenerations, B));
 
-					if (RandUtilsISB.random(PRGCounter)<0.5)
+					if (RandUtilsISB.random(PRNGCounter)<0.5)
 						newPt[k] = oldPt[k] - (oldPt[k]-problem.getBounds()[k][0])*(1-temp);
 					else
 						newPt[k] = oldPt[k] + (problem.getBounds()[k][1]-oldPt[k])*(1-temp);
@@ -152,11 +159,17 @@ public class NonUniformSA extends AlgorithmBias
 //					fNew=problem.f(newPt);
 //				i++;
 
-				newPt = correct(newPt,oldPt,bounds,PRGCounter);
+				incrementViolatedDimensions(newPt, bounds);
+				
+				newPt = correct(newPt,oldPt,bounds,PRNGCounter);
+				
+				storeNumberOfCorrectedSolutions(period,i);
+				
+				
 				fNew=problem.f(newPt);
 				i++;
 				
-				if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtilsISB.random(PRGCounter)))
+				if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtilsISB.random(PRNGCounter)))
 				{
 					for (int k = 0; k < problemDimension; k++)
 						oldPt[k] = newPt[k];
@@ -187,7 +200,18 @@ public class NonUniformSA extends AlgorithmBias
 		bw.close();
 		
 		//wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
-		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
+		
+		//writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsSingleSol");
+		
+		
+		String s = "";
+		if(addBestDetails) s = positionAndFitnessToString(finalBest, fNew);
+		
+		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),s, "correctionsSingleSol");
+		
+		
+		
+		
 		return FT;
 	}
 	

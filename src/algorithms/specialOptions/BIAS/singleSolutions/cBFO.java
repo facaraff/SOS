@@ -17,6 +17,9 @@ import utils.algorithms.Counter;
  */
 public class cBFO extends AlgorithmBias
 {
+	
+	protected boolean addBestDetails = false;
+	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
@@ -40,10 +43,11 @@ public class cBFO extends AlgorithmBias
 
 		int evalCount = 0;
 		
+		
 		this.numberOfCorrections = 0;
 		
 		String FullName = getFullName("cBFO"+this.correction,problem); 
-		Counter PRGCounter = new Counter(0);
+		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 		
 		int prevID = -1;
@@ -52,6 +56,9 @@ public class cBFO extends AlgorithmBias
 		RandUtilsISB.setSeed(this.seed);	
 		writeHeader("virtualPopulationSize "+virtualPopulationSize+" C_initial "+C_initial+" Ns "+Ns+" sepsilon_initial "+epsilon_initial+" ng "+ng+" alfa "+alfa+" beta"+beta,problem);
 		
+		int period = maxEvaluations/3;
+		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
+		if(this.CID) this.infeasibleDimensionCounter = new int[problemDimension];
 		
 		
 		double[] best = new double[problemDimension];
@@ -75,8 +82,8 @@ public class cBFO extends AlgorithmBias
 		double[] aScaled = new double[problemDimension];
 		double[] bScaled = new double[problemDimension];
 		
-		a = generateIndividual(mean, sigma2, PRGCounter);
-		b = generateIndividual(mean, sigma2, PRGCounter);
+		a = generateIndividual(mean, sigma2, PRNGCounter);
+		b = generateIndividual(mean, sigma2, PRNGCounter);
 		aScaled = scale(a, bounds, xc);
 		bScaled = scale(b, bounds, xc);
 
@@ -203,7 +210,7 @@ public class cBFO extends AlgorithmBias
 				
 				// evaluate chemotactic direction vector
 				for (int n = 0; n < problemDimension; n++)
-					delta[n] = -1.0 + 2*RandUtilsISB.random(PRGCounter);
+					delta[n] = -1.0 + 2*RandUtilsISB.random(PRNGCounter);
 
 				// chemotactic direction vector norm
 				double stepNorm = MatLab.norm2(delta);
@@ -212,8 +219,11 @@ public class cBFO extends AlgorithmBias
 				for (int n = 0; n < problemDimension; n++)
 					a[n] = a[n] + C_i * delta[n]/stepNorm;
 
-
-				a = correct(a,best,normalizedBounds, PRGCounter);
+				incrementViolatedDimensions(a, bounds);
+				
+				a = correct(a,best,normalizedBounds, PRNGCounter);
+				
+				storeNumberOfCorrectedSolutions(period,evalCount);
 				
 				aScaled = scale(a, bounds, xc);
 				fA = problem.f(aScaled);
@@ -270,7 +280,11 @@ public class cBFO extends AlgorithmBias
 						for (int n = 0; n < problemDimension; n++)
 							a[n] = a[n] + C_i * delta[n]/stepNorm;
 						
-						a = correct(a,best,normalizedBounds, PRGCounter);
+						incrementViolatedDimensions(a, bounds);
+						
+						a = correct(a,best,normalizedBounds, PRNGCounter);
+						
+						storeNumberOfCorrectedSolutions(period,evalCount);
 						
 						aScaled = scale(a, bounds, xc);
 						fA = problem.f(aScaled);
@@ -291,12 +305,12 @@ public class cBFO extends AlgorithmBias
 			 */
 			for (int j = 0; j < problemDimension; j++)
 			{
-				mean[j]=mean[j]+(0.2*RandUtilsISB.random(PRGCounter)-0.1);
+				mean[j]=mean[j]+(0.2*RandUtilsISB.random(PRNGCounter)-0.1);
 				if (mean[j] > 1)
 					mean[j] = 1.0;
 				else if (mean[j] < -1)
 					mean[j] = -1.0;
-				sigma2[j] = Math.abs(sigma2[j] + 0.1*RandUtilsISB.random(PRGCounter));
+				sigma2[j] = Math.abs(sigma2[j] + 0.1*RandUtilsISB.random(PRNGCounter));
 			}
 			
 			// apply adaptation scheme of ABFO0
@@ -326,8 +340,14 @@ public class cBFO extends AlgorithmBias
 		finalBest = best;
 		FT.add(evalCount, fBest);
 		bw.close();
+		
+		String s = "";
+		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
+		
+		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),s, "correctionsSingleSol");
+		
 	
-		writeStats(FullName, (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRGCounter.getCounter(), "correctionsSingleSol");
+		//writeStats(FullName, (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRNGCounter.getCounter(), "correctionsSingleSol");
 		return FT;
 	}
 }

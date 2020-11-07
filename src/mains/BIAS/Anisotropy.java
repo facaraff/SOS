@@ -57,7 +57,7 @@ public class Anisotropy extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
-		expSettings.setNrRepetition(5);
+		expSettings.setNrRepetition(15);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -77,7 +77,7 @@ public class Anisotropy extends ISBMain
 		for(double popSize : populationSizes)
 		{
 			a = new DE("bt",'b');
-			a.countInfeasibleDimenions(n,"DEb2bd");
+			a.countInfeasibleDimenions("DEb2bd");
 			a.setDir("DE"+slash()+a.getNPC()+slash());
 			a.setCorrection('d'); //DMISMISS
 			a.setParameter("p0", popSize); //Population size

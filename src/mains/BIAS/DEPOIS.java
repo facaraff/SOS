@@ -63,11 +63,13 @@ public class DEPOIS extends ISBMain
 		int n = expSettings.getProblemDimension();
 		
 		
-		p = new ISBSuite("h0",n);
+//		p = new ISBSuite("h0",n);
+		p = new ISBSuite("f0",n);
 		
 		problems.add(p);
 		
-		char[] corrections = {'d','s','u'};
+//		char[] corrections = {'d','s','u'};
+		char[] corrections = {'u'};
 //		String[] DEMutations = {"ro"};
 		char[] DECrossOvers = {'b','e'};
 		double[] populationSizes = {5, 20, 100};
