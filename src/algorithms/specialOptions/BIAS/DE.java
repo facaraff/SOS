@@ -119,6 +119,7 @@ public class DE extends AlgorithmBias
 		int i = 0;
 		
 		int period = maxEvaluations/3;
+		
 		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
 		if(this.CID) this.infeasibleDimensionCounter = new int[problemDimension];
 
@@ -156,7 +157,8 @@ public class DE extends AlgorithmBias
 					FT.add(i, fBest);
 			}
 
-			writeCID(i, 20, best,fBest);
+//			writeCID(i, 20, best,fBest);
+			writeCID(i, best,fBest);
 			
 //			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
 			
@@ -356,7 +358,8 @@ public class DE extends AlgorithmBias
 				}
 				crossPt = null; newPt = null;
 				
-				writeCID(i, 20, best,fBest);
+//				writeCID(i, 20, best,fBest);
+				writeCID(i, best,fBest);
 			}
 			
 			population = cloneArray(temp);

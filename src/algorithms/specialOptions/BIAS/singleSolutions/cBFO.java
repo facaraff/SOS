@@ -128,6 +128,7 @@ public class cBFO extends AlgorithmBias
 			prevID = newID;			
 		}
 		evalCount += 2;
+		writeCID(evalCount, best,fBest);
 
 		double[] winner = new double[problemDimension];
 		double[] loser = new double[problemDimension];
@@ -160,6 +161,8 @@ public class cBFO extends AlgorithmBias
 				fA = problem.f(aScaled);
 				
 				evalCount++;
+				
+				writeCID(evalCount, best,fBest);
 
 				if (fA < fBest)
 				{
@@ -228,6 +231,8 @@ public class cBFO extends AlgorithmBias
 				aScaled = scale(a, bounds, xc);
 				fA = problem.f(aScaled);
 				evalCount++; 
+				
+				writeCID(evalCount, best,fBest);
 
 				// swim
 				for (int j = 0; j < Ns && evalCount < maxEvaluations; j++)
@@ -290,6 +295,8 @@ public class cBFO extends AlgorithmBias
 						fA = problem.f(aScaled);
 						
 						evalCount++;
+						
+						writeCID(evalCount, best,fBest);
 					}
 				}
 			}
@@ -339,7 +346,10 @@ public class cBFO extends AlgorithmBias
 		
 		finalBest = best;
 		FT.add(evalCount, fBest);
-		bw.close();
+		
+//		bw.close();
+		closeAll();	
+		
 		
 		String s = "";
 		if(addBestDetails) s = positionAndFitnessToString(best, fBest);

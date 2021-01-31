@@ -322,6 +322,8 @@ public class Powell_correct extends AlgorithmBias
 					}
 				}
 			}
+			
+			writeCID(iter, best,fBest);
 		}
 
 		if (fret < fBest)
@@ -334,6 +336,9 @@ public class Powell_correct extends AlgorithmBias
 
 		finalBest = best;
 		
+		
+		closeAll();	
+		
 		String s = "";
 		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
 		
@@ -341,9 +346,10 @@ public class Powell_correct extends AlgorithmBias
 		
 //		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
 		
-		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(),s, "correctionsSingleSol");
 		
-		bw.close();
+		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(),s, "correctionsSingleSol");
+//		bw.close();
+	
 		return FT;
 	}
 
@@ -557,6 +563,8 @@ public class Powell_correct extends AlgorithmBias
 						v = u; fv = fu;
 					}
 				}
+				
+				//writeCID(brentIter, best,fBest);
 			}
 			xmin = x; fmin = fx;
 		}
@@ -581,7 +589,8 @@ public class Powell_correct extends AlgorithmBias
 		double[] temp = correct(xt,this.dismissPreviousPt,bounds, PRGCounter);
 		
 		storeNumberOfCorrectedSolutions(period,iter);
-		
+		iter++;
+		writeCID(iter, best,fBest);
 		return problem.f(temp);
 	}
 

@@ -83,6 +83,10 @@ public class NonUniformSA extends AlgorithmBias
 			newPt = generateRandomSolution(bounds, problemDimension,PRNGCounter);
 			fNew = problem.f(newPt);
 			i++;
+			
+			
+			writeCID(i, newPt,fNew);
+			
 			// update best
 			if (fNew < fOld)
 			{
@@ -137,28 +141,7 @@ public class NonUniformSA extends AlgorithmBias
 						newPt[k] = oldPt[k] + (problem.getBounds()[k][1]-oldPt[k])*(1-temp);
 				}
 				
-//				// evaluate fitness
-//				newPt = toro(newPt, bounds);
-//				fNew = problem.f(newPt);
-//				i++;
 				
-//				double[] output = new double[problemDimension];
-//
-//				if(correctionStrategy== 'e')
-//					output = toro(newPt, bounds);
-//				else
-//					newPt = correct(newPt,oldPt,bounds);
-//
-//				
-//				if( (correctionStrategy == 'e') && (!Arrays.equals(output, newPt)) )
-//				{
-//					fNew = 2;
-//					newPt = oldPt;
-//				}
-//				else
-//					fNew=problem.f(newPt);
-//				i++;
-
 				incrementViolatedDimensions(newPt, bounds);
 				
 				newPt = correct(newPt,oldPt,bounds,PRNGCounter);
@@ -168,6 +151,8 @@ public class NonUniformSA extends AlgorithmBias
 				
 				fNew=problem.f(newPt);
 				i++;
+				
+				
 				
 				if ((fNew <= fOld) || (Math.exp((fOld-fNew)/tk) > RandUtilsISB.random(PRNGCounter)))
 				{
@@ -187,6 +172,8 @@ public class NonUniformSA extends AlgorithmBias
 					line = new String();
 					prevID = newID;
 				}
+				
+				writeCID(i, oldPt,fOld);
 			}
 			
 			generationIndex++;
@@ -197,15 +184,18 @@ public class NonUniformSA extends AlgorithmBias
 		
 		finalBest = oldPt;
 		FT.add(i, fOld);
-		bw.close();
+//		bw.close();
+		
+		closeAll();	
 		
 		//wrtiteCorrectionsPercentage(fileName, (double)  this.numberOfCorrections/maxEvaluations, "correctionsSingleSol");
 		
 		//writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsSingleSol");
 		
 		
+		
 		String s = "";
-		if(addBestDetails) s = positionAndFitnessToString(finalBest, fNew);
+		if(addBestDetails) s = positionAndFitnessToString(finalBest, fOld);
 		
 		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),s, "correctionsSingleSol");
 		

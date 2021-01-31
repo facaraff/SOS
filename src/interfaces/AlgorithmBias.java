@@ -80,6 +80,7 @@ public abstract class AlgorithmBias
 	protected String minMaxProb = "min";
 	protected int nonPositionColumns = 0;
 	protected boolean CID = false;
+	protected int violationPeriod = 20;
 	protected int[] infeasibleDimensionCounter = null;
 //	protected long seed = System.currentTimeMillis();
 	protected long seed = -666;
@@ -153,6 +154,12 @@ public abstract class AlgorithmBias
 	 */
 	public void setID(String name){this.ID = name;}
 	/**
+	 * This is used to set the period with which the values of the counter of violated dimensions are written to a line in the corresponding file "violation" txt file.
+	 * @param period The number of function evaluations after which a line is added to the file.
+	 * 
+	 */
+	public void setViolationPeriod(int period){this.violationPeriod = period;}
+	/**
 	 * This method returns the identifier ID
 	 * @return ID this value identifies the algorithm and is used to generate the result folder.
 	 * 
@@ -212,6 +219,12 @@ public abstract class AlgorithmBias
 //	public void countInfeasibleDimenions(int dim, String fileName) {this.CID = true; this.infeasibleDimensionCounter = new int[dim];}
 	public void countInfeasibleDimenions(String fileName) {this.CID = true;}
 	/**
+	 * Activate the violated (infeasible) dimensions counting mechanism (ad specify the update period).
+	 * @param dim The dimensionality of the problem at hand.
+	 * @param period Specify the value for the violationPeriod counter (i.e. in case one do not want to use the default value of 20 functional calls).
+	 */
+	public void countInfeasibleDimenions(String fileName, int period) {this.CID = true; setViolationPeriod(period);}
+	/**
 	 * Return the array containing the number of violations per dimeniosnality.
 	 * @return infeasibleDimensionCounter the counters.
 	 */
@@ -224,6 +237,10 @@ public abstract class AlgorithmBias
 	 * Close all buffers
 	 */
 	protected void closeAll() throws Exception {this.bw.flush();this.bw.close();this.bwCID.flush();this.bwCID.close();} 
+	/**
+	 * Close basic buffers
+	 */
+	protected void closeAllBF() throws Exception {this.bw.flush();this.bw.close();} 
 	
 	
 	//**   UTILS METHODS   **//
@@ -467,16 +484,25 @@ public abstract class AlgorithmBias
 	 * @param x The solution (i.e. this is meant to be the best solution) whose coordinates need to be written in the line of the violation file. 
 	 * @param fx The fitness value of the solution (i.e. this is meant to be the best solution) whose coordinates are written in the line of the violation file. 
 	 */
-	protected void writeCID(int i, int period, double[] x, double fx) throws Exception
+	protected void writeCID(int i, int VPeriod, double[] x, double fx) throws Exception
 	{
-		if(i%20==0)
+		if(i%VPeriod==0)
 		{
 			String line = ISBHelper.CID2String(this.infeasibleDimensionCounter);
 			line+=ISBHelper.positionAndFitnessToString(x, fx, this.DF)+"\n";
 			bwCID.write(line);
 		}
 	}
-	
+	/**
+	 * Writer the current status of violated dimensions to a line of the corresponding violation file (with a period equal to the default value, i.e. 20 fitness functional evaluations). 
+	 * @param i The current value of the fitness evaluations counter.
+	 * @param x The solution (i.e. this is meant to be the best solution) whose coordinates need to be written in the line of the violation file. 
+	 * @param fx The fitness value of the solution (i.e. this is meant to be the best solution) whose coordinates are written in the line of the violation file. 
+	 */
+	protected void writeCID(int i, double[] x, double fx) throws Exception
+	{
+		writeCID(i, this.violationPeriod, x, fx);
+	}
 	
 	
 	
@@ -540,10 +566,11 @@ public abstract class AlgorithmBias
 			feasible = null;
 			System.out.println("No valid bounds handling scheme selected");
 		}
-
+		
 	
 		if(!Arrays.equals(output, infeasiblePt))
 		{
+			
 //			infeasiblePt = output;
 			output = null;
 			this.numberOfCorrections++;

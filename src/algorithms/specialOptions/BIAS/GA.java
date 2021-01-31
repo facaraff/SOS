@@ -33,6 +33,8 @@ public class GA extends AlgorithmBias
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
+		this.numberOfCorrections=0;
+		
 		int[] ids = new int[populationSize];
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
@@ -161,7 +163,7 @@ public class GA extends AlgorithmBias
 		fBest = fitnesses[ib];
 		FT.add(i, fBest);
 		
-		closeAll();	
+		closeAllBF();	
 		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsGA");
 		
 		return FT;
