@@ -39,7 +39,7 @@ public class GA extends AlgorithmBias
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
 		
-		String FullName = getFullName("GA"+this.mutationStrategy+this.crossoverStrategy+this.selectionStrategy+this.correction,problem); 
+		String FullName = getFullName("GA"+this.mutationStrategy+this.crossoverStrategy+this.selectionStrategy+this.correction+"P"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 		
