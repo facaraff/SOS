@@ -63,7 +63,7 @@ public class DEPoC extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'x';
-	protected boolean addBestDetails = false;
+	protected boolean addBestDetails = true;
 	
 	public DEPoC(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
 	
@@ -129,6 +129,13 @@ public class DEPoC extends AlgorithmBias
 		Counter PRNGCounter = new Counter(0);
 
 		setSeedWithCurrentTime();
+		
+		
+
+		createFile(FullName);
+		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
+		this.bw.flush();this.bw.close();	
+		
 		
 		// evaluate initial population
 		for (int j = 0; j < populationSize; j++)
