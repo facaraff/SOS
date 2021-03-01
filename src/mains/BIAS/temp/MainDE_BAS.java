@@ -44,7 +44,7 @@ import mains.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	
-public class MainDE_BUS extends ISBMain
+public class MainDE_BAS extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -138,7 +138,7 @@ public class MainDE_BUS extends ISBMain
 			
 		
 		execute(algorithms, problems, expSettings);	
-		System.out.println("Done and dusted!");
+//		System.out.println("Done and dusted!");
 		}
 }
 
