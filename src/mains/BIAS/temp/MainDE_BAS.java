@@ -76,7 +76,7 @@ public class MainDE_BAS extends ISBMain
 		problems.add(p);
 		
 //		char[] corrections = {'m', 't', 'c', 'd','s','u'};
-		char[] corrections = {'t'};
+		char[] corrections = {'d'};
 
 //		String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
 		String[] DEMutations = {"ro"};
