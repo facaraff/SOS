@@ -124,17 +124,18 @@ public class DEPoC extends AlgorithmBias
 		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
 
 //		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize;
-		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy;
+		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction;
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
-
+		
+		this.seed = 0;
 		setSeedWithCurrentTime();
 		
 		
-
-		createFile(FullName);
-		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
-		this.bw.flush();this.bw.close();	
+//Dropping this ATM
+//		createFile(FullName);
+//		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
+//		this.bw.flush();this.bw.close();	
 		
 		
 		// evaluate initial population
