@@ -33,7 +33,7 @@ import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 
@@ -61,7 +61,7 @@ public class DEbob extends AlgorithmBias
 	
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	
-	protected char correctionStrategy = 'e';  // t --> torus   s-->saturation
+	protected char correctionStrategy = 'e';  // t --> toro   s-->saturation
 	protected int run = 0;
 	
 	public DEbob(char correction) { super(); this.correctionStrategy = correction;}
@@ -72,7 +72,7 @@ public class DEbob extends AlgorithmBias
 		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-//		char correctionStrategy = 'e';  // t --> torus   s-->saturation
+//		char correctionStrategy = 'e';  // t --> toro   s-->saturation
 		String fileName = "DEbob"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
 		FTrend FT = new FTrend();
@@ -150,8 +150,8 @@ public class DEbob extends AlgorithmBias
 				
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -295,8 +295,8 @@ public class DEbob extends AlgorithmBias
 			output[i] = x[i];
 		if(correctionType=='t')
 		{
-			//System.out.println("TORUS");
-			output = torus(x, bounds);
+			//System.out.println("toro");
+			output = toro(x, bounds);
 		}
 		else
 		{

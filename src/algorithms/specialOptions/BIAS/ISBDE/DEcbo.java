@@ -5,7 +5,7 @@ import utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 
@@ -36,7 +36,7 @@ public class DEcbo extends AlgorithmBias
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'b'; //e-->exponential  b-->binary
-		char correctionStrategy = 'c';  // t --> torus   s-->saturation c---> complete
+		char correctionStrategy = 'c';  // t --> toro   s-->saturation c---> complete
 		String fileName = "DEcbo"+crossoverStrategy+""+correctionStrategy;
 		
 		
@@ -159,8 +159,8 @@ public class DEcbo extends AlgorithmBias
 				double[] output = new double[problemDimension];
 //				if(correctionStrategy == 't')
 //				{
-//					//System.out.println("TORUS");
-//					output = torus(crossPt, bounds);
+//					//System.out.println("toro");
+//					output = toro(crossPt, bounds);
 //
 //					if(!Arrays.equals(output, crossPt))
 //					{
@@ -194,8 +194,8 @@ public class DEcbo extends AlgorithmBias
 //					System.out.println("No bounds handling shceme seleceted");
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -357,8 +357,8 @@ public class DEcbo extends AlgorithmBias
 			output[i] = x[i];
 		if(correctionType=='t')
 		{
-			//System.out.println("TORUS");
-			output = torus(x, bounds);
+			//System.out.println("toro");
+			output = toro(x, bounds);
 		}
 		else
 		{

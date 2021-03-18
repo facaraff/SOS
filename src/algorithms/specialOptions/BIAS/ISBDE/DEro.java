@@ -4,7 +4,7 @@ import utils.algorithms.operators.DEOp;
 
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 import java.io.BufferedWriter;
@@ -37,7 +37,7 @@ public class DEro extends AlgorithmBias
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'b'; //e-->exponential  b-->binomial
-		char correctionStrategy = 'c';  // t --> torus   s-->saturation 'e'--->penalty
+		char correctionStrategy = 'c';  // t --> toro   s-->saturation 'e'--->penalty
 		String fileName = "DEro"+crossoverStrategy+""+correctionStrategy;
 		
 		
@@ -155,8 +155,8 @@ public class DEro extends AlgorithmBias
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -309,8 +309,8 @@ public class DEro extends AlgorithmBias
 			output[i] = x[i];
 		if(correctionType=='t')
 		{
-			//System.out.println("TORUS");
-			output = torus(x, bounds);
+			//System.out.println("toro");
+			output = toro(x, bounds);
 		}
 		else
 		{

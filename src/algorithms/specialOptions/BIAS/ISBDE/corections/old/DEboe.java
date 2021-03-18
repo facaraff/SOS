@@ -32,7 +32,7 @@ package algorithms.specialOptions.BIAS.ISBDE.corections.old;
 
 import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 
@@ -64,7 +64,7 @@ public class DEboe extends AlgorithmBias
 		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		char correctionStrategy = 'e';  // t --> torus   s-->saturation
+		char correctionStrategy = 'e';  // t --> toro   s-->saturation
 		String fileName = "DEboe"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
 		FTrend FT = new FTrend();
@@ -142,8 +142,8 @@ public class DEboe extends AlgorithmBias
 				
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{
@@ -261,8 +261,8 @@ public class DEboe extends AlgorithmBias
 			output[i] = x[i];
 		if(correctionType=='t')
 		{
-			//System.out.println("TORUS");
-			output = torus(x, bounds);
+			//System.out.println("toro");
+			output = toro(x, bounds);
 		}
 		else
 		{

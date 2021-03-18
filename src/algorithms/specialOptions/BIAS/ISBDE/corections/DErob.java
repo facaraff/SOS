@@ -35,7 +35,7 @@ import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 
@@ -56,7 +56,7 @@ import static utils.RunAndStore.FTrend;
 public class DErob extends AlgorithmBias
 {
 	
-	protected char correctionStrategy = 'e';  // t --> torus   s-->saturation 'e'--->penalty 'm'---->mirroring
+	protected char correctionStrategy = 'e';  // t --> toro   s-->saturation 'e'--->penalty 'm'---->mirroring
 	
 	//static String Dir = "C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
 	static String Dir = "/home/facaraff/Desktop/KONODATA/DECorrections/";
@@ -76,7 +76,7 @@ public class DErob extends AlgorithmBias
 		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-//		char correctionStrategy = 't';  // t --> torus   s-->saturation 'e'--->penalty
+//		char correctionStrategy = 't';  // t --> toro   s-->saturation 'e'--->penalty
 		String fileName = "DErob"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 
 		int problemDimension = problem.getDimension();
@@ -150,8 +150,8 @@ public class DErob extends AlgorithmBias
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{

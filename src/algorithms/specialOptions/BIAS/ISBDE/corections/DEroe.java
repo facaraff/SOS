@@ -35,7 +35,7 @@ import static utils.algorithms.operators.DEOp.crossOverExp;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Misc.generateRandomSolution;
 import static utils.algorithms.Corrections.mirroring;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 
@@ -62,7 +62,7 @@ public class DEroe extends AlgorithmBias
 	DecimalFormat DF = new DecimalFormat("0.00000000E00");
 	FTrend FT = new FTrend();
 	
-	protected char correctionStrategy = 'e';  // t --> torus   s-->saturation  'e'--> penalty 'm'----> mirroring
+	protected char correctionStrategy = 'e';  // t --> toro   s-->saturation  'e'--> penalty 'm'----> mirroring
 	protected int run = 0;
 	
 	public DEroe(char correction){super(); this.correctionStrategy = correction;}
@@ -74,7 +74,7 @@ public class DEroe extends AlgorithmBias
 		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-//		char correctionStrategy = 'e';  // t --> torus   s-->saturation 'e'--->penalty
+//		char correctionStrategy = 'e';  // t --> toro   s-->saturation 'e'--->penalty
 		String fileName = "DEroe"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
 	
@@ -149,8 +149,8 @@ public class DEroe extends AlgorithmBias
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{

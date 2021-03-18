@@ -2,7 +2,7 @@ package algorithms.specialOptions.BIAS.ISBDE;
 
 
 import static utils.algorithms.Corrections.completeOneTailedNormal;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 import static utils.algorithms.Misc.generateRandomSolution;
 
 import java.io.BufferedWriter;
@@ -36,7 +36,7 @@ public class DEbo extends AlgorithmBias
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
 		char crossoverStrategy = 'b'; //e-->exponential  b-->binomial
-		char correctionStrategy = 'c';  // t --> torus   s-->saturation 'e'--->penalty
+		char correctionStrategy = 'c';  // t --> toro   s-->saturation 'e'--->penalty
 		String fileName = "DEbo"+crossoverStrategy+""+correctionStrategy;
 		
 		FTrend FT = new FTrend();
@@ -156,8 +156,8 @@ public class DEbo extends AlgorithmBias
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{

@@ -32,7 +32,7 @@ package algorithms.specialOptions.BIAS.ISBDE.corections.old;
 
 import static utils.algorithms.operators.DEOp.crossOverBin;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import java.util.Arrays;
 
@@ -73,7 +73,7 @@ public class DErtb extends AlgorithmBias
 		int populationSize = getParameter("p0").intValue();
 		double F = getParameter("p1").doubleValue();
 		double CR = getParameter("p2").doubleValue();
-		char correctionStrategy = 'e';  // t --> torus   s-->saturation 'e'--->penalty
+		char correctionStrategy = 'e';  // t --> toro   s-->saturation 'e'--->penalty
 		String fileName = "DErtb"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		
 		
@@ -153,8 +153,8 @@ public class DErtb extends AlgorithmBias
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(crossPt, bounds);
+					//System.out.println("toro");
+					output = toro(crossPt, bounds);
 					
 					if(!Arrays.equals(output, crossPt))
 					{

@@ -42,7 +42,7 @@ import utils.random.RandUtils;
 import utils.algorithms.cmaes.CMAEvolutionStrategy;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 
 import interfaces.Algorithm;
@@ -107,7 +107,7 @@ private int run = 0;
 			rank[p]=-1;
 		//System.out.println(cma.getDataC());
 		
-		char correctionStrategy = 'd';  // t --> torus   s-->saturation  'e'--> penalty 'd'--->discard
+		char correctionStrategy = 'd';  // t --> toro   s-->saturation  'e'--> penalty 'd'--->discard
 		String fileName = "CMAES"+correctionStrategy+"p"+populationSize+"D"+problem.getDimension()+"f0-"+(run+1)+".txt";
 		File file = new File(Dir+"/"+fileName);
 		if (!file.exists())
@@ -141,7 +141,7 @@ private int run = 0;
 //		{
 //			for(int p=0;p<populationSize;p++)
 //			{
-//				previousPop[p] = torus(previousPop[p], bounds);
+//				previousPop[p] = toro(previousPop[p], bounds);
 //				previousFit[p] = problem.f(previousPop[p]);
 //				System.out.println(previousFit[p]);
 //			}
@@ -180,7 +180,7 @@ private int run = 0;
 			for(int i = 0; i < pop.length && j < maxEvaluations; ++i)
 			{
 				// saturate solution inside bounds
-				//pop[i] = torus(pop[i], bounds);//TODO: replace with SAT KONO
+				//pop[i] = toro(pop[i], bounds);//TODO: replace with SAT KONO
 				//pop[i] = saturation(pop[i],bounds);
 				
 				// compute fitness/objective value
@@ -188,8 +188,8 @@ private int run = 0;
 				double[] output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(pop[i], bounds);
+					//System.out.println("toro");
+					output = toro(pop[i], bounds);
 					
 					if(!Arrays.equals(output, pop[i]))
 					{
@@ -221,7 +221,7 @@ private int run = 0;
 				}
 				else if(correctionStrategy == 'd')
 				{
-					output = torus(pop[i], bounds);
+					output = toro(pop[i], bounds);
 //					if(!Arrays.equals(output, pop[i]))
 					if(!equal(output, pop[i]) || infinity(pop[i]))
 					{
