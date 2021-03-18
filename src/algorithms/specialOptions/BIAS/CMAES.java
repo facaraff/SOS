@@ -1,7 +1,7 @@
 package algorithms.specialOptions.BIAS;
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 import static utils.algorithms.Corrections.saturate;
 import static utils.algorithms.Corrections.discardAndResample;
 
@@ -215,7 +215,7 @@ public class CMAES extends AlgorithmBias
 	
 	public double[] correction (double[] x, double[][] bounds)
 	{
-		if(correction=='t') x = torus(x,bounds);
+		if(correction=='t') x = toro(x,bounds);
 		else if(correction=='s') x = saturate(x,bounds);
 		else if(correction=='d') x = discardAndResample(x,bounds);
 		return x;

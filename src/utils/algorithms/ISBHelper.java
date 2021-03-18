@@ -28,7 +28,11 @@ either expressed or implied, of the FreeBSD Project.
 */
 package utils.algorithms;
 
+
+
+
 import java.text.DecimalFormat;
+
 
 /**
  * Utility methods to help ISB studies
@@ -37,8 +41,6 @@ import java.text.DecimalFormat;
  *
  */
 public class ISBHelper {
-	
-	
 	
 	
 	/**
@@ -77,9 +79,29 @@ public class ISBHelper {
 		
 		return completeLine;
 	}
+	
+	/**
+	 * Return a string containing the coordinate values of an individual followed by its corresponding fitness value (values are separated with a blank space " ").
+	 *
+	 *@param x A solution
+	 *@param fx The fitness value of x.
+	 *@param DF Specifies the Decimal Format to use.
+	 *
+	 *@return s A string containing the desired values
+	 */
+	public static String positionAndFitnessToString(double[] x, double fx, DecimalFormat DF) 
+	{
+		String s =""+formatter(x[0], DF);
+		int problemDimension = x.length;
+		for(int n = 1; n < problemDimension; n++)
+			s+=" "+formatter(x[n], DF);
+		s+=" "+formatter(fx, DF);
+		
+		return s;
+	}
 
 	/**
-	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files.
+	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files (for DE).
 	 * 
 	 * The notation to follow is {ID of the new fitter individual} followed by {IDs of the individuals taking pat of the newly generate one (in this case these are all -1 since this methods is used during the initialisation of the population)} followed by {the fitness value of the newly generated individual} followed by {the fitness evaluation counter} followed by {the index of the individuals which got replaced by the new fitter one (in this case this is -1 has dueing the initialisation there are no previous individuals to replace)}
 	 * As an example, this line for a DE\rand\1 algorithm would be implemented as line +=""+ids[j]+" -1 "+"-1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
@@ -92,7 +114,7 @@ public class ISBHelper {
 	 *
 	 */
 
-	public static int getNuberOfNonPositionColumnsForDE(String mutationStrategy)
+	public static int getNumberOfNonPositionColumnsForDE(String mutationStrategy)
 	{
 		int columns;
 		
@@ -135,6 +157,40 @@ public class ISBHelper {
 	}
 	
 	/**
+	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files (for PSO).
+	 * 
+	 * The notation to follow is {ID of the new fitter individual} followed by {IDs of the individuals taking pat of the newly generate one (in this case these are all -1 since this methods is used during the initialisation of the population)} followed by {the fitness value of the newly generated individual} followed by {the fitness evaluation counter} followed by {the index of the individuals which got replaced by the new fitter one (in this case this is -1 has dueing the initialisation there are no previous individuals to replace)}
+	 * As an example, this line for a DE\rand\1 algorithm would be implemented as line +=""+ids[j]+" -1 "+"-1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
+	 *
+	 * NB This method only prepare the initial part of the line which will be subsequently completed 
+	 *@param mutationStrategy The employed DE mutation strategy (each strategy requires a different number of individual from the population to generate the mutant and then the offspring via crossover)
+	 *@param FECounter The counter of the fitness function evaluations
+	 *
+	 *@return columns The number of columns required before attaching the coordinate of the newly generated individual 
+	 *
+	 */
+
+	public static int getNuberOfNonPositionColumnsForPSO(char velocityUpdteStrategy)
+	{
+		int columns;
+		
+		switch (velocityUpdteStrategy)
+		{
+			case 'o':
+				columns = 6;
+				break;
+			case 'k':
+				columns = 6;
+				break;
+			default:
+				columns = -1;
+				break;
+		}	
+		
+		return columns;
+	}
+	
+	/**
 	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files.
 	 * 
 	 * The notation to follow is {ID of the new fitter individual} followed by {IDs of the individuals taking pat of the newly generate one (in this case these are all -1 since this methods is used during the initialisation of the population)} followed by {the fitness value of the newly generated individual} followed by {the fitness evaluation counter} followed by {the index of the individuals which got replaced by the new fitter one (in this case this is -1 has dueing the initialisation there are no previous individuals to replace)}
@@ -158,5 +214,26 @@ public class ISBHelper {
 	
 		return  line +=formatter(currentFitness, DF)+" "+FECounter+" -1";
 	}
+	
+	
+	
+	/**
+	 * Prepare the first part of each line in the violation files. NB These lines starts with the values of the counters recording how many time the corresponding design variable has been been generated outside of the search space.
+	 *
+	 *@return line The line containing the values of each CID.
+	 *
+	 */
+	public static String CID2String(int[] CID) 
+	{
+		int n = CID.length;
+		String line ="";
+		for(int i=0; i < n; i++)
+			line+=CID[i]+" ";
+		return  line;
+	}
+
+	
+	
+	
 
 }

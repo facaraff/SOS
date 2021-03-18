@@ -2,7 +2,7 @@ package algorithms;
 
 
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import static utils.MatLab.eye;
 import static utils.MatLab.subtract;
@@ -71,7 +71,7 @@ public class Rosenbrock extends Algorithm {
 				{
 					for (int j=0;j<n;j++)
 						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
-					xCurrent = torus(xCurrent, bounds);
+					xCurrent = toro(xCurrent, bounds);
 					yCurrent = problem.f(xCurrent);
 					iter++;
 

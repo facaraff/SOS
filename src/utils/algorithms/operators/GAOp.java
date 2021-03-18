@@ -31,6 +31,20 @@ package utils.algorithms.operators;
 import utils.MatLab;
 import utils.random.RandUtils;
 
+/** 
+ *  
+ *@author Fabio Caraffini (fabio.caraffini@gmail.com)
+ * 
+ * @link www.doi.org.com/10.0.81.208/preprints202003.0381.v1
+ *
+ * @package utils.algorithms.operators
+ * 
+ * @file GAOp.java
+ * 
+ *  
+ * This class contains the implementation of Genetic Algorithm operators.
+*/	
+
 public class GAOp
 {
 	/**

@@ -3,13 +3,13 @@ Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+modification, are permitted provided that the following conditions are met: 
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
+   list of conditions and the following disclaimer. 
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+   and/or other materials provided with the distribution. 
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,7 +23,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies,
+of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
 package algorithms.specialOptions.BIAS.singleSolutions;
@@ -49,6 +49,7 @@ public class Powell_correct extends AlgorithmBias
 	private final static double MIN_VECTOR_LENGTH = 1.0e-3;
 	private final static boolean unitDirectionVectors = true;
 	private double[] dismissPreviousPt;
+	protected boolean addBestDetails = false;
 	
 	private double[] p;
 	private double[][] xi;
@@ -88,10 +89,14 @@ public class Powell_correct extends AlgorithmBias
 		xi1dim = new double[n];
 			
 		
-		String FullName = getFullName("PM"+this.correction,problem);
+		String FullName = getFullName("PM"+this.correction,problem); 
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		
+		
+		int period = maxEvaluations/3;
+		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
+		if(this.CID) this.infeasibleDimensionCounter = new int[n];
 		
 		int prevID = -1;
 		int newID = 0;
@@ -135,7 +140,7 @@ public class Powell_correct extends AlgorithmBias
 		
 		double[] pt = new double[n], ptt = new double[n], xit = new double[n];
 //		fret = fConstraint(p, bounds, PENALTY,problem, FT);
-//		p=torus(p,bounds);
+//		p=toro(p,bounds);
 //		fret = problem.f(p);
 		for (int j=0; j<n; j++)
 		{
@@ -170,9 +175,14 @@ public class Powell_correct extends AlgorithmBias
 					xit[j] = xi[j][i];
 				fptt = fret;
 				
-				fret = lineMinimization(p, xit, maxIterations);
-				p = correct(p,this.dismissPreviousPt, bounds);
+				fret = lineMinimization(p, xit, maxIterations, period, PRGCounter);
 				
+				
+				incrementViolatedDimensions(p, bounds);
+				
+				p = correct(p,this.dismissPreviousPt, bounds, PRGCounter);
+				
+				storeNumberOfCorrectedSolutions(period,iter);
 
 				for(int k = 0; k < n; k++)
 					if(dismissPreviousPt[k]<0 || dismissPreviousPt[k]>1) System.out.println("this OUT!");
@@ -228,7 +238,13 @@ public class Powell_correct extends AlgorithmBias
 
 //			fptt = fConstraint(ptt, bounds, PENALTY,problem, FT);
 //			ptt = correct(ptt,best,bounds);
-			ptt = correct(ptt,this.dismissPreviousPt,bounds);
+			
+			incrementViolatedDimensions(ptt, bounds);
+			
+			ptt = correct(ptt,this.dismissPreviousPt,bounds, PRGCounter);
+			
+			storeNumberOfCorrectedSolutions(period,iter);
+			
 			fptt = problem.f(ptt);
 			iter+=FT.getExtraInt();
 
@@ -257,10 +273,15 @@ public class Powell_correct extends AlgorithmBias
 				t = 2.0*(fp-2.0*fret+fptt)*Math.pow(fp-fret-del,2)-del*Math.pow(fp-fptt,2);
 				if (t<0.0)
 				{
-//					fret = lineMinimization(p, xit,maxIterations);
+//					fret = lineMinimization(p, xit,maxIterations);				
 //					double[] prevP = cloneSolution(p);
-					fret = lineMinimization(p, xit, maxIterations);
-					p = correct(p,this.dismissPreviousPt,bounds);
+					fret = lineMinimization(p, xit, maxIterations, period,  PRGCounter);
+					
+					incrementViolatedDimensions(p, bounds);
+					
+					p = correct(p,this.dismissPreviousPt,bounds, PRGCounter);
+					
+					storeNumberOfCorrectedSolutions(period,iter);
 					
 					if (fret < fBest)
 					{
@@ -291,7 +312,7 @@ public class Powell_correct extends AlgorithmBias
 						}
 						else
 						{
-							// from Numerical Recipes
+							// from Numerical Recipes 
 							for(int j=0; j<n; j++)
 							{
 								xi[j][ibig-1] = xi[j][n-1];
@@ -301,6 +322,8 @@ public class Powell_correct extends AlgorithmBias
 					}
 				}
 			}
+			
+			writeCID(iter, best,fBest);
 		}
 
 		if (fret < fBest)
@@ -312,9 +335,21 @@ public class Powell_correct extends AlgorithmBias
 		}
 
 		finalBest = best;
+		
+		
+		closeAll();	
+		
+		String s = "";
+		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
+		
 		//wrtiteCorrectionsPercentage(fileName, (double) this.numberOfCorrections/maxEvaluations,"correctionsSingleSol");
-		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
-		bw.close();
+		
+//		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(), "correctionsSingleSol");
+		
+		
+		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRGCounter.getCounter(),s, "correctionsSingleSol");
+//		bw.close();
+	
 		return FT;
 	}
 
@@ -326,7 +361,7 @@ public class Powell_correct extends AlgorithmBias
 	 * @return
 	 * @throws Exception
 	 */
-	private double lineMinimization(double[] p, double[] xit, int maxIterations) throws Exception
+	private double lineMinimization(double[] p, double[] xit, int maxIterations, int period, Counter PRGCounter) throws Exception
 	{
 		
 		for(int j=0; j<n; j++)
@@ -336,9 +371,13 @@ public class Powell_correct extends AlgorithmBias
 		}
 
 		// bracket minimum
-		BracketMin bm = new BracketMin(this, 0.0, 1.0);
+		BracketMin bm = new BracketMin(this, 0.0, 1.0, period, PRGCounter);
 		// optimize along direction
-		Brent br = new Brent(this, bm.ax, bm.bx, bm.cx, maxIterations);
+		Brent br = new Brent(this, bm.ax, bm.bx, bm.cx, maxIterations, period, PRGCounter);
+
+//		
+//		for(int k = 0; k < n; k++)
+//		if(p[k] == 0.0) System.out.println("cazzo!");
 		
 		double xmin = br.xmin;
 		for(int j=0; j<n; j++)
@@ -358,7 +397,7 @@ public class Powell_correct extends AlgorithmBias
 		private final static double GOLD = 1.618034, GLIMIT = 100.0, TINY = 1.0e-20;
 		private double ax, bx, cx, fa, fb, fc;
 
-		public BracketMin(Powell_correct powell, double ax, double bx) throws Exception
+		public BracketMin(Powell_correct powell, double ax, double bx, int period, Counter PRGCounter) throws Exception
 		{
 			//if (ax==bx)
 			//	throw new IllegalArgumentException("ax == bx");
@@ -366,15 +405,15 @@ public class Powell_correct extends AlgorithmBias
 			this.bx = bx;
 
 			double ulim, u, r, q, fu, temp;
-			fa = powell.f1dim(ax);
-			fb = powell.f1dim(bx);
+			fa = powell.f1dim(ax, period, PRGCounter);
+			fb = powell.f1dim(bx, period, PRGCounter);
 			if (fb>fa)
 			{
 				temp = ax; ax = bx; bx = temp;
 				temp = fa; fa = fb; fb = temp;
 			}
 			cx = bx+GOLD*(bx-ax);
-			fc = powell.f1dim(cx);
+			fc = powell.f1dim(cx, period, PRGCounter);
 			while (fb>fc && powell.iter < powell.maxEvaluations)
 			{
 				r = (bx-ax)*(fb-fc);
@@ -383,7 +422,7 @@ public class Powell_correct extends AlgorithmBias
 				ulim = bx+GLIMIT*(cx-bx);
 				if ((bx-u)*(u-cx)>0.0)
 				{
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, period, PRGCounter);
 					if(fu<fc)
 					{
 						ax = bx; bx = u; fa = fb; fb = fu;
@@ -395,26 +434,26 @@ public class Powell_correct extends AlgorithmBias
 						return;
 					}
 					u = cx+GOLD*(cx-bx);
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, period, PRGCounter);
 				}
 				else if ((cx-u)*(u-ulim)>0.0)
 				{
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, period, PRGCounter);
 					if (fu<fc)
 					{
 						bx = cx; cx = u; u = cx+GOLD*(cx-bx);
-						fb = fc; fc = fu; fu = powell.f1dim(u);
+						fb = fc; fc = fu; fu = powell.f1dim(u, period,  PRGCounter);
 					}
 				}
 				else if ((u-ulim)*(ulim-cx)>=0.0)
 				{
 					u = ulim;
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u, period, PRGCounter);
 				}
 				else
 				{
 					u = cx+GOLD*(cx-bx);
-					fu = powell.f1dim(u);
+					fu = powell.f1dim(u,period, PRGCounter);
 				}
 				ax = bx; bx = cx; cx = u;
 				fa = fb; fb = fc; fc = fu;
@@ -436,7 +475,7 @@ public class Powell_correct extends AlgorithmBias
 		private double xmin, fmin = 0.0;
 		private int brentIter;
 
-		public Brent(Powell_correct powell, double ax, double bx, double cx, int maxIterations) throws Exception {
+		public Brent(Powell_correct powell, double ax, double bx, double cx, int maxIterations, int period, Counter PRGCounter) throws Exception {
 			//if(!((ax<bx&&bx<cx)||(ax>bx&&bx>cx)))
 			//	throw new ArithmeticException("Invalid arguments");
 
@@ -452,9 +491,9 @@ public class Powell_correct extends AlgorithmBias
 			a = ax<cx ? ax : cx;
 			b = ax>cx ? ax : cx;
 			x = w = v = bx;
-			fw = fv = fx = powell.f1dim(x);
+			fw = fv = fx = powell.f1dim(x, period, PRGCounter);
 			
-			// maximum iterations
+			// maximum iterations		
 //			int maxIterations = powell.getParameter("p1").intValue(); //100
 			
 			for (brentIter=0; brentIter<maxIterations && powell.iter < powell.maxEvaluations; brentIter++)
@@ -498,7 +537,7 @@ public class Powell_correct extends AlgorithmBias
 					d = CGOLD*(e = (x>=xm ? a-x : b-x));
 				}
 				u = (Math.abs(d)>=tol1 ? x+d : x+sign(tol1, d));
-				fu = powell.f1dim(u);
+				fu = powell.f1dim(u, period,  PRGCounter);
 
 				if(fu<=fx)
 				{
@@ -524,6 +563,8 @@ public class Powell_correct extends AlgorithmBias
 						v = u; fv = fu;
 					}
 				}
+				
+				//writeCID(brentIter, best,fBest);
 			}
 			xmin = x; fmin = fx;
 		}
@@ -537,12 +578,20 @@ public class Powell_correct extends AlgorithmBias
 	 * @return
 	 * @throws Exception
 	 */
-	private double f1dim(double x) throws Exception
+	private double f1dim(double x, int period,  Counter PRGCounter) throws Exception
 	{
 		double[] xt = new double[n];
 		for (int j = 0; j < n; j++)
-			xt[j] = p1dim[j]+x*xi1dim[j];
-		return problem.f(correct(xt,this.dismissPreviousPt,bounds));
+			xt[j] = p1dim[j]+x*xi1dim[j];		
+		
+		incrementViolatedDimensions(xt, bounds);
+		
+		double[] temp = correct(xt,this.dismissPreviousPt,bounds, PRGCounter);
+		
+		storeNumberOfCorrectedSolutions(period,iter);
+		iter++;
+		writeCID(iter, best,fBest);
+		return problem.f(temp);
 	}
 
 	private static double sign(double a, double b)

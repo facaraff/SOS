@@ -1,15 +1,16 @@
+package mains.test;
 /**
 Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+modification, are permitted provided that the following conditions are met: 
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
+   list of conditions and the following disclaimer. 
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+   and/or other materials provided with the distribution. 
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,20 +24,20 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies,
+of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
 
 
 
 /** @file RunExperiments.java
- * 
+ *  
  *  @author Fabio Caraffini
 */
 
 import java.util.Vector;
 
-import experiments.RiCompact.RiBinVsExp;
+import experiments.DebugNewAlgorithm;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
@@ -44,10 +45,9 @@ import static utils.RunAndStore.resultsFolder;
 /** 
 * This class contains the main method and has to be used for launching experiments.
 */
-public class RunExperiments
+public class RunDebugNewAlgorithm
 {
-	
-	/**
+	/** 
 	* Main method.
 	* This method has to be modified in order to launch a new experiment.
 	* @param args For passing args to the main value.
@@ -65,33 +65,9 @@ public class RunExperiments
 			
 		//@@@ MODIFY THIS PART @@@		
 		
-//		 experiments.add(new CEC14(10));
-//		 experiments.add(new CEC14(50));
-//		 experiments.add(new CEC14(100));
 		
-//		experiments.add(new contros(10));
-//		experiments.add(new RotCEC14(10));
-//		experiments.add(new RotCEC14(50));
-//		experiments.add(new RotCEC14(100));
-		
-//		experiments.add(new RIAPP(60));
-//		experiments.add(new RIAPP(300));
-//		experiments.add(new RIAPP(3000));
-//		experiments.add(new RIAPP(900));	
-	
-//		experiments.add(new Anil(10));
-//		experiments.add(new Anil(50));
-//		experiments.add(new Anil(100));
-
-//		experiments.add(new AnilBBOB2018(10, 100));
-//		experiments.add(new Bbob2018(10));
-		
-		experiments.add(new RiBinVsExp(10));
-		experiments.add(new RiBinVsExp(50));
-		experiments.add(new RiBinVsExp(100));
-		experiments.add(new RiBinVsExp(1000));
-
-
+		experiments.add(new DebugNewAlgorithm(10));
+			
 
 		//@@@@@@
 	
@@ -102,5 +78,11 @@ public class RunExperiments
 			System.out.println();
 			experiment = null;
 		}
+	
+		
+		
 	}
+	
+	
+
 }

@@ -4,13 +4,13 @@ All rights reserved.
 
 
 Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+modification, are permitted provided that the following conditions are met: 
 
 1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
+   list of conditions and the following disclaimer. 
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+   and/or other materials provided with the distribution. 
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -24,18 +24,16 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The views and conclusions contained in the software and documentation are those
-of the authors and should not be interpreted as representing official policies,
+of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
 
 
 /** @file Algorithm.java
  * @author Fabio Caraffini (fabio.caraffini@gmail.com)
- * 
+ *   
 */
 package interfaces;
-
-
 
 
 import java.io.BufferedWriter;
@@ -51,17 +49,19 @@ import static utils.RunAndStore.slash;
 import static utils.RunAndStore.createFolder;
 import static utils.RunAndStore.createPathOfFolders;
 import static utils.algorithms.Misc.cloneSolution;
-import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.saturation;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.operators.ISBOp.completeOneTailedNormal;
+import static utils.algorithms.operators.ISBOp.uniform;
 import  utils.algorithms.ISBHelper;
+import utils.algorithms.Counter;
 
 
 import utils.RunAndStore.FTrend;
 public abstract class AlgorithmBias
-{
-	private Map<String, Double> parameters = new HashMap<>();
+{	
+	private Map<String, Double> parameters = new HashMap<String, Double>();
 	/** standard Algorithms global variables **/
 	protected double[] initialSolution;
 	protected double[] finalBest;
@@ -72,11 +72,16 @@ public abstract class AlgorithmBias
 	
 	/**AlgorithmsBias global variables **/
 	protected String ID = this.getClass().getSimpleName();
-	protected int numberOfCorrections = 0;
+	protected int numberOfCorrections1 = 0; 
+	protected int numberOfCorrections2 = 0; 
+	protected int numberOfCorrections = 0; 
 	protected char correction;
 	protected String Dir="."+slash()+"ResultsISB"+slash();
 	protected String minMaxProb = "min";
 	protected int nonPositionColumns = 0;
+	protected boolean CID = false;
+	protected int violationPeriod = 20;
+	protected int[] infeasibleDimensionCounter = null;
 //	protected long seed = System.currentTimeMillis();
 	protected long seed = -666;
 	
@@ -85,18 +90,25 @@ public abstract class AlgorithmBias
 	protected FileWriter fw = null;
 	protected BufferedWriter bw = null;
 //	private Instant timestamp = null;
+	
+	
+	/** For writing Counters of Infeasible Dimensions (CID) **/
+	protected File fileCID = null;
+	protected FileWriter fwCID = null;
+	protected BufferedWriter bwCID = null;
 
-//	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" ";
+
+//	protected String header = "SOS_suite hostname "+System.getProperty("user.name")+" v2 date "+String.format("%td/%<tm/%<ty", date )+" "; 
 	protected String header = "# SOS_suite hostname "+System.getProperty("user.name")+" v2 ";
 	
 
 	/**
-	 * This method executes the algorithm on a specified problem.
+	 * This method executes the algorithm on a specified problem. 
 	 * 
 	 * @param problem the problem to solve.
 	 * @param maxEvaluations the maximum number of fitness evaluations (FE).
 	 * @return a FTrend object containing fitness trend and, in case, extra data.
-	 * @throws Exception this methods must be able to handle exceptions
+	 * @throws Exception this methods must be able to handle exceptions 
 	 */
 	public abstract FTrend execute(Problem problem, int maxEvaluations) throws Exception;
 	/**
@@ -142,6 +154,12 @@ public abstract class AlgorithmBias
 	 */
 	public void setID(String name){this.ID = name;}
 	/**
+	 * This is used to set the period with which the values of the counter of violated dimensions are written to a line in the corresponding file "violation" txt file.
+	 * @param period The number of function evaluations after which a line is added to the file.
+	 * 
+	 */
+	public void setViolationPeriod(int period){this.violationPeriod = period;}
+	/**
 	 * This method returns the identifier ID
 	 * @return ID this value identifies the algorithm and is used to generate the result folder.
 	 * 
@@ -170,7 +188,7 @@ public abstract class AlgorithmBias
 	public int getRun(){return this.run;}
 	/**
 	 * Set the correction strategy.
-	 * @param correction the char value identifier of the used correction strategy.
+	 * @param correction the char value identifier of the used correction strategy. 
 	 */
 	public void setCorrection(char correction){this.correction = correction;}
 	/**
@@ -180,13 +198,13 @@ public abstract class AlgorithmBias
 	 */
 	public char getCorrection(){return this.correction;}
 	/**
-	 * Store the number of the first columns in the "finpos" ISB result files which are meant for saving details other than the coordinates of a solution
+	 * Store the number of the first columns in the "finpos" ISB result files which are meant for saving details other than the coordinates of a solution 
 	 *
 	 *@param npc The required number of columns
 	 */
 	public void setNPC(int npc) {this.nonPositionColumns = npc;};
 	/**
-	 * Return the number of the first columns in the "finpos" ISB result files whih not used to store coordinate of a solution
+	 * Return the number of the first columns in the "finpos" ISB result files whih not used to store coordinate of a solution 
 	 * @return npc The required number of non-position-columns
 	 */
 	public int getNPC() {return this.nonPositionColumns;};
@@ -194,7 +212,23 @@ public abstract class AlgorithmBias
 	 * update the header to indicate that a maximisation process is taking place.
 	 */
 	public void maximisationProblem(){this.minMaxProb = "max";}
-	
+	/**
+	 * Activate the violated (infeasible) dimensions counting mechanism.
+	 * @param dim The dimensionality of the problem at hand.
+	 */
+//	public void countInfeasibleDimenions(int dim, String fileName) {this.CID = true; this.infeasibleDimensionCounter = new int[dim];}
+	public void countInfeasibleDimenions(String fileName) {this.CID = true;}
+	/**
+	 * Activate the violated (infeasible) dimensions counting mechanism (ad specify the update period).
+	 * @param dim The dimensionality of the problem at hand.
+	 * @param period Specify the value for the violationPeriod counter (i.e. in case one do not want to use the default value of 20 functional calls).
+	 */
+	public void countInfeasibleDimenions(String fileName, int period) {this.CID = true; setViolationPeriod(period);}
+	/**
+	 * Return the array containing the number of violations per dimeniosnality.
+	 * @return infeasibleDimensionCounter the counters.
+	 */
+	public int[] getCID(){return this.infeasibleDimensionCounter;}
 	/**
 	 * Return the header for the ISB result file
 	 */
@@ -202,7 +236,11 @@ public abstract class AlgorithmBias
 	/**
 	 * Close all buffers
 	 */
-	protected void closeAll() throws Exception {this.bw.close();}
+	protected void closeAll() throws Exception {this.bw.flush();this.bw.close();this.bwCID.flush();this.bwCID.close();} 
+	/**
+	 * Close basic buffers
+	 */
+	protected void closeAllBF() throws Exception {this.bw.flush();this.bw.close();} 
 	
 	
 	//**   UTILS METHODS   **//
@@ -211,13 +249,13 @@ public abstract class AlgorithmBias
 	 * Generate the file "fileName".txt containing POIS
 	 * @param algName the full name of the algorithm (as it has to appear in the correction txt file).
 	 * @param percentage the percentage of corrected solutions.
-	 * @param fileName the name of the txt file where results are stored.
+	 * @param fileName the name of the txt file where results are stored. 
 	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	public void wrtiteCorrectionsPercentage(String algName, double percentage, String fileName) throws Exception
 	{
 		File f = new File(Dir+fileName+".txt");
-		if(!f.exists())
+		if(!f.exists()) 
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -239,7 +277,7 @@ public abstract class AlgorithmBias
 	 * @param percentage the percentage of corrected solutions.
 	 * @param PRG the number of PRG activations during the optimisation process.
 	 * @param extra a string containing all possible extra information to be added in the produced txt file (each space will results in a new column).
-	 * @param fileName the name of the txt file where results are stored.
+	 * @param fileName the name of the txt file where results are stored. 
 	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	public void writeStats(String algName, double percentage, int PRG, String extra, String fileName) throws Exception
@@ -251,7 +289,34 @@ public abstract class AlgorithmBias
 		else tmp+=" "+extra+"\n";
 		
 		File f = new File(Dir+fileName+".txt");
-		if(!f.exists())
+		if(!f.exists()) 
+			f.createNewFile();
+		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
+		BufferedWriter BW = new BufferedWriter(FW);
+		BW.write(tmp);
+		BW.close();
+	}
+	/**
+	 * Generate the file "fileName".text containing extended info
+	 * @param algName the full name of the algorithm (as it has to appear in the corrections.txt file).
+	 * @param percentage1 the percentage of corrected solutions after 1/3 of FEs.
+	 * @param percentage2 the percentage of corrected solutions after 2/3 of FEs.
+	 * @param percentage the percentage of corrected solutions.
+	 * @param PRG the number of PRG activations during the optimisation process.
+	 * @param extra a string containing all possible extra information to be added in the produced txt file (each space will results in a new column).
+	 * @param fileName the name of the txt file where results are stored. 
+	 * @throws Exception this methods must be able to handle I/O exceptions.
+	 */
+	public void writeStats(String algName, double percentage1, double percentage2, double percentage, int PRG, String extra, String fileName) throws Exception
+	{
+		// <output filename> <POIS value> <optionally: algorithm's parameters>  <seed value> <no of PRG calls>
+
+		String tmp = algName+" "+percentage1+" "+percentage2+" "+percentage+" "+this.seed+" "+PRG;
+		if(extra == null) tmp+="\n";
+		else tmp+=" "+extra+"\n";
+		
+		File f = new File(Dir+fileName+".txt");
+		if(!f.exists()) 
 			f.createNewFile();
 		FileWriter FW = new FileWriter(f.getAbsoluteFile(), true);
 		BufferedWriter BW = new BufferedWriter(FW);
@@ -263,7 +328,7 @@ public abstract class AlgorithmBias
 	 * @param algName the full name of the algorithm (as it has to appear in the correction txt file).
 	 * @param percentage the percentage of corrected solutions.
 	 * @param PRG the number of PRG activations during the performed run.
-	 * @param fileName the name of the correction txt file where results are stored.
+	 * @param fileName the name of the correction txt file where results are stored. 
 	 * @throws Exception this methods must be able to handle I/O exceptions.
 	 */
 	public void writeStats(String algName, double percentage, int PRG, String fileName) throws Exception{ writeStats(algName, percentage, PRG, null,  fileName);}
@@ -278,15 +343,32 @@ public abstract class AlgorithmBias
 	protected void writeStats(String algName, double percentage, int PRG) throws Exception {writeStats(algName, percentage, PRG, "corrections");}
 	
 	/**
-	 *Fixes the scientific notation format
+	 *Store the number of corrected solutions after every "period" FEs 
+	 *@param period The period value.
+	 *@param i The FE counter.
+	 */
+	protected void storeNumberOfCorrectedSolutions(int period, int i)
+	{
+		if(i==period) 
+			numberOfCorrections1 = numberOfCorrections;
+		if(i==2*period) 
+			numberOfCorrections2 = numberOfCorrections; 
+	}
+	
+	/**
+	 *Fixes the scientific notation format 
 	 *@param value the double number to format.
 	 *@return A string containing the formatted version of the input number.
 	 */
 	protected String formatter(double value){return ISBHelper.formatter(value, this.DF);}
 	
+	/**
+	 *Set the seed value as the current time expressed in millisecond
+	 */
+	protected void setSeedWithCurrentTime(){this.seed = System.currentTimeMillis();}
 	
 	
-	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds)
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[] bounds, Counter PRNG)
 	{
 		int n = infeasiblePt.length;
 		double[][] BOUNDS = new double[n][2];
@@ -294,13 +376,13 @@ public abstract class AlgorithmBias
 		{
 			BOUNDS[i][0] = bounds[0];
 			BOUNDS[i][1] = bounds[1];
-		}
-		return correct(infeasiblePt, previousFeasiblePt, BOUNDS);
+		}	
+		return correct(infeasiblePt, previousFeasiblePt, BOUNDS, PRNG);
 	}
 	
 	
 	
-	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);};
+	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);}; 
 	
 	
 	protected void createFile(String fullName) throws Exception
@@ -308,17 +390,39 @@ public abstract class AlgorithmBias
 		createFolder(Dir);
 		
 		file = new File(Dir+fullName+".txt");
-		if (!file.exists())
+		if (!file.exists()) 
 			file.createNewFile();
 		fw = new FileWriter(file.getAbsoluteFile());
 		bw = new BufferedWriter(fw);
+		
+		if(CID) createViolationFile(fullName);
+	}
+	
+	protected void createViolationFile(String fullName) throws Exception
+	{
+		createFolder(Dir+"violations");
+		
+		fileCID = new File(Dir+"violations"+slash()+"violations"+fullName+".txt");
+		if (!fileCID.exists()) 
+			fileCID.createNewFile();
+		fwCID = new FileWriter(fileCID.getAbsoluteFile());
+		bwCID = new BufferedWriter(fwCID);
 	}
 	
 	protected void writeHeader(String parameters, Problem problem) throws Exception
-	{
+	{  
 		this.seed = System.currentTimeMillis();
 		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
 		bw.write(line);
+		
+		if(CID)
+		{
+			this.seed = System.currentTimeMillis();
+			line = null;
+			line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+			bwCID.write(line);
+			//bwCID.flush();
+		}
 	}
 	
 	/**
@@ -326,7 +430,7 @@ public abstract class AlgorithmBias
 	 *
 	 *@param x A solution
 	 *@param line A line previously filled with other details according to the pre-defined ISB notation
-	 *@return A complete line, including the coordinates of the solution at hand, ready to be writte into a text file
+	 *@return A complete line, including the coordinates of the solution at hand, ready to be writte into a text file 
 	 */
 	protected String getCompleteLine(double[] x, String line) {return ISBHelper.addCoordinatesToEOL(x, line, this.DF);}
 
@@ -335,23 +439,96 @@ public abstract class AlgorithmBias
 	 */
 	public String preparePopInitialationLines(int columns, int currentIndex, double currentFitness, int FECounter) {return ISBHelper.prepareInitialLine(columns, currentIndex, currentFitness, FECounter, this.DF);}
 	
+	/**
+	 * Wrapper for the BestPositionAndFitnessToString method of the class ISBHelper
+	 */
+	public String positionAndFitnessToString(double[] x, double fx) {return ISBHelper.positionAndFitnessToString(x, fx, this.DF);}
+	
+	
+	
+	
+	/**
+	 * Increment the counter of the violated dimension.
+	 * @param dim The dimensionality of the problem at hand.
+	 */
+	protected void incrementViolatedDim(int dim){this.infeasibleDimensionCounter[dim]++;}
+	/**
+	 * Increment the counter of the violated dimension.
+	 * @param x The solution to check.
+	 * @param bouds The boundaries of the problem
+	 */
+	protected void incrementViolatedDimensions(double[] x, double[][] bounds)
+	{
+		int n = x.length;
+		for(int i=0; i<n; i++)
+			if(x[i]<bounds[i][0] || x[i]>bounds[i][1])
+				incrementViolatedDim(i);
+	}
+	protected void incrementViolatedDimensions(double[] x, double[] bounds)
+	{
+		int n = x.length;
+		double[][] BOUNDS = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			BOUNDS[i][0] = bounds[0];
+			BOUNDS[i][1] = bounds[1];
+		}	
+		
+		incrementViolatedDimensions(x, BOUNDS);
+	}
+	
+	/**
+	 * Writer the current status of violated dimensions to a line of the corresponding violation file. 
+	 * @param i The current value of the fitness evaluations counter.
+	 * @param period The desired period, in terms of fitness functional calls, every which a new line is added to the violation file.
+	 * @param x The solution (i.e. this is meant to be the best solution) whose coordinates need to be written in the line of the violation file. 
+	 * @param fx The fitness value of the solution (i.e. this is meant to be the best solution) whose coordinates are written in the line of the violation file. 
+	 */
+	protected void writeCID(int i, int VPeriod, double[] x, double fx) throws Exception
+	{
+		if(i%VPeriod==0)
+		{
+			String line = ISBHelper.CID2String(this.infeasibleDimensionCounter);
+			line+=ISBHelper.positionAndFitnessToString(x, fx, this.DF)+"\n";
+			bwCID.write(line);
+		}
+	}
+	/**
+	 * Writer the current status of violated dimensions to a line of the corresponding violation file (with a period equal to the default value, i.e. 20 fitness functional evaluations). 
+	 * @param i The current value of the fitness evaluations counter.
+	 * @param x The solution (i.e. this is meant to be the best solution) whose coordinates need to be written in the line of the violation file. 
+	 * @param fx The fitness value of the solution (i.e. this is meant to be the best solution) whose coordinates are written in the line of the violation file. 
+	 */
+	protected void writeCID(int i, double[] x, double fx) throws Exception
+	{
+		writeCID(i, this.violationPeriod, x, fx);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 *Perform t, s and d corrections  (e=penalty must be performed separately)
 	 *
-	 *@param infeasiblePt A point that might be infeasible
+	 *@param infeasiblePt A point that might be infeasible 
 	 *@param previousFeasiblePt The previous point that was surely feasible
 	 *@param bounds The boundaries of the optimisation problem.
-	 *@return The corrected (i.e. feasible) solution.
+	 *@param PRNG The PRNG activations counter
+	 *@return The corrected (i.e. feasible) solution. 
 	 */
-	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds)
+	public double[]  correct(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds, Counter PRNG)
 	{
-		double[] output;
-		double[] feasible;
+		
+		double[] output; 
+		double[] feasible; 
 		
 		if(this.correction == 't')
 		{
-			output = torus(infeasiblePt, bounds);
+			output = toro(infeasiblePt, bounds);
 			feasible = cloneSolution(output);
 		}
 		else if(this.correction== 's')
@@ -361,8 +538,8 @@ public abstract class AlgorithmBias
 		}
 		else if(this.correction== 'd')
 		{
-			output = torus(infeasiblePt, bounds);
-			if(!Arrays.equals(output, infeasiblePt))
+			output = toro(infeasiblePt, bounds);
+			if(!Arrays.equals(output, infeasiblePt)) 
 				feasible = cloneSolution(previousFeasiblePt);
 			else
 				feasible = cloneSolution(previousFeasiblePt);
@@ -374,7 +551,13 @@ public abstract class AlgorithmBias
 		}
 		else if(this.correction== 'c')
 		{
-			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0);
+			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0,PRNG);
+			feasible = cloneSolution(output);
+		}
+		else if(this.correction== 'u')
+		{
+			// re-sampling with uniform distribution
+			output = uniform(infeasiblePt, bounds, PRNG);
 			feasible = cloneSolution(output);
 		}
 		else
@@ -383,10 +566,11 @@ public abstract class AlgorithmBias
 			feasible = null;
 			System.out.println("No valid bounds handling scheme selected");
 		}
-
+		
 	
 		if(!Arrays.equals(output, infeasiblePt))
 		{
+			
 //			infeasiblePt = output;
 			output = null;
 			this.numberOfCorrections++;
@@ -394,11 +578,16 @@ public abstract class AlgorithmBias
 	
 		return feasible;
 	}
+	
+	
+	
+	
+	//TO ADD
+	
+	// methodo che incrementa i contatori delle soluzioni infeasible
+	
+	//methodo che crea il file violations-XXXX  se non esiste, altrimenti ci attacca una linea --> questo puo' essere nell'helper?
+	
+	//methodo che wrappa il metodo che scrive la linea ma solo ogni certe periodo
+	
 }
-
-
-
-
-
-
-

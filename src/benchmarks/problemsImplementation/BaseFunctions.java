@@ -16,13 +16,8 @@ public class BaseFunctions
 	 * Ackley function. 
 	 * 
 	 * References: 
-	 * <a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page295.htm" > Ref 1 </a>
 	 * 
-	 * <a href="http://www.it.lut.fi/ip/evo/functions/node14.html" > Ref 2 </a>
-	 * 
-	 * <a href="http://www.math.ntu.edu.tw/~wwang/cola_lab/test_problems/multiple_opt/multiopt_prob/Ackley/Ackley.htm" > Ref 3 </a>
-	 * 
-	 * <a href="http://tracer.lcc.uma.es/problems/ackley/ackley.html" > Ref 4 </a>
+	 * <a href="http://tracer.lcc.uma.es/problems/ackley/ackley.html" > </a>
 	*/
 	public static class Ackley extends Problem
 	{
@@ -33,7 +28,7 @@ public class BaseFunctions
 		* Constructor for the  Ackley function defined within the specified upper and lower bounds.
 		* @param dimension  The dimensionality of the problem.
 		*/
-		public Ackley(int dimension){ super(dimension, new double[] {-1, 1});}
+		public Ackley(int dimension){ super(dimension, new double[] {-32.768, 32.768});}
 		/**
 		* Constructor for the Ackley function defined within a hyper-cube.
 		* @param dimension  The dimensionality of the problem.
@@ -414,7 +409,7 @@ public class BaseFunctions
 	
 	
 
-	
+	//TODO I have already implemented most of these in other becnhams and for sure for mu customised object-oriented version of cEC2005... they might be moved here,
 	
 	
 	/**
@@ -426,7 +421,7 @@ public class BaseFunctions
 	*/	
 //	public static class Michalewicz extends Problem
 //	{
-		//IMPLEMENT MICHALEXICZ FROM SCRACTH
+		
 //}
 	
 	

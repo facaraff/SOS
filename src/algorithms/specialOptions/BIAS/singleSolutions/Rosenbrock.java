@@ -25,7 +25,7 @@ public class Rosenbrock extends AlgorithmBias {
 		double beta = getParameter("p2").doubleValue();	// 0.5
 	
 		FTrend FT = new FTrend();
-		int n = problem.getDimension();
+		int n = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
 		double[][] xi = eye(n);
@@ -39,7 +39,7 @@ public class Rosenbrock extends AlgorithmBias {
 		double yFirstFirst;
 		
 
-		String FullName = getFullName("RM"+this.correction,problem);
+		String FullName = getFullName("RM"+this.correction,problem); 
 		Counter PRGCounter = new Counter(0);
 		createFile(FullName);
 		
@@ -100,8 +100,8 @@ public class Rosenbrock extends AlgorithmBias {
 					for (int j=0;j<n;j++)
 						 xCurrent[j]= xk[j]+d[i]*xi[i][j];
 					
-					//xCurrent = torus(xCurrent, bounds);
-					xCurrent = correct(xCurrent,prevCurrent, bounds);
+					//xCurrent = toro(xCurrent, bounds);
+					xCurrent = correct(xCurrent,prevCurrent, bounds, PRGCounter);
 					
 					yCurrent = problem.f(xCurrent);
 					iter++;
@@ -143,12 +143,12 @@ public class Rosenbrock extends AlgorithmBias {
 			restart = mini>eps;
 			
 			if ((yBest < yFirstFirst) && (iter < maxEvaluations))
-			{
+			{ 
 				mini = min(abs(subtract(xk,x)));
 				restart = restart || (mini > eps);
 				
 				if (restart)
-				{
+				{ 
 					for (int i=0;i<n;i++)
 						A[n-1][i] = lambda[n-1]*xi[n-1][i];
 					for (int k=n-2; k>=0;k--)
@@ -173,7 +173,7 @@ public class Rosenbrock extends AlgorithmBias {
 					for (int i=0; i<n;i++)
 					{
 						if (div != 0)
-							xi[0][i] = A[0][i]/div;
+							xi[0][i] = A[0][i]/div;	
 						x[i] = xk[i];
 						lambda[i] = 0;
 						d[i] = 0.1;

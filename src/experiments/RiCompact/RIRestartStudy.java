@@ -26,21 +26,22 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package experiments;
+package experiments.RiCompact;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.compact.*;
+import algorithms.compact.review.RIcDEexp;
+import algorithms.compact.review.RIcDEbin;
 import benchmarks.problemsImplementation.BaseFunctions.Ackley;
 import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
 import benchmarks.problemsImplementation.BaseFunctions.Sphere;
 
 import interfaces.Problem;
 
-public class RIBudgetStudy extends Experiment
+public class RIRestartStudy extends Experiment
 {
 	
-	public RIBudgetStudy(int probDim) throws Exception
+	public RIRestartStudy(int probDim) throws Exception
 	{
 		//super(probDim,"RIBudgetStudy");
 		super(probDim,5000,"RIBudgetStudy");
@@ -50,89 +51,39 @@ public class RIBudgetStudy extends Experiment
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem p;// ///< A generic problem.
 		
+		double[] budgets = {0.1, 0.15, 0.20, 0.25, 0.30};
 		
-//		a = new RIcDE();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);
+		double[] alphas = {0.05, 0.1, 0.15, 0.2, 0.25};
 		
-		a = new RIcDE_light();
-		a.setParameter("p0", 0.95);
-		a.setParameter("p1", 0.25);
-		add(a);
-//		
-//		a = new RIcGA();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);
-//		
-//		a = new RIcBFO();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);	
-//		
-//		a = new RIcPSO();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);	
+
+		for(int i=0; i<5; i++)
+		{
+			for(int j=0; j<5; j++)
+			{
+				a = new RIcDEexp();
+				//a.setID("RIcDE-10");
+				a.setParameter("p0", alphas[j]);
+				a.setParameter("p1", budgets[i]);
+				a.setID("RIcDEb"+( (int) ( a.getParameter("p1").doubleValue()*100) )+"a"+((int)(a.getParameter("p0").doubleValue()*100))+"exp");
+				add(a);
+			}
+			
+		}
+
 		
-//		a = new cDE_exp();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.25);
-//		a.setParameter("p2", 0.5);
-//		a.setParameter("p3", 2.0);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		add(a);	
-//		
-		a = new cDE_exp_light();
-		a.setParameter("p0", 300.0);
-		a.setParameter("p1", 0.25);
-		a.setParameter("p2", 0.5);
-		a.setParameter("p3", 3.0);
-		a.setParameter("p4", 1.0);
-		a.setParameter("p5", 1.0);
-		add(a);	
-//		
-//		a = new cBFO();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);
-//		a.setParameter("p2", 4.0);
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 10.0);
-//		a.setParameter("p5", 2.0);
-//		a.setParameter("p6", 2.0);
-//		add(a);
-//		
-//		a = new cGA_real();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
-//		a.setParameter("p2", 1.0);
-//		add(a);
-//
-//		a = new cPSO();
-//		a.setParameter("p0", 50.0);
-//		a.setParameter("p1", -0.2);
-//		a.setParameter("p2", -0.07);
-//		a.setParameter("p3", 3.74);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		add(a);
-//
-//
-//		  a = new MS_CAP();
-//		  a.setParameter("p0",50.0);
-//		  a.setParameter("p1", 1e-6);
-//		  a.setParameter("p2", 3.0);
-//		  add(a);
-//		  
-//		   a = new MDE_pBX();
-//		   a.setParameter("p0", 100.0);
-//		   a.setParameter("p1", 0.15); 
-//		   a.setParameter("p2", 0.6);
-//		   a.setParameter("p3", 0.5);
-//		   a.setParameter("p4", 1.5);
-//		   add(a);
+		for(int i=0; i<5; i++)
+		{
+			for(int j=0; j<5; j++)
+			{
+				a = new RIcDEbin();
+				a.setParameter("p0", alphas[j]);
+				a.setParameter("p1", budgets[i]);
+				a.setID("RIcDEb"+( (int) ( a.getParameter("p1").doubleValue()*100) )+"a"+((int)(a.getParameter("p0").doubleValue()*100))+"bin");
+				add(a);
+			}
+			
+		}
+
 	
 
 		Problem p;

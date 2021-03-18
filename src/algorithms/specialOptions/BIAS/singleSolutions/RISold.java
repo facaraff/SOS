@@ -3,7 +3,7 @@ package algorithms.specialOptions.BIAS.singleSolutions;
 import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.operators.ISBOp.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.completeOneTailedNormal;
 import static utils.algorithms.Corrections.mirroring;
@@ -38,7 +38,7 @@ public class RISold extends AlgorithmBias
 		
 		
 		
-		char correctionStrategy = this.correction;  // t --> torus   s --> saturation  d -->  discard  e ---> penalty
+		char correctionStrategy = this.correction;  // t --> toro   s --> saturation  d -->  discard  e ---> penalty
 		
 		
 		
@@ -146,8 +146,8 @@ public class RISold extends AlgorithmBias
 					double[] output = new double[problemDimension];
 					if(correctionStrategy == 't')
 					{
-						//System.out.println("TORUS");
-						output = torus(Xk, bounds);
+						//System.out.println("toro");
+						output = toro(Xk, bounds);
 					}
 					else if(correctionStrategy== 's')
 					{
@@ -156,7 +156,7 @@ public class RISold extends AlgorithmBias
 					}
 					else if(correctionStrategy== 'd')
 					{
-						output = torus(Xk, bounds);
+						output = toro(Xk, bounds);
 						
 						if(!Arrays.equals(output, Xk))
 						{
@@ -244,8 +244,8 @@ public class RISold extends AlgorithmBias
 								output = new double[problemDimension];
 								if(correctionStrategy == 't')
 								{
-									//System.out.println("TORUS");
-									output = torus(Xk, bounds);
+									//System.out.println("toro");
+									output = toro(Xk, bounds);
 								}
 								else if(correctionStrategy== 's')
 								{
@@ -254,7 +254,7 @@ public class RISold extends AlgorithmBias
 								}
 								else if(correctionStrategy== 'd')
 								{
-									output = torus(Xk, bounds);
+									output = toro(Xk, bounds);
 									if(!Arrays.equals(output, Xk))
 									{
 										output = cloneSolution(Xk_orig);

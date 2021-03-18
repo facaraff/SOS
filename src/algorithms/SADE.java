@@ -35,7 +35,7 @@ import static utils.algorithms.operators.DEOp.rand1;
 import static utils.algorithms.operators.DEOp.rand2;
 import static utils.algorithms.operators.DEOp.randToBest2;
 import static utils.algorithms.Misc.generateRandomSolution;
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 import utils.MatLab;
 import utils.random.RandUtils;
@@ -234,7 +234,7 @@ public class SADE extends Algorithm
 					crossPt = crossOverBin(currPt, newPt, CR[mutationStrategy]);					
 				}
 				
-				crossPt = torus(crossPt, bounds);
+				crossPt = toro(crossPt, bounds);
 				crossFit = problem.f(crossPt);
 				i++;
 

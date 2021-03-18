@@ -168,7 +168,7 @@ public class MoTestAlg extends Algorithm
 				while ((k < problemDimension) && (i < maxEvaluations))
 				{
 					Xk = subtract(Xk,R[k]);
-					Xk = Corrections.torus(Xk, bounds);
+					Xk = Corrections.toro(Xk, bounds);
 					double fXk = problem.f(Xk);
 					i++;
 					
@@ -185,7 +185,7 @@ public class MoTestAlg extends Algorithm
 					{
 						Xk = cloneArray(Xk_orig);
 						Xk = sum(Xk,multiply(0.5, R[k]));
-						Xk = Corrections.torus(Xk, bounds);
+						Xk = Corrections.toro(Xk, bounds);
 						fXk = problem.f(Xk);
 						i++;
 						

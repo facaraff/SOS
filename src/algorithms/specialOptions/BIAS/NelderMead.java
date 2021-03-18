@@ -16,7 +16,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import static utils.algorithms.Corrections.torus;
+import static utils.algorithms.Corrections.toro;
 
 
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public final class NelderMead extends AlgorithmBias {
 		double beta  = getParameter("p1").doubleValue();	// 0.5
 		double gamma = getParameter("p2").doubleValue();	// 2
 		double delta = getParameter("p3").doubleValue();	// 0.5
-		char correctionStrategy = 'e';  // t --> torus   s-->saturation e---> penalise  d--->discard
+		char correctionStrategy = 'e';  // t --> toro   s-->saturation e---> penalise  d--->discard
 	
 		
 		FTrend FT = new FTrend();
@@ -146,7 +146,7 @@ public final class NelderMead extends AlgorithmBias {
 		double total;
 		
 		
-		int ciccio = 0;
+		int infCounter = 0;
 		while (i < maxEvaluations)
 		{
 			for (int k = 0; k < (problemDimension+1); k++)
@@ -179,17 +179,17 @@ public final class NelderMead extends AlgorithmBias {
 			for (int j = 0; j < problemDimension; j++)
 				reflect[j] = mean[j] + alpha*(mean[j] - simplex[h][j]);
 			
-			//reflect = torus(reflect, bounds);
+			//reflect = toro(reflect, bounds);
 			double[] output = new double[problemDimension];
 			if(correctionStrategy == 't')
 			{
-				//System.out.println("TORUS");
-				output = torus(reflect, bounds);
+				//System.out.println("toro");
+				output = toro(reflect, bounds);
 				
 				if(!Arrays.equals(output, reflect))
 				{
 					reflect = output;
-					ciccio++;
+					infCounter++;
 				}
 				reflectVal = problem.f(reflect);
 			}
@@ -201,7 +201,7 @@ public final class NelderMead extends AlgorithmBias {
 				if(!Arrays.equals(output, reflect))
 				{
 					reflect = output;
-					ciccio++;
+					infCounter++;
 				}
 				reflectVal = problem.f(reflect);
 				
@@ -211,7 +211,7 @@ public final class NelderMead extends AlgorithmBias {
 				output = saturation(reflect, bounds);
 				if(!Arrays.equals(output, reflect))
 				{
-					ciccio++;
+					infCounter++;
 					reflectVal = 2;
 				}
 			}
@@ -221,7 +221,7 @@ public final class NelderMead extends AlgorithmBias {
 //			if(!Arrays.equals(output, reflect))
 //			{
 //				reflect = output;
-//				ciccio++;
+//				infCounter++;
 //			}
 //			reflectVal = problem.f(reflect);
 			i++;
@@ -245,17 +245,17 @@ public final class NelderMead extends AlgorithmBias {
 				for (int j = 0; j < problemDimension; j++)
 					expand[j] = mean[j] + gamma*(reflect[j] - mean[j]);
 				
-				//expand = torus(expand, bounds);
+				//expand = toro(expand, bounds);
 				output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(expand, bounds);
+					//System.out.println("toro");
+					output = toro(expand, bounds);
 					
 					if(!Arrays.equals(output, expand))
 					{
 						expand = output;
-						ciccio++;
+						infCounter++;
 					}
 					expandVal = problem.f(expand);
 				}
@@ -267,7 +267,7 @@ public final class NelderMead extends AlgorithmBias {
 					if(!Arrays.equals(output, expand))
 					{
 						expand = output;
-						ciccio++;
+						infCounter++;
 					}
 					expandVal = problem.f(expand);
 					
@@ -277,7 +277,7 @@ public final class NelderMead extends AlgorithmBias {
 					output = saturation(expand, bounds);
 					if(!Arrays.equals(output, expand))
 					{
-						ciccio++;
+						infCounter++;
 						expandVal = 2;
 					}
 				}
@@ -399,17 +399,17 @@ public final class NelderMead extends AlgorithmBias {
 					contract[j] = mean[j] + beta*(reflect[j] - mean[j]);
 				
 				
-				//contract = torus(contract, bounds);
+				//contract = toro(contract, bounds);
 				output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(contract, bounds);
+					//System.out.println("toro");
+					output = toro(contract, bounds);
 					
 					if(!Arrays.equals(output, contract))
 					{
 						contract = output;
-						ciccio++;
+						infCounter++;
 					}
 					contractVal = problem.f(contract);
 				}
@@ -421,7 +421,7 @@ public final class NelderMead extends AlgorithmBias {
 					if(!Arrays.equals(output, contract))
 					{
 						contract = output;
-						ciccio++;
+						infCounter++;
 					}
 					contractVal = problem.f(contract);
 					
@@ -431,7 +431,7 @@ public final class NelderMead extends AlgorithmBias {
 					output = saturation(contract, bounds);
 					if(!Arrays.equals(output, contract))
 					{
-						ciccio++;
+						infCounter++;
 						contractVal = 2;
 					}
 					
@@ -492,17 +492,17 @@ public final class NelderMead extends AlgorithmBias {
 							
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
-							//simplex[k] = torus(simplex[k], bounds);
+							//simplex[k] = toro(simplex[k], bounds);
 							output = new double[problemDimension];
 							if(correctionStrategy == 't')
 							{
-								//System.out.println("TORUS");
-								output = torus(simplex[k], bounds);
+								//System.out.println("toro");
+								output = toro(simplex[k], bounds);
 								
 								if(!Arrays.equals(output, simplex[k]))
 								{
 									simplex[k] = output;
-									ciccio++;
+									infCounter++;
 								}
 								fSimplex[k] = problem.f(simplex[k]);
 							}
@@ -514,7 +514,7 @@ public final class NelderMead extends AlgorithmBias {
 								if(!Arrays.equals(output, simplex[k]))
 								{
 									simplex[k] = output;
-									ciccio++;
+									infCounter++;
 								}
 								fSimplex[k] = problem.f(simplex[k]);
 								
@@ -524,7 +524,7 @@ public final class NelderMead extends AlgorithmBias {
 								output = saturation(simplex[k], bounds);
 								if(!Arrays.equals(output, simplex[k]))
 								{
-									ciccio++;
+									infCounter++;
 									fSimplex[k] = 2;
 								}
 							}
@@ -575,17 +575,17 @@ public final class NelderMead extends AlgorithmBias {
 				// contract inside
 				for (int j = 0; j < problemDimension; j++)
 					contract[j] = mean[j] + beta*(simplex[h][j] - mean[j]);
-				//contract = torus(contract, bounds);
+				//contract = toro(contract, bounds);
 				output = new double[problemDimension];
 				if(correctionStrategy == 't')
 				{
-					//System.out.println("TORUS");
-					output = torus(contract, bounds);
+					//System.out.println("toro");
+					output = toro(contract, bounds);
 					
 					if(!Arrays.equals(output, contract))
 					{
 						contract = output;
-						ciccio++;
+						infCounter++;
 					}
 					contractVal = problem.f(contract);
 				}
@@ -597,7 +597,7 @@ public final class NelderMead extends AlgorithmBias {
 					if(!Arrays.equals(output, contract))
 					{
 						contract = output;
-						ciccio++;
+						infCounter++;
 					}
 					contractVal = problem.f(contract);
 					
@@ -607,7 +607,7 @@ public final class NelderMead extends AlgorithmBias {
 					output = saturation(contract, bounds);
 					if(!Arrays.equals(output, contract))
 					{
-						ciccio++;
+						infCounter++;
 						contractVal = 2;
 					}
 					
@@ -659,17 +659,17 @@ public final class NelderMead extends AlgorithmBias {
 							for (int j = 0; j < problemDimension; j++)
 								simplex[k][j] = simplex[l][j]+delta*(simplex[k][j]-simplex[l][j]);
 							
-							//simplex[k] = torusSameBounds(simplex[k], bounds);
+							//simplex[k] = toroSameBounds(simplex[k], bounds);
 							output = new double[problemDimension];
 							if(correctionStrategy == 't')
 							{
-								//System.out.println("TORUS");
-								output = torus(simplex[k], bounds);
+								//System.out.println("toro");
+								output = toro(simplex[k], bounds);
 								
 								if(!Arrays.equals(output, simplex[k]))
 								{
 									simplex[k] = output;
-									ciccio++;
+									infCounter++;
 								}
 								fSimplex[k] = problem.f(simplex[k]);
 							}
@@ -681,7 +681,7 @@ public final class NelderMead extends AlgorithmBias {
 								if(!Arrays.equals(output, simplex[k]))
 								{
 									simplex[k] = output;
-									ciccio++;
+									infCounter++;
 								}
 								fSimplex[k] = problem.f(simplex[k]);
 								
@@ -691,7 +691,7 @@ public final class NelderMead extends AlgorithmBias {
 								output = saturation(simplex[k], bounds);
 								if(!Arrays.equals(output, simplex[k]))
 								{
-									ciccio++;
+									infCounter++;
 									fSimplex[k] = 2;
 								}
 								
@@ -742,8 +742,8 @@ public final class NelderMead extends AlgorithmBias {
 		FT.add(i, fBest);
 		
 		bw.close();
-//		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations);
-		wrtiteCorrectionsPercentage(fileName, (double) ciccio/maxEvaluations, fSimplex, correctionStrategy);
+//		wrtiteCorrectionsPercentage(fileName, (double) infCounter/maxEvaluations);
+		wrtiteCorrectionsPercentage(fileName, (double) infCounter/maxEvaluations, fSimplex, correctionStrategy);
 		
 		return FT;
 	}

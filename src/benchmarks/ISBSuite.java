@@ -1,6 +1,5 @@
-package mains.test;
 /**
-Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -28,70 +27,53 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
+package benchmarks;
 
+import interfaces.Problem;
+import utils.random.RandUtils;
 
-/** @file RunExperiments.java
- *  
- *  @author Fabio Caraffini
-*/
-
-import java.util.Vector;
-
-import experiments.RiCompact.RIRestartStudy;
-import interfaces.Experiment;
-
-import static utils.RunAndStore.resultsFolder;
-
-/** 
-* This class contains the main method and has to be used for launching experiments.
-*/
-public class RunRItests
+public class ISBSuite extends Problem 
 {
+	public ISBSuite(int dimension, double[][] bounds) {super(dimension, bounds); setFID("f0");}
+	
+	public ISBSuite(String name, int dimension) {super(dimension); setBounds(getBoundaries(name,dimension));}
 	
 	
-	/** 
-	* Main method.
-	* This method has to be modified in order to launch a new experiment.
-	* @param args For passing args to the main value.
-	* @throws Exception The main method must be able to handle possible java.lang.Exceptionincluding I/O exceptions etc.
-	*/
-	public static void main(String[] args) throws Exception
-	{	
-		
-		// make sure that "results" folder exists
-		resultsFolder();
-	
-	
-		Vector<Experiment> experiments = new Vector<Experiment>();////!< List of problems 
-	
-			
-		//@@@ MODIFY THIS PART @@@		
-		
-//		
-//		experiments.add(new ReviewEvo19(10));
-//		experiments.add(new ReviewEvo19(50));
-//		experiments.add(new ReviewEvo19(100));
-		
-		experiments.add(new RIRestartStudy(10));
-			
-		experiments.add(new RIRestartStudy(50));
-		
-		experiments.add(new RIRestartStudy(100));
+	public void setProblemFID(String string) {setFID(string);}
 
-		//@@@@@@
+	public double f(double[] x){return RandUtils.random();}
 	
-		for(Experiment experiment : experiments)
+	private double[][] getBoundaries(String name, int dimension)
+	{
+		switch (name) 
 		{
-			//experiment.setShowPValue(true);
-			experiment.startExperiment();
-			System.out.println();
-			experiment = null;
+		case "f0":
+			setFID("f0");
+			return initBoundaries(0, 1, dimension); 
+		case "g0":
+			setFID("g0");
+			return initBoundaries(0, 100, dimension); 
+		case "h0":
+			setFID("h0");
+			return initBoundaries(-0.6, 0.4, dimension); 
+		case "i0":
+			setFID("i0");
+			return initBoundaries(-0.2, 0.1, dimension); 
+		default:
+			System.out.println("This fucntion is not define din the ISB test suite");
+			return null; 
 		}
-	
-		
-		
 	}
 	
-	
-
+	private double[][] initBoundaries(double lowerBound, double upperBound, int dimension) 
+	{
+		double[][] boundaries = new double[dimension][2];
+		
+		for(int i=0; i<dimension; i++)
+		{
+			boundaries[i][0] = lowerBound;
+			boundaries[i][1] = upperBound;
+		}	
+		return boundaries;
+	}
 }

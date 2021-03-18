@@ -147,7 +147,7 @@ public class cPSO extends AlgorithmBias
 				x[n] = gamma1*x[n] + gamma2*v[n];
 			}
 			
-			x = correct(x, prevX, normalizedBounds);
+			x = correct(x, prevX, normalizedBounds, PRGCounter);
 			
 			xScaled = scale(x, bounds, xc);
 			fitness_x = problem.f(xScaled); i++;

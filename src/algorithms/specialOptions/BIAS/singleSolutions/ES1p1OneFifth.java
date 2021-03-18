@@ -99,7 +99,7 @@ public class ES1p1OneFifth extends AlgorithmBias
 		while (i < maxEvaluations)
 		{
 			newPt = sum(best,multiply(sigma,randUncorrelatedGauusian(problemDimension, PRGCounter)));
-			newPt = correct(newPt,best,bounds);
+			newPt = correct(newPt,best,bounds, PRGCounter);
 			newFit = problem.f(newPt);
 			i++;
 			

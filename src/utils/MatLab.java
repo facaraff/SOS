@@ -690,7 +690,7 @@ public class MatLab
 	
 	/**
 	 * Mean value of an array.
-	 * @param x array of rreal numbers in double precision.
+	 * @param x array of real numbers in double precision.
 	 */
 	public static double mean(double[] x)
 	{
@@ -699,6 +699,15 @@ public class MatLab
 			return sum(x)/n;
 		else
 			return 0;
+	}
+	
+	public static double mean(long[] x)
+	{
+		int n = x.length;
+		double[] X = new double[n];
+		for (int i=0; i<n; i++)
+			X[i] = x[i];
+		return mean(X);
 	}
 	
 	/**

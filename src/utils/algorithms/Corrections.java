@@ -79,9 +79,7 @@ public class Corrections
 		return x_complete;
 	}
 
-	protected static double generateOneTailedNormalValue(double x, double lb, double up, double scaleFactor)// N.B. to
-																											// use after
-																											// inDomain()!!!
+	protected static double generateOneTailedNormalValue(double x, double lb, double up, double scaleFactor)// N.B. to use after inDomain()!!!
 	{
 		double r = Math.abs(RandUtils.gaussian(0, (up - lb) / scaleFactor));
 		return (x < lb) ? (lb + r) : (up - r);
@@ -212,7 +210,7 @@ public class Corrections
 	 *            search space boundaries (general case).
 	 * @return x_tor corrected solution.
 	 */
-	public static double[] torus(double[] x, double[][] bounds) {
+	public static double[] toro(double[] x, double[][] bounds) {
 		int n = x.length;
 		double[] x_tor = new double[n];
 		for (int i = 0; i < n; i++) {
@@ -238,7 +236,7 @@ public class Corrections
 	 *            search space boundaries (hyper-parallelepiped).
 	 * @return x_tor corrected solution.
 	 */
-	public static double[] torusSameBounds(double[] x, double[] bounds) {
+	public static double[] toroSameBounds(double[] x, double[] bounds) {
 		int n = x.length;
 		double[] x_tor = new double[n];
 		for (int i = 0; i < n; i++) {
@@ -273,6 +271,31 @@ public class Corrections
 			x = generateRandomSolution(bounds, n);
 		return x;
 	}
+	
+	/**
+	 * uniform correction strategy -- i.e. resample infeasible components using a uniform distribution
+	 * 
+	 * @param x solution to be corrected.
+	 * @param bounds search space boundaries.
+	 * @return x_tor corrected solution.
+	 */
+	public static double[] uniform(double[] x, double[][] bounds)
+	{
+		double[] xu = new double[x.length];
+		for(int i=0; i<x.length; i++)
+		{
+			if(x[i]>bounds[i][1])
+				xu[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtils.random();
+			else if(x[i]<bounds[i][0])
+				xu[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtils.random();
+			else
+				xu[i] = x[i];
+		}		
+		return xu;
+	}
+	
+	
+	
 	
 
 	/**
@@ -325,7 +348,7 @@ public class Corrections
 		{
 			case 't':
 				// toru
-				x_c = torus(x, bounds);
+				x_c = toro(x, bounds);
 				break;
 			case 's':
 				// saturation
@@ -338,6 +361,10 @@ public class Corrections
 			case 'c':
 				// complete one tailed normal correction
 				x_c =completeOneTailedNormal(x, bounds, 3.0);
+				break;
+			case 'u':
+				// re-sampling with uniform distribution
+				x_c =uniform(x, bounds);
 				break;
 			default:
 				System.out.println("No valid bounds handling scheme selected");

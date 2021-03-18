@@ -113,8 +113,8 @@ public class SPSA extends AlgorithmBias {
 			for(int j=0;j < problemDimension;j++)
 				delta[j] = (RandUtilsISB.random(PRGCounter) > 0.5) ? 1 : -1;
 			
-			double[] thetaplus = correct(sum(theta,multiply(ck,delta)), best, bounds);
-			double[] thetaminus = correct(sum(theta,multiply(-ck,delta)), best, bounds);
+			double[] thetaplus = correct(sum(theta,multiply(ck,delta)), best, bounds, PRGCounter);
+			double[] thetaminus = correct(sum(theta,multiply(-ck,delta)), best, bounds, PRGCounter);
 			
 			double yplus=problem.f(thetaplus);
 			double yminus=problem.f(thetaminus);
@@ -123,7 +123,7 @@ public class SPSA extends AlgorithmBias {
 			for(int j=0;j < problemDimension;j++)
 				ghat[j]=(yplus-yminus)/(2*ck*delta[j]);
 			
-			theta = correct(sum(theta,multiply(-ak, ghat)), best, bounds);
+			theta = correct(sum(theta,multiply(-ak, ghat)), best, bounds, PRGCounter);
 			
 			y = problem.f(theta);
 			i++;

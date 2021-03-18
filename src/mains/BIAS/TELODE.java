@@ -31,8 +31,9 @@ package mains.BIAS;
 
 import java.util.Vector;
 
+
+
 import algorithms.specialOptions.BIAS.DE;
-//import algorithms.specialOptions.BIAS.SimplifiedGA;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
@@ -42,7 +43,7 @@ import interfaces.Problem;
 
 import static utils.RunAndStore.slash;
 	
-public class Debugging extends ISBMain
+public class TELODE extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -54,31 +55,27 @@ public class Debugging extends ISBMain
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
-		expSettings.setBudgetFactor(1000);
+		expSettings.setBudgetFactor(10000);
 		expSettings.setNrRepetition(100);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
 		for(int i=0; i<n; i++)
 		{
-			bounds[i][0] = 0.0;
-			bounds[i][1] = 1.0;
+			bounds[i][0] = 0;
+			bounds[i][1] = 1;
 		}	
-		
 		
 		p = new Noise(n, bounds);
 		p.setFID("f0");
 		
 		problems.add(p);
 		
-		
-		
-//		char[] corrections = {'s','t','d','m','c'};
-		char[] corrections = {'d'};
+		char[] corrections = {'s','t','d','m','c'};
 		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
 		char[] DECrossOvers = {'b','e'};
-
 		double[] populationSizes = {5, 20, 100};
+		
 		
 		
 		for (double popSize : populationSizes)
@@ -94,7 +91,7 @@ public class Debugging extends ISBMain
 						a.setCorrection(correction);
 						a.setParameter("p0", popSize); //Population size
 						a.setParameter("p1", 0.5); //F - scale factor
-						a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+						a.setParameter("p2", -1.0); //CR - Crossover Ratio
 						a.setParameter("p3", 0.25); //Alpha
 						algorithms.add(a);	
 						a = null;
@@ -107,15 +104,13 @@ public class Debugging extends ISBMain
 							a.setCorrection(correction);
 							a.setParameter("p0", popSize); //Population size
 							a.setParameter("p1", 0.5); //F - scale factor
-							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+							a.setParameter("p2", -1.0); //CR - Crossover Ratio
 							a.setParameter("p3", 0.25); //Alpha
 							algorithms.add(a);		
 							a = null;
 						}
+				}	
 			}
-			
-		}
-		
 			
 		
 		execute(algorithms, problems, expSettings);	
@@ -127,15 +122,4 @@ public class Debugging extends ISBMain
 
 
 
-
-
-//a = new SimplifiedGA();
-//a.setDir("GA-TELO"+slash());
-//a.setCorrection(correction);
-//a.setParameter("p0", popSize); //Population size
-//a.setParameter("p1", 666.0); //FIND PARAMETER
-//a.setParameter("p2", 666.0); //FIND PARAMETER
-//a.setParameter("p3", 666.0); //FIND PARAMETER
-//algorithms.add(a);		
-//a = null;
 		

@@ -1,10 +1,32 @@
-/** @file Operators.java
- *  
- *
- * SOS
- * 
- *  @author Fabio Caraffini
+/**
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer. 
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those
+of the authors and should not be interpreted as representing official policies, 
+either expressed or implied, of the FreeBSD Project.
 */
+
 package utils.algorithms.operators;
 
 import org.apache.commons.math3.linear.EigenDecomposition;
@@ -20,13 +42,25 @@ import static utils.MatLab.multiply;
 import utils.MatLab;
 
 import static utils.algorithms.Misc.centroid;
+import static utils.algorithms.Misc.inDomain;
 import static utils.algorithms.Misc.orthonormalise;
 import static utils.algorithms.Misc.Cov;
 import static utils.algorithms.CompactAlgorithms.truncateRandn;
 import utils.algorithms.Counter;
 import utils.random.RandUtilsISB;
-/**
- * This class contains the implementation of Differential Evolution operators.
+
+/** 
+ *  
+ *@author Fabio Caraffini (fabio.caraffini@gmail.com)
+ * 
+ * @link www.doi.org.com/10.0.81.208/preprints202003.0381.v1
+ *
+ * @package utils.algorithms.operators
+ * 
+ * @file ISBOp.java
+ * 
+ *  
+ * This class contains the implementation of Particle Swarm Optimisation operators.
 */	
 public class ISBOp
 {	
@@ -516,20 +550,26 @@ public class ISBOp
 			int n = x.length;
 			int startIndex = RandUtilsISB.randomInteger(n-1, counter);
 			int index = startIndex;
+			
+			
 
 			double[] x_off = new double[n];
 			for (int i = 0; i < n; i++)
 				x_off[i] = x[i];
 			          
 			x_off[index] = y[index];
-
+			
 			index = index + 1;
+			
+			if (index >= n)
+				index = 0;
+
 			while ((RandUtilsISB.random(counter) <= CR) && (index != startIndex))
 			{
-				if (index >= n)
-					index = 0;
 				x_off[index] = y[index];
 				index++;
+				if (index >= n)
+					index = 0;
 			}
 
 			return x_off;
@@ -994,6 +1034,148 @@ public class ISBOp
 				return output;
 			}
 			
+			
+			
+			//****************************** PSO **********************************
+			
+			
+			/**
+			* This method is used to initialise the velocity vector
+			* 
+			* @param s The initialisation method identifier.
+			* @param p The problem to be optimised.
+			* @param counter The PSRNG counter
+			* 
+			* @return v  The generated velocity vector.
+			*/
+			public static double[] initVelocityVector(char s, Problem p, Counter counter) 
+			{
+				int n = p.getDimension();
+				double[] v = new double[n];
+				
+				switch (s)
+				{
+					case 'k': //--> Kononova2015 --> //https://doi.org/10.1016/j.ins.2014.11.035
+						for(int i=0; i<n; i++)
+							v[i] = RandUtilsISB.uniform(0, 0.1, counter);
+						break;
+					default:
+						v = generateRandomSolution(p, counter);
+						break;
+				}
+				
+				return v;
+			}
+			
+			/**
+			* This is the classic PSO velocity update method
+			* 
+			* @param v The current velocity vector associated to a particle P
+			* @param x The current position of the particle P
+			* @param pBest The personal best position occupied by the particle P.
+			* @param gBest The global best particle.
+			* @param phi1 The inertia weight 
+			* @param phi2 The first acceleration coefficient
+			* @param phi3 The second acceleration coefficient
+			* @param counter The PSRNG counter
+			* 
+			* @return newV The updated velocity vector.
+			*/
+			public static double[] classicVelocityUpdate(double[] v, double[] x, double[] pBest, double[] gBest, double phi1, double phi2, double phi3, Counter counter) 
+			{
+				int n = v.length;
+				double[] newV = new double[n];
+				for(int i =0; i<n; i++)
+					newV[i] = phi1*v[i]+phi2*RandUtilsISB.random(counter)*(pBest[i]-x[i])+phi3*RandUtilsISB.random(counter)*(gBest[i]-x[i]);
+			 	return newV;
+			}
+			
+			
+			
+			
+
+			
+			
+			
+			/** Corrections using RandUtils are duplicated here to count PRNG activations*/
+			
+			
+			
+			
+			
+			/**
+			 * complete one tailed normal correction
+			 * 
+			 * implement complete one tailed normal correction.
+			 * 
+			 * @param x
+			 * @param bounds
+			 * @param counter The PSRNG counter
+			 * @return corrected x
+			 */
+			public static double[] completeOneTailedNormal(double[] x, double[][] bounds, double scaleFactor, Counter PRNG) 
+			{
+				int n = x.length;
+				double[] x_complete = new double[n];
+				for (int i = 0; i < n; i++)
+					x_complete[i] = completeOneTailedNormalRecursive(x[i], bounds[i][0], bounds[i][1], scaleFactor, PRNG);
+				return x_complete;
+			}
+			public static double[] completeOneTailedNormal(double[] x, double[] bounds, double scaleFactor, Counter PRNG)
+			{
+				double[][] BOUNDS = new double[x.length][2];
+				for(int i=0; i<x.length; i++)
+				{
+					BOUNDS[i][1] = bounds[0];
+					BOUNDS[i][1] = bounds[1];
+				}	
+				return completeOneTailedNormal(x, BOUNDS,scaleFactor, PRNG);
+			}
+
+			protected static double completeOneTailedNormalRecursive(double x, double lb, double ub, double scaleFactor, Counter PRNG) {
+				double x_complete = Double.NaN;
+				if (inDomain(x, lb, ub))
+					x_complete = x;
+				else {
+					x_complete = generateOneTailedNormalValue(x, lb, ub, scaleFactor, PRNG);
+					while (!inDomain(x_complete, lb, ub))
+						x_complete = generateOneTailedNormalValue(x_complete, lb, ub, scaleFactor, PRNG);
+
+				}
+				return x_complete;
+			}
+
+			protected static double generateOneTailedNormalValue(double x, double lb, double up, double scaleFactor, Counter PRNG)// N.B. to use after inDomain()!!!
+			{
+				double r = Math.abs(RandUtilsISB.gaussian(0, (up - lb) / scaleFactor, PRNG));
+				return (x < lb) ? (lb + r) : (up - r);
+			}
+
+			
+			
+			
+			/**
+			 * uniform correction strategy -- i.e. resample infeasible components using a uniform distribution
+			 * 
+			 * @param x solution to be corrected.
+			 * @param bounds search space boundaries.
+			 * @param counter The PSRNG counter
+			 * @return x_tor corrected solution.
+			 */
+			public static double[] uniform(double[] x, double[][] bounds, Counter PRNG)
+			{
+				double[] xu = new double[x.length];
+				for(int i=0; i<x.length; i++)
+				{
+					if(x[i]>bounds[i][1])
+						xu[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(PRNG);
+					else if(x[i]<bounds[i][0])
+						xu[i] = bounds[i][0] + (bounds[i][1] - bounds[i][0]) * RandUtilsISB.random(PRNG);
+					else
+						xu[i] = x[i];
+				}		
+				return xu;
+			}
 			
 }
 

@@ -71,7 +71,7 @@ public class Misc {
 	 * @return return true if the design variable x is inside the search space,
 	 *         false otherwise
 	 */
-	protected static boolean inDomain(double x, double lb, double up) {
+	public static boolean inDomain(double x, double lb, double up) {
 		return (x <= up && x >= lb);
 	}
 

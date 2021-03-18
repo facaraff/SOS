@@ -10,6 +10,8 @@ import java.io.BufferedWriter;
 import java.text.DecimalFormat;
 import org.apache.commons.lang3.SystemUtils;
 import java.util.concurrent.Callable;
+import java.util.regex.PatternSyntaxException;
+
 import interfaces.Algorithm;
 import java.util.Vector;
 import interfaces.Problem;
@@ -575,12 +577,17 @@ public class RunAndStore
 	*/
 	public static String slash()
 	{
-		String slash = "/";
-		if(SystemUtils.IS_OS_WINDOWS)
-			slash="\\";
+		String slash = null;
+		try {
+			slash ="/";
+			if(SystemUtils.IS_OS_WINDOWS)
+				slash="\\\\";
+		} catch (PatternSyntaxException ex) {
+	        System.out.println("This string could not compile: "+ex.getPattern());
+	        System.out.println(ex.getMessage());
+	    }
 		return slash;
 	}
-		
 		
 		
 	/**

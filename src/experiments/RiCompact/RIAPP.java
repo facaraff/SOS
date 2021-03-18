@@ -26,25 +26,28 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package experiments;
+package experiments.RiCompact;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-//import algorithms.MDE_pBX;
-//import algorithms.MS_CAP;
-//import algorithms.singleSolution.SPAMAOS2;
 import algorithms.compact.*;
-import benchmarks.CEC2013_LSGO;
+import applications.CEC2011.P2;
+//import applications.CEC2011.P1;
+//import applications.CEC2011.P3;
+//import applications.CEC2011.P4;
+//import applications.CEC2011.P5;
+//import applications.CEC2011.P6;
+//import applications.CEC2011.P7;
 
+import interfaces.Problem;
 
-public class largeScaleExp extends Experiment
+public class RIAPP extends Experiment
 {
 	
-	public largeScaleExp() throws Exception
+	public RIAPP(int probDim) throws Exception
 	{
-		//super(probDim,"cec2015allDim");
-//		super(1000,5000,"CEC2013_LSGO_RICOMPACT");
-		super(1000,5000,"CEC2013_LSGO_RICOMPACT");
+		//super(probDim,"RIBudgetStudy");
+		super(probDim,5000,"RIAPP");
 		setNrRuns(30);
 
 
@@ -52,73 +55,59 @@ public class largeScaleExp extends Experiment
 	    //Problem p;// ///< A generic problem.
 		
 		
-//		a = new RIcDE();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);
-		
 		a = new RIcDE_light();
 		a.setParameter("p0", 0.95);
 		a.setParameter("p1", 0.25);
 		add(a);
-//		
-//		a = new RIcGA();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);
-//		
-//		a = new RIcBFO();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);	
-//		
-//		a = new RIcPSO();
-//		a.setParameter("p0", 0.95);
-//		a.setParameter("p1", 0.25);
-//		add(a);	
+
+		a = new RIcGA();
+		a.setParameter("p0", 0.95);
+		a.setParameter("p1", 0.25);
+		add(a);
 		
-//		a = new cDE_exp();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.25);
-//		a.setParameter("p2", 0.5);
-//		a.setParameter("p3", 2.0);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		add(a);	
+		a = new RIcBFO();
+		a.setParameter("p0", 0.95);
+		a.setParameter("p1", 0.25);
+		add(a);	
+		
+		a = new RIcPSO();
+		a.setParameter("p0", 0.95);
+		a.setParameter("p1", 0.25);
+		add(a);	
+			
+		a = new cDE_exp_light();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.25);
+		a.setParameter("p2", 0.5);
+		a.setParameter("p3", 3.0);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);	
 //		
-//		a = new cDE_exp_light();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.25);
-//		a.setParameter("p2", 0.5);
-//		a.setParameter("p3", 3.0);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		add(a);	
+		a = new cBFO();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.1);
+		a.setParameter("p2", 4.0);
+		a.setParameter("p3", 1.0);
+		a.setParameter("p4", 10.0);
+		a.setParameter("p5", 2.0);
+		a.setParameter("p6", 2.0);
+		add(a);
 //		
-//		a = new cBFO();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);
-//		a.setParameter("p2", 4.0);
-//		a.setParameter("p3", 1.0);
-//		a.setParameter("p4", 10.0);
-//		a.setParameter("p5", 2.0);
-//		a.setParameter("p6", 2.0);
-//		add(a);
-//		
-//		a = new cGA_real();
-//		a.setParameter("p0", 300.0);
-//		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
-//		a.setParameter("p2", 1.0);
-//		add(a);
-//
-//		a = new cPSO();
-//		a.setParameter("p0", 50.0);
-//		a.setParameter("p1", -0.2);
-//		a.setParameter("p2", -0.07);
-//		a.setParameter("p3", 3.74);
-//		a.setParameter("p4", 1.0);
-//		a.setParameter("p5", 1.0);
-//		add(a);
+		a = new cGA_real();
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.1);//not important as persisten  == 1 (p2) and therefore it is not used
+		a.setParameter("p2", 1.0);
+		add(a);
+
+		a = new cPSO();
+		a.setParameter("p0", 50.0);
+		a.setParameter("p1", -0.2);
+		a.setParameter("p2", -0.07);
+		a.setParameter("p3", 3.74);
+		a.setParameter("p4", 1.0);
+		a.setParameter("p5", 1.0);
+		add(a);
 //
 //
 //		  a = new MS_CAP();
@@ -135,12 +124,28 @@ public class largeScaleExp extends Experiment
 //		   a.setParameter("p4", 1.5);
 //		   add(a);
 	
-		for(int i = 1; i<=15; i++)
-			add(new CEC2013_LSGO(i));
 
+		Problem p;
 		
-
-
+		p = new P2(probDim);
+		add(p);
+		
+//		p = new P1();
+//		add(p);
+//		
+//		p = new P3();
+//		add(p);
+//		
+//		p = new P4();
+//		add(p);
+//		
+//		p = new P5(probDim);
+//		add(p);
+//		
+//		p = new P6(probDim);
+//		add(p);
+//		p = new P7();
+//		add(p);
 
 	}
 }

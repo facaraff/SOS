@@ -87,7 +87,7 @@ public class SolisWets extends AlgorithmBias
 			bestFirst = sum(sum(best, bias ) , dif );
 			
 			
-			bestFirst = correct(bestFirst, best, bounds);
+			bestFirst = correct(bestFirst, best, bounds, PRGCounter);
 			
 			
 			newfBest = problem.f(bestFirst);
@@ -120,7 +120,7 @@ public class SolisWets extends AlgorithmBias
 			{
 				bestSecond = subtract(  subtract(best, bias) , dif  );
 				
-				bestSecond = correct(bestSecond, best, bounds);
+				bestSecond = correct(bestSecond, best, bounds, PRGCounter);
 				
 				newfBest = problem.f(bestSecond);
 				i++;

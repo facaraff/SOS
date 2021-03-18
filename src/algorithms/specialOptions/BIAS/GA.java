@@ -33,11 +33,13 @@ public class GA extends AlgorithmBias
 		int problemDimension = problem.getDimension(); 
 		double[][] bounds = problem.getBounds();
 		
+		this.numberOfCorrections=0;
+		
 		int[] ids = new int[populationSize];
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
 		
-		String FullName = getFullName("GA"+this.mutationStrategy+this.crossoverStrategy+this.selectionStrategy+this.correction,problem); 
+		String FullName = getFullName("GA"+this.mutationStrategy+this.crossoverStrategy+this.selectionStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 		
@@ -125,7 +127,7 @@ public class GA extends AlgorithmBias
 			
 			child = GAmutations(child, mutationStrategy, md, bounds, PRNGCounter);
  			
-			child = correct(child,population[parent1],bounds);
+			child = correct(child,population[parent1],bounds, PRNGCounter);
 			double fChild = problem.f(child);
 			i++;
 			
@@ -161,7 +163,7 @@ public class GA extends AlgorithmBias
 		fBest = fitnesses[ib];
 		FT.add(i, fBest);
 		
-		closeAll();	
+		closeAllBF();	
 		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsGA");
 		
 		return FT;

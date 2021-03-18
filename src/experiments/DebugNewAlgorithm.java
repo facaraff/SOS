@@ -1,4 +1,3 @@
-package mains.test;
 /**
 Copyright (c) 2018, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
@@ -27,71 +26,58 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
+package experiments;
 
-
-
-/** @file RunExperiments.java
- *  
- *  @author Fabio Caraffini
-*/
-
-import java.util.Vector;
-
-import experiments.RiCompact.RIRestartStudy;
 import interfaces.Experiment;
+import interfaces.Algorithm;
+import algorithms.BFO;
+import benchmarks.problemsImplementation.BaseFunctions.Ackley;
+import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
+import benchmarks.problemsImplementation.BaseFunctions.Sphere;
 
-import static utils.RunAndStore.resultsFolder;
+import interfaces.Problem;
 
-/** 
-* This class contains the main method and has to be used for launching experiments.
-*/
-public class RunRItests
+public class DebugNewAlgorithm extends Experiment
 {
 	
-	
-	/** 
-	* Main method.
-	* This method has to be modified in order to launch a new experiment.
-	* @param args For passing args to the main value.
-	* @throws Exception The main method must be able to handle possible java.lang.Exceptionincluding I/O exceptions etc.
-	*/
-	public static void main(String[] args) throws Exception
-	{	
-		
-		// make sure that "results" folder exists
-		resultsFolder();
-	
-	
-		Vector<Experiment> experiments = new Vector<Experiment>();////!< List of problems 
-	
-			
-		//@@@ MODIFY THIS PART @@@		
-		
-//		
-//		experiments.add(new ReviewEvo19(10));
-//		experiments.add(new ReviewEvo19(50));
-//		experiments.add(new ReviewEvo19(100));
-		
-		experiments.add(new RIRestartStudy(10));
-			
-		experiments.add(new RIRestartStudy(50));
-		
-		experiments.add(new RIRestartStudy(100));
+	public DebugNewAlgorithm(int probDim) throws Exception
+	{
+		//super(probDim,"RIBudgetStudy");
+		super(probDim,5000,"Debug");
+		setNrRuns(10);
 
-		//@@@@@@
-	
-		for(Experiment experiment : experiments)
-		{
-			//experiment.setShowPValue(true);
-			experiment.startExperiment();
-			System.out.println();
-			experiment = null;
-		}
-	
+
+		Algorithm a;// ///< A generic optimiser.
+	    //Problem p;// ///< A generic problem.
 		
+	
+
+		a = new BFO();
+		//a.setID("RIcDE-10");
+		a.setParameter("p0", 100.0);
+		a.setParameter("p1", 20.0);
+		a.setParameter("p2", 25.0);
+		a.setParameter("p3", 28.0);
+		a.setParameter("p4", 24.0);
+		a.setParameter("p5", 0.25);
+		a.setParameter("p6", 0.05);
+		add(a);
 		
+	
+
+
+		Problem p;
+		
+		p = new Sphere(probDim);
+		add(p);
+		p = new Ackley(probDim); // M and NS
+		add(p);//add it to the list
+		p = new Rastigin(probDim);
+		add(p);
+
+		
+
+
+
 	}
-	
-	
-
 }

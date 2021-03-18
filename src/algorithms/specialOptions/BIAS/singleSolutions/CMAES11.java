@@ -95,7 +95,7 @@ public class CMAES11 extends AlgorithmBias
 			Az = multiply(A,z);
 			x_offspring = sum(x_parent,multiply(sigma,Az));
 
-			x_offspring = correct(x_offspring, x_parent, bounds);
+			x_offspring = correct(x_offspring, x_parent, bounds, PRGCounter);
 			f_offspring=problem.f(x_offspring);
 			i++;
 

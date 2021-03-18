@@ -55,19 +55,18 @@ import utils.algorithms.Counter;
  * @author Fabio Caraffini (fabio.caraffini@gmail.com)
  * @link www.tinyurl.com/FabioCaraffini
  * 
+ * 
  * Differential Evolution (all established variants)
  * 
  */
-
-public class DE extends AlgorithmBias
+public class DE2 extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
-	protected char crossoverStrategy = 'x';
-	protected boolean addBestDetails = false;
+	protected char crossoverStrategy = 'X';
 	
-	public DE(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
+	public DE2(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
 	
-	public DE(String mut, char xover)
+	public DE2(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
 		
@@ -75,17 +74,6 @@ public class DE extends AlgorithmBias
 			this.crossoverStrategy = xover;
 		
 		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
-	}
-	
-	public DE(String mut, char xover, boolean bestDetails)
-	{
-		this.mutationStrategy = mut;
-		
-		if(!mut.equals("ctro"))
-			this.crossoverStrategy = xover;
-		
-		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
-		this.addBestDetails = bestDetails;
 	}
 	
 	@Override
@@ -101,13 +89,7 @@ public class DE extends AlgorithmBias
 		double[][] bounds = problem.getBounds();
 		
 		if(CR==-1)
-		{
-			if(crossoverStrategy == 'b')
-				CR = alpha;
-			else
-				CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
-		}
-		
+			CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
 		
 		
 		double[][] population = new double[populationSize][problemDimension];
@@ -118,14 +100,7 @@ public class DE extends AlgorithmBias
 		
 		int i = 0;
 		
-		int period = maxEvaluations/3;
-		
-		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
-		if(this.CID) this.infeasibleDimensionCounter = new int[problemDimension];
-
-
-		
-		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
+		String FullName = getFullName("DE2"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 		createFile(FullName);
 
@@ -157,8 +132,6 @@ public class DE extends AlgorithmBias
 					FT.add(i, fBest);
 			}
 
-//			writeCID(i, 20, best,fBest);
-			writeCID(i, best,fBest);
 			
 //			line =""+ids[j]+" -1 "+"-1 "+bestID+" "+formatter(fitnesses[j])+" "+i+" -1";
 			
@@ -177,9 +150,9 @@ public class DE extends AlgorithmBias
 		double currFit = Double.NaN;
 		double crossFit = Double.NaN;
 		
-//		double[][] temp = cloneArray(population); //new double[populationSize][problemDimension];
-//		double[] temp2 = cloneArray(fitnesses); //new double[populationSize];
-//		int[] idsTemp = cloneArray(ids); //new int[populationSize];
+		double[][] temp = cloneArray(population); //new double[populationSize][problemDimension];
+		double[] temp2 = cloneArray(fitnesses); //new double[populationSize];
+		int[] idsTemp = cloneArray(ids); //new int[populationSize];
 		
 
 		// iterate
@@ -188,9 +161,9 @@ public class DE extends AlgorithmBias
 		
 			//double[][] newPop = new double[populationSize][problemDimension];
 			
-			double[][] temp = new double[populationSize][problemDimension];
-			double[] temp2 = new double[populationSize];
-			int[] idsTemp = new int[populationSize];
+//			double[][] temp = new double[populationSize][problemDimension];
+//			double[] temp2 = new double[populationSize];
+//			int[] idsTemp = new int[populationSize];
 
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -306,15 +279,15 @@ public class DE extends AlgorithmBias
 						crossPt = newPt;
 				}
 				
-				incrementViolatedDimensions(crossPt, bounds);
+		
 				
-
 				crossPt = correct(crossPt, currPt, bounds, PRNGCounter);
-				storeNumberOfCorrectedSolutions(period,i);
+				
 				
 				crossFit = problem.f(crossPt);
 				i++; 
-				
+
+
 				// replacement
 				if (crossFit < currFit)
 				{
@@ -356,27 +329,20 @@ public class DE extends AlgorithmBias
 					idsTemp[j] = ids[j];
 					temp2[j] = currFit;
 				}
-				crossPt = null; newPt = null;
-				
-//				writeCID(i, 20, best,fBest);
-				writeCID(i, best,fBest);
+				//crossPt = null; newPt = null;
 			}
 			
 			population = cloneArray(temp);
-			temp=null;
+			//temp=null;
 			fitnesses = cloneArray(temp2);
-			temp2=null;
-			ids = cloneArray(idsTemp); 
-			idsTemp=null;
+			//temp2=null;
+			ids = cloneArray(idsTemp);
+			//idsTemp=null;
 			
 		}
 		
 		closeAll();	
-		
-		String s = "";
-		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
-		
-		writeStats(FullName,  ((double)this.numberOfCorrections1/((double)period)),  ((double)this.numberOfCorrections2/((double)period*2)), (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(),s, "correctionsDE");
+		writeStats(FullName, (double) this.numberOfCorrections/maxEvaluations, PRNGCounter.getCounter(), "correctionsDE");
 		
 		finalBest = best;
 		FT.add(i, fBest);

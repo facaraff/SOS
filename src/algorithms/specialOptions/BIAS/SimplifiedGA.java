@@ -126,7 +126,7 @@ public class SimplifiedGA extends AlgorithmBias
 			
 			for(int n=0; n<problemDimension; n++)
 				xChild[n] += RandUtilsISB.gaussian(0, md*(bounds[n][1]-bounds[n][0]), PRNGCounter);
-			xChild = correct(xChild, population[parent1], bounds);
+			xChild = correct(xChild, population[parent1], bounds, PRNGCounter);
 			double fChild = problem.f(xChild);
 			i++;
 			
