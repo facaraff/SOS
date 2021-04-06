@@ -31,7 +31,8 @@ package mains.BIAS.temp;
 
 import java.util.Vector;
 
-import algorithms.specialOptions.BIAS.ISBDE.DEPoC;
+//import algorithms.specialOptions.BIAS.ISBDE.DEPoC;
+import algorithms.specialOptions.BIAS.ISBDE.DEPoCAndFinpos;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
@@ -41,7 +42,7 @@ import mains.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	
-public class MainDE_BAS extends ISBMain
+public class MainDE_BAS_last extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -53,7 +54,8 @@ public class MainDE_BAS extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
-		expSettings.setNrRepetition(600);
+//		expSettings.setNrRepetition(600);
+		expSettings.setNrRepetition(100);
 		
 
 		
@@ -83,62 +85,115 @@ public class MainDE_BAS extends ISBMain
 		
 //		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
 //		double[] CRSteps = {0.05,0.285,0.52,0.755,0.99};	
-		double[] FSteps = {0.7};
-		double[] CRSteps = {0.99};	
+
 		
 //		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 			
 		
-		for (double popSize : populationSizes)
-		{
-			for (char correction : corrections)
-			{
-				
-				for (String mutation : DEMutations)
-				{
-					for (double F : FSteps)
-					{
-						if(mutation.equals("ctro"))
-						{
-							a = new DEPoC(mutation,'x',true);
-							a.setDir("DEPOISBIAS"+slash());
-							a.setCorrection(correction);
-							a.setParameter("p0", popSize); //Population size
-							a.setParameter("p1", F); //F - scale factor
-							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-							a.setParameter("p3", Double.NaN); //Alpha
-							algorithms.add(a);	
-							a = null;
-						}
-						else
-							for(char xover : DECrossOvers)
-							{
-								for (double CR : CRSteps)
-								{
-									a = new DEPoC(mutation,xover,true);
-									a.setDir("DEPOISBIAS"+slash());
-									a.setCorrection(correction);
-									a.setParameter("p0", popSize); //Population size
-									a.setParameter("p1", F); //F - scale factor
-									a.setParameter("p2", CR); //CR - Crossover Ratio
-									a.setParameter("p3", Double.NaN); //Alpha
-									algorithms.add(a);		
-									a = null;
-								}
-							}
-			
-									
-						}
-					
-					}
-				}	
-			}
+		
+		
+
+
+		//DEbobs p=5, Cr = 0.99, F > 0.7 (also bias with p=20, p=100, but less)
+		//
+		//DEctbobs p=5, F > 0.7
+		//
+		//DEbtbs p=5, F> 0.5 (everywhere bias for this one..)
+		//
+		//DEbtes p=5 Cr=0.99, F>1.0
+		//
+		
+		
+		
+		//DEctroxs p=5 F > 0.7 (see the Median MI and minmax image, very interestintg).
+		a = new DEPoCAndFinpos("ctro",'x',true);
+		a.setDir("DEPOISBIAS"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 5.0); //Population size
+		a.setParameter("p1", 0.916); //F - scale factor
+		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+		a.setParameter("p3", Double.NaN); //Alpha
+		algorithms.add(a);	
+		a = null;
+		
+//		a = new DEPoCAndFinpos("ctro",'x',true);
+//		a.setDir("DEPOISBIAS"+slash());
+//		a.setCorrection('s');
+//		a.setParameter("p0", 5.0); //Population size
+//		a.setParameter("p1", 1.783); //F - scale factor
+//		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+//		a.setParameter("p3", Double.NaN); //Alpha
+//		algorithms.add(a);	
+//		a = null;
+//		
+		
+		
+		
+		
+		
+		//
+		//DErtbs p=5 (also 20, 100), F > 1.0, Cr > 0.3
+		//
+		//DEerbts p=100, Cr = 0.99, F > 1.0
+		//
+		//DErtes p =100, Cr = 0,99, F > 1.0
+
+		
+		
+		
+		
+//		for (double popSize : populationSizes)
+//		{
+//			for (char correction : corrections)
+//			{
+//				
+//				for (String mutation : DEMutations)
+//				{
+//					for (double F : FSteps)
+//					{
+//						if(mutation.equals("ctro"))
+//						{
+//							a = new DEPoCAndFinpos(mutation,'x',true);
+//							a.setDir("DEPOISBIAS"+slash());
+//							a.setCorrection(correction);
+//							a.setParameter("p0", popSize); //Population size
+//							a.setParameter("p1", F); //F - scale factor
+//							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+//							a.setParameter("p3", Double.NaN); //Alpha
+//							algorithms.add(a);	
+//							a = null;
+//						}
+//						else
+//							for(char xover : DECrossOvers)
+//							{
+//								for (double CR : CRSteps)
+//								{
+//									a = new DEPoCAndFinpos(mutation,xover,true);
+//									a.setDir("DEPOISBIAS"+slash());
+//									a.setCorrection(correction);
+//									a.setParameter("p0", popSize); //Population size
+//									a.setParameter("p1", F); //F - scale factor
+//									a.setParameter("p2", CR); //CR - Crossover Ratio
+//									a.setParameter("p3", Double.NaN); //Alpha
+//									algorithms.add(a);		
+//									a = null;
+//								}
+//							}
+//			
+//									
+//						}
+//					
+//					}
+//				}	
+//			}
 			
 		
 		execute(algorithms, problems, expSettings);	
 //		System.out.println("Done and dusted!");
 		}
 }
+
+
 
 
 

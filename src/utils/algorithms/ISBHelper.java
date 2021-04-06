@@ -193,7 +193,7 @@ public class ISBHelper {
 	/**
 	 * Prepare the first part of the first line relative to each newly initialised individual for the ISB (finpos) result files.
 	 * 
-	 * The notation to follow is {ID of the new fitter individual} followed by {IDs of the individuals taking pat of the newly generate one (in this case these are all -1 since this methods is used during the initialisation of the population)} followed by {the fitness value of the newly generated individual} followed by {the fitness evaluation counter} followed by {the index of the individuals which got replaced by the new fitter one (in this case this is -1 has dueing the initialisation there are no previous individuals to replace)}
+	 * The notation to follow is {ID of the new fitter individual} followed by {IDs of the individuals taking part to the generation of the newly generated one (in this case these are all -1 since this methods is used during the initialisation of the population)} followed by {the fitness value of the newly generated individual} followed by {the fitness evaluation counter} followed by {the index of the individuals which got replaced by the new fitter one (in this case this is -1 as during the initialisation there are no previous individuals to replace)}
 	 * As an example, this line for a DE\rand\1 algorithm would be implemented as line +=""+ids[j]+" -1 "+"-1 "+"-1 "+formatter(fitnesses[j])+" "+i+" -1";
 	 *
 	 * NB This method only prepare the initial part of the line which will be subsequently completed 

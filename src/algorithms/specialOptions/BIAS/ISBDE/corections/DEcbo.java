@@ -1,4 +1,4 @@
-package algorithms.specialOptions.BIAS.ISBDE;
+package algorithms.specialOptions.BIAS.ISBDE.corections;
 
 
 import utils.algorithms.operators.DEOp;

@@ -31,6 +31,8 @@ package mains.BIAS.temp;
 
 import java.util.Vector;
 
+
+
 import algorithms.specialOptions.BIAS.ISBDE.DEPoC;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
@@ -39,19 +41,22 @@ import interfaces.Problem;
 import mains.BIAS.ISBMain;
 
 
+
 import static utils.RunAndStore.slash;
 	
-public class MainDE_BAS extends ISBMain
+public class MainDE_BAS_OLD extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
 		AlgorithmBias a;
 		Problem p;
+
 		
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
+//		expSettings.setBudgetFactor(10000);
 		expSettings.setBudgetFactor(10000);
 		expSettings.setNrRepetition(600);
 		
@@ -74,20 +79,21 @@ public class MainDE_BAS extends ISBMain
 		char[] corrections = {'u'};
 
 //		String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
-		String[] DEMutations = {"ro"};
+		String[] DEMutations = {"bt"};
 		
 		char[] DECrossOvers = {'b','e'};
 		
 		double[] populationSizes = {5, 20, 100};
 		
 		
-//		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-//		double[] CRSteps = {0.05,0.285,0.52,0.755,0.99};	
-		double[] FSteps = {0.7};
-		double[] CRSteps = {0.99};	
-		
+		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+		double[] CRSteps = {0.05,0.285,0.52,0.755,0.99};	
 //		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
-			
+		
+
+		
+		
+
 		
 		for (double popSize : populationSizes)
 		{

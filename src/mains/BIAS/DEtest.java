@@ -17,9 +17,9 @@ import java.util.concurrent.Future;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
 import algorithms.specialOptions.BIAS.ISBDE.DEbo;
-import algorithms.specialOptions.BIAS.ISBDE.DEcbo;
 import algorithms.specialOptions.BIAS.ISBDE.DEro;
 import algorithms.specialOptions.BIAS.ISBDE.DErt;
+import algorithms.specialOptions.BIAS.ISBDE.corections.DEcbo;
 //import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;
