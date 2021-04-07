@@ -73,9 +73,6 @@ public class MainDE_BAS_last extends ISBMain
 		problems.add(p);
 		
 
-			
-		
-		
 		
 
 		Double F,CR;
@@ -91,15 +88,16 @@ public class MainDE_BAS_last extends ISBMain
 		
 		
 		F=0.916;
-//		a = new DEPoCAndFinpos("ctro",'x',true);
-//		a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0", 5.0); //Population size
-//		a.setParameter("p1", F); //F - scale factor
-//		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-//		a.setParameter("p3", Double.NaN); //Alpha
-//		algorithms.add(a);	
-//		a = null;
+		a = new DEPoCAndFinpos("ctro",'x',true);
+		a.setID("DEctro");
+		a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 5.0); //Population size
+		a.setParameter("p1", F); //F - scale factor
+		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+		a.setParameter("p3", Double.NaN); //Alpha
+		algorithms.add(a);	
+		a = null;
 		
 		
 		F=1.783;

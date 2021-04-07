@@ -125,14 +125,15 @@ public class DEPoCAndFinpos extends AlgorithmBias
 
 //		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize;
 		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction;
-		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize+"F"+F+"Cr"+CR,problem); 
+		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem);//"F"+F+"Cr"+CR
 		Counter PRNGCounter = new Counter(0);
 		
 		this.seed = 0;
 		setSeedWithCurrentTime();
 		
 		
-		createFile(FullName);
+//		createFile(FullName);
+		createFile(FullName+"F"+F+"Cr"+CR);
 		int[] ids = new int[populationSize]; //int prevID = -1;
 		int newID = 0;
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
