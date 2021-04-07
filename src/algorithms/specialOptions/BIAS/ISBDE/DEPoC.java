@@ -179,6 +179,8 @@ public class DEPoC extends AlgorithmBias
 			
 			double[][] temp = new double[populationSize][problemDimension];
 			double[] temp2 = new double[populationSize];
+			
+			int indexBest = MatLab.indexMin(fitnesses);
 
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -188,7 +190,7 @@ public class DEPoC extends AlgorithmBias
 				
 				
 				int r1, r2, r3, r4, r5;
-				int indexBest = MatLab.indexMin(fitnesses);
+//				int indexBest = MatLab.indexMin(fitnesses);
 				
 				int[] r_no_best, r;
 				

@@ -72,28 +72,13 @@ public class MainDE_BAS_last extends ISBMain
 		
 		problems.add(p);
 		
-//		char[] corrections = {'m', 't', 'c', 'd','s','u'};
-		char[] corrections = {'u'};
 
-//		String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
-		String[] DEMutations = {"ro"};
-		
-		char[] DECrossOvers = {'b','e'};
-		
-		double[] populationSizes = {5, 20, 100};
-		
-		
-//		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-//		double[] CRSteps = {0.05,0.285,0.52,0.755,0.99};	
-
-		
-//		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 			
 		
 		
 		
 
-
+		Double F,CR;
 		//DEbobs p=5, Cr = 0.99, F > 0.7 (also bias with p=20, p=100, but less)
 		//
 		//DEctbobs p=5, F > 0.7
@@ -105,29 +90,32 @@ public class MainDE_BAS_last extends ISBMain
 		
 		
 		
-		//DEctroxs p=5 F > 0.7 (see the Median MI and minmax image, very interestintg).
-		a = new DEPoCAndFinpos("ctro",'x',true);
-		a.setDir("DEPOISBIAS"+slash());
-		a.setCorrection('s');
-		a.setParameter("p0", 5.0); //Population size
-		a.setParameter("p1", 0.916); //F - scale factor
-		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-		a.setParameter("p3", Double.NaN); //Alpha
-		algorithms.add(a);	
-		a = null;
-		
+		F=0.916;
 //		a = new DEPoCAndFinpos("ctro",'x',true);
-//		a.setDir("DEPOISBIAS"+slash());
+//		a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
 //		a.setCorrection('s');
 //		a.setParameter("p0", 5.0); //Population size
-//		a.setParameter("p1", 1.783); //F - scale factor
+//		a.setParameter("p1", F); //F - scale factor
 //		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
 //		a.setParameter("p3", Double.NaN); //Alpha
 //		algorithms.add(a);	
 //		a = null;
-//		
 		
 		
+		F=1.783;
+		a = new DEPoCAndFinpos("ctro",'x',true);
+		a.setID("DEctro");
+		a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 5.0); //Population size
+		a.setParameter("p1", F); //F - scale factor
+		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+		a.setParameter("p3", Double.NaN); //Alpha
+		algorithms.add(a);	
+		a = null;
+	
+
+				
 		
 		
 		
@@ -138,7 +126,19 @@ public class MainDE_BAS_last extends ISBMain
 		//
 		//DErtes p =100, Cr = 0,99, F > 1.0
 
+	
 		
+		
+		
+		
+		char[] corrections = {'m', 't', 'c', 'd','s','u'};
+		String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
+		double[] populationSizes = {5, 20, 100};
+		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+		double[] CRSteps = {0.05,0.285,0.52,0.755,0.99};	
+
+		
+//		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
 		
 		

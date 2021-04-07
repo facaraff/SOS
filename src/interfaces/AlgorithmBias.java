@@ -204,7 +204,7 @@ public abstract class AlgorithmBias
 	 */
 	public void setNPC(int npc) {this.nonPositionColumns = npc;};
 	/**
-	 * Return the number of the first columns in the "finpos" ISB result files whih not used to store coordinate of a solution 
+	 * Return the number of the first columns in the "finpos" ISB result files which are not used to store coordinate of a solution 
 	 * @return npc The required number of non-position-columns
 	 */
 	public int getNPC() {return this.nonPositionColumns;};

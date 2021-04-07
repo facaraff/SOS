@@ -125,19 +125,17 @@ public class DEPoCAndFinpos extends AlgorithmBias
 
 //		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize;
 		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction;
-		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
+		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize+"F"+F+"Cr"+CR,problem); 
 		Counter PRNGCounter = new Counter(0);
 		
 		this.seed = 0;
 		setSeedWithCurrentTime();
 		
 		
-		//Dropping this ATM
 		createFile(FullName);
 		int[] ids = new int[populationSize]; //int prevID = -1;
 		int newID = 0;
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
-//		this.bw.flush();this.bw.close();	
 		
 		String line = new String();
 		
@@ -190,6 +188,8 @@ public class DEPoCAndFinpos extends AlgorithmBias
 			double[][] temp = new double[populationSize][problemDimension];
 			double[] temp2 = new double[populationSize];
 			int[] idsTemp = new int[populationSize];
+			
+			int indexBest = MatLab.indexMin(fitnesses);
 
 			for (int j = 0; j < populationSize && i < maxEvaluations; j++)
 			{
@@ -199,7 +199,7 @@ public class DEPoCAndFinpos extends AlgorithmBias
 				
 				
 				int r1, r2, r3, r4, r5;
-				int indexBest = MatLab.indexMin(fitnesses);
+//				int indexBest = MatLab.indexMin(fitnesses);
 				
 				int[] r_no_best, r;
 				
@@ -324,14 +324,14 @@ public class DEPoCAndFinpos extends AlgorithmBias
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = crossPt[n];
 
-					fitnesses[j] = crossFit;
+					//fitnesses[j] = crossFit;
 					
 					temp2[j] = crossFit;
 					idsTemp[j] = newID;
 					
-					line =""+newID+" "+s+" "+formatter(fitnesses[j])+" "+i+" "+ids[j];
+					line =""+newID+" "+s+" "+formatter(temp2[j])+" "+i+" "+ids[j];
 					for(int n = 0; n < problemDimension; n++)
-						line+=" "+formatter(population[j][n]);
+						line+=" "+formatter(temp[j][n]);
 					line+="\n";
 					bw.write(line);
 					line = null;
