@@ -430,7 +430,7 @@ public abstract class AlgorithmBias
 	 *
 	 *@param x A solution
 	 *@param line A line previously filled with other details according to the pre-defined ISB notation
-	 *@return A complete line, including the coordinates of the solution at hand, ready to be writte into a text file 
+	 *@return A complete line, including the coordinates of the solution at hand, ready to be write into a text file 
 	 */
 	protected String getCompleteLine(double[] x, String line) {return ISBHelper.addCoordinatesToEOL(x, line, this.DF);}
 
