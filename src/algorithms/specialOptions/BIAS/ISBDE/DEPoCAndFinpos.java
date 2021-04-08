@@ -107,7 +107,6 @@ public class DEPoCAndFinpos extends AlgorithmBias
 			else
 				CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
 		}
-		
 			
 
 		

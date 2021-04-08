@@ -73,117 +73,206 @@ public class MainDE_BAS_last extends ISBMain
 		problems.add(p);
 		
 
-		
-
-		Double F,CR;
-		//DEbobs p=5, Cr = 0.99, F > 0.7 (also bias with p=20, p=100, but less)
-		//
-		//DEctbobs p=5, F > 0.7
-		//
-		//DEbtbs p=5, F> 0.5 (everywhere bias for this one..)
-		//
-		//DEbtes p=5 Cr=0.99, F>1.0
-		//
-		
-		
-		
-		F=0.916;
-		a = new DEPoCAndFinpos("ctro",'x',true);
-		a.setID("DEctro");
-		a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
-		a.setCorrection('s');
-		a.setParameter("p0", 5.0); //Population size
-		a.setParameter("p1", F); //F - scale factor
-		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-		a.setParameter("p3", Double.NaN); //Alpha
-		algorithms.add(a);	
-		a = null;
-		
-		
-		F=1.783;
-		a = new DEPoCAndFinpos("ctro",'x',true);
-		a.setID("DEctro");
-		a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
-		a.setCorrection('s');
-		a.setParameter("p0", 5.0); //Population size
-		a.setParameter("p1", F); //F - scale factor
-		a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-		a.setParameter("p3", Double.NaN); //Alpha
-		algorithms.add(a);	
-		a = null;
 	
-
-				
-		
-		
-		
-		//
-		//DErtbs p=5 (also 20, 100), F > 1.0, Cr > 0.3
-		//
-		//DEerbts p=100, Cr = 0.99, F > 1.0
-		//
-		//DErtes p =100, Cr = 0,99, F > 1.0
 
 	
 		
+	
+		double[] populationSizes = {5, 20, 100};
+		double[] FSteps  = {0.916, 1.783};
+
+		for (double F : FSteps) 
+		{
+			a = new DEPoCAndFinpos("ctro",'x',true);
+			a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+			a.setCorrection('s');
+			a.setParameter("p0", 5.0); //Population size
+			a.setParameter("p1", F); //F - scale factor
+			a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+			a.setParameter("p3", Double.NaN); //Alpha
+			algorithms.add(a);	
+			a = null;
+			
+			a = new DEPoCAndFinpos("bt",'e',true);
+			a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+			a.setCorrection('s');
+			a.setParameter("p0", 5.0); //Population size
+			a.setParameter("p1", F); //F - scale factor
+			a.setParameter("p2", 0.99); //CR - Crossover Ratio
+			a.setParameter("p3", Double.NaN); //Alpha
+			algorithms.add(a);	
+			a = null;
+			
+			
+			
+			a = new DEPoCAndFinpos("ctbo",'b',true);
+			a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+			a.setCorrection('s');
+			a.setParameter("p0", 5.0); //Population size
+			a.setParameter("p1", F); //F - scale factor
+			a.setParameter("p2", 0.52); //CR - Crossover Ratio
+			a.setParameter("p3", Double.NaN); //Alpha
+			algorithms.add(a);		
+			a = null;
+			//
+			a = new DEPoCAndFinpos("ctbo",'b',true);
+			a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+			a.setCorrection('s');
+			a.setParameter("p0", 5.0); //Population size
+			a.setParameter("p1", F); //F - scale factor
+			a.setParameter("p2", 0.99); //CR - Crossover Ratio
+			a.setParameter("p3", Double.NaN); //Alpha
+			algorithms.add(a);		
+			a = null;
+			
+			
+			
+			for (double popSize : populationSizes)
+			{
+				a = new DEPoCAndFinpos("bo",'b',true);
+				a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+				a.setCorrection('s');
+				a.setParameter("p0", popSize); //Population size
+				a.setParameter("p1", F); //F - scale factor
+				a.setParameter("p2", 0.99); //CR - Crossover Ratio
+				a.setParameter("p3", Double.NaN); //Alpha
+				algorithms.add(a);		
+				a = null;
+			}
+		}
+			
 		
 		
 		
+		FSteps = new double[] {1.133, 1.783};
+		for (double F : FSteps) 
+		{
+			a = new DEPoCAndFinpos("rt",'e',true);
+			a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+			a.setCorrection('s');
+			a.setParameter("p0", 100.0); //Population size
+			a.setParameter("p1", F); //F - scale factor
+			a.setParameter("p2", 0.99); //CR - Crossover Ratio
+			a.setParameter("p3", Double.NaN); //Alpha
+			algorithms.add(a);		
+			a = null;
+		}
+		
+		
+
+		
+		a = new DEPoCAndFinpos("bo",'e',true);
+		a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 5.0); //Population size
+		a.setParameter("p1", 2.0); //F - scale factor
+		a.setParameter("p2", 0.99); //CR - Crossover Ratio
+		a.setParameter("p3", Double.NaN); //Alpha
+		algorithms.add(a);		
+		a = null;
+		
+		
+		
+		double[] CRSteps = new double[]{0.52, 0.99};	
+		
+
+		
+		for (double popSize : populationSizes)
+		{
+			for (double F : FSteps)
+			{
+				for (double CR : CRSteps)
+				{
+					a = new DEPoCAndFinpos("rt",'b',true);
+					a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+					a.setCorrection('s');
+					a.setParameter("p0", popSize); //Population size
+					a.setParameter("p1", F); //F - scale factor
+					a.setParameter("p2", CR); //CR - Crossover Ratio
+					a.setParameter("p3", Double.NaN); //Alpha
+					algorithms.add(a);		
+					a = null;
+				}
+			}
+		}
+			
+			
+	//DEbtbs p=5, F> 0.5 (everywhere bias for this one..)
+		
+		FSteps = new double[] {0.7, 1.783};
+		
+		for (double F : FSteps)
+		{
+			for (double CR : CRSteps)
+			{
+				a = new DEPoCAndFinpos("bt",'b',true);
+				a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+				a.setCorrection('s');
+				a.setParameter("p0", 5.0); //Population size
+				a.setParameter("p1", F); //F - scale factor
+				a.setParameter("p2", CR); //CR - Crossover Ratio
+				a.setParameter("p3", Double.NaN); //Alpha
+				algorithms.add(a);		
+				a = null;
+			}
+		}
+					
 		char[] corrections = {'m', 't', 'c', 'd','s','u'};
 		String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
-		double[] populationSizes = {5, 20, 100};
-		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-		double[] CRSteps = {0.05,0.285,0.52,0.755,0.99};	
+		char[] DECrossOvers = {'b','e'};
+//		double[] populationSizes = {5, 20, 100};
+		FSteps = new double[]{0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
 
 		
 //		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
 		
 		
-//		for (double popSize : populationSizes)
-//		{
-//			for (char correction : corrections)
-//			{
-//				
-//				for (String mutation : DEMutations)
-//				{
-//					for (double F : FSteps)
-//					{
-//						if(mutation.equals("ctro"))
-//						{
-//							a = new DEPoCAndFinpos(mutation,'x',true);
-//							a.setDir("DEPOISBIAS"+slash());
-//							a.setCorrection(correction);
-//							a.setParameter("p0", popSize); //Population size
-//							a.setParameter("p1", F); //F - scale factor
-//							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
-//							a.setParameter("p3", Double.NaN); //Alpha
-//							algorithms.add(a);	
-//							a = null;
-//						}
-//						else
-//							for(char xover : DECrossOvers)
-//							{
-//								for (double CR : CRSteps)
-//								{
-//									a = new DEPoCAndFinpos(mutation,xover,true);
-//									a.setDir("DEPOISBIAS"+slash());
-//									a.setCorrection(correction);
-//									a.setParameter("p0", popSize); //Population size
-//									a.setParameter("p1", F); //F - scale factor
-//									a.setParameter("p2", CR); //CR - Crossover Ratio
-//									a.setParameter("p3", Double.NaN); //Alpha
-//									algorithms.add(a);		
-//									a = null;
-//								}
-//							}
-//			
-//									
-//						}
-//					
-//					}
-//				}	
-//			}
+		for (double popSize : populationSizes)
+		{
+			for (char correction : corrections)
+			{
+				
+				for (String mutation : DEMutations)
+				{
+					for (double F : FSteps)
+					{
+						if(mutation.equals("ctro"))
+						{
+							a = new DEPoCAndFinpos(mutation,'x',true);
+							a.setDir("DEPOISBIAS"+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", popSize); //Population size
+							a.setParameter("p1", F); //F - scale factor
+							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+							a.setParameter("p3", Double.NaN); //Alpha
+							algorithms.add(a);	
+							a = null;
+						}
+						else
+							for(char xover : DECrossOvers)
+							{
+								for (double CR : CRSteps)
+								{
+									a = new DEPoCAndFinpos(mutation,xover,true);
+									a.setDir("DEPOISBIAS"+slash());
+									a.setCorrection(correction);
+									a.setParameter("p0", popSize); //Population size
+									a.setParameter("p1", F); //F - scale factor
+									a.setParameter("p2", CR); //CR - Crossover Ratio
+									a.setParameter("p3", Double.NaN); //Alpha
+									algorithms.add(a);		
+									a = null;
+								}
+							}
+			
+									
+						}
+					
+					}
+				}	
+			}
 			
 		
 		execute(algorithms, problems, expSettings);	
