@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2021, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,7 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS.temp;
+package mains.BIAS;
 
 
 import java.util.Vector;
@@ -37,12 +37,10 @@ import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-import mains.BIAS.ISBMain;
-
 
 import static utils.RunAndStore.slash;
 	
-public class MainDE_BAS_last extends ISBMain
+public class EmergenceOfBiasInDE extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -71,11 +69,6 @@ public class MainDE_BAS_last extends ISBMain
 		p.setFID("f0");
 		
 		problems.add(p);
-		
-
-	
-
-	
 		
 	
 		double[] populationSizes = {5, 20, 100};

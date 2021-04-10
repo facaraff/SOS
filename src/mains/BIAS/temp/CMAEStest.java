@@ -1,4 +1,32 @@
-package mains.BIAS;
+/**
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer. 
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution. 
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those
+of the authors and should not be interpreted as representing official policies, 
+either expressed or implied, of the FreeBSD Project.
+*/
+package mains.BIAS.temp;
 
 //import java.io.BufferedWriter;
 //import java.io.File;
@@ -13,26 +41,24 @@ import java.util.concurrent.Future;
 
 	
 
-
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
+	
 
-import algorithms.specialOptions.BIAS.ISBDE.DEbo;
-import algorithms.specialOptions.BIAS.ISBDE.DEro;
-import algorithms.specialOptions.BIAS.ISBDE.DErt;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DEcbo;
 //import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;
+import algorithms.specialOptions.BIAS.CMAES;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;
+
 	
-public class DEtest
+public class CMAEStest
 {
 	// number of repetitions and budget factor
 	static int nrRepetitions = 50;
-	static int budgetFactor = 10000;
-	static int problemDimension = 30;
+	static int budgetFactor = 1000;//10000;
+	static int problemDimension = 100;//30;
 	
 	static boolean debug = false;
 	static boolean showPValue = false;
@@ -48,80 +74,50 @@ public class DEtest
 		Problem p;
 		
 		double[] bias = null;
-		a = new DEro();
+//		a = new CMAESkono('t');
+//		a.setParameter("p0",5.0);
+//		algorithms.add(a);
+//		
+//		a = new CMAESkono('t');
+//		a.setParameter("p0",20.0);
+//		algorithms.add(a);
+//		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
+//
+//		a = new CMAESkono('t');
+//		a.setParameter("p0",100.0);
+//		//a.setParameter("p1",0.01);
+//		//a.setParameter("p2",0.25);
+//		algorithms.add(a);
+		
+		a = new CMAES('s');
 		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
 		algorithms.add(a);
 		
-		a = new DEro();
+		a = new CMAES('s');
 		a.setParameter("p0",20.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
 		algorithms.add(a);
+		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
 
-		a = new DEro();
+		a = new CMAES('s');
 		a.setParameter("p0",100.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
+		//a.setParameter("p1",0.01);
+		//a.setParameter("p2",0.25);
 		algorithms.add(a);
-
-		a = new DErt();
+		
+		a = new CMAES('d');
 		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
 		algorithms.add(a);
-
-		a = new DErt();
+		
+		a = new CMAES('d');
 		a.setParameter("p0",20.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
 		algorithms.add(a);
+		//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
 
-		a = new DErt();
+		a = new CMAES('d');
 		a.setParameter("p0",100.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
+		//a.setParameter("p1",0.01);
+		//a.setParameter("p2",0.25);
 		algorithms.add(a);
-
-		
-		a = new DEbo();
-		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
-		algorithms.add(a);
-		
-		a = new DEbo();
-		a.setParameter("p0",20.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
-		algorithms.add(a);
-
-		a = new DEbo();
-		a.setParameter("p0",100.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
-		algorithms.add(a);
-		
-		a = new DEcbo();
-		a.setParameter("p0",5.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
-		algorithms.add(a);
-		
-		a = new DEcbo();
-		a.setParameter("p0",20.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
-		algorithms.add(a);
-
-		a = new DEcbo();
-		a.setParameter("p0",100.0);
-		a.setParameter("p1",0.1);
-		a.setParameter("p2",0.2);
-		algorithms.add(a);
-		
-
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)
@@ -172,6 +168,8 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 					{
 						for (int i = 0; i < nrRepetitions; i++)
 						{
+							//CMAESkono pippo = (CMAESkono)algorithm;
+							//pippo.setRun(i); pippo =null;
 							algorithm.setRun(i);
 							
 							if (multiThread)
@@ -232,7 +230,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 
 				public double f(double[] x)
 				{ 
-					//return Math.random();		
+//					return Math.random();		
 					return RandUtils.random();
 				}
 			}
@@ -276,10 +274,8 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 
 			private static double runAlgorithmRepetition(AlgorithmBias algorithm, Problem problem) throws Exception
 			{
-
 				FTrend FT = algorithm.execute(problem, budgetFactor*problem.getDimension());
 
-				
 				return FT.getLastF();
 			
 			
