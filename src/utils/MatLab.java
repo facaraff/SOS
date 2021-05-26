@@ -199,7 +199,7 @@ public class MatLab
 	}
 	
 	/** 
-	 * Multiplication between a sclar and a vector.
+	 * Multiplication between a scalar and a vector.
 	 * @param scalar scalar value.
 	 * @param vector n-dimensional array (row/column matrix).
 	 */
@@ -982,6 +982,27 @@ public class MatLab
 //	}
 	
 
+	/**
+	 * Cosine Similarity between two vectors.
+	 * @param x input vector array of real numbers in double precision. 
+	 * @param y input vector array of real numbers in double precision. 
+	 * @return the cosine similarity value in double precision.
+	**/
+	public static double cosineSimilarity(double[] x, double[] y)
+	{
+		double cs = 666;
+		
+		try 
+		{
+			cs = (multiply(x,y)/(norm2(x)*norm2(y)));
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		return cs;
+	}
 	
 	
 	/**
