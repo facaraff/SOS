@@ -63,15 +63,15 @@ import utils.algorithms.Counter;
  * 
  */
 
-public class DEPoCAndCS extends AlgorithmBias
+public class DEPoCAndCSDEBUG extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'x';
 	protected boolean addBestDetails = true;
 	
-	public DEPoCAndCS(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
+	public DEPoCAndCSDEBUG(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
 	
-	public DEPoCAndCS(String mut, char xover)
+	public DEPoCAndCSDEBUG(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
 		
@@ -81,7 +81,7 @@ public class DEPoCAndCS extends AlgorithmBias
 		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
 	}
 	
-	public DEPoCAndCS(String mut, char xover, boolean bestDetails)
+	public DEPoCAndCSDEBUG(String mut, char xover, boolean bestDetails)
 	{
 		this.mutationStrategy = mut;
 		
@@ -170,7 +170,7 @@ public class DEPoCAndCS extends AlgorithmBias
 		
 		
 		
-		createFile(FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
+		createFile(FullName+"_F"+F+"Cr"+CR);
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
 		
 //		String CSValue = "CosineSimilarity "+getHeader();
@@ -186,7 +186,6 @@ public class DEPoCAndCS extends AlgorithmBias
 			double[] temp2 = new double[populationSize];
 			
 			String CSValue = new String();
-			CSValue+="";
 			
 			double [] targetToTrial  = new double[problemDimension];
 			double [] targetToCTrial  = new double[problemDimension];
@@ -308,19 +307,41 @@ public class DEPoCAndCS extends AlgorithmBias
 				
 				targetToTrial = MatLab.subtract(BF,population[j]);
 				
-				targetToCTrial = MatLab.subtract(crossPt,population[j]); 
+//				System.out.println("uguali? "+Arrays.equals(crossPt, newPt));
+//				if(MatLab.sum(targetToTrial)==0.0)
+//					{
+//					System.out.println("Zero!"+targetToTrial[0]+" "+population[j][0]+" "+currPt[0]+" "+crossPt[0]+" "+newPt[0]+"uguali? "+Arrays.equals(currPt, newPt)+" "+MatLab.cosineSimilarity(targetToTrial, targetToCTrial));
+//
+//					}
+				targetToCTrial = MatLab.subtract(crossPt,population[j]); //if(MatLab.sum(targetToCTrial)==0.0) System.out.println("CZero!");
+				//double cs = MatLab.cosineSimilarity(targetToTrial, targetToCTrial);
 				
-
+//				System.out.println(cs);
+//				CSValues+=cs;
 				CSValue+=MatLab.cosineSimilarity(targetToTrial, targetToCTrial);
+//				System.out.println(CSValues);
 
-							
-				if(Arrays.equals(crossPt, BF))
-					CSValue+=" 0";
-				else
-					CSValue+=" 1";
 				
 				
 			
+//					
+				if(Arrays.equals(crossPt, BF))
+				{
+					CSValue+=" 0"+(MatLab.sum(targetToTrial)==0.0)+(MatLab.sum(targetToCTrial)==0.0)+" "+Arrays.equals(crossPt, newPt);
+					if(MatLab.cosineSimilarity(targetToTrial, targetToCTrial)<1.0)
+						System.out.println("this is not unitaty "+MatLab.sum(targetToTrial)+" "+MatLab.sum(targetToCTrial));
+					
+				}
+				else
+				{
+					CSValue+=" 1"+(MatLab.sum(targetToTrial)==0.0)+(MatLab.sum(targetToCTrial)==0.0)+" "+Arrays.equals(crossPt, newPt);
+					if(MatLab.cosineSimilarity(targetToTrial, targetToCTrial)>1.0)
+						System.out.println(MatLab.sum(targetToTrial)+" "+MatLab.sum(targetToCTrial));
+				}
+				CSValue+="\n";
+				bw.write(CSValue);
+				
+				CSValue = new String();
 				BF= null;
 				targetToTrial = null;
 				targetToCTrial = null;
@@ -343,9 +364,7 @@ public class DEPoCAndCS extends AlgorithmBias
 					temp2[j] = crossFit;
 				
 					
-				
-					CSValue+=" 1";
-				
+					
 					
 					// best update
 					if (crossFit < fBest)
@@ -364,15 +383,10 @@ public class DEPoCAndCS extends AlgorithmBias
 						//newPop[j][n] = currPt[n];
 					fitnesses[j] = currFit;
 					
-					CSValue+=" 0";
-					
+				
 					temp2[j] = currFit;
 				}
 				crossPt = null; newPt = null;
-				
-				CSValue+="\n";
-				
-				bw.write(CSValue);
 			}
 			
 			population = cloneArray(temp);
@@ -381,10 +395,9 @@ public class DEPoCAndCS extends AlgorithmBias
 			temp2=null;
 			
 			
-			
 		}
 		
-		bw.close();
+
 		
 		String s = "";
 		if(addBestDetails) s = positionAndFitnessToString(best, fBest);

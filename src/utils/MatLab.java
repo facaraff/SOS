@@ -992,15 +992,14 @@ public class MatLab
 	{
 		double cs = 666;
 		
-		try 
-		{
-			cs = (multiply(x,y)/(norm2(x)*norm2(y)));
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		
+		if(!isZeros(x) && !isZeros(y))
+			if(Arrays.equals(x, y))
+				cs = 1;
+			else
+				cs = (multiply(x,y)/(norm2(x)*norm2(y)));
+		else
+			cs = Double.NaN;
+
 		return cs;
 	}
 	

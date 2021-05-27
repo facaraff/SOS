@@ -79,18 +79,17 @@ public class DECosineSimilairity extends ISBMain
 	
 
 					
-		char[] corrections = {'m', 't', 'c', 'd','s','u'};
+		char[] corrections = {'m', 't','c','s','u'}; // 'd',
 		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
 		char[] DECrossOvers = {'b','e'};
 		populationSizes = new double[]{5, 20, 100};
-		FSteps = new double[]{0.05};
-		CRSteps = new double[]{0.05};	
+		FSteps = new double[]{0.05, 0.916};
+		CRSteps = new double[]{0.05,0.99};	
 //		FSteps = new double[]{0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
 //		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
 
 
-		
-		
+	
 		
 		for (double popSize : populationSizes)
 		{
@@ -107,6 +106,7 @@ public class DECosineSimilairity extends ISBMain
 								{
 //									a = new DEPoCAndFinpos(mutation,xover,true);
 									a = new DEPoCAndCS(mutation,xover,false);
+									a.setID("DE");
 									a.setDir("CosineSimilarity"+slash()+a.getNPC()+slash());
 									a.setCorrection(correction);
 									a.setParameter("p0", popSize); //Population size
