@@ -84,7 +84,7 @@ public class DECosineSimilairity extends ISBMain
 		char[] DECrossOvers = {'b','e'};
 		populationSizes = new double[]{5, 20, 100};
 		FSteps = new double[]{0.05, 0.916};
-		CRSteps = new double[]{0.05,0.99};	
+		CRSteps = new double[]{0.05, 0.99};	
 //		FSteps = new double[]{0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
 //		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
 
