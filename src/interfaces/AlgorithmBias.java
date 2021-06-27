@@ -382,7 +382,7 @@ public abstract class AlgorithmBias
 	
 	
 	
-	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID()+"-"+(this.run+1);}; 
+	protected String getFullName(String name, Problem problem) {return name+"D"+problem.getDimension()+problem.getFID().replace(".","")+"-"+(this.run+1);}; 
 	
 	
 	protected void createFile(String fullName) throws Exception
@@ -412,14 +412,14 @@ public abstract class AlgorithmBias
 	protected void writeHeader(String parameters, Problem problem) throws Exception
 	{  
 		this.seed = System.currentTimeMillis();
-		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID().replace(".","")+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
 		bw.write(line);
 		
 		if(CID)
 		{
 			this.seed = System.currentTimeMillis();
 			line = null;
-			line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID()+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+			line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID().replace(".","")+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
 			bwCID.write(line);
 			//bwCID.flush();
 		}

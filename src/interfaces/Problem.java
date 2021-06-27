@@ -119,7 +119,7 @@ public abstract class Problem
 		}
 	}
 	/**
-	 * This method returns the function ID, in case the problem is from bechmark test suite.
+	 * This method returns the function ID, in case the problem is from a benchmark test suite.
 	 * @return a string containing the function name/ID;
 	 */
 	public String getFID(){return this.FID;}
