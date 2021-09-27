@@ -417,7 +417,7 @@ public abstract class Experiment
 	
 	
 	/**
-	 * These methods start Multi-Thread experiments.
+	 * These methods starta  Single-Thread experiments.
 	 * @throws Exception This method must be able to handle potential exceptions.
 	 */
 	

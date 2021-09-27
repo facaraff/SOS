@@ -41,6 +41,8 @@ import static utils.RunAndStore.slash;
 	
 public class DECosineSimilairity extends ISBMain
 {	
+
+	
 	public static void main(String[] args) throws Exception
 	{	
 		AlgorithmBias a;
@@ -49,12 +51,11 @@ public class DECosineSimilairity extends ISBMain
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
+
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
+		expSettings.setProblemDimension(30);
 		expSettings.setNrRepetition(5);
-
-		
-
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -74,10 +75,6 @@ public class DECosineSimilairity extends ISBMain
 		double[] FSteps;
 		double[] CRSteps;
 
-		
-
-	
-
 					
 		char[] corrections = {'m', 't','c','s','u'}; // 'd',
 		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
@@ -94,8 +91,7 @@ public class DECosineSimilairity extends ISBMain
 		for (double popSize : populationSizes)
 		{
 			for (char correction : corrections)
-			{
-				
+			{		
 				for (String mutation : DEMutations)
 				{
 					for (double F : FSteps)

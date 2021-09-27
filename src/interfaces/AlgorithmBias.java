@@ -398,6 +398,21 @@ public abstract class AlgorithmBias
 		if(CID) createViolationFile(fullName);
 	}
 	
+	protected BufferedWriter createFileBW(String fullName) throws Exception
+	{
+		createFolder(Dir);
+		
+		file = new File(Dir+fullName+".txt");
+		if (!file.exists()) 
+			file.createNewFile();
+		fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter BW = new BufferedWriter(fw);
+	
+		if(CID) createViolationFile(fullName);
+		
+		return BW;
+	}
+	
 	protected void createViolationFile(String fullName) throws Exception
 	{
 		createFolder(Dir+"violations");
@@ -414,6 +429,21 @@ public abstract class AlgorithmBias
 		this.seed = System.currentTimeMillis();
 		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID().replace(".","")+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
 		bw.write(line);
+		
+		if(CID)
+		{
+			this.seed = System.currentTimeMillis();
+			line = null;
+			line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID().replace(".","")+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+			bwCID.write(line);
+			//bwCID.flush();
+		}
+	}
+	protected void writeHeader(String parameters, Problem problem, BufferedWriter BW) throws Exception
+	{  
+		this.seed = System.currentTimeMillis();
+		String line = this.header+"date "+now().toString()+" seed "+this.seed+" problem "+minMaxProb+" function "+problem.getFID().replace(".","")+" D"+problem.getDimension()+" algorithm "+this.ID+" parameters "+parameters+"\n";
+		BW.write(line);
 		
 		if(CID)
 		{
@@ -478,7 +508,7 @@ public abstract class AlgorithmBias
 	}
 	
 	/**
-	 * Writer the current status of violated dimensions to a line of the corresponding violation file. 
+	 * Write the current status of violated dimensions to a line of the corresponding violation file. 
 	 * @param i The current value of the fitness evaluations counter.
 	 * @param period The desired period, in terms of fitness functional calls, every which a new line is added to the violation file.
 	 * @param x The solution (i.e. this is meant to be the best solution) whose coordinates need to be written in the line of the violation file. 

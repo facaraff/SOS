@@ -19,7 +19,7 @@ public abstract class ISBMain {
 
 	protected static double runAlgorithmRepetition(AlgorithmBias algorithm, Problem problem, ExperimentHelper expSettings) throws Exception
 	{
-		FTrend FT = algorithm.execute(problem, expSettings.getBudgetFactor()*problem.getDimension());
+		FTrend FT = algorithm.execute(problem, (expSettings.getBudgetFactor()*problem.getDimension()));
 
 		return FT.getLastF();
 	}

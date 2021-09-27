@@ -40,7 +40,6 @@ import static utils.algorithms.operators.ISBOp.best1;
 import static utils.algorithms.operators.ISBOp.best2;
 import static utils.algorithms.operators.ISBOp.randToBest2;
 
-
 import java.util.Arrays;
 
 import static utils.algorithms.operators.ISBOp.crossOverExp;
@@ -92,6 +91,7 @@ public class DEPoCAndCS extends AlgorithmBias
 		this.addBestDetails = bestDetails;
 	}
 	
+	
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception
 	{
@@ -112,9 +112,6 @@ public class DEPoCAndCS extends AlgorithmBias
 				CR = 1.0/Math.pow(2.0,1.0/(problemDimension*alpha));
 		}
 		
-			
-
-		
 		
 		double[][] population = new double[populationSize][problemDimension];
 		double[] fitnesses = new double[populationSize];
@@ -127,9 +124,8 @@ public class DEPoCAndCS extends AlgorithmBias
 		int period = maxEvaluations/3;
 		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
 
-//		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize;
 		String pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction;
-//		String cspois = "CS-"+pois;
+
 		String FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		Counter PRNGCounter = new Counter(0);
 		
@@ -171,22 +167,21 @@ public class DEPoCAndCS extends AlgorithmBias
 		
 		
 		createFile(FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
-		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
-		
-//		String CSValue = "CosineSimilarity "+getHeader();
-//		
 
+
+		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
+
+
+		String CSValue = new String();
+		CSValue+="";
+		
 		// iterate
 		while (i < maxEvaluations)
 		{
-		
-			//double[][] newPop = new double[populationSize][problemDimension];
 			
 			double[][] temp = new double[populationSize][problemDimension];
 			double[] temp2 = new double[populationSize];
 			
-			String CSValue = new String();
-			CSValue+="";
 			
 			double [] targetToTrial  = new double[problemDimension];
 			double [] targetToCTrial  = new double[problemDimension];
@@ -201,7 +196,6 @@ public class DEPoCAndCS extends AlgorithmBias
 				
 				
 				int r1, r2, r3, r4, r5;
-//				int indexBest = MatLab.indexMin(fitnesses);
 				
 				int[] r_no_best, r;
 				
@@ -361,7 +355,6 @@ public class DEPoCAndCS extends AlgorithmBias
 				{
 					for (int n = 0; n < problemDimension; n++)
 						temp[j][n] = currPt[n];
-						//newPop[j][n] = currPt[n];
 					fitnesses[j] = currFit;
 					
 					CSValue+=" 0";
@@ -372,19 +365,25 @@ public class DEPoCAndCS extends AlgorithmBias
 				
 				CSValue+="\n";
 				
+				
+				
 				bw.write(CSValue);
+				CSValue=null;
+				CSValue = new String();
+				CSValue="";
+				
 			}
 			
 			population = cloneArray(temp);
 			temp=null;
 			fitnesses = cloneArray(temp2);
 			temp2=null;
-			
-			
-			
+				
 		}
 		
-		bw.close();
+
+		bw.flush();bw.close();
+		
 		
 		String s = "";
 		if(addBestDetails) s = positionAndFitnessToString(best, fBest);

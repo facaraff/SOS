@@ -37,7 +37,8 @@ public class ExperimentHelper
 	protected int problemDimension;
 	
 	public ExperimentHelper() {this.nrRepetitions = 50; this.budgetFactor = 10000; this.problemDimension = 30;}
-
+	public ExperimentHelper(int nrRepetitions, int budgetFactor, int problemDimension) {this.nrRepetitions = nrRepetitions; this.budgetFactor = 10000; this.problemDimension = 30;}
+	
 	public void setNrRepetition(int nrRepetitions) {this.nrRepetitions=nrRepetitions;}; 
 	public void setBudgetFactor(int budgetFactor) {this.budgetFactor=budgetFactor;}; 
 	public void setProblemDimension(int problemDimension) {this.problemDimension=problemDimension;}; 
