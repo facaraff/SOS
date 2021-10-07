@@ -52,6 +52,7 @@ import static utils.algorithms.Misc.cloneSolution;
 import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.toro;
+import static utils.algorithms.Corrections.ComponentWiseProjectionToMidpoint;
 import static utils.algorithms.operators.ISBOp.completeOneTailedNormal;
 import static utils.algorithms.operators.ISBOp.uniform;
 import  utils.algorithms.ISBHelper;
@@ -590,12 +591,20 @@ public abstract class AlgorithmBias
 			output = uniform(infeasiblePt, bounds, PRNG);
 			feasible = cloneSolution(output);
 		}
+		else if(this.correction== 'j')
+		{
+			// Component-wise variant of the repair method Projection to Midpoint
+			output = ComponentWiseProjectionToMidpoint(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
 		else
 		{
 			output = null;
 			feasible = null;
 			System.out.println("No valid bounds handling scheme selected");
 		}
+		
+		
 		
 	
 		if(!Arrays.equals(output, infeasiblePt))

@@ -55,7 +55,7 @@ public class DECosineSimilairity extends ISBMain
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
 		expSettings.setProblemDimension(30);
-		expSettings.setNrRepetition(5);
+		expSettings.setNrRepetition(30);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -76,12 +76,20 @@ public class DECosineSimilairity extends ISBMain
 		double[] CRSteps;
 
 					
-		char[] corrections = {'m', 't','c','s','u'}; // 'd',
+		char[] corrections = {'j','m', 't','c','s','u'}; // 'd',
 		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
 		char[] DECrossOvers = {'b','e'};
 		populationSizes = new double[]{5, 20, 100};
-		FSteps = new double[]{0.05, 0.916};
-		CRSteps = new double[]{0.05, 0.99};	
+
+		FSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+		
+//settings for the first experimentation phase		
+//		FSteps = new double[]{0.05, 0.916};
+//		CRSteps = new double[]{0.05, 0.99};	
+
+		
+//setting used for DEOTB		
 //		FSteps = new double[]{0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
 //		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
 

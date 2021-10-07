@@ -295,6 +295,27 @@ public class Corrections
 	}
 	
 	
+	/**
+	 * (Component-wise) Projection to midpoint -- unlike te original repair method in https://doi.org/10.1016/j.swevo.2018.10.004 it only project infeasible components inside the domain (Note that alpha is randomly selected in this implementation). 
+	 * 
+	 * @param x solution to be corrected.
+	 * @param bounds search space boundaries.
+	 * @return x_projected corrected solution.
+	 */
+	public static double[] ComponentWiseProjectionToMidpoint(double[] x, double[][] bounds)
+	{
+		double alpha = RandUtils.random();
+		double[] x_projected = new double[x.length];
+		for(int i=0; i<x.length; i++)
+		{
+			if(x[i]>bounds[i][1] || x[i]<bounds[i][0])
+				x_projected[i] = ((1-alpha)*(bounds[i][0] + bounds[i][1])/2 + alpha*x[i]);
+			else
+				x_projected[i] = x[i];
+		}		
+		return x_projected;
+	}
+	
 	
 	
 
@@ -365,6 +386,10 @@ public class Corrections
 			case 'u':
 				// re-sampling with uniform distribution
 				x_c =uniform(x, bounds);
+				break;
+			case 'j':
+				// Component-wise variant of the repair method Projection to Midpoint
+				x_c =ComponentWiseProjectionToMidpoint(x, bounds);
 				break;
 			default:
 				System.out.println("No valid bounds handling scheme selected");
