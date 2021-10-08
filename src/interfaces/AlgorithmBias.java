@@ -53,6 +53,7 @@ import static utils.algorithms.Corrections.mirroring;
 import static utils.algorithms.Corrections.saturation;
 import static utils.algorithms.Corrections.toro;
 import static utils.algorithms.Corrections.ComponentWiseProjectionToMidpoint;
+import static utils.algorithms.Corrections.halfwayToViolatedBound;
 import static utils.algorithms.operators.ISBOp.completeOneTailedNormal;
 import static utils.algorithms.operators.ISBOp.uniform;
 import  utils.algorithms.ISBHelper;
@@ -595,6 +596,11 @@ public abstract class AlgorithmBias
 		{
 			// Component-wise variant of the repair method Projection to Midpoint
 			output = ComponentWiseProjectionToMidpoint(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.correction== 'h')
+		{
+			output = halfwayToViolatedBound(infeasiblePt, previousFeasiblePt, bounds);
 			feasible = cloneSolution(output);
 		}
 		else

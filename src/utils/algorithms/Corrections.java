@@ -317,6 +317,30 @@ public class Corrections
 	}
 	
 	
+	/**
+	 * halfway to violated bound -- if a component is infeasible, it is moved back in the domain half way between the indicated/passed point and the violated boundary
+	 * 
+	 * @param x solution to be corrected.
+	 * @param x_f a feasible point.
+	 * @param bounds search space boundaries.
+	 * @return x_h corrected solution.
+	 */
+	public static double[] halfwayToViolatedBound(double[] x,double[] x_f,  double[][] bounds)
+	{
+		double[] x_h = new double[x.length];
+		for(int i=0; i<x.length; i++)
+		{
+			if(x[i]>bounds[i][1])
+				x_h[i] = ((x_f[i]+bounds[i][1])/2);
+			else if(x[i]<bounds[i][0])
+				x_h[i] = ((x_f[i]+bounds[i][0])/2);
+			else
+				x_h[i] = x[i];
+		}		
+		return x_h;
+	}
+	
+	
 	
 
 	/**

@@ -76,13 +76,19 @@ public class DECosineSimilairity extends ISBMain
 		double[] CRSteps;
 
 					
-		char[] corrections = {'j','m', 't','c','s','u'}; // 'd',
+//		char[] corrections = {'h','m', 't','c','s','u'}; //'d',
+		char[] corrections = {'c', 's','t','u'};
 		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
-		char[] DECrossOvers = {'b','e'};
-		populationSizes = new double[]{5, 20, 100};
+//		char[] DECrossOvers = {'b','e'};
+		char[] DECrossOvers = {'b'};
+//		populationSizes = new double[]{5, 20, 100};
+		populationSizes = new double[]{20};
 
 		FSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
 		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+		
+		
+
 		
 //settings for the first experimentation phase		
 //		FSteps = new double[]{0.05, 0.916};
