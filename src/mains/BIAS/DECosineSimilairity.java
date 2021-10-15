@@ -37,6 +37,7 @@ import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 
+
 import static utils.RunAndStore.slash;
 	
 public class DECosineSimilairity extends ISBMain
@@ -78,12 +79,21 @@ public class DECosineSimilairity extends ISBMain
 					
 		char[] corrections = {'h','m', 't','c','s','u'}; //'d',
 		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
-		char[] DECrossOvers = {'b','e'};
+//		char[] DECrossOvers = {'b','e'};
+		char[] DECrossOvers = {'b'};
 		populationSizes = new double[]{5, 20, 100};
 
 
 		FSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
-		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+//		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+		CRSteps = new double[5];
+		double step =Math.ceil(((0.285-0.05)/6)*1000)/1000;
+		
+		for(int i=0;i<5;i++) 
+		{
+			CRSteps[i]= (Math.ceil(0.05+(i+1)*step*1000)/1000);
+//			CRSteps[i]= 0.05+(i+1)*step;
+		}
 		
 		
 

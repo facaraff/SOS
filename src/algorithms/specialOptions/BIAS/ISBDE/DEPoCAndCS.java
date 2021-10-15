@@ -40,10 +40,10 @@ import static utils.algorithms.operators.ISBOp.best1;
 import static utils.algorithms.operators.ISBOp.best2;
 import static utils.algorithms.operators.ISBOp.randToBest2;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 
 import static utils.algorithms.operators.ISBOp.crossOverExp;
-import static utils.algorithms.operators.ISBOp.crossOverBin;
+//import static utils.algorithms.operators.ISBOp.crossOverBin;
 import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
 import static utils.MatLab.cloneArray;
@@ -282,18 +282,41 @@ public class DEPoCAndCS extends AlgorithmBias
 				}	
 
 		
+//				// crossover
+//				if (!mutationStrategy.equals("ctro"))
+//				{
+//					if (crossoverStrategy == 'b')
+//						crossPt = crossOverBin(currPt, newPt, CR, PRNGCounter);
+//					else if (crossoverStrategy == 'e')
+//						crossPt = crossOverExp(currPt, newPt, CR, PRNGCounter);
+//					else if (crossoverStrategy == 'x')
+//						crossPt = newPt;
+//				}
+
+				
+				int mutatedDimensions = 0;
+				
 				// crossover
 				if (!mutationStrategy.equals("ctro"))
 				{
 					if (crossoverStrategy == 'b')
-						crossPt = crossOverBin(currPt, newPt, CR, PRNGCounter);
+					{
+						int index = RandUtilsISB.randomInteger(problemDimension-1, PRNGCounter);
+						crossPt = MatLab.cloneArray(currPt);
+						for (int n = 0; n < problemDimension; n++)
+						{
+							if (RandUtilsISB.random(PRNGCounter) < CR || n == index)
+							{
+								crossPt[n] = newPt[n];
+								mutatedDimensions++;
+							}
+						}
+					}
 					else if (crossoverStrategy == 'e')
 						crossPt = crossOverExp(currPt, newPt, CR, PRNGCounter);
-					else if (crossoverStrategy == 'x')
-						crossPt = newPt;
 				}
-				
 
+	
 				
 				double[] BF = MatLab.cloneArray(crossPt);
 				
@@ -307,13 +330,35 @@ public class DEPoCAndCS extends AlgorithmBias
 
 				CSValue+=MatLab.cosineSimilarity(targetToTrial, targetToCTrial);
 
-							
-				if(Arrays.equals(crossPt, BF))
-					CSValue+=" 0";
-				else
-					CSValue+=" 1";
 				
 				
+				
+				
+//				int mutatedDimensions = 0;
+//				
+//				for(int d=0; d<problemDimension; d++)
+//					if(currPt[d]!=crossPt[d])
+//						mutatedDimensions++;
+				CSValue+=(" "+mutatedDimensions);
+				
+				
+				
+				
+				
+				
+				
+//				if(Arrays.equals(crossPt, BF))
+//					CSValue+=" 0";
+//				else
+//					CSValue+=" 1";
+				
+				int correctedDimensions = 0;
+				for(int d=0; d<problemDimension; d++)
+					if(BF[d]!=crossPt[d])
+						correctedDimensions++;
+				
+				
+				CSValue+=(" "+correctedDimensions);
 			
 				BF= null;
 				targetToTrial = null;
