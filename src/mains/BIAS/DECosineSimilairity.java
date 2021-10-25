@@ -85,15 +85,14 @@ public class DECosineSimilairity extends ISBMain
 
 
 		FSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
-//		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
-		CRSteps = new double[5];
-		double step =Math.ceil(((0.285-0.05)/6)*1000)/1000;
-		
-		for(int i=0;i<5;i++) 
-		{
-			CRSteps[i]= (Math.ceil(0.05+(i+1)*step*1000)/1000);
-//			CRSteps[i]= 0.05+(i+1)*step;
-		}
+		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+//		CRSteps = new double[5];
+//		double step =Math.ceil(((0.285-0.05)/6)*1000)/1000;
+//		
+//		for(int i=0;i<5;i++) 
+//		{
+//			CRSteps[i]= (Math.ceil(0.05+(i+1)*step*1000)/1000);
+//		}
 		
 		
 
