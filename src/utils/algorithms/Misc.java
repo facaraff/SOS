@@ -44,14 +44,14 @@ import static utils.MatLab.multiply;
 import static utils.MatLab.columnXrow;
 import static utils.MatLab.dot;
 import static utils.MatLab.sum;
+import static utils.MatLab.mean;
 
 import static utils.MatLab.norm2;
-import static utils.MatLab.mean;
 import static utils.MatLab.getQuantile;
 import static utils.MatLab.linearNormalisation;
 import static utils.MatLab.cloneArray;
 
-
+import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.Problem;
 
@@ -178,7 +178,7 @@ public class Misc {
 
 	/**
 	 * Return an individual whose design variables are the AVG of the design
-	 * variables of the individuals of the input population.
+	 * variables of the individuals of the inputed population.
 	 * 
 	 * @param p
 	 *            population.
@@ -241,9 +241,9 @@ public class Misc {
 		int dim = p[0].length;
 		double[] c = new double[dim];
 		int size = p.length;
-		for (int i = 0; i < size; i++)
-			for (int j = 0; j < dim; j++)
-				c[j] += p[i][j];
+		for (int i = 0; i < dim; i++) 
+			for (int j = 0; j < size; j++)
+				c[i] += p[j][i];
 		return multiply((1.0 / size), c);
 	}
 
@@ -412,7 +412,7 @@ public class Misc {
 
 		for (int i = 0; i < size; i++)
 			for (int j = 0; j < n; j++)
-				PDSquared += Math.pow(pop[i][j] - mu[j], 2);
+				PDSquared += Math.pow(pop[j][i] - mu[i], 2);
 		PDSquared = PDSquared / size;
 
 		return Math.sqrt(PDSquared);
@@ -431,5 +431,36 @@ public class Misc {
 		double[] normalisedValues = linearNormalisation(values);
 		
 		return getQuantile(normalisedValues,p);
+	}
+	
+	
+	/************************/
+	
+	/**
+	 * Return the population diversity in term of average of  individual's standard deviation per dimension 
+	 * @param pop.
+	 * @param center (can be either 'c' (for centroid) or 'b' (for best individual)
+	 * @return diversity.
+	 */
+	public static double averagedPolulationStandardDeviations(double[][] pop) {
+		int n = pop[0].length;
+		double[] mu = new double[n];
+
+		mu = centroid(pop);
+
+		
+		double[] sigmaSquared = new double[n];
+		int popSize = pop.length;
+		
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < popSize; j++)
+				sigmaSquared[i] += ((1.0/popSize)*Math.pow(pop[j][i] - mu[i], 2));
+		
+		double[] sigmas = new double[n];
+		for (int i = 0; i < n; i++)
+				sigmas[i] = Math.sqrt(sigmaSquared[i]);
+		
+		return MatLab.mean(sigmas);
 	}
 }

@@ -399,6 +399,7 @@ public abstract class AlgorithmBias
 		
 		if(CID) createViolationFile(fullName);
 	}
+    
 	
 	protected BufferedWriter createFileBW(String fullName) throws Exception
 	{
@@ -410,8 +411,6 @@ public abstract class AlgorithmBias
 		fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter BW = new BufferedWriter(fw);
 	
-		if(CID) createViolationFile(fullName);
-		
 		return BW;
 	}
 	

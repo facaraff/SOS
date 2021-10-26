@@ -40,12 +40,15 @@ import static utils.algorithms.operators.ISBOp.best1;
 import static utils.algorithms.operators.ISBOp.best2;
 import static utils.algorithms.operators.ISBOp.randToBest2;
 
+import java.io.BufferedWriter;
+
 //import java.util.Arrays;
 
 import static utils.algorithms.operators.ISBOp.crossOverExp;
 //import static utils.algorithms.operators.ISBOp.crossOverBin;
 import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
+import static utils.algorithms.Misc.averagedPolulationStandardDeviations;
 import static utils.MatLab.cloneArray;
 
 import interfaces.AlgorithmBias;
@@ -67,6 +70,7 @@ public class DEPoCAndCS extends AlgorithmBias
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'x';
 	protected boolean addBestDetails = true;
+	protected BufferedWriter diversityBW = null;
 	
 	public DEPoCAndCS(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
 	
@@ -155,6 +159,8 @@ public class DEPoCAndCS extends AlgorithmBias
 			
 
 		}
+		
+
 
 		// temp variables
 		double[] currPt = cloneArray(population[0]); //new double[problemDimension];
@@ -167,9 +173,13 @@ public class DEPoCAndCS extends AlgorithmBias
 		
 		
 		createFile(FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
+		diversityBW = createFileBW("Diversity-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
 
 
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
+		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem, diversityBW);
+		
+		diversityBW.write(averagedPolulationStandardDeviations(population)+"\n");
 
 
 		String CSValue = new String();
@@ -179,8 +189,8 @@ public class DEPoCAndCS extends AlgorithmBias
 		while (i < maxEvaluations)
 		{
 			
-			double[][] temp = new double[populationSize][problemDimension];
-			double[] temp2 = new double[populationSize];
+			double[][] tempPop = new double[populationSize][problemDimension];
+			double[] tempFit = new double[populationSize];
 			
 			
 			double [] targetToTrial  = new double[problemDimension];
@@ -331,14 +341,6 @@ public class DEPoCAndCS extends AlgorithmBias
 				CSValue+=MatLab.cosineSimilarity(targetToTrial, targetToCTrial);
 
 				
-				
-				
-				
-//				int mutatedDimensions = 0;
-//				
-//				for(int d=0; d<problemDimension; d++)
-//					if(currPt[d]!=crossPt[d])
-//						mutatedDimensions++;
 				CSValue+=(" "+mutatedDimensions);
 				
 				
@@ -346,7 +348,7 @@ public class DEPoCAndCS extends AlgorithmBias
 				
 				
 				
-				
+//OLD METHOD				
 //				if(Arrays.equals(crossPt, BF))
 //					CSValue+=" 0";
 //				else
@@ -375,11 +377,11 @@ public class DEPoCAndCS extends AlgorithmBias
 				{
 					
 					for (int n = 0; n < problemDimension; n++)
-						temp[j][n] = crossPt[n];
+						tempPop[j][n] = crossPt[n];
 
 					fitnesses[j] = crossFit;
 					
-					temp2[j] = crossFit;
+					tempFit[j] = crossFit;
 				
 					
 				
@@ -399,12 +401,12 @@ public class DEPoCAndCS extends AlgorithmBias
 				else
 				{
 					for (int n = 0; n < problemDimension; n++)
-						temp[j][n] = currPt[n];
+						tempPop[j][n] = currPt[n];
 					fitnesses[j] = currFit;
 					
 					CSValue+=" 0";
 					
-					temp2[j] = currFit;
+					tempFit[j] = currFit;
 				}
 				crossPt = null; newPt = null;
 				
@@ -419,15 +421,18 @@ public class DEPoCAndCS extends AlgorithmBias
 				
 			}
 			
-			population = cloneArray(temp);
-			temp=null;
-			fitnesses = cloneArray(temp2);
-			temp2=null;
+			
+			population = cloneArray(tempPop);
+			tempPop=null;
+			fitnesses = cloneArray(tempFit);
+			diversityBW.write(averagedPolulationStandardDeviations(population)+" "+"\n");
+			tempFit=null;
 				
 		}
 		
 
 		bw.flush();bw.close();
+		diversityBW.flush(); diversityBW.close();
 		
 		
 		String s = "";

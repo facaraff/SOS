@@ -88,10 +88,9 @@ public class Corrections
 	/**
 	 * mirroring correction
 	 * 
-	 * @todo implement mirrroring.
-	 * @param x
-	 * @param bounds
-	 * @return
+	 * @param x A potentially infeasible solution
+	 * @param bounds Boundaries of the box-constrained problem
+	 * @return x_mirrored Solution with mirrored components
 	 */
 	public static double[] mirroring(double[] x, double[][] bounds) {
 		int n = x.length;
@@ -126,9 +125,9 @@ public class Corrections
 		if (inDomain(x, lb, ub))
 			x_mirr = x;
 		else {
-			x_mirr = reflect(x, lb, ub);
-			while (!inDomain(x_mirr, lb, ub))
-				x_mirr = reflect(x_mirr, lb, ub);
+				x_mirr = reflect(x, lb, ub);
+				while (!inDomain(x_mirr, lb, ub))
+					x_mirr = reflect(x_mirr, lb, ub);
 
 		}
 		return x_mirr;
@@ -153,7 +152,7 @@ public class Corrections
 	 * @param x
 	 *            solution to be saturated.
 	 * @param bounds
-	 *            search space boudaries.
+	 *            search space boundaries.
 	 * @return x_tor corrected solution.
 	 */
 	public static double[] saturate(double[] x, double[][] bounds) {
@@ -296,7 +295,7 @@ public class Corrections
 	
 	
 	/**
-	 * (Component-wise) Projection to midpoint -- unlike te original repair method in https://doi.org/10.1016/j.swevo.2018.10.004 it only project infeasible components inside the domain (Note that alpha is randomly selected in this implementation). 
+	 * (Component-wise) Projection to midpoint -- unlike the original repair method in https://doi.org/10.1016/j.swevo.2018.10.004 it only project infeasible components inside the domain (Note that alpha is randomly selected in this implementation). 
 	 * 
 	 * @param x solution to be corrected.
 	 * @param bounds search space boundaries.
