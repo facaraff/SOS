@@ -49,6 +49,7 @@ import static utils.algorithms.operators.ISBOp.crossOverExp;
 import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
 import static utils.algorithms.Misc.averagedPolulationStandardDeviations;
+import static utils.algorithms.Misc.fitnesStandardDeviation;
 import static utils.MatLab.cloneArray;
 
 import interfaces.AlgorithmBias;
@@ -179,7 +180,7 @@ public class DEPoCAndCS extends AlgorithmBias
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem, diversityBW);
 		
-		diversityBW.write(averagedPolulationStandardDeviations(population)+"\n");
+		diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
 
 
 		String CSValue = new String();
@@ -425,7 +426,7 @@ public class DEPoCAndCS extends AlgorithmBias
 			population = cloneArray(tempPop);
 			tempPop=null;
 			fitnesses = cloneArray(tempFit);
-			diversityBW.write(averagedPolulationStandardDeviations(population)+" "+"\n");
+			diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
 			tempFit=null;
 				
 		}
@@ -441,9 +442,6 @@ public class DEPoCAndCS extends AlgorithmBias
 		
 		finalBest = best;
 		FT.add(i, fBest);
-		
-		
-	
 		
 		return FT;
 		

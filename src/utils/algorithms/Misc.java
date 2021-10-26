@@ -439,7 +439,6 @@ public class Misc {
 	/**
 	 * Return the population diversity in term of average of  individual's standard deviation per dimension 
 	 * @param pop.
-	 * @param center (can be either 'c' (for centroid) or 'b' (for best individual)
 	 * @return diversity.
 	 */
 	public static double averagedPolulationStandardDeviations(double[][] pop) {
@@ -462,5 +461,25 @@ public class Misc {
 				sigmas[i] = Math.sqrt(sigmaSquared[i]);
 		
 		return MatLab.mean(sigmas);
+	}
+	
+	/**
+	 * Return the fitness diversity measure in term standard deviation
+	 * @param fitnessValues.
+	 * @return diversity.
+	 */
+	public static double fitnesStandardDeviation(double[] fitnessValues) {
+		int popSize = fitnessValues.length;
+		double mu = MatLab.mean(fitnessValues);
+		
+		double sigmaSquared = 0;
+		
+
+		for (int j = 0; j < popSize; j++)
+			sigmaSquared += Math.pow(fitnessValues[j] - mu, 2);
+		sigmaSquared = sigmaSquared/popSize;
+		
+		
+		return Math.sqrt(sigmaSquared);
 	}
 }
