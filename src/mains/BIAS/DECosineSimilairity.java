@@ -81,7 +81,7 @@ public class DECosineSimilairity extends ISBMain
 		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
 //		char[] DECrossOvers = {'b','e'};
 		char[] DECrossOvers = {'b'};
-		populationSizes = new double[]{100, 5, 20, 100};
+		populationSizes = new double[]{5, 20, 100};
 
 
 		FSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
