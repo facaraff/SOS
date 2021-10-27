@@ -51,6 +51,8 @@ import static utils.MatLab.getQuantile;
 import static utils.MatLab.linearNormalisation;
 import static utils.MatLab.cloneArray;
 
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
+
 import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.Problem;
@@ -481,5 +483,17 @@ public class Misc {
 		
 		
 		return Math.sqrt(sigmaSquared);
+	}
+	
+	/**
+	 * Return the fitness diversity measure in term standard deviation
+	 * @param fitnessValues.
+	 * @return diversity.
+	 */
+	public static double fitnesStDev(double[] fitnessValues) {
+		
+		StandardDeviation STD = new StandardDeviation(false);
+		
+		return STD.evaluate(fitnessValues);
 	}
 }
