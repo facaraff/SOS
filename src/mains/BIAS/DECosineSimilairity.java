@@ -74,19 +74,19 @@ public class DECosineSimilairity extends ISBMain
 	
 		double[] populationSizes;
 		double[] FSteps;
-		double[] CRSteps;
+		double[] CRSteps,CRStepsBin;
 
 					
 		char[] corrections = {'h','m', 't','c','s','u'}; //'d',
 		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
 //		char[] DECrossOvers = {'b','e'};
-		char[] DECrossOvers = {'b'};
+		char[] DECrossOvers = {'e'};
 		populationSizes = new double[]{5, 20, 100};
 
 
 		FSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
-//		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
-		CRSteps = new double[]{0.05, 0.0891, 0.1283, 0.1675, 0.2067, 0.2458, 0.285, 0.52, 0.755, 0.99};	
+		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+		CRStepsBin = new double[]{0.05, 0.0891, 0.1283, 0.1675, 0.2067, 0.2458, 0.285, 0.52, 0.755, 0.99};	
 		
 		
 //		CRSteps = new double[5];
@@ -122,6 +122,8 @@ public class DECosineSimilairity extends ISBMain
 					{
 							for(char xover : DECrossOvers)
 							{
+								if(xover=='b') CRSteps = CRStepsBin;
+								
 								for (double CR : CRSteps)
 								{
 //									a = new DEPoCAndFinpos(mutation,xover,true);

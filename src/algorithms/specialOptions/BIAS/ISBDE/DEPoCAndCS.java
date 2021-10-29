@@ -42,15 +42,14 @@ import static utils.algorithms.operators.ISBOp.randToBest2;
 
 import java.io.BufferedWriter;
 
-//import java.util.Arrays;
 
-import static utils.algorithms.operators.ISBOp.crossOverExp;
+//import static utils.algorithms.operators.ISBOp.crossOverExp;
 //import static utils.algorithms.operators.ISBOp.crossOverBin;
 import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
 import static utils.algorithms.Misc.averagedPolulationStandardDeviations;
 import static utils.algorithms.Misc.fitnesStandardDeviation;
-//import static utils.algorithms.Misc.fitnesStDev;
+
 import static utils.MatLab.cloneArray;
 
 import interfaces.AlgorithmBias;
@@ -311,13 +310,15 @@ public class DEPoCAndCS extends AlgorithmBias
 				// crossover
 				if (!mutationStrategy.equals("ctro"))
 				{
+					int startIndex = RandUtilsISB.randomInteger(problemDimension-1, PRNGCounter);
+					
 					if (crossoverStrategy == 'b')
 					{
-						int index = RandUtilsISB.randomInteger(problemDimension-1, PRNGCounter);
+//						int index = RandUtilsISB.randomInteger(problemDimension-1, PRNGCounter);
 						crossPt = MatLab.cloneArray(currPt);
 						for (int n = 0; n < problemDimension; n++)
 						{
-							if (RandUtilsISB.random(PRNGCounter) < CR || n == index)
+							if (RandUtilsISB.random(PRNGCounter) < CR || n == startIndex)
 							{
 								crossPt[n] = newPt[n];
 								mutatedDimensions++;
@@ -325,7 +326,26 @@ public class DEPoCAndCS extends AlgorithmBias
 						}
 					}
 					else if (crossoverStrategy == 'e')
-						crossPt = crossOverExp(currPt, newPt, CR, PRNGCounter);
+					{
+						crossPt = MatLab.cloneArray(currPt);
+						          
+						crossPt[startIndex] = newPt[startIndex];
+						mutatedDimensions++;
+						int index = startIndex + 1;
+						
+						if (index >= problemDimension)
+							index = 0;
+
+						while ((RandUtilsISB.random(PRNGCounter) <= CR) && (index != startIndex))
+						{
+							crossPt[index] = newPt[index];
+							index++;
+							mutatedDimensions++;
+							if (index >= problemDimension)
+								index = 0;
+						}
+					}
+					
 				}
 
 	
