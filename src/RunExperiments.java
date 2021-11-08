@@ -36,7 +36,7 @@ either expressed or implied, of the FreeBSD Project.
 
 import java.util.Vector;
 
-import experiments.RiCompact.RiBinVsExp;
+import experiments.FCGIAY.*;
 import interfaces.Experiment;
 
 import static utils.RunAndStore.resultsFolder;
@@ -77,19 +77,23 @@ public class RunExperiments
 //		experiments.add(new RIAPP(60));
 //		experiments.add(new RIAPP(300));
 //		experiments.add(new RIAPP(3000));
-//		experiments.add(new RIAPP(900));	
-	
-//		experiments.add(new Anil(10));
-//		experiments.add(new Anil(50));
-//		experiments.add(new Anil(100));
+//		experiments.add(new RIAPP(900));
+		
+		experiments.add(new ProblemClassification(10));
+		experiments.add(new ProblemClassification(50));
+		experiments.add(new ProblemClassification(100));	
+		
+//		experiments.add(new EarlyDE(10));
+//		experiments.add(new EarlyDE(50));
+//		experiments.add(new EarlyDE(100));
 
-//		experiments.add(new AnilBBOB2018(10, 100));
+//		experiments.add(new EarlyDEBBOB2018(10, 100));
 //		experiments.add(new Bbob2018(10));
 		
-		experiments.add(new RiBinVsExp(10));
-		experiments.add(new RiBinVsExp(50));
-		experiments.add(new RiBinVsExp(100));
-		experiments.add(new RiBinVsExp(1000));
+//		experiments.add(new RiBinVsExp(10));
+//		experiments.add(new RiBinVsExp(50));
+//		experiments.add(new RiBinVsExp(100));
+//		experiments.add(new RiBinVsExp(1000));
 
 
 

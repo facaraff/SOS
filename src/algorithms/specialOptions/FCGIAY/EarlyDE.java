@@ -1,4 +1,4 @@
-package algorithms.specialOptions;
+package algorithms.specialOptions.FCGIAY;
 
 import  utils.algorithms.operators.DEOp;
 import static utils.algorithms.Misc.populationDiversity1;

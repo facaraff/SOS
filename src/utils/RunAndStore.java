@@ -100,7 +100,7 @@ public class RunAndStore
 	     * Constructor 2.
 	     * 
 	     * While working with real-world applications may require a customised computational budget, when dealing with benchmark problems is a common practice to use
-	     * a fixed multipicative budget factor (usually = 5000 or 10000 fitness evaluations). Becnhmark functions can be usually tested at different dimensionality values and the budget factor is used to allocate a budget proportional to the number of desing variables.
+	     * a fixed multipicative budget factor (usually = 5000 or 10000 fitness evaluations). Benchmark functions can be usually tested at different dimensionality values and the budget factor is used to allocate a budget proportional to the number of desing variables.
 	     * 
 	     * @param algorithm optimiser to be executed.
 	     * @param problem problem to be solved.
@@ -171,7 +171,7 @@ public class RunAndStore
 	
 	private Vector<Double> extraValues;
 	/**
-	* private boooan together: if true fitness and extra values are printed side by side in the same file
+	* private boolean together: if true fitness and extra values are printed side by side in the same file
 	*/
 	private boolean together = false;
 	/**
@@ -201,7 +201,7 @@ public class RunAndStore
 	*/
 	public int getFTSize(){return this.fValue.size();}
 	/**
-	* Get the vector containg the fitness values.
+	* Get the vector containing the fitness values.
 	*/
 	public Vector<Double> getF(){return this.fValue;}
 	/**
@@ -267,7 +267,7 @@ public class RunAndStore
 	/**
 	* add an extra value
 	* 
-	* @param extra The valua to be added.
+	* @param extra The value to be added.
 	*/
 	public void addExtra(double extra){ this.extraValues.add(extra);}
 	/**
@@ -596,7 +596,7 @@ public class RunAndStore
 	 * 
 	 * @param FT contains the fitness trend (data).
 	 * @param fileName name of the file
-	 * @param saveAsText if true, dta are stored in txt files, otherwise, in binary files.
+	 * @param saveAsText if true, data are stored in txt files, otherwise, in binary files.
 	 * 
 	*/
 	public static void saveTrend(FTrend FT, double[] bestSolution, String fileName, boolean saveAsText)
@@ -618,7 +618,7 @@ public class RunAndStore
 				
 				if(FT.separateFile())
 				{
-					String[] parts = s.split("extras");
+				   String[] parts = s.split("extras");
                    s = parts[0];
                    
                    FileWriter FWriter = new FileWriter(fileName+"-Extras" + ".txt");

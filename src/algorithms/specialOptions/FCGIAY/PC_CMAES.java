@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.specialOptions.FCGIAY;
 
 
 import interfaces.Algorithm;
@@ -12,29 +12,33 @@ import static utils.algorithms.Misc.generateRandomSolution;
 /**
  * Covariance Matrix Adaptation Evolutionary Strategy 
  */
-public class CMAES extends Algorithm
+public class PC_CMAES extends Algorithm
 {
 	@Override
 	public FTrend execute(Problem problem, int maxEvaluations) throws Exception //this function implement the algorithm
 	{
-		FTrend FT = new FTrend(); 
+
 		int problemDimension = problem.getDimension();
 		double[][] bounds = problem.getBounds();
 
 		double[] best = new double[problemDimension];
-		double fBest = Double.NaN;
+		double fBest = Double.MAX_VALUE;
 		int j = 0;
+		
+		FTrend FT = new FTrend(true); 
+		FT.setExtraValuesColumns(problemDimension+1);
+		
 		if (initialSolution != null)
 		{
 			best = initialSolution;
 			fBest = initialFitness;
 		}
-		else //if not inserted, we need to randomly sample the initial guess
+		else //if not inserted, we need to randomly sample the initial guess (the initial mean vector)
 		{
 			best = generateRandomSolution(bounds, problemDimension);
-			fBest = problem.f(best);
-			FT.add(j, fBest);
-			j++;
+//			fBest = problem.f(best);
+//			FT.add(j, fBest);
+//			j++;
 		}
 		// new a CMA-ES and set some initial values
 		CMAEvolutionStrategy cma = new CMAEvolutionStrategy();
@@ -45,12 +49,15 @@ public class CMAES extends Algorithm
 		cma.options.verbosity = -1;
 		cma.options.writeDisplayToFile = -1;
 		
-		System.out.println(cma.parameters.getPopulationSize());
+		
 		// initialize cma and get fitness array to fill in later
 		double[] fitness = cma.init();
-				
+		
+		int generations = 0;
+		
+		
 		// iteration loop
-		while (j < maxEvaluations)
+		while (j < maxEvaluations && generations < 100)
 		{
             // --- core iteration step ---
 			// get a new population of solutions
@@ -64,6 +71,11 @@ public class CMAES extends Algorithm
 				// compute fitness/objective value	
 				fitness[i] = problem.f(pop[i]);
 				
+				//add extras
+				for (int n = 0; n < problemDimension; n++)
+					FT.addExtra(pop[i][n]);
+				FT.addExtra(fitness[i]);
+				
 				// save best
 				if (fitness[i] < fBest)
 				{
@@ -76,6 +88,8 @@ public class CMAES extends Algorithm
 				j++;
 			}
 
+			generations++;
+			
 			// pass fitness array to update search distribution
 			cma.updateDistribution(fitness);
 		}

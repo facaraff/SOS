@@ -26,24 +26,24 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package experiments.earlyDE;
+package experiments.FCGIAY;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.specialOptions.*;
-import benchmarks.CEC2013;
+import algorithms.specialOptions.FCGIAY.EarlyDE;
+import benchmarks.BBOB2018;
 //import benchmarks.CEC2014;
 
-public class Anil extends Experiment
+public class EarlyDEBBOB2018 extends Experiment
 {
 	
-	public Anil(int probDim) throws Exception
+	public EarlyDEBBOB2018(int probDim, double popSize) throws Exception
 	{
 
-		super(probDim,5000,"Anil");
+		super(probDim,5000,"AnilBBOB18");
 		setNrRuns(30);
 
-		double popSize = 100;
+		//double popSize = 10;
 		String P = "P"+(int)popSize;
 		
 		Algorithm a;// ///< A generic optimiser.
@@ -209,8 +209,8 @@ public class Anil extends Experiment
 		add(a);
 		
 
-		for(int i = 1; i<=28; i++)
-			add(new CEC2013(i, probDim));
+		for(int i = 1; i<=24; i++)
+			add(new BBOB2018(i, probDim));
 		
 //		for(int i = 1; i<=30; i++)
 //			add(new CEC2014(probDim,i));

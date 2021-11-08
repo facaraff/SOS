@@ -77,19 +77,19 @@ public abstract class Experiment
 	
 	//CONSTRUCTORS
 	/**
-	 *Constructr 1.
+	 *Constructor 1.
 	 * 
-	 * Number of runs and budgect fuctor and other paramters are automatically set up to the default values. They can be modifed in a second moment by means of the provided setter methods.
-	 * This constructor can be used for running experiments contaning problems with different dimensionality values.
+	 * Number of runs and budget factor and other parameters are automatically set up to the default values. They can be modified in a second moment by means of the provided setter methods.
+	 * This constructor can be used for running experiments containing problems with different dimensionality values.
 	 * 
 	 * @param s expName name for the folder where to store results.
 	*/
-	public Experiment(String expName){this.expFolder = expName;}//CONTROLL@A DOCUMENTAZIONE PER DISCORSO DIMKESIONALITA'
+	public Experiment(String expName){this.expFolder = expName;}//CONTROLLA DOCUMENTAZIONE PER DISCORSO DIMENSIONALITA'
 	/**
-	 *Constructr 2.
+	 *Constructor 2.
 	 * 
-	 * Number of runs and budgect fuctor and other paramters are automatically set up to the default values. All the problems are tested at a fixed dimansionality value.
-	 * This contructor can be usuefel while dealing with a complete benchmark suite. It is quite useful to test all the problems at low dimensions and, only in case, add more data by simply running the same experiment (same result follder/expName)
+	 * Number of runs and budget factor and other parameters are automatically set up to the default values. All the problems are tested at a fixed dimansionality value.
+	 * This constructor can be useful while dealing with a complete benchmark suite. It is quite useful to test all the problems at low dimensions and, only in case, add more data by simply running the same experiment (same result follder/expName)
 	 * but a different dimensionality for the problems.
 	 * 
 	 * @param problemDimension dimensionality value for all the  problems in the experiment.
@@ -97,7 +97,7 @@ public abstract class Experiment
 	*/
 	public Experiment(int problemDimension, String expName){this.problemDimension = problemDimension; this.expFolder = expName;}
 	/**
-	 *Constructr 3.
+	 *Constructor 3.
 	 * 
 	 * @param problemDimension dimensionality value for all the  problems in the experiment.
 	 * @param budgetFactor set up the computational budget proportional to the dimensionality of the problem.
@@ -105,7 +105,7 @@ public abstract class Experiment
 	*/
 	public Experiment(int problemDimension, int budgetFactor, String expName){this.problemDimension = problemDimension; this.budgetFactor = budgetFactor; this.expFolder += RunAndStore.slash()+expName;}
 /**
-	 *Constructr 4.
+	 *Constructor 4.
 	 * 
 	 * @param problemDimension dimensionality value for all the  problems in the experiment.
 	 * @param budgetFactor set up the computational budget proportional to the dimensionality of the problem.
@@ -155,9 +155,9 @@ public abstract class Experiment
 		this.nrRuns = maxIndex-minIndex;
 	}
 	/**
-	 * This method sets the budeget factor.
+	 * This method sets the budget factor.
 	 * 
-	 * @param budgetFactor budgent facotr for each problem in the experiment.
+	 * @param budgetFactor budget factor for each problem in the experiment.
 	*/
 	public void setBudgetFactor(int budgetFactor){this.budgetFactor = budgetFactor;}
 	/**
@@ -176,13 +176,13 @@ public abstract class Experiment
 	*/
 	public int getNrRuns(){return this.nrRuns;}
 	/**
-	 * This method returns the budeget factor.
+	 * This method returns the budget factor.
 	 * 
-	 * @return budgetFactor budgent facotr for each problem in the experiment.
+	 * @return budgetFactor budget factor for each problem in the experiment.
 	*/
 	public int getBudegtFactor(){return this.budgetFactor;}
 	/**
-	 * This method returnd the dimensionality fof the problem.
+	 * This method returned the dimensionality for the problem.
 	 * 
 	 * It can be useful when the experiment include a single problem, or multiple anchmark problems tested at the same dimesionality value.
 	 * 
@@ -226,17 +226,17 @@ public abstract class Experiment
 	*/
 	public int getNrAlgorithms(){return this.algorithms.size();}
 	/**
-	 * This method sets an ID to every algorithm in the experiment euqual to the Class name.
+	 * This method sets an ID to every algorithm in the experiment equal to the Class name.
 	 * 
-	 * In case a customised ID has been previosly given to the algorith, it will not be altered.
+	 * In case a customised ID has been previously given to the algorithm, it will not be altered.
 	 * 
 	*/
 	public void setIDs(){for(Algorithm a : this.algorithms){if(a.getID()==null)a.setID();}}
 	/**
 	 * This method sets unique IDs to every algorithm in the experiment.
 	 * 
-	 * The ID would e euqual to the Class name, followed by a progressive number if the same class is used multiple times.
-	 * In case a customised ID has been previosly given to the algorith, it will not be altered.
+	 * The ID would be equal to the Class name, followed by a progressive number if the same class is used multiple times.
+	 * In case a customised ID has been previously given to the algorithm, it will not be altered.
 	 * 
 	*/
 	public void setUniqueIDs()

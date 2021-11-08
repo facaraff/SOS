@@ -412,8 +412,8 @@ public class Misc {
 		int size = pop.length;
 		double PDSquared = 0;
 
-		for (int i = 0; i < size; i++)
-			for (int j = 0; j < n; j++)
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < size; j++)
 				PDSquared += Math.pow(pop[j][i] - mu[i], 2);
 		PDSquared = PDSquared / size;
 
