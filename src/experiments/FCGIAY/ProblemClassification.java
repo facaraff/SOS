@@ -44,7 +44,7 @@ public class ProblemClassification extends Experiment
 		super(probDim,5000,"PCDL"); 
 		setNrRuns(10);
 		
-		setMT(false);
+		//setMT(false);
 
 		
 		double[] popSizes = {10, 30, 50, 100, 200};

@@ -88,7 +88,7 @@ public class PC_jDE extends Algorithm
 		double crossFit = Double.NaN;
 		
 		// iterate
-		while ((i < maxEvaluations ) && (generations <= 100))
+		while ((i < maxEvaluations ) && (generations < 100))
 		{
 			for (int j = 0; j < populationSize && i < maxEvaluations && generations < 100; j++)
 			{				
@@ -146,7 +146,6 @@ public class PC_jDE extends Algorithm
 			}
 			generations++;
 			
-//			FT.addExtra(1.0);FT.addExtra(2.0);
 		}
 		
 		finalBest = best;
