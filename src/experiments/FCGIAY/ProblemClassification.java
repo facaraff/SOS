@@ -46,19 +46,18 @@ public class ProblemClassification extends Experiment
 		
 		setMT(false);
 
-		double popSize = 5;
 		
-		int[] popSizes = {10, 30, 50, 100, 200};
+		double[] popSizes = {10, 30, 50, 100, 200};
 		
 		Algorithm a;// ///< A generic optimiser.
 	    //Problem P);// ///< A generic problem.
 	
 	
-		for (int p : popSizes)
+		for (double p : popSizes)
 		{
 			a = new PC_jDE();
-			a.setID("jDE-"+p);
-			a.setParameter("p0", popSize);
+			a.setID("jDE-P"+(int)p);
+			a.setParameter("p0", p);
 			a.setParameter("p1", 0.1);//FL
 			a.setParameter("p2", 1.0); //FU
 			a.setParameter("p3", 0.1);//tau1
