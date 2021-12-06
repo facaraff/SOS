@@ -26,92 +26,100 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS;
+package mains.AlgorithmicBehaviour.BIAS;
 
 
 import java.util.Vector;
 
 
-
-import algorithms.specialOptions.BIAS.ISBDE.DEPoC;
-//import benchmarks.Noise;
+import algorithms.specialOptions.BIAS.GA;
 import benchmarks.ISBSuite;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-import mains.BIAS.ISBMain;
 
 
 
 import static utils.RunAndStore.slash;
 	
-public class DEPOIS extends ISBMain
+public class GA2021 extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
 		AlgorithmBias a;
 		Problem p;
 
+		
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 //		expSettings.setBudgetFactor(10000);
-//		expSettings.setNrRepetition(100);
-
+		//expSettings.setNrRepetition(2);
 		
 		int n = expSettings.getProblemDimension();
+
 		
-		
-//		p = new ISBSuite("h0",n);
 		p = new ISBSuite("f0",n);
+		problems.add(p); p = null;
+		p = new ISBSuite("g0",n);
+		problems.add(p); p = null;
+		p = new ISBSuite("h0",n);
+		problems.add(p); p = null;
+		p = new ISBSuite("i0",n);
+		problems.add(p); p = null;
 		
-		problems.add(p);
 		
-//		char[] corrections = {'d','s','u'};
-		char[] corrections = {'u'};
-//		String[] DEMutations = {"ro"};
-		char[] DECrossOvers = {'b','e'};
+		char[] corrections = {'s','t','d','c'};	//'m',	
 		double[] populationSizes = {5, 20, 100};
+		char[] GAParentSelections = {'r','t'};
+		char[] GACrossOvers = {'a','d'};
+		char[] GAMutations = {'c','g'};
 		
-		//ISBDE setting
-		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};	
-		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
 		
-		//High F-Cr values
-//		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-//		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
-			for(double popSize : populationSizes)
-			{
-				for (char correction : corrections)
-				{
-						for(char xover : DECrossOvers)
+		for (double popSize : populationSizes)
+		{
+			for (char correction : corrections)
+			{			
+				for (char selection : GAParentSelections)
+					for (char oxer : GACrossOvers)
+						for (char mutation : GAMutations)
 						{
-							for (double F : FSteps)
-							{
-								for (double CR : CRSteps)
-								{
-									a = new DEPoC("ro",xover,true);
-									a.setDir("DEPOIS"+slash());
-									a.setCorrection(correction);
-									a.setParameter("p0", popSize); //Population size
-									a.setParameter("p1", F); //F - scale factor
-									a.setParameter("p2", CR); //CR - Crossover Ratio
-									a.setParameter("p3", Double.NaN); //Alpha
-									algorithms.add(a);		
-									a = null;
-								}
-							}
+							a = new GA(selection, oxer, mutation);
+							a.setDir("GA"+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", popSize); //Population size
+							a.setParameter("p1", 2.0); //tournament size
+							a.setParameter("p2", 2.0); //selection probability for stochastic tournament
+							a.setParameter("p3", 0.5); //CR
+							a.setParameter("p4", 0.25); //d
+							a.setParameter("p5", 0.01); //md
+							algorithms.add(a);		
+							a = null;
 						}
-					}	
-				
-				execute(algorithms, problems, expSettings);
-				algorithms = null;
-				algorithms = new Vector<AlgorithmBias>();
 			}
 			
-			System.out.println("Done And Dusted");
 		}
+		
+		execute(algorithms, problems, expSettings);		
+	}
 }
+
+//GA{g|c}{d|a}{r|t}{t|s|e}p{5|20|100}D30
+//i.e. {mutation} {xover} {parentselection} {correction}..
+//
+//
+//and rGA{g|c}{d|a}{x}{t|s|d}{x|y}p{5|20|100}D…
+//i.e. {mutation} {xover} {parentselection} {correction}{survivor selection}..
+
+//a = new SimplifiedGA();
+//a.setDir("GA-TELO"+slash());
+//a.setCorrection(correction);
+//a.setParameter("p0", popSize); //Population size
+//a.setParameter("p1", 666.0); //FIND PARAMETER
+//a.setParameter("p2", 666.0); //FIND PARAMETER
+//a.setParameter("p3", 666.0); //FIND PARAMETER
+//algorithms.add(a);		
+//a = null;
 		

@@ -26,45 +26,57 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS;
+package mains.AlgorithmicBehaviour.temp;
 
 
 import java.util.Vector;
-import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
-//import algorithms.specialOptions.BIAS.singleSolutions.CMAES11;
-//import algorithms.specialOptions.BIAS.singleSolutions.ISPO;
-//import algorithms.specialOptions.BIAS.singleSolutions.RIS;
+
 import algorithms.specialOptions.BIAS.singleSolutions.*;
-import utils.MatLab;
-import utils.random.RandUtils;
+import algorithms.specialOptions.BIAS.BFO;
+import algorithms.specialOptions.BIAS.PSO;
+import algorithms.specialOptions.BIAS.DE;
+//import algorithms.specialOptions.BIAS.SimplifiedGA;
+import algorithms.specialOptions.BIAS.GA;
+import benchmarks.Noise;
+import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-//import mains.BIAS.ISBMain.Noise;
-import utils.RunAndStore.FTrend;
+import mains.AlgorithmicBehaviour.BIAS.ISBMain;
+
 import static utils.RunAndStore.slash;
 	
-public class WCCI_SINGLE_SOL
-{
-	static int nrRepetitions = 50;
-	static int budgetFactor = 10000;
-	static int problemDimension = 30;
-	
-	static String dir = "/home/facaraff/Desktop/KONODATA/POPULATIONFREE/";
-	//static String dir="C:\\Users\\fcaraf00\\Desktop\\KONONOVA\\";
-	
+public class TELO extends ISBMain
+{	
 	public static void main(String[] args) throws Exception
 	{	
-		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
-		Vector<Problem> problems = new Vector<Problem>();
-		
 		AlgorithmBias a;
 		Problem p;
+
 		
-		double[] bias = null;
+		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
+		Vector<Problem> problems = new Vector<Problem>();
+	
+		ExperimentHelper expSettings = new ExperimentHelper();
+		expSettings.setBudgetFactor(10000);
+		expSettings.setNrRepetition(100);
+		
+		int n = expSettings.getProblemDimension();
+		double[][] bounds = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			bounds[i][0] = 0;
+			bounds[i][1] = 1;
+		}	
+		
+		
+		p = new Noise(n, bounds);
+		p.setFID("f0");
+		
+		problems.add(p);
 		
 		a = new CMAES11('t');
-		a.setDir(dir+"CMAES11"+slash());
+		a.setDir("CMAES11"+slash());
 		a.setParameter("p0",(2.0/11.0));
 		a.setParameter("p1",(1.0/12.0));
 		a.setParameter("p2",0.44);
@@ -72,23 +84,15 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new CMAES11('s');
-		a.setDir(dir+"CMAES11"+slash());
+		a.setDir("CMAES11"+slash());
 		a.setParameter("p0",(2.0/11.0));
 		a.setParameter("p1",(1.0/12.0));
 		a.setParameter("p2",0.44);
 		a.setParameter("p3",1.0);
 		algorithms.add(a);	
 		
-		a = new CMAES11('e');
-		a.setDir(dir+"CMAES11"+slash());
-		a.setParameter("p0",(2.0/11.0));
-		a.setParameter("p1",(1.0/12.0));
-		a.setParameter("p2",0.44);
-		a.setParameter("p3",1.0);
-		algorithms.add(a);
-		
 		a = new CMAES11('d');
-		a.setDir(dir+"CMAES11"+slash());
+		a.setDir("CMAES11"+slash());
 		a.setParameter("p0",(2.0/11.0));
 		a.setParameter("p1",(1.0/12.0));
 		a.setParameter("p2",0.44);
@@ -96,7 +100,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new CMAES11('m');
-		a.setDir(dir+"CMAES11"+slash());
+		a.setDir("CMAES11"+slash());
 		a.setParameter("p0",(2.0/11.0));
 		a.setParameter("p1",(1.0/12.0));
 		a.setParameter("p2",0.44);
@@ -104,7 +108,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new CMAES11('c');
-		a.setDir(dir+"CMAES11"+slash());
+		a.setDir("CMAES11"+slash());
 		a.setParameter("p0",(2.0/11.0));
 		a.setParameter("p1",(1.0/12.0));
 		a.setParameter("p2",0.44);
@@ -113,6 +117,7 @@ public class WCCI_SINGLE_SOL
 		
 		
 		a = new ISPO();
+		a.setDir("CMAES11"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0",1.0);
 		a.setParameter("p1",10.0);
@@ -123,7 +128,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new ISPO();
-		a.setDir(dir+"ISPO"+slash());
+		a.setDir("ISPO"+slash());
 		a.setCorrection('s');
 		a.setParameter("p0",1.0);
 		a.setParameter("p1",10.0);
@@ -134,7 +139,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new ISPO();
-		a.setDir(dir+"ISPO"+slash());
+		a.setDir("ISPO"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0",1.0);
 		a.setParameter("p1",10.0);
@@ -145,7 +150,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new ISPO();
-		a.setDir(dir+"ISPO"+slash());
+		a.setDir("ISPO"+slash());
 		a.setCorrection('d');
 		a.setParameter("p0",1.0);
 		a.setParameter("p1",10.0);
@@ -156,7 +161,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new ISPO();
-		a.setDir(dir+"ISPO"+slash());
+		a.setDir("ISPO"+slash());
 		a.setCorrection('m');
 		a.setParameter("p0",1.0);
 		a.setParameter("p1",10.0);
@@ -167,7 +172,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new ISPO();
-		a.setDir(dir+"ISPO"+slash());
+		a.setDir("ISPO"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0",1.0);
 		a.setParameter("p1",10.0);
@@ -178,7 +183,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new RISold();
-		a.setDir(dir+"RIS"+slash());
+		a.setDir("RIS"+slash());
 		a.setParameter("p0",0.5);
 		a.setParameter("p1",0.4);
 		a.setParameter("p2",0.000001);
@@ -186,7 +191,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new RISold();
-		a.setDir(dir+"RIS"+slash());
+		a.setDir("RIS"+slash());
 		a.setParameter("p0",0.5);
 		a.setParameter("p1",0.4);
 		a.setParameter("p2",0.000001);
@@ -194,7 +199,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new RISold();
-		a.setDir(dir+"RIS"+slash());
+		a.setDir("RIS"+slash());
 		a.setParameter("p0",0.5);
 		a.setParameter("p1",0.4);
 		a.setParameter("p2",0.000001);
@@ -202,7 +207,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new RISold();
-		a.setDir(dir+"RIS"+slash());
+		a.setDir("RIS"+slash());
 		a.setParameter("p0",0.5);
 		a.setParameter("p1",0.4);
 		a.setParameter("p2",0.000001);
@@ -211,7 +216,7 @@ public class WCCI_SINGLE_SOL
 		
 		
 		a = new RISold();
-		a.setDir(dir+"RIS"+slash());
+		a.setDir("RIS"+slash());
 		a.setParameter("p0",0.5);
 		a.setParameter("p1",0.4);
 		a.setParameter("p2",0.000001);
@@ -221,7 +226,7 @@ public class WCCI_SINGLE_SOL
 
 	
 		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
+		a.setDir("NUSA"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0",5.0);
 		a.setParameter("p1",0.9);
@@ -230,7 +235,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
+		a.setDir("NUSA"+slash());
 		a.setCorrection('s');
 		a.setParameter("p0",5.0);
 		a.setParameter("p1",0.9);
@@ -239,7 +244,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
+		a.setDir("NUSA"+slash());
 		a.setCorrection('d');
 		a.setParameter("p0",5.0);
 		a.setParameter("p1",0.9);
@@ -248,7 +253,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
+		a.setDir("NUSA"+slash());
 		a.setCorrection('m');
 		a.setParameter("p0",5.0);
 		a.setParameter("p1",0.9);
@@ -257,7 +262,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NonUniformSA();
-		a.setDir(dir+"NUSA"+slash());
+		a.setDir("NUSA"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0",5.0);
 		a.setParameter("p1",0.9);
@@ -267,7 +272,7 @@ public class WCCI_SINGLE_SOL
 
 		
 		a = new Rosenbrock();
-		a.setDir(dir+"Rosenbrock"+slash());
+		a.setDir("Rosenbrock"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0", 10e-5);
 		a.setParameter("p1", 2.0); 
@@ -276,7 +281,7 @@ public class WCCI_SINGLE_SOL
 				
 		
 		a = new Rosenbrock();
-		a.setDir(dir+"Rosenbrock"+slash());
+		a.setDir("Rosenbrock"+slash());
 		a.setCorrection('s');
 		a.setParameter("p0", 10e-5);
 		a.setParameter("p1", 2.0); 
@@ -284,7 +289,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new Rosenbrock();
-		a.setDir(dir+"Rosenbrock"+slash());
+		a.setDir("Rosenbrock"+slash());
 		a.setCorrection('d');
 		a.setParameter("p0", 10e-5);
 		a.setParameter("p1", 2.0); 
@@ -292,7 +297,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 	
 		a = new Rosenbrock();
-		a.setDir(dir+"Rosenbrock"+slash());
+		a.setDir("Rosenbrock"+slash());
 		a.setCorrection('m');
 		a.setParameter("p0", 10e-5);
 		a.setParameter("p1", 2.0); 
@@ -300,7 +305,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new Rosenbrock();
-		a.setDir(dir+"Rosenbrock"+slash());
+		a.setDir("Rosenbrock"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0", 10e-5);
 		a.setParameter("p1", 2.0); 
@@ -308,37 +313,37 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SolisWets();
-		a.setDir(dir+"SolisWets"+slash());
+		a.setDir("SolisWets"+slash());
 		a.setParameter("p0",0.5);
 		a.setCorrection('t');
 		algorithms.add(a);
 		
 		a = new SolisWets();
-		a.setDir(dir+"SolisWets"+slash());
+		a.setDir("SolisWets"+slash());
 		a.setParameter("p0",0.5);
 		a.setCorrection('s');
 		algorithms.add(a);
 		
 		a = new SolisWets();
-		a.setDir(dir+"SolisWets"+slash());
+		a.setDir("SolisWets"+slash());
 		a.setParameter("p0",0.5);
 		a.setCorrection('d');
 		algorithms.add(a);
 		
 		a = new SolisWets();
-		a.setDir(dir+"SolisWets"+slash());
+		a.setDir("SolisWets"+slash());
 		a.setParameter("p0",0.5);
 		a.setCorrection('m');
 		algorithms.add(a);
 		
 		a = new SolisWets();
-		a.setDir(dir+"SolisWets"+slash());
+		a.setDir("SolisWets"+slash());
 		a.setParameter("p0",0.5);
 		a.setCorrection('c');
 		algorithms.add(a);
 		
 		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
+		a.setDir("SPSA"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -348,7 +353,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
+		a.setDir("SPSA"+slash());
 		a.setCorrection('s');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -358,7 +363,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
+		a.setDir("SPSA"+slash());
 		a.setCorrection('d');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -368,7 +373,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
+		a.setDir("SPSA"+slash());
 		a.setCorrection('m');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -378,7 +383,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SPSA();
-		a.setDir(dir+"SPSA"+slash());
+		a.setDir("SPSA"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -389,115 +394,115 @@ public class WCCI_SINGLE_SOL
 		
 		
 		
-//		a = new SA();
-//		a.setDir(dir+"SA"+slash());
-//		a.setParameter("p0", 0.9);
-//		a.setParameter("p1", 10.0 );
-//		algorithms.add(a);
-//
-//		a = new ES1p1OneFifth();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifth();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifth();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//
-//		a = new ES1p1OneFifth();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-////		
-//		a = new ES1p1OneFifth();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new ES1p1OneFifthV2();
-//		a.setDir(dir+"ES11"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0", 2.0);
-//		algorithms.add(a);
-//		
-//		a = new Powell_correct();
-//		a.setDir(dir+"Powell"+slash());
-//		a.setCorrection('t');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
-////		
-//		a = new Powell_correct();
-//		a.setDir(dir+"Powell"+slash());
-//		a.setCorrection('s');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
-////		
-//		a = new Powell_correct();
-//		a.setDir(dir+"Powell"+slash());
-//		a.setCorrection('m');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
-////		
-//		a = new Powell_correct();
-//		a.setDir(dir+"Powell"+slash());
-//		a.setCorrection('c');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
+		a = new SA();
+		a.setDir("SA"+slash());
+		a.setParameter("p0", 0.9);
+		a.setParameter("p1", 10.0 );
+		algorithms.add(a);
+
+		a = new ES1p1OneFifth();
+		a.setDir("ES11"+slash());
+		a.setCorrection('t');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
 		
-//		a = new Powell_correct();
-//		a.setDir(dir+"Powell"+slash());
-//		a.setCorrection('d');
-//		a.setParameter("p0",  0.00001);
-//		a.setParameter("p1",  100.0);
-//		algorithms.add(a);
+		a = new ES1p1OneFifth();
+		a.setDir("ES11"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
 		
-//		a = new Powell_correct();
-		a.setDir(dir+"Powell"+slash());
+		a = new ES1p1OneFifth();
+		a.setDir("ES11"+slash());
+		a.setCorrection('m');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+
+		a = new ES1p1OneFifth();
+		a.setDir("ES11"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifth();
+		a.setDir("ES11"+slash());
+		a.setCorrection('c');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('t');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('m');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new ES1p1OneFifthV2();
+		a.setDir("ES11"+slash());
+		a.setCorrection('c');
+		a.setParameter("p0", 2.0);
+		algorithms.add(a);
+		
+		a = new Powell_correct();
+		a.setDir("Powell"+slash());
+		a.setCorrection('t');
+		a.setParameter("p0",  0.00001);
+		a.setParameter("p1",  100.0);
+		algorithms.add(a);
+		
+		a = new Powell_correct();
+		a.setDir("Powell"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0",  0.00001);
+		a.setParameter("p1",  100.0);
+		algorithms.add(a);
+	
+		a = new Powell_correct();
+		a.setDir("Powell"+slash());
+		a.setCorrection('m');
+		a.setParameter("p0",  0.00001);
+		a.setParameter("p1",  100.0);
+		algorithms.add(a);
+		
+		a = new Powell_correct();
+		a.setDir("Powell"+slash());
+		a.setCorrection('c');
+		a.setParameter("p0",  0.00001);
+		a.setParameter("p1",  100.0);
+		algorithms.add(a);
+		
+		a = new Powell_correct();
+		a.setDir("Powell"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0",  0.00001);
+		a.setParameter("p1",  100.0);
+		algorithms.add(a);
+		
+		a = new Powell_correct();
+		a.setDir("Powell"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0",  0.00001);
 		a.setParameter("p1",  100.0);
 		
 		a = new NelderMeadBias();
-		a.setDir(dir+"NMA"+slash());
+		a.setDir("NMA"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0", 1.0);
 		a.setParameter("p1", 0.5);
@@ -506,7 +511,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NelderMeadBias();
-		a.setDir(dir+"NMA"+slash());
+		a.setDir("NMA"+slash());
 		a.setCorrection('s');
 		a.setParameter("p0", 1.0);
 		a.setParameter("p1", 0.5);
@@ -515,7 +520,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NelderMeadBias();
-		a.setDir(dir+"NMA"+slash());
+		a.setDir("NMA"+slash());
 		a.setCorrection('d');
 		a.setParameter("p0", 1.0);
 		a.setParameter("p1", 0.5);
@@ -524,7 +529,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NelderMeadBias();
-		a.setDir(dir+"NMA"+slash());
+		a.setDir("NMA"+slash());
 		a.setCorrection('m');
 		a.setParameter("p0", 1.0);
 		a.setParameter("p1", 0.5);
@@ -533,7 +538,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new NelderMeadBias();
-		a.setDir(dir+"NMA"+slash());
+		a.setDir("NMA"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0", 1.0);
 		a.setParameter("p1", 0.5);
@@ -543,7 +548,7 @@ public class WCCI_SINGLE_SOL
 		
 		
 		a = new SPSAv2();
-		a.setDir(dir+"SPSAv2"+slash());
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('t');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -553,7 +558,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SPSAv2();
-		a.setDir(dir+"SPSAv2"+slash());
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('s');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -563,7 +568,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SPSAv2();
-		a.setDir(dir+"SPSAv2"+slash());
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('d');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -573,7 +578,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 
 		a = new SPSAv2();
-		a.setDir(dir+"SPSAv2"+slash());
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('c');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -583,7 +588,7 @@ public class WCCI_SINGLE_SOL
 		algorithms.add(a);
 		
 		a = new SPSAv2();
-		a.setDir(dir+"SPSAv2"+slash());
+		a.setDir("SPSAv2"+slash());
 		a.setCorrection('m');
 		a.setParameter("p0", 0.5);
 		a.setParameter("p1", 1.0 );
@@ -592,104 +597,186 @@ public class WCCI_SINGLE_SOL
 		a.setParameter("p4", 0.1);
 		algorithms.add(a);
 		
+		//***************************************************//
 		
-		double[][] bounds = new double[problemDimension][2];
-		for(int i=0; i<problemDimension; i++)
-		{
-			bounds[i][0] = 0;
-			bounds[i][1] = 1;
-		}	
-		p = new Noise(problemDimension, bounds);
-		problems.add(p);	
+		a = new cGA_real();
+		a.setDir("COMPACTS"+slash());
+		a.setParameter("p0",300.0);
+		a.setCorrection('x');
+		algorithms.add(a);
 		
-		int algorithmIndex = 0;
-		for (AlgorithmBias algorithm : algorithms)
+		
+		char[] corrections = {'s','t','d','m','c'};
+		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
+		char[] DECrossOvers = {'b','e'};
+		
+		for (char correction : corrections)
 		{
-			System.out.print("" + "\t");
-			String algName = algorithm.getClass().getSimpleName();
-			if (algName.length() >= 8)
-				System.out.print(algName + "\t");
-			else
-				System.out.print(algName + "\t\t");
-			
-			if (algorithmIndex > 0)
-			{
-				System.out.print("\t" + "W");
-				
-			}
-			algorithmIndex++;
-		}	
-		System.out.println();
-				
-		double[][] finalValues;
-		MannWhitneyUTest mannWhitneyUTest = new MannWhitneyUTest();
-
-
-		int problemIndex = 0;
-		for (Problem problem: problems)
-		{
-			System.out.print("f" + (problemIndex+1) + "\t");
-
-			finalValues = new double[algorithms.size()][nrRepetitions];
-			algorithmIndex = 0;
-			for (AlgorithmBias algorithm : algorithms)
+			for (String mutation : DEMutations)
+				if(mutation.equals("ctro"))
 				{
-					for (int i = 0; i < nrRepetitions; i++)
-					{
-						algorithm.setRun(i);
-						
-						double best = runAlgorithmRepetition(algorithm, problem);
-						if (bias != null)
-							finalValues[algorithmIndex][i] = best - bias[problemIndex];
-						else
-							finalValues[algorithmIndex][i] = best;
-								
-					}
-					System.out.print("done+\t");
-					String mean = utils.RunAndStore.format(MatLab.mean(finalValues[algorithmIndex]));
-					String std = utils.RunAndStore.format(MatLab.std(finalValues[algorithmIndex]));
-					System.out.print(mean + " \u00B1 " + std + "\t");
-					if (algorithmIndex > 0)
-					{			
-						double pValue = mannWhitneyUTest.mannWhitneyUTest(finalValues[0], finalValues[algorithmIndex]);
-						char w = '=';
-						if (pValue < 0.05)
+					a = new cDE(mutation);
+					a.setDir("COMPACTS"+slash());
+					a.setCorrection(correction);
+					a.setParameter("p0", 300.0);
+					a.setParameter("p1", 0.25);
+					a.setParameter("p2", 0.5);
+					algorithms.add(a);	
+					a = null;				
+				}
+				else
+					for(char xover : DECrossOvers)
 						{
-							if (MatLab.mean(finalValues[0]) < MatLab.mean(finalValues[algorithmIndex]))
-								w = '+';
-							else
-								w = '-';
+							a = new cDE(mutation,xover);
+							a.setDir("COMPACTS"+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", 300.0);
+							a.setParameter("p1", 0.25);
+							a.setParameter("p2", 0.5);
+							algorithms.add(a);	
+							a = null;
 						}
-
-						System.out.print(w + "\t");
-							
+			
+			a = new cDELight();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 300.0);
+			a.setParameter("p1", 0.25);
+			a.setParameter("p2", 0.5);
+			algorithms.add(a);	
+			a = null;
+			
+			a = new cPSO();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 50.0);
+			a.setParameter("p1", 0.2);
+			a.setParameter("p2", 0.07);
+			a.setParameter("p3", 3.74);
+			a.setParameter("p4", 1.0);
+			a.setParameter("p5", 1.0);
+			algorithms.add(a);
+			a = null;
+			
+			a = new cBFO();
+			a.setDir("COMPACTS"+slash());
+			a.setCorrection(correction);
+			a.setParameter("p0", 300.0);
+			a.setParameter("p1", 0.1);
+			a.setParameter("p2", 4.0);
+			a.setParameter("p3", 1.0);
+			a.setParameter("p4", 10.0);
+			a.setParameter("p5", 2.0);
+			a.setParameter("p6", 2.0);
+			algorithms.add(a);
+			a = null;
+		}
+			
+		
+		//****************************************************************//
+		
+		double[] populationSizes = {5, 20, 100};
+		
+		char[] GAParentSelections = {'r','t'};
+		char[] GACrossOvers = {'a','d'};
+		char[] GAMutations = {'c','g'};
+		
+		
+		
+		for (double popSize : populationSizes)
+		{
+			for (char correction : corrections)
+			{
+				
+				for (String mutation : DEMutations)
+					if(mutation.equals("ctro"))
+					{
+						a = new DE(mutation);
+						a.setDir("DE"+slash()+a.getNPC()+slash());
+						a.setCorrection(correction);
+						a.setParameter("p0", popSize); //Population size
+						a.setParameter("p1", 0.5); //F - scale factor
+						a.setParameter("p2", -1.0); //CR - Crossover Ratio
+						a.setParameter("p3", 0.25); //Alpha
+						algorithms.add(a);	
+						a = null;
 					}
-					algorithmIndex++;
-				}
-
-				System.out.println();
-				problemIndex++;
-				}
+					else
+						for(char xover : DECrossOvers)
+						{
+							a = new DE(mutation,xover);
+							a.setDir("DE"+slash()+a.getNPC()+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", popSize); //Population size
+							a.setParameter("p1", 0.5); //F - scale factor
+							a.setParameter("p2", -1.0); //CR - Crossover Ratio
+							a.setParameter("p3", 0.25); //Alpha
+							algorithms.add(a);		
+							a = null;
+						}
+				
+				
+				for (char selection : GAParentSelections)
+					for (char oxer : GACrossOvers)
+						for (char mutation : GAMutations)
+						{
+							a = new GA(selection, oxer, mutation);
+							a.setDir("GA-TELO"+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", popSize); //Population size
+							a.setParameter("p1", 2.0); //tournament size
+							a.setParameter("p2", 2.0); //selection probability for stochastic tournament
+							a.setParameter("p3", 0.5); //CR
+							a.setParameter("p4", 0.25); //d
+							a.setParameter("p5", 0.01); //md
+							algorithms.add(a);		
+							a = null;
+						}
+				
+				a = new PSO();
+				a.setDir("PSO"+slash()+a.getNPC()+slash());
+				a.setCorrection(correction);
+				a.setParameter("p0", popSize); //swarm size
+				a.setParameter("p1", -0.2); //F - scale factor
+				a.setParameter("p2", -0.07); //CR - Crossover Ratio
+				a.setParameter("p3", 3.74); //Alpha
+				a.setParameter("p4", 1.0); //Alpha
+				a.setParameter("p5", 1.0); //Alpha
+				algorithms.add(a);		
+				a = null;	
+				
+				a = new BFO();
+				a.setDir("BFO"+slash()+a.getNPC()+slash());
+				a.setCorrection(correction);
+				a.setParameter("p0", popSize);
+				a.setParameter("p1", 20.0);
+				a.setParameter("p2", 25.0);
+				a.setParameter("p3", 28.0);
+				a.setParameter("p4", 24.0);
+				a.setParameter("p5", 0.25);
+				a.setParameter("p6", 0.05);
+				algorithms.add(a);
+				
 			}
-
-			private static class Noise extends Problem 
-			{
-				public Noise(int dimension, double[][] bounds) { super(dimension, bounds); }
-
-				public double f(double[] x){return RandUtils.random();}
-			}
-			
-
-			private static double runAlgorithmRepetition(AlgorithmBias algorithm, Problem problem) throws Exception
-			{
-				FTrend FT = algorithm.execute(problem, budgetFactor*problem.getDimension());
-
-				return FT.getLastF();
-			
-			
-			}
-			
 			
 		}
+		
+			
+		
+		execute(algorithms, problems, expSettings);	
+			
+		}
+}
 
+
+
+//a = new SimplifiedGA();
+//a.setDir("GA-TELO"+slash());
+//a.setCorrection(correction);
+//a.setParameter("p0", popSize); //Population size
+//a.setParameter("p1", 666.0); //FIND PARAMETER
+//a.setParameter("p2", 666.0); //FIND PARAMETER
+//a.setParameter("p3", 666.0); //FIND PARAMETER
+//algorithms.add(a);		
+//a = null;
 		

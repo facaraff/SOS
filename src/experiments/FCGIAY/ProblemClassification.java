@@ -65,9 +65,9 @@ public class ProblemClassification extends Experiment
 			add(a);
 		}		
 
-		a = new PC_CMAES();
-		a.setID("CMAES-P"+(int) (4.0 + 3.0 * Math.log(probDim)));
-		add(a);
+//		a = new PC_CMAES();
+//		a.setID("CMAES-P"+(int) (4.0 + 3.0 * Math.log(probDim)));
+//		add(a);
 
 
 		for(int i = 1; i<=28; i++)

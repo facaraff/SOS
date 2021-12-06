@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2021, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -26,107 +26,84 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS.temp;
+package mains.AlgorithmicBehaviour.BIAS;
 
 
 import java.util.Vector;
 
-import algorithms.specialOptions.BIAS.DE;
-//import algorithms.specialOptions.BIAS.SimplifiedGA;
+import algorithms.specialOptions.BIAS.ISBDE.DEPoC;
+//import algorithms.specialOptions.BIAS.ISBDE.DEPoCAndFinpos;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-import mains.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	
-public class redoDE extends ISBMain
+public class EmergenceOfBiasInDE extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
 		AlgorithmBias a;
 		Problem p;
-
 		
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
-		expSettings.setBudgetFactor(1000);
-		expSettings.setNrRepetition(100);
+		expSettings.setBudgetFactor(10000);
+		expSettings.setNrRepetition(600);
+//		expSettings.setNrRepetition(100);
+		
+
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
 		for(int i=0; i<n; i++)
 		{
-			bounds[i][0] = 0.0;
-			bounds[i][1] = 1.0;
+			bounds[i][0] = 0;
+			bounds[i][1] = 1;
 		}	
-		
 		
 		p = new Noise(n, bounds);
 		p.setFID("f0");
 		
 		problems.add(p);
 		
-		
-		
-		char[] corrections = {'s','t','d','m','c'};
-		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
+	
+		double[] populationSizes;
+		double[] FSteps;
+		double[] CRSteps;
 
+
+					
+		char[] corrections = {'m', 't', 'c', 'd','s','u'};
+		String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
 		char[] DECrossOvers = {'b','e'};
+		populationSizes = new double[]{5, 20, 100};
+		FSteps = new double[]{0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
 
 
-		double[] populationSizes = {5, 20, 100};
-
-		
-		
-		double[] FValues = new double[10];
-		double[] CRValues = new double[5];
-		
-		
-		
-		for (int i=0; i<5; i++)
-			FValues[i] = 0.05+i*(1.95/9.0);
-		for (int i=0; i<5; i++)
-			CRValues[i] = 0.05 +i*((0.94/4.0));
-		
-
-		
-		
 		
 		
 		
 		for (double popSize : populationSizes)
 		{
-			
 			for (char correction : corrections)
 			{
 				
-				for (double F : FValues) 
+				for (String mutation : DEMutations)
 				{
-					for (double CR : CRValues)
+					for (double F : FSteps)
 					{
-
-						for (String mutation : DEMutations)
-							if(mutation.equals("ctro"))
+							for(char xover : DECrossOvers)
 							{
-								a = new DE(mutation);
-								a.setDir("DE"+slash()+a.getNPC()+slash());
-								a.setCorrection(correction);
-								a.setParameter("p0", popSize); //Population size
-								a.setParameter("p1", F); //F - scale factor
-								a.setParameter("p2", CR); //CR - Crossover Ratio
-								a.setParameter("p3", Double.NaN); //Alpha
-								algorithms.add(a);	
-								a = null;
-							}
-							else
-								for(char xover : DECrossOvers)
+								for (double CR : CRSteps)
 								{
-									a = new DE(mutation,xover);
-									a.setDir("DE"+slash()+a.getNPC()+slash());
+//									a = new DEPoCAndFinpos(mutation,xover,true);
+									a = new DEPoC(mutation,xover,true);
+									a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
 									a.setCorrection(correction);
 									a.setParameter("p0", popSize); //Population size
 									a.setParameter("p1", F); //F - scale factor
@@ -135,18 +112,19 @@ public class redoDE extends ISBMain
 									algorithms.add(a);		
 									a = null;
 								}
+							}
+						}
+					
 					}
-
-				}
+				}	
 			}
 			
-		}
 		
-			
 		execute(algorithms, problems, expSettings);	
-			
+//		System.out.println("Done and dusted!");
 		}
 }
+
 
 
 

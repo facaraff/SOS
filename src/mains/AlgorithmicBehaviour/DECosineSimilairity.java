@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2021, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -26,100 +26,111 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS;
+package mains.AlgorithmicBehaviour;
 
 
 import java.util.Vector;
 
-
-import algorithms.specialOptions.BIAS.GA;
-import benchmarks.ISBSuite;
+import algorithms.specialOptions.BIAS.ISBDE.DEPoCAndCS;
+import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-
-
+import mains.AlgorithmicBehaviour.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	
-public class GA2021 extends ISBMain
+public class DECosineSimilairity extends ISBMain
 {	
+
+	
 	public static void main(String[] args) throws Exception
 	{	
 		AlgorithmBias a;
 		Problem p;
-
 		
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
+
 		ExperimentHelper expSettings = new ExperimentHelper();
-//		expSettings.setBudgetFactor(10000);
-		//expSettings.setNrRepetition(2);
+		expSettings.setBudgetFactor(10000);
+		expSettings.setProblemDimension(30);
+		expSettings.setNrRepetition(30);
 		
 		int n = expSettings.getProblemDimension();
+		double[][] bounds = new double[n][2];
+		for(int i=0; i<n; i++)
+		{
+			bounds[i][0] = 0;
+			bounds[i][1] = 1;
+		}	
+		
+		p = new Noise(n, bounds);
+		p.setFID("f0");
+		
+		problems.add(p);
+		
+	
+		double[] populationSizes;
+		double[] FSteps;
+		double[] CRSteps,CRStepsBin;
 
-		
-		p = new ISBSuite("f0",n);
-		problems.add(p); p = null;
-		p = new ISBSuite("g0",n);
-		problems.add(p); p = null;
-		p = new ISBSuite("h0",n);
-		problems.add(p); p = null;
-		p = new ISBSuite("i0",n);
-		problems.add(p); p = null;
-		
-		
-		char[] corrections = {'s','t','d','c'};	//'m',	
-		double[] populationSizes = {5, 20, 100};
-		char[] GAParentSelections = {'r','t'};
-		char[] GACrossOvers = {'a','d'};
-		char[] GAMutations = {'c','g'};
-		
-		
+					
+		char[] corrections = {'h','m', 't','c','s','u'}; //'d',
+		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
+//		char[] DECrossOvers = {'b','e'};
+		char[] DECrossOvers = {'e'};
+		populationSizes = new double[]{5, 20, 100};
+
+
+		FSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
+		CRStepsBin = new double[]{0.05, 0.0891, 0.1283, 0.1675, 0.2067, 0.2458, 0.285, 0.52, 0.755, 0.99};	
+
 		
 		for (double popSize : populationSizes)
 		{
 			for (char correction : corrections)
-			{			
-				for (char selection : GAParentSelections)
-					for (char oxer : GACrossOvers)
-						for (char mutation : GAMutations)
-						{
-							a = new GA(selection, oxer, mutation);
-							a.setDir("GA"+slash());
-							a.setCorrection(correction);
-							a.setParameter("p0", popSize); //Population size
-							a.setParameter("p1", 2.0); //tournament size
-							a.setParameter("p2", 2.0); //selection probability for stochastic tournament
-							a.setParameter("p3", 0.5); //CR
-							a.setParameter("p4", 0.25); //d
-							a.setParameter("p5", 0.01); //md
-							algorithms.add(a);		
-							a = null;
+			{		
+				for (String mutation : DEMutations)
+				{
+					for (double F : FSteps)
+					{
+							for(char xover : DECrossOvers)
+							{
+								if(xover=='b') CRSteps = CRStepsBin;
+								
+								for (double CR : CRSteps)
+								{
+									a = new DEPoCAndCS(mutation,xover,false);
+									a.setID("DE");
+									a.setDir("CosineSimilarity"+slash()+a.getNPC()+slash());
+									a.setCorrection(correction);
+									a.setParameter("p0", popSize); //Population size
+									a.setParameter("p1", F); //F - scale factor
+									a.setParameter("p2", CR); //CR - Crossover Ratio
+									a.setParameter("p3", Double.NaN); //Alpha
+									algorithms.add(a);		
+									a = null;
+								}
+							}
 						}
+					
+					}
+				}	
 			}
 			
-		}
 		
-		execute(algorithms, problems, expSettings);		
-	}
+		execute(algorithms, problems, expSettings);	
+//		System.out.println("Done and dusted!");
+		}
 }
 
-//GA{g|c}{d|a}{r|t}{t|s|e}p{5|20|100}D30
-//i.e. {mutation} {xover} {parentselection} {correction}..
-//
-//
-//and rGA{g|c}{d|a}{x}{t|s|d}{x|y}p{5|20|100}D…
-//i.e. {mutation} {xover} {parentselection} {correction}{survivor selection}..
 
-//a = new SimplifiedGA();
-//a.setDir("GA-TELO"+slash());
-//a.setCorrection(correction);
-//a.setParameter("p0", popSize); //Population size
-//a.setParameter("p1", 666.0); //FIND PARAMETER
-//a.setParameter("p2", 666.0); //FIND PARAMETER
-//a.setParameter("p3", 666.0); //FIND PARAMETER
-//algorithms.add(a);		
-//a = null;
+
+
+
+
+
 		

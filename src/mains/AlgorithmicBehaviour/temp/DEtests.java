@@ -26,36 +26,36 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.BIAS;
+package mains.AlgorithmicBehaviour.temp;
 
 
 import java.util.Vector;
 
-import algorithms.specialOptions.BIAS.singleSolutions.*;
+
+
+import algorithms.specialOptions.BIAS.DE;
+import benchmarks.Noise;
 import utils.ExperimentHelper;
-import mains.BIAS.ISBMain;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-import benchmarks.Noise;
-
+import mains.AlgorithmicBehaviour.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	
-public class PPSN2020 extends ISBMain
-{
-	
+public class DEtests extends ISBMain
+{	
 	public static void main(String[] args) throws Exception
 	{	
-
 		AlgorithmBias a;
 		Problem p;
 
 		
-	
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
+		expSettings.setBudgetFactor(10000);
+		expSettings.setNrRepetition(100);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -65,91 +65,64 @@ public class PPSN2020 extends ISBMain
 			bounds[i][1] = 1;
 		}	
 		
-		
 		p = new Noise(n, bounds);
 		p.setFID("f0");
 		
 		problems.add(p);
 		
+//		char[] corrections = {'s','t','d','m','c'};
+		char[] corrections = {'u'};
+		String[] DEMutations = {"ro","rt"};
+		char[] DECrossOvers = {'b'};
+//		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
+//		char[] DECrossOvers = {'b','e'};
+//		double[] populationSizes = {5, 20, 100};
+		double[] populationSizes = {5, 20, 100};
 		
-		char[] corrections = {'s','t','d','m','c'};
-		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
-		char[] CrossOvers = {'b','e'};
 		
-		for (char correction : corrections)
+		
+		for (double popSize : populationSizes)
 		{
-			for (String mutation : DEMutations)
-				if(mutation.equals("ctro"))
-				{
-					a = new cDE(mutation);
-					a.setDir("COMPACTS"+slash());
-					a.setCorrection(correction);
-					a.setParameter("p0", 300.0);
-					a.setParameter("p1", 0.25);
-					a.setParameter("p2", 0.5);
-					algorithms.add(a);	
-					a = null;				
-				}
-				else
-					for(char xover : CrossOvers)
+			for (char correction : corrections)
+			{
+				
+				for (String mutation : DEMutations)
+					if(mutation.equals("ctro"))
+					{
+						a = new DE(mutation);
+						a.setDir("DE"+slash()+a.getNPC()+slash());
+						a.setCorrection(correction);
+						a.setParameter("p0", popSize); //Population size
+						a.setParameter("p1", 0.5); //F - scale factor
+						a.setParameter("p2", -1.0); //CR - Crossover Ratio
+						a.setParameter("p3", 0.25); //Alpha
+						algorithms.add(a);	
+						a = null;
+					}
+					else
+						for(char xover : DECrossOvers)
 						{
-							a = new cDE(mutation,xover);
-							a.setDir("COMPACTS"+slash());
+							a = new DE(mutation,xover);
+							a.setDir("DE"+slash()+a.getNPC()+slash());
 							a.setCorrection(correction);
-							a.setParameter("p0", 300.0);
-							a.setParameter("p1", 0.25);
-							a.setParameter("p2", 0.5);
-							algorithms.add(a);	
+							a.setParameter("p0", popSize); //Population size
+							a.setParameter("p1", 0.5); //F - scale factor
+							a.setParameter("p2", -1.0); //CR - Crossover Ratio
+							a.setParameter("p3", 0.25); //Alpha
+							algorithms.add(a);		
 							a = null;
 						}
+				}	
+			}
 			
-			a = new cDELight();
-			a.setDir("COMPACTS"+slash());
-			a.setCorrection(correction);
-			a.setParameter("p0", 300.0);
-			a.setParameter("p1", 0.25);
-			a.setParameter("p2", 0.5);
-			algorithms.add(a);	
-			a = null;
-			
-			a = new cPSO();
-			a.setDir("COMPACTS"+slash());
-			a.setCorrection(correction);
-			a.setParameter("p0", 50.0);
-			a.setParameter("p1", 0.2);
-			a.setParameter("p2", 0.07);
-			a.setParameter("p3", 3.74);
-			a.setParameter("p4", 1.0);
-			a.setParameter("p5", 1.0);
-			algorithms.add(a);
-			a = null;
-			
-			a = new cBFO();
-			a.setDir("COMPACTS"+slash());
-			a.setCorrection(correction);
-			a.setParameter("p0", 300.0);
-			a.setParameter("p1", 0.1);
-			a.setParameter("p2", 4.0);
-			a.setParameter("p3", 1.0);
-			a.setParameter("p4", 10.0);
-			a.setParameter("p5", 2.0);
-			a.setParameter("p6", 2.0);
-			algorithms.add(a);
-			a = null;
-			
-			
-		}
-			
-		a = new cGA_real();
-		a.setDir("COMPACTS"+slash());
-		a.setParameter("p0",300.0);
-//		a.setParameter("p1",200.0);
-		a.setCorrection('x');
-		algorithms.add(a);
 		
-		execute(algorithms, problems, expSettings);
-	
+		execute(algorithms, problems, expSettings);	
+			
 		}
 }
+
+
+
+
 
 		

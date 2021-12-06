@@ -1,4 +1,4 @@
-package mains.BIAS;
+package mains.AlgorithmicBehaviour.BIAS;
 
 import java.util.Vector;
 
