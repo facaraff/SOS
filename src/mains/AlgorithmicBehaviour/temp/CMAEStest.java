@@ -42,12 +42,11 @@ import java.util.concurrent.Future;
 	
 
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
-	
 
+import algorithms.AlgorithmBehaviour.Pre2020.CMAES;
 //import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;
-import algorithms.specialOptions.BIAS.CMAES;
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
 import utils.RunAndStore.FTrend;

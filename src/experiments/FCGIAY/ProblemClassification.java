@@ -30,8 +30,7 @@ package experiments.FCGIAY;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.specialOptions.FCGIAY.PC_CMAES;
-import algorithms.specialOptions.FCGIAY.PC_jDE;
+import algorithms.PCDL.PC_jDE;
 import benchmarks.CEC2013;
 //import benchmarks.CEC2014;
 

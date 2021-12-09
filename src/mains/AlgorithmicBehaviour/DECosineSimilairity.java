@@ -31,7 +31,7 @@ package mains.AlgorithmicBehaviour;
 
 import java.util.Vector;
 
-import algorithms.specialOptions.BIAS.ISBDE.DEPoCAndCS;
+import algorithms.AlgorithmBehaviour.DE_TIOBR;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
@@ -103,7 +103,7 @@ public class DECosineSimilairity extends ISBMain
 								
 								for (double CR : CRSteps)
 								{
-									a = new DEPoCAndCS(mutation,xover,false);
+									a = new DE_TIOBR(mutation,xover,false);
 									a.setID("DE");
 									a.setDir("CosineSimilarity"+slash()+a.getNPC()+slash());
 									a.setCorrection(correction);

@@ -31,7 +31,7 @@ package mains.AlgorithmicBehaviour.temp;
 
 import java.util.Vector;
 
-import algorithms.specialOptions.BIAS.BFO;
+import algorithms.AlgorithmBehaviour.ISB_PopBased.BFO;
 //import algorithms.specialOptions.BIAS.PSO;
 //import algorithms.specialOptions.BIAS.singleSolutions.cBFO;
 //import AlgorithmBiass.specialOptions.BIAS.SimplifiedGA;

@@ -31,8 +31,7 @@ package mains.AlgorithmicBehaviour.BIAS;
 
 import java.util.Vector;
 
-
-import algorithms.specialOptions.BIAS.GA;
+import algorithms.AlgorithmBehaviour.ISB_PopBased.GA;
 import benchmarks.ISBSuite;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;

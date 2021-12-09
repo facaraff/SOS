@@ -30,7 +30,7 @@ package experiments.FCGIAY;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
-import algorithms.specialOptions.FCGIAY.EarlyDE;
+import algorithms.PCDL.EarlyDE;
 import benchmarks.BBOB2018;
 //import benchmarks.CEC2014;
 

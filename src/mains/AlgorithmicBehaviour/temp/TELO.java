@@ -31,13 +31,11 @@ package mains.AlgorithmicBehaviour.temp;
 
 import java.util.Vector;
 
-
-import algorithms.specialOptions.BIAS.singleSolutions.*;
-import algorithms.specialOptions.BIAS.BFO;
-import algorithms.specialOptions.BIAS.PSO;
-import algorithms.specialOptions.BIAS.DE;
-//import algorithms.specialOptions.BIAS.SimplifiedGA;
-import algorithms.specialOptions.BIAS.GA;
+import algorithms.AlgorithmBehaviour.ISB_PopBased.BFO;
+import algorithms.AlgorithmBehaviour.ISB_PopBased.DE;
+import algorithms.AlgorithmBehaviour.ISB_PopBased.GA;
+import algorithms.AlgorithmBehaviour.ISB_PopBased.PSO;
+import algorithms.AlgorithmBehaviour.ISB_SingleSolutions.*;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;

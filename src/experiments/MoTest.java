@@ -30,14 +30,9 @@ package experiments;
 
 import interfaces.Experiment;
 import interfaces.Algorithm;
+import algorithms.MoAlgs.MoTestAlg;
 //import benchmarks.CEC2014RotInvStudy;
 import benchmarks.problemsImplementation.BaseFunctions.*;
-//import benchmarks.BBOB2018;
-//import benchmarks.problemsImplementation.BaseFunctions.Sphere;
-//import benchmarks.problemsImplementation.BaseFunctions.Ellipsoid;
-//import benchmarks.problemsImplementation.BaseFunctions.Ackley;
-//import benchmarks.problemsImplementation.BaseFunctions.Rastigin;
-import algorithms.specialOptions.MoAlgs.MoTestAlg;
 
 
 

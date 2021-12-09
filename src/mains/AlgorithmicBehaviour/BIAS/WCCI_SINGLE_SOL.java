@@ -32,10 +32,7 @@ package mains.AlgorithmicBehaviour.BIAS;
 import java.util.Vector;
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
-//import algorithms.specialOptions.BIAS.singleSolutions.CMAES11;
-//import algorithms.specialOptions.BIAS.singleSolutions.ISPO;
-//import algorithms.specialOptions.BIAS.singleSolutions.RIS;
-import algorithms.specialOptions.BIAS.singleSolutions.*;
+import algorithms.AlgorithmBehaviour.ISB_SingleSolutions.*;
 import utils.MatLab;
 import utils.random.RandUtils;
 import interfaces.AlgorithmBias;

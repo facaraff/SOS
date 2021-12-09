@@ -38,14 +38,14 @@ import java.util.concurrent.Future;
 
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
-import algorithms.specialOptions.BIAS.ISBDE.corections.DEbob;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DEboe;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DEcbob;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DEcboe;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DErob;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DEroe;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DErtb;
-import algorithms.specialOptions.BIAS.ISBDE.corections.DErte;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEbob;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEboe;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEcbob;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEcboe;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErob;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEroe;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErtb;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErte;
 import utils.MatLab;
 
 //import benchmarks.problemsImplementation.CEC2010.BenchmarkCEC2010_C;
