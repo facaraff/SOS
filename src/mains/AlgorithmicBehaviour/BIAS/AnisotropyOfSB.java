@@ -26,21 +26,25 @@ The views and conclusions contained in the software and documentation are those
 of the authors and should not be interpreted as representing official policies, 
 either expressed or implied, of the FreeBSD Project.
 */
-package mains.AlgorithmicBehaviour.temp;
+package mains.AlgorithmicBehaviour.BIAS;
 
 
 import java.util.Vector;
 
 import algorithms.AlgorithmBehaviour.ISB_PopBased.DE;
+import algorithms.AlgorithmBehaviour.ISB_SingleSolutions.*;
+//import algorithms.specialOptions.BIAS.SimplifiedGA;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
+import interfaces.ISBMain;
 import interfaces.Problem;
-import mains.AlgorithmicBehaviour.BIAS.ISBMain;
+
+
 
 import static utils.RunAndStore.slash;
 	
-public class DEtests extends ISBMain
+public class AnisotropyOfSB extends ISBMain
 {	
 	public static void main(String[] args) throws Exception
 	{	
@@ -53,7 +57,7 @@ public class DEtests extends ISBMain
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
-		expSettings.setNrRepetition(100);
+		expSettings.setNrRepetition(15);
 		
 		int n = expSettings.getProblemDimension();
 		double[][] bounds = new double[n][2];
@@ -63,64 +67,67 @@ public class DEtests extends ISBMain
 			bounds[i][1] = 1;
 		}	
 		
+		double[] populationSizes = {5, 20, 100};
+		
 		p = new Noise(n, bounds);
 		p.setFID("f0");
 		
 		problems.add(p);
-		
-//		char[] corrections = {'s','t','d','m','c'};
-		char[] corrections = {'u'};
-		String[] DEMutations = {"ro","rt"};
-		char[] DECrossOvers = {'b'};
-//		String[] DEMutations = {"ro","rt","ctro","bo","bt","ctbo","rtbt"};
-//		char[] DECrossOvers = {'b','e'};
-//		double[] populationSizes = {5, 20, 100};
-		double[] populationSizes = {5, 20, 100};
-		
-		
-		
-		for (double popSize : populationSizes)
+	
+		for(double popSize : populationSizes)
 		{
-			for (char correction : corrections)
-			{
-				
-				for (String mutation : DEMutations)
-					if(mutation.equals("ctro"))
-					{
-						a = new DE(mutation);
-						a.setDir("DE"+slash()+a.getNPC()+slash());
-						a.setCorrection(correction);
-						a.setParameter("p0", popSize); //Population size
-						a.setParameter("p1", 0.5); //F - scale factor
-						a.setParameter("p2", -1.0); //CR - Crossover Ratio
-						a.setParameter("p3", 0.25); //Alpha
-						algorithms.add(a);	
-						a = null;
-					}
-					else
-						for(char xover : DECrossOvers)
-						{
-							a = new DE(mutation,xover);
-							a.setDir("DE"+slash()+a.getNPC()+slash());
-							a.setCorrection(correction);
-							a.setParameter("p0", popSize); //Population size
-							a.setParameter("p1", 0.5); //F - scale factor
-							a.setParameter("p2", -1.0); //CR - Crossover Ratio
-							a.setParameter("p3", 0.25); //Alpha
-							algorithms.add(a);		
-							a = null;
-						}
-				}	
-			}
+			a = new DE("bt",'b');
+			a.countInfeasibleDimenions("DEb2bd");
+			a.setDir("DE"+slash()+a.getNPC()+slash());
+			a.setCorrection('d'); //DMISMISS
+			a.setParameter("p0", popSize); //Population size
+			a.setParameter("p1", 0.5); //F - scale factor
+			a.setParameter("p2", -1.0); //CR - Crossover Ratio
+			a.setParameter("p3", 0.25); //Alpha
+			algorithms.add(a);		
+			a = null;
+		}
+					
+		a = new Powell_correct();
+		a.countInfeasibleDimenions("PMs");
+		a.setDir("Powell"+slash());
+		a.setCorrection('s');
+		a.setParameter("p0",  0.00001);
+		a.setParameter("p1",  100.0);
+		algorithms.add(a);	
+		a=null;
 			
+		a = new cBFO();
+		a.countInfeasibleDimenions("cBFOs");
+		a.setDir("COMPACTS"+slash());
+		a.setCorrection('s'); //SATURATION
+		a.setParameter("p0", 300.0);
+		a.setParameter("p1", 0.1);
+		a.setParameter("p2", 4.0);
+		a.setParameter("p3", 1.0);
+		a.setParameter("p4", 10.0);
+		a.setParameter("p5", 2.0);
+		a.setParameter("p6", 2.0);
+		algorithms.add(a);
+		a = null;
+		
+			
+	
+		a = new NonUniformSA();
+		a.countInfeasibleDimenions("NUSAd");
+		a.setDir("NUSA"+slash());
+		a.setCorrection('d');
+		a.setParameter("p0",5.0);
+		a.setParameter("p1",0.9);
+		a.setParameter("p2",3.0);
+		a.setParameter("p3",10.0);
+		algorithms.add(a);
+		a=null;
 		
 		execute(algorithms, problems, expSettings);	
 			
 		}
 }
-
-
-
 
 
 		

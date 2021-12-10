@@ -28,9 +28,6 @@ either expressed or implied, of the FreeBSD Project.
 */
 package mains.AlgorithmicBehaviour.temp;
 
-//import java.io.BufferedWriter;
-//import java.io.File;
-//import java.io.FileWriter;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
@@ -39,25 +36,32 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-	
-
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
-import algorithms.AlgorithmBehaviour.Pre2020.CMAES;
-//import test.TestOptimizerHelper.CEC2005;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEbob;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEboe;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEcbob;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEcboe;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErob;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEroe;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErtb;
+import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErte;
 import utils.MatLab;
-import utils.random.RandUtils;
+
+//import benchmarks.problemsImplementation.CEC2010.BenchmarkCEC2010_C;
+
 import interfaces.AlgorithmBias;
 import interfaces.Problem;
-import utils.RunAndStore.FTrend;
-
+import static utils.RunAndStore.FTrend;
+import static utils.RunAndStore.format;
 	
-public class CMAEStest
+public class DECorrections
 {
 	// number of repetitions and budget factor
 	static int nrRepetitions = 50;
-	static int budgetFactor = 1000;//10000;
-	static int problemDimension = 100;//30;
+	static int budgetFactor = 10000;
+	static int problemDimension = 30;
+	static double fUpperBound = 2;
 	
 	static boolean debug = false;
 	static boolean showPValue = false;
@@ -69,40 +73,38 @@ public class CMAEStest
 		Vector<AlgorithmBias> algorithms = new Vector<AlgorithmBias>();
 		Vector<Problem> problems = new Vector<Problem>();
 		
-		AlgorithmBias a;
+//		Algorithm a;
 		Problem p;
 		
-		double[] bias = null;
 		
-		a = new CMAES('s');
-		a.setParameter("p0",5.0);
-		algorithms.add(a);
+		double[] bias = null;	
 		
-		a = new CMAES('s');
-		a.setParameter("p0",20.0);
-		algorithms.add(a);
+		
+		int[] DEVariants = {1,2,3,4,5,6,7,8};
+		
 
-		a = new CMAES('s');
-		a.setParameter("p0",100.0);
-		algorithms.add(a);
 		
-		a = new CMAES('d');
-		a.setParameter("p0",5.0);
-		algorithms.add(a);
-		
-		a = new CMAES('d');
-		a.setParameter("p0",20.0);
-		algorithms.add(a);
+		char[] corrections = {'t','s','e', 'm'};
 
-		a = new CMAES('d');
-		a.setParameter("p0",100.0);
-		algorithms.add(a);
+		
+		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};
+//		
+		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
+		
+		int[] popSizes = {5,20,100};
+		
+		generateNewConfiguration(algorithms, DEVariants, FSteps, CRSteps, popSizes, corrections);
+		
+		
+		//********************************************************
 		
 		double[][] bounds = new double[problemDimension][2];
 		for(int i=0; i<problemDimension; i++)
 		{
 			bounds[i][0] = 0;
-			bounds[i][1] = 1;
+			bounds[i][1] = fUpperBound;
+//			bounds[i][0] = 0;
+//			bounds[i][1] = 100;
 		}	
 		p = new Noise( problemDimension, bounds);
 		problems.add(p);	
@@ -119,7 +121,8 @@ public class CMAEStest
 			
 			if (algorithmIndex > 0)
 			{
-				System.out.print("\t" + "W");
+				System.out.print//static String Dir = "/home/fabio/Desktop/kylla/CMAES";
+("\t" + "W");
 				if (showPValue)
 					System.out.print("\t" + "p-value" + "\t");
 						}
@@ -146,8 +149,8 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 					{
 						for (int i = 0; i < nrRepetitions; i++)
 						{
+
 							algorithm.setRun(i);
-							
 							if (multiThread)
 							{
 								AlgorithmRepetitionThread thread = new AlgorithmRepetitionThread(algorithm, problem, i, problemIndex);
@@ -173,8 +176,8 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 							}
 						}
 
-						String mean = utils.RunAndStore.format(MatLab.mean(finalValues[algorithmIndex]));
-						String std = utils.RunAndStore.format(MatLab.std(finalValues[algorithmIndex]));
+						String mean = format(MatLab.mean(finalValues[algorithmIndex]));
+						String std = format(MatLab.std(finalValues[algorithmIndex]));
 						System.out.print(mean + " \u00B1 " + std + "\t");
 						if (algorithmIndex > 0)
 						{			
@@ -190,7 +193,7 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 
 							System.out.print(w + "\t");
 							if (showPValue)
-								System.out.print(utils.RunAndStore.format(pValue) + "\t");
+								System.out.print(format(pValue) + "\t");
 						}
 						algorithmIndex++;
 					}
@@ -205,8 +208,8 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				public Noise(int dimension, double[][] bounds) { super(dimension, bounds); }
 
 				public double f(double[] x)
-				{ 	
-					return RandUtils.random();
+				{ 
+					return Math.random();		
 				}
 			}
 			
@@ -227,12 +230,16 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				AlgorithmBias algorithm;
 				Problem problem;
 				int repNr;
+				@SuppressWarnings("unused")
+				int index;
+				
 
 				public AlgorithmRepetitionThread(AlgorithmBias algorithm, Problem problem, int repNr, int problemIndex)
 				{
 					this.algorithm = algorithm;
 					this.problem = problem;
 					this.repNr = repNr;
+					this.index = problemIndex;
 				}
 
 				@Override
@@ -250,11 +257,68 @@ threadPool = Executors.newFixedThreadPool(nrProc);
 				FTrend FT = algorithm.execute(problem, budgetFactor*problem.getDimension());
 
 				return FT.getLastF();
-			
-			
 			}
-				
 			
-		}
-
+			
+		/*****************************************************************************/
 		
+			static protected AlgorithmBias initialiseDEVariant(int v, char correction)
+			{		
+				switch (v) 
+				{
+				case 1:
+					return new DEcbob(correction);
+				case 2:
+					return new DEcboe(correction);
+				case 3:
+					return new DEroe(correction);
+				case 4:
+					return new DErob(correction);
+				case 5:
+					return new DErtb(correction);
+				case 6:
+					return new DErte(correction);
+				case 7:
+					return new DEbob(correction);
+				case 8:
+					return new DEboe(correction);
+				default:
+					return null;
+				}
+				
+			}
+			
+			
+			
+//			F: 0.05 min 2 max with step 1.95/8
+//			Cr: min 0.05 max 0.99 step 0.95/4
+//			I am fine with F
+//			but for Cr should not it be step = 0.94/4.0?
+			
+			static void generateNewConfiguration( Vector<AlgorithmBias> algorithms, int[] DEVariants,  double[] FSteps, double[] CRSteps, int[] popSizes, char[] corrections)
+			{
+				
+				int FStepsNr = FSteps.length;
+				int CRStepsNr = CRSteps.length;
+				int popSizesNr = popSizes.length;
+				int correctionsNr = corrections.length;
+				int DEVariantsNr = DEVariants.length;
+				
+				AlgorithmBias a = null;
+				
+				//for(int devar = 2; devar < 3; devar++)
+				for(int devar = 0; devar < DEVariantsNr; devar++)
+					for(int f = 0; f < FStepsNr; f++)
+						for(int cr = 0; cr < CRStepsNr; cr++)
+							for(int ps = 0; ps < popSizesNr; ps++)
+								for(int corr = 0; corr < correctionsNr; corr++) 
+								{
+									a = initialiseDEVariant(DEVariants[devar],corrections[corr]);
+									a.setParameter("p0",(double)popSizes[ps]);
+									a.setParameter("p1",FSteps[f]);
+									a.setParameter("p2",CRSteps[cr]);
+									algorithms.add(a);
+								}
+			}			
+
+}

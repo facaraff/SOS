@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2021, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2020, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -32,10 +32,10 @@ package mains.AlgorithmicBehaviour.BIAS;
 import java.util.Vector;
 
 import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.DEPoC;
-//import algorithms.specialOptions.BIAS.ISBDE.DEPoCAndFinpos;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
+import interfaces.ISBMain;
 import interfaces.Problem;
 
 import static utils.RunAndStore.slash;
@@ -53,7 +53,6 @@ public class EmergenceOfBiasInDE extends ISBMain
 		ExperimentHelper expSettings = new ExperimentHelper();
 		expSettings.setBudgetFactor(10000);
 		expSettings.setNrRepetition(600);
-//		expSettings.setNrRepetition(100);
 		
 
 		
@@ -70,23 +69,18 @@ public class EmergenceOfBiasInDE extends ISBMain
 		
 		problems.add(p);
 		
-	
-		double[] populationSizes;
-		double[] FSteps;
-		double[] CRSteps;
-
-
-					
+		
+		
 		char[] corrections = {'m', 't', 'c', 'd','s','u'};
 		String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
 		char[] DECrossOvers = {'b','e'};
-		populationSizes = new double[]{5, 20, 100};
-		FSteps = new double[]{0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-		CRSteps = new double[]{0.05,0.285,0.52,0.755,0.99};	
-
-
+		double[] populationSizes = {5, 20, 100};
 		
-		
+		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+		double[] CRSteps = {0.05,0.285,0.52,0.755,0.99};	
+	
+		//		double[] AdditionalCRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
+			
 		
 		for (double popSize : populationSizes)
 		{
@@ -97,13 +91,25 @@ public class EmergenceOfBiasInDE extends ISBMain
 				{
 					for (double F : FSteps)
 					{
+						if(mutation.equals("ctro"))
+						{
+							a = new DEPoC(mutation,'x',true);
+							a.setDir("DEPOISBIAS"+slash());
+							a.setCorrection(correction);
+							a.setParameter("p0", popSize); //Population size
+							a.setParameter("p1", F); //F - scale factor
+							a.setParameter("p2", Double.NaN); //CR - Crossover Ratio
+							a.setParameter("p3", Double.NaN); //Alpha
+							algorithms.add(a);	
+							a = null;
+						}
+						else
 							for(char xover : DECrossOvers)
 							{
 								for (double CR : CRSteps)
 								{
-//									a = new DEPoCAndFinpos(mutation,xover,true);
 									a = new DEPoC(mutation,xover,true);
-									a.setDir("DEPOISBIAS"+slash()+a.getNPC()+slash());
+									a.setDir("DEPOISBIAS"+slash());
 									a.setCorrection(correction);
 									a.setParameter("p0", popSize); //Population size
 									a.setParameter("p1", F); //F - scale factor
@@ -113,6 +119,8 @@ public class EmergenceOfBiasInDE extends ISBMain
 									a = null;
 								}
 							}
+			
+									
 						}
 					
 					}
@@ -124,8 +132,6 @@ public class EmergenceOfBiasInDE extends ISBMain
 //		System.out.println("Done and dusted!");
 		}
 }
-
-
 
 
 

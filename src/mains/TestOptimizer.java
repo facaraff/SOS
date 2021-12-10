@@ -38,7 +38,6 @@ public class TestOptimizer
 {
 	public static void main(String[] args) throws Exception
 	{
-		System.out.println("qui non va... perche'?");
 		int problemDimension = 1000;
 		
 		double[] x = new double[problemDimension];

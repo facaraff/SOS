@@ -39,8 +39,8 @@ import algorithms.AlgorithmBehaviour.ISB_SingleSolutions.*;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
+import interfaces.ISBMain;
 import interfaces.Problem;
-import mains.AlgorithmicBehaviour.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	

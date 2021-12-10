@@ -36,8 +36,8 @@ import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.DEPoC;
 import benchmarks.ISBSuite;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
+import interfaces.ISBMain;
 import interfaces.Problem;
-import mains.AlgorithmicBehaviour.BIAS.ISBMain;
 
 import static utils.RunAndStore.slash;
 	
@@ -58,8 +58,6 @@ public class DEPOIS extends ISBMain
 		
 		int n = expSettings.getProblemDimension();
 		
-		
-//		p = new ISBSuite("h0",n);
 		p = new ISBSuite("f0",n);
 		
 		problems.add(p);
@@ -70,13 +68,13 @@ public class DEPOIS extends ISBMain
 		char[] DECrossOvers = {'b','e'};
 		double[] populationSizes = {5, 20, 100};
 		
-		//ISBDE setting
-		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};	
-		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
+		//F-Cr values
+		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
+		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
 		
-		//High F-Cr values
-//		double[] FSteps = {0.05, 0.266, 0.483, 0.7, 0.916, 1.133, 1.350, 1.566, 1.783, 2.0};
-//		double[] CRSteps = {0.75, 0.775, 0.8, 0.85, 0.9, 0.925, 0.95, 0.975, 0.9875, 1.00};
+//		//ISBDE setting (https://doi.org/10.1016/j.ins.2019.05.019)
+//		double[] FSteps = {0.05, (0.05+(1.95/9.0)), (0.05+2.0*(1.95/9.0)), (0.05+3.0*(1.95/9.0)), (0.05+4.0*(1.95/9.0)),(0.05+5.0*(1.95/9.0)),(0.05+6.0*(1.95/9.0)),(0.05+7.0*(1.95/9.0)),(0.05+8.0*(1.95/9.0)),(0.05+9.0*(1.95/9.0))};	
+//		double[] CRSteps = {0.05, (0.05+(0.94/4.0)), (0.05+2.0*(0.94/4.0)), (0.05+3.0*(0.94/4.0)), (0.05+4.0*(0.94/4.0))};
 		
 			for(double popSize : populationSizes)
 			{

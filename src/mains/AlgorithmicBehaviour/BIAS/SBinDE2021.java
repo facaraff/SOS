@@ -36,6 +36,7 @@ import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.DEPoC;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
+import interfaces.ISBMain;
 import interfaces.Problem;
 
 import static utils.RunAndStore.slash;

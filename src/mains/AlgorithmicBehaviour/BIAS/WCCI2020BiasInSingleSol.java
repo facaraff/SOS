@@ -41,7 +41,7 @@ import interfaces.Problem;
 import utils.RunAndStore.FTrend;
 import static utils.RunAndStore.slash;
 	
-public class WCCI_SINGLE_SOL
+public class WCCI2020BiasInSingleSol
 {
 	static int nrRepetitions = 50;
 	static int budgetFactor = 10000;

@@ -35,6 +35,7 @@ import algorithms.AlgorithmBehaviour.ISB_PopBased.GA;
 import benchmarks.ISBSuite;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
+import interfaces.ISBMain;
 import interfaces.Problem;
 
 
@@ -53,8 +54,6 @@ public class GA2021 extends ISBMain
 		Vector<Problem> problems = new Vector<Problem>();
 	
 		ExperimentHelper expSettings = new ExperimentHelper();
-//		expSettings.setBudgetFactor(10000);
-		//expSettings.setNrRepetition(2);
 		
 		int n = expSettings.getProblemDimension();
 
@@ -104,21 +103,4 @@ public class GA2021 extends ISBMain
 		execute(algorithms, problems, expSettings);		
 	}
 }
-
-//GA{g|c}{d|a}{r|t}{t|s|e}p{5|20|100}D30
-//i.e. {mutation} {xover} {parentselection} {correction}..
-//
-//
-//and rGA{g|c}{d|a}{x}{t|s|d}{x|y}p{5|20|100}D…
-//i.e. {mutation} {xover} {parentselection} {correction}{survivor selection}..
-
-//a = new SimplifiedGA();
-//a.setDir("GA-TELO"+slash());
-//a.setCorrection(correction);
-//a.setParameter("p0", popSize); //Population size
-//a.setParameter("p1", 666.0); //FIND PARAMETER
-//a.setParameter("p2", 666.0); //FIND PARAMETER
-//a.setParameter("p3", 666.0); //FIND PARAMETER
-//algorithms.add(a);		
-//a = null;
 		

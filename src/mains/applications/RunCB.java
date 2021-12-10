@@ -45,7 +45,7 @@ import static utils.RunAndStore.resultsFolder;
 /** 
 * This class contains the main method and has to be used for launching experiments.
 */
-public class RunChris
+public class RunCB
 {
 	
 	
