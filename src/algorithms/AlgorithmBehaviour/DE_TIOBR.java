@@ -32,8 +32,6 @@ import utils.random.RandUtilsISB;
 
 import static utils.algorithms.Misc.generateRandomSolution;
 
-import static utils.algorithms.operators.ISBOp.currentToRand1;
-import static utils.algorithms.operators.ISBOp.currentToBest1;
 import static utils.algorithms.operators.ISBOp.rand1;
 import static utils.algorithms.operators.ISBOp.rand2;
 import static utils.algorithms.operators.ISBOp.best1;
@@ -43,8 +41,6 @@ import static utils.algorithms.operators.ISBOp.randToBest2;
 import java.io.BufferedWriter;
 
 
-//import static utils.algorithms.operators.ISBOp.crossOverExp;
-//import static utils.algorithms.operators.ISBOp.crossOverBin;
 import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
 import static utils.algorithms.Misc.averagedPolulationStandardDeviations;
@@ -62,7 +58,7 @@ import utils.algorithms.Counter;
  * @author Fabio Caraffini (fabio.caraffini@gmail.com)
  * @link www.tinyurl.com/FabioCaraffini
  * 
- * Differential Evolution 
+ * Differential Evolution - equipped with methods for measuring the Cosine Similarity between search directions and both fitness and population diversity
  * 
  */
 
@@ -177,7 +173,7 @@ public class DE_TIOBR extends AlgorithmBias
 		diversityBW = createFileBW("Diversity-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
 
 
-		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
+		//writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem, diversityBW);
 		
 		diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
@@ -264,17 +260,9 @@ public class DE_TIOBR extends AlgorithmBias
 						// DE/rand/1
 						newPt = rand1(population[r1], population[r2],  population[r3], F, PRNGCounter);
 						break;
-					case "ctbo":
-						// DE/cur-to-best/1
-						newPt = currentToBest1(currPt, population[indexBest], population[r1], population[r2], F, PRNGCounter);
-						break;
 					case "rt":
 						// DE/rand/2
 						newPt = rand2(population[r1], population[r2], population[r3], population[r4], population[r5],  F, PRNGCounter);
-						break;
-					case "ctro":
-						// DE/current-to-rand/1
-						crossPt = currentToRand1(population[r1], population[r2],  population[r3], currPt, F, PRNGCounter);
 						break;
 					case "rtbt":
 						// DE/rand-to-best/2
@@ -292,18 +280,6 @@ public class DE_TIOBR extends AlgorithmBias
 						break;
 				}	
 
-		
-//				// crossover
-//				if (!mutationStrategy.equals("ctro"))
-//				{
-//					if (crossoverStrategy == 'b')
-//						crossPt = crossOverBin(currPt, newPt, CR, PRNGCounter);
-//					else if (crossoverStrategy == 'e')
-//						crossPt = crossOverExp(currPt, newPt, CR, PRNGCounter);
-//					else if (crossoverStrategy == 'x')
-//						crossPt = newPt;
-//				}
-
 				
 				int mutatedDimensions = 0;
 				
@@ -314,7 +290,6 @@ public class DE_TIOBR extends AlgorithmBias
 					
 					if (crossoverStrategy == 'b')
 					{
-//						int index = RandUtilsISB.randomInteger(problemDimension-1, PRNGCounter);
 						crossPt = MatLab.cloneArray(currPt);
 						for (int n = 0; n < problemDimension; n++)
 						{
@@ -365,16 +340,6 @@ public class DE_TIOBR extends AlgorithmBias
 				
 				CSValue+=(" "+mutatedDimensions);
 				
-				
-				
-				
-				
-				
-//OLD METHOD				
-//				if(Arrays.equals(crossPt, BF))
-//					CSValue+=" 0";
-//				else
-//					CSValue+=" 1";
 				
 				int correctedDimensions = 0;
 				for(int d=0; d<problemDimension; d++)

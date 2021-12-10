@@ -40,7 +40,7 @@ import interfaces.Problem;
 
 import static utils.RunAndStore.slash;
 	
-public class DECosineSimilairity extends ISBMain
+public class ECJ2022TIOBR extends ISBMain
 {	
 
 	
@@ -77,10 +77,9 @@ public class DECosineSimilairity extends ISBMain
 		double[] CRSteps,CRStepsBin;
 
 					
-		char[] corrections = {'h','m', 't','c','s','u'}; //'d',
-		String[] DEMutations = {"ro"}; 		//String[] DEMutations = {"ro","ctbo","rt","ctro", "rtbt", "bo", "bt"};
-//		char[] DECrossOvers = {'b','e'};
-		char[] DECrossOvers = {'e'};
+		char[] corrections = {'h','m', 't','c','s','u'}; 
+		String[] DEMutations = {"ro"};
+		char[] DECrossOvers = {'b','e'};
 		populationSizes = new double[]{5, 20, 100};
 
 
