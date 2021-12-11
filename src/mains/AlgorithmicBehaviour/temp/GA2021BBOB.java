@@ -31,7 +31,7 @@ package mains.AlgorithmicBehaviour.temp;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmBehaviour.ISB_PopBased.GA;
+import algorithms.AlgorithmicBehaviour.ISB_PopBased.GA;
 //import benchmarks.ISBSuite;
 import benchmarks.BBOB2010;
 import utils.ExperimentHelper;

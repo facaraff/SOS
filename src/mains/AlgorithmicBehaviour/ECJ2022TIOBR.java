@@ -31,7 +31,7 @@ package mains.AlgorithmicBehaviour;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmBehaviour.DE_TIOBR;
+import algorithms.AlgorithmicBehaviour.DE_TIOBR;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;

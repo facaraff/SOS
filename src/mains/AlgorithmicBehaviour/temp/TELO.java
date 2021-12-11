@@ -31,11 +31,11 @@ package mains.AlgorithmicBehaviour.temp;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmBehaviour.ISB_PopBased.BFO;
-import algorithms.AlgorithmBehaviour.ISB_PopBased.DE;
-import algorithms.AlgorithmBehaviour.ISB_PopBased.GA;
-import algorithms.AlgorithmBehaviour.ISB_PopBased.PSO;
-import algorithms.AlgorithmBehaviour.ISB_SingleSolutions.*;
+import algorithms.AlgorithmicBehaviour.ISB_PopBased.BFO;
+import algorithms.AlgorithmicBehaviour.ISB_PopBased.DE;
+import algorithms.AlgorithmicBehaviour.ISB_PopBased.GA;
+import algorithms.AlgorithmicBehaviour.ISB_PopBased.PSO;
+import algorithms.AlgorithmicBehaviour.ISB_SingleSolutions.*;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;

@@ -31,7 +31,7 @@ package mains.AlgorithmicBehaviour.BIAS;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.DEPoC;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.DEPoC;
 //import benchmarks.Noise;
 import benchmarks.ISBSuite;
 import utils.ExperimentHelper;

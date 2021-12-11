@@ -43,7 +43,7 @@ import java.util.concurrent.Future;
 
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
-import algorithms.AlgorithmBehaviour.Pre2020.CMAES;
+import algorithms.AlgorithmicBehaviour.Pre2020.CMAES;
 //import test.TestOptimizerHelper.CEC2005;
 import utils.MatLab;
 import utils.random.RandUtils;

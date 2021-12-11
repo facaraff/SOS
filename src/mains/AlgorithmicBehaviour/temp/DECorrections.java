@@ -38,14 +38,14 @@ import java.util.concurrent.Future;
 
 import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEbob;
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEboe;
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEcbob;
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEcboe;
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErob;
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DEroe;
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErtb;
-import algorithms.AlgorithmBehaviour.Pre2020.ISBDE.corections.DErte;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DEbob;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DEboe;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DEcbob;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DEcboe;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DErob;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DEroe;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DErtb;
+import algorithms.AlgorithmicBehaviour.Pre2020.ISBDE.corections.DErte;
 import utils.MatLab;
 
 //import benchmarks.problemsImplementation.CEC2010.BenchmarkCEC2010_C;

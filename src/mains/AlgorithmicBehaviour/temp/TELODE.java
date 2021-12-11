@@ -31,7 +31,7 @@ package mains.AlgorithmicBehaviour.temp;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmBehaviour.ISB_PopBased.DE;
+import algorithms.AlgorithmicBehaviour.ISB_PopBased.DE;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;

@@ -31,7 +31,7 @@ package mains.AlgorithmicBehaviour.BIAS;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmBehaviour.ISB_SingleSolutions.*;
+import algorithms.AlgorithmicBehaviour.ISB_SingleSolutions.*;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
 import interfaces.ISBMain;

@@ -31,8 +31,8 @@ package mains.AlgorithmicBehaviour.BIAS;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmBehaviour.ISB_PopBased.DE;
-import algorithms.AlgorithmBehaviour.ISB_SingleSolutions.*;
+import algorithms.AlgorithmicBehaviour.ISB_PopBased.DE;
+import algorithms.AlgorithmicBehaviour.ISB_SingleSolutions.*;
 //import algorithms.specialOptions.BIAS.SimplifiedGA;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
