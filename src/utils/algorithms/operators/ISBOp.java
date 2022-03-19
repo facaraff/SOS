@@ -1177,7 +1177,64 @@ public class ISBOp
 				return xu;
 			}
 			
+			
+			
+			/**
+			 * Exponentially confined -- general formulation of the correction in https://arxiv.org/pdf/1504.04421.pdf where the reference (i.e. previous feasible solution) can be passed as an argument of this method
+			 * 
+			 * @param x solution to be corrected.
+			 * @param x_f the reference element (i.e. a feasible point).
+			 * @param bounds search space boundaries.
+			 * @return x_e corrected solution.
+			 */
+			public static double[] exponentiallyConfined(double[] x,double[] x_f,  double[][] bounds, Counter PRNG)
+			{
+				double[] x_e = new double[x.length];
+				
+				for(int i=0; i<x.length; i++)
+				{
+					if(x[i]>bounds[i][1])
+						x_e[i] = bounds[i][1] +  Math.log(RandUtilsISB.uniform(Math.exp(x_f[i]-bounds[i][1]),1, PRNG));
+					else if(x[i]<bounds[i][0])
+						x_e[i] = bounds[i][0] - Math.log(RandUtilsISB.uniform(Math.exp(bounds[i][0]-x_f[i]), 1, PRNG));
+					else
+						x_e[i] = x[i];
+				}		
+				return x_e;
+			}
+			
+			/**
+			 * Exponentially spread -- from https://arxiv.org/pdf/1504.04421.pdf, this can be seen as a case of exponentially confined where the reference is the non-violated bounds 
+			 * 
+			 * @param x solution to be corrected.
+			 * @param bounds search space boundaries.
+			 * @return x_e corrected solution.
+			 */
+			public static double[] exponentiallySpread(double[] x,  double[][] bounds, Counter PRNG)
+			{
+				double[] x_e = new double[x.length];
+				
+				for(int i=0; i<x.length; i++)
+				{
+					if(x[i]>bounds[i][1])
+						x_e[i] = bounds[i][1] +  Math.log(RandUtilsISB.uniform(Math.exp(bounds[i][0]-bounds[i][1]),1, PRNG));
+					else if(x[i]<bounds[i][0])
+						x_e[i] = bounds[i][0] - Math.log(RandUtilsISB.uniform(Math.exp(bounds[i][0]-bounds[i][1]), 1, PRNG));
+					else
+						x_e[i] = x[i];
+				}		
+				return x_e;
+			}
+			
+			
+			
+			
+			
+			
+			
 }
+
+
 
 
 

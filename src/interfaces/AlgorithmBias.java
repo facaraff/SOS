@@ -56,6 +56,8 @@ import static utils.algorithms.Corrections.ComponentWiseProjectionToMidpoint;
 import static utils.algorithms.Corrections.halfwayToViolatedBound;
 import static utils.algorithms.operators.ISBOp.completeOneTailedNormal;
 import static utils.algorithms.operators.ISBOp.uniform;
+import static utils.algorithms.operators.ISBOp.exponentiallyConfined;
+import static utils.algorithms.operators.ISBOp.exponentiallySpread;
 import  utils.algorithms.ISBHelper;
 import utils.algorithms.Counter;
 
@@ -78,6 +80,7 @@ public abstract class AlgorithmBias
 	protected int numberOfCorrections2 = 0; 
 	protected int numberOfCorrections = 0; 
 	protected char correction;
+	protected String sdis = "ceppa";
 	protected String Dir="."+slash()+"ResultsISB"+slash();
 	protected String minMaxProb = "min";
 	protected int nonPositionColumns = 0;
@@ -199,6 +202,17 @@ public abstract class AlgorithmBias
 	 * 
 	 */
 	public char getCorrection(){return this.correction;}
+	/**
+	 * Set SDIS.
+	 * @param sdis the string identifier of the used correction strategy. 
+	 */
+	public void setSDIS(String sdis){this.sdis = sdis;}
+	/**
+	 * Get SDIS.
+	 * @return sdis the SDIS identifier.
+	 * 
+	 */
+	public String getSDIS(){return this.sdis;}
 	/**
 	 * Store the number of the first columns in the "finpos" ISB result files which are meant for saving details other than the coordinates of a solution 
 	 *
@@ -602,11 +616,100 @@ public abstract class AlgorithmBias
 			output = halfwayToViolatedBound(infeasiblePt, previousFeasiblePt, bounds);
 			feasible = cloneSolution(output);
 		}
+		else if(this.correction== 'e')
+		{
+			output = exponentiallyConfined(infeasiblePt, previousFeasiblePt, bounds, PRNG);
+			feasible = cloneSolution(output);
+		}
 		else
 		{
 			output = null;
 			feasible = null;
 			System.out.println("No valid bounds handling scheme selected");
+		}
+		
+		
+		
+	
+		if(!Arrays.equals(output, infeasiblePt))
+		{
+			
+//			infeasiblePt = output;
+			output = null;
+			this.numberOfCorrections++;
+		}
+	
+		return feasible;
+	}
+	
+	
+	
+	public double[]  SDIS(double[] infeasiblePt, double[] previousFeasiblePt, double[][] bounds, Counter PRNG)
+	{
+		
+		double[] output; 
+		double[] feasible; 
+		
+		if(this.sdis.equals("t"))
+		{
+			output = toro(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("s"))
+		{
+			output = saturation(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("d"))
+		{
+			output = toro(infeasiblePt, bounds);
+			if(!Arrays.equals(output, infeasiblePt)) 
+				feasible = cloneSolution(previousFeasiblePt);
+			else
+				feasible = cloneSolution(previousFeasiblePt);
+		}
+		else if(this.sdis.equals("m"))
+		{
+			output = mirroring(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("c"))
+		{
+			output = completeOneTailedNormal(infeasiblePt, bounds, 3.0,PRNG);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("u"))
+		{
+			// re-sampling with uniform distribution
+			output = uniform(infeasiblePt, bounds, PRNG);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("j"))
+		{
+			// Component-wise variant of the repair method Projection to Midpoint
+			output = ComponentWiseProjectionToMidpoint(infeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("h"))
+		{
+			output = halfwayToViolatedBound(infeasiblePt, previousFeasiblePt, bounds);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("ec"))
+		{
+			output = exponentiallyConfined(infeasiblePt, previousFeasiblePt, bounds, PRNG);
+			feasible = cloneSolution(output);
+		}
+		else if(this.sdis.equals("es"))
+			{
+				output = exponentiallySpread(infeasiblePt, bounds, PRNG);
+				feasible = cloneSolution(output);
+			}
+			else
+		{
+			output = null;
+			feasible = null;
+			System.out.println("No valid bounds handling scheme selected: "+sdis);
 		}
 		
 		

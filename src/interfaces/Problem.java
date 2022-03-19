@@ -96,6 +96,28 @@ public abstract class Problem
 	 */
 	public double[][] getBounds(){return bounds;}
 	/**
+	 * This method returns the lower bounds vector.
+	 * @return the lower bounds.
+	 */
+	public double[] getLB()
+	{
+		double[] LB = new double[dimension];
+		for (int i = 0; i < dimension; i++)
+			LB[i] = this.bounds[i][0];
+		return LB;
+	}
+	/**
+	 * This method returns the upper bounds vector.
+	 * @return the upper bounds.
+	 */
+	public double[] getUB()
+	{
+		double[] UB = new double[dimension];
+		for (int i = 0; i < dimension; i++)
+			UB[i] = this.bounds[i][1];
+		return UB;
+	}
+	/**
 	 * This method allows to stored the dimensionality of the problem passed as argument with the constructor.
 	 * @param dimension Dimensionaity of the problem. 
 	 */

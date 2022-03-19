@@ -340,6 +340,31 @@ public class Corrections
 	}
 	
 	
+	/**
+	 * Exponentially confined -- general formulation of the correction in https://arxiv.org/pdf/1504.04421.pdf where the reference (i.e. previous feasible solution) can be passed as an argument of this method
+	 * 
+	 * @param x solution to be corrected.
+	 * @param x_f the reference element (i.e. a feasible point).
+	 * @param bounds search space boundaries.
+	 * @return x_e corrected solution.
+	 */
+	public static double[] exponentiallyConfined(double[] x,double[] x_f,  double[][] bounds)
+	{
+		double[] x_e = new double[x.length];
+		
+		for(int i=0; i<x.length; i++)
+		{
+			if(x[i]>bounds[i][1])
+				x_e[i] = bounds[i][1] +  Math.log(RandUtils.uniform(Math.exp(x_f[i]-bounds[i][1]),1));
+			else if(x[i]<bounds[i][0])
+				x_e[i] = bounds[i][0] - Math.log(RandUtils.uniform(Math.exp(bounds[i][0]-x_f[i]), 1));
+			else
+				x_e[i] = x[i];
+		}		
+		return x_e;
+	}
+	
+	
 	
 
 	/**
@@ -391,7 +416,7 @@ public class Corrections
 		switch (correction)
 		{
 			case 't':
-				// toru
+				// toro
 				x_c = toro(x, bounds);
 				break;
 			case 's':

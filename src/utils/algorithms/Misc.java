@@ -201,6 +201,31 @@ public class Misc {
 		}
 		return avgInd;
 	}
+	
+	/**
+	 * This method returns the upper bounds vector when the bounds are passed.
+	 * @param bounds this is a nx2 array storing the search space boundaries
+	 * @return the upper bounds.
+	 */
+	public static double[] getLB(double[][] bounds)
+	{
+		double[] LB = new double[bounds.length];
+		for (int i = 0; i < bounds.length; i++)
+			LB[i] = bounds[i][0];
+		return LB;
+	}
+	/**
+	 * This method returns the upper bounds vector.
+	 * @param bounds this is a nx2 array storing the search space boundaries
+	 * @return the upper bounds.
+	 */
+	public static double[] getUB(double[][] bounds)
+	{
+		double[] UB = new double[bounds.length];
+		for (int i = 0; i < bounds.length; i++)
+			UB[i] = bounds[i][1];
+		return UB;
+	}
 
 	/**
 	 * Return the Cov matrix for implementing the eigenvalues-based cross over
