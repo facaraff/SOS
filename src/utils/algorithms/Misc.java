@@ -260,8 +260,7 @@ public class Misc {
 	/**
 	 * Return the centroid of a population of individuals.
 	 * 
-	 * @param p
-	 *            population.
+	 * @param p population.
 	 * @return c centroid.
 	 */
 	public static double[] centroid(double[][] p) {

@@ -695,7 +695,7 @@ public abstract class AlgorithmBias
 			output = halfwayToViolatedBound(infeasiblePt, previousFeasiblePt, bounds);
 			feasible = cloneSolution(output);
 		}
-		else if(this.sdis.equals("ec"))
+		else if(this.sdis.equals("ec") || this.sdis.equals("ecr") || this.sdis.equals("ecc") || this.sdis.equals("ecm") || this.sdis.equals("ecb"))
 		{
 			output = exponentiallyConfined(infeasiblePt, previousFeasiblePt, bounds, PRNG);
 			feasible = cloneSolution(output);

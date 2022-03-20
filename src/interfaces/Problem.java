@@ -67,7 +67,7 @@ public abstract class Problem
 		}
 	}
 	/**
-	* Constructor without boundariees (to be set up manually).
+	* Constructor without boundaries (to be set up manually).
 	* 
 	* @param dimension the dimension of the problem.
 	*/
@@ -117,9 +117,18 @@ public abstract class Problem
 			UB[i] = this.bounds[i][1];
 		return UB;
 	}
+	
+	public double[] getSearchSpaceCentre()
+	{
+		double[] centre = new double[dimension];
+		for (int i = 0; i < dimension; i++)
+			centre[i] = ((this.bounds[i][0]+this.bounds[i][1])*0.5);
+		return centre;
+	}
+	
 	/**
 	 * This method allows to stored the dimensionality of the problem passed as argument with the constructor.
-	 * @param dimension Dimensionaity of the problem. 
+	 * @param dimension Dimensionality of the problem. 
 	 */
 	public void setDimension(int dimension){this.dimension=dimension;}
 	/**

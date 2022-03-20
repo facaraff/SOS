@@ -45,6 +45,8 @@ import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
 import static utils.algorithms.Misc.averagedPolulationStandardDeviations;
 import static utils.algorithms.Misc.fitnesStandardDeviation;
+import static utils.algorithms.Misc.centroid;
+
 
 import static utils.MatLab.cloneArray;
 
@@ -338,7 +340,24 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 				
 				double[] BF = MatLab.cloneArray(crossPt);
 				
-				crossPt = SDIS(crossPt, currPt, bounds, PRNGCounter);
+				
+				
+				if(getSDIS().equals("ecr")) //Exponentially Confined with base vector r1 as reference
+					crossPt = SDIS(crossPt, population[r1], bounds, PRNGCounter);
+				else if(getSDIS().equals("ecc"))//Exponentially Confined with centre of the search space as reference
+					crossPt = SDIS(crossPt, problem.getSearchSpaceCentre(), bounds, PRNGCounter);
+				else if(getSDIS().equals("ecm"))//Exponentially Confined with population population mean vector as reference
+					crossPt = SDIS(crossPt, centroid(population), bounds, PRNGCounter);
+				else if(getSDIS().equals("ecb"))//Exponentially Confined with best-so-far individual as reference
+					crossPt = SDIS(crossPt, best, bounds, PRNGCounter);
+				else
+					crossPt = SDIS(crossPt, currPt, bounds, PRNGCounter);
+				
+				
+				
+				
+				
+				
 				storeNumberOfCorrectedSolutions(period,i);				
 				
 				targetToTrial = MatLab.subtract(BF,population[j]);

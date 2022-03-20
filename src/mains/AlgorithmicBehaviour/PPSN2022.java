@@ -78,7 +78,7 @@ public class PPSN2022 extends ISBMain
 
 					
 //		char[] corrections = {'h','m', 't','c','s','u'}; 
-		String[] corrections = {"es","ec"}; 
+		String[] corrections = {"ec", "ecr","ecc", "ecm","ecb", "es", "h", "m", "t","c", "s", "u"}; 
 		String[] DEMutations = {"ro"};
 		char[] DECrossOvers = {'b','e'};
 		populationSizes = new double[]{5, 20, 100};
