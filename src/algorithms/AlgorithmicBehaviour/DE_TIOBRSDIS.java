@@ -1,5 +1,5 @@
 /**
-Copyright (c) 2021, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
+Copyright (c) 2022, Fabio Caraffini (fabio.caraffini@gmail.com, fabio.caraffini@dmu.ac.uk)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
