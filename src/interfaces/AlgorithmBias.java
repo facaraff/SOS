@@ -663,10 +663,7 @@ public abstract class AlgorithmBias
 		else if(this.sdis.equals("d"))
 		{
 			output = toro(infeasiblePt, bounds);
-			if(!Arrays.equals(output, infeasiblePt)) 
-				feasible = cloneSolution(previousFeasiblePt);
-			else
-				feasible = cloneSolution(previousFeasiblePt);
+			feasible = cloneSolution(output);
 		}
 		else if(this.sdis.equals("m"))
 		{

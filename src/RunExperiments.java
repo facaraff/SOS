@@ -80,8 +80,8 @@ public class RunExperiments
 //		experiments.add(new RIAPP(900));
 		
 //		experiments.add(new ProblemClassification(10));
-//		experiments.add(new ProblemClassification(50));
-		experiments.add(new ProblemClassification(100));	
+		experiments.add(new ProblemClassification(50));
+//		experiments.add(new ProblemClassification(100));	
 		
 //		experiments.add(new EarlyDE(10));
 //		experiments.add(new EarlyDE(50));

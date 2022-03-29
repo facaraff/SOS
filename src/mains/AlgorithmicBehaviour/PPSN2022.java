@@ -77,8 +77,8 @@ public class PPSN2022 extends ISBMain
 		double[] CRSteps,CRStepsBin;
 
 					
-//		char[] corrections = {'h','m', 't','c','s','u'}; 
-		String[] corrections = {"ec", "ecr","ecc", "ecm","ecb", "es", "h", "m", "t","c", "s", "u"}; 
+//		String[] corrections = {"ec", "ecr","ecc", "ecm","ecb", "es", "h", "m", "t","c", "s", "u"}; 
+		String[] corrections =  {"ec", "es", "h", "m", "t","c", "s", "u"}; 
 		String[] DEMutations = {"ro"};
 		char[] DECrossOvers = {'b','e'};
 		populationSizes = new double[]{5, 20, 100};

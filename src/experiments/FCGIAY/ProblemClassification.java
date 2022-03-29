@@ -69,7 +69,7 @@ public class ProblemClassification extends Experiment
 //		add(a);
 
 
-		for(int i = 1; i<=28; i++)
+		for(int i = 11; i<=28; i++)
 			add(new CEC2013(i, probDim));
 		
 //		for(int i = 1; i<=30; i++)

@@ -60,7 +60,7 @@ import utils.random.RandUtilsISB;
  * @file ISBOp.java
  * 
  *  
- * This class contains the implementation of Particle Swarm Optimisation operators.
+ * 
 */	
 public class ISBOp
 {	
