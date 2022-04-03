@@ -185,7 +185,7 @@ public class DE_TIOBRSDISOnlyEuclidean extends AlgorithmBias
 		
 		//createFile(FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
 		//diversityBW = createFileBW("Diversity-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
-		euclideanBW = createFileBW("Euclidean-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
+		euclideanBW = createFileBW("EuclideanDist-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
 
 
 		//writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);

@@ -192,6 +192,9 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem, diversityBW);
 		
 		diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
+		
+		if(euclideanDistance)euclideanBW = createFileBW("EuclideanDist-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
+
 
 
 		String info = new String();
