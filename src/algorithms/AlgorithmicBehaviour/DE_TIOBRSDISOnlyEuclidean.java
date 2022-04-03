@@ -43,8 +43,8 @@ import java.util.Arrays;
 
 import static utils.algorithms.ISBHelper.getNumberOfNonPositionColumnsForDE;
 
-import static utils.algorithms.Misc.averagedPolulationStandardDeviations;
-import static utils.algorithms.Misc.fitnesStandardDeviation;
+//import static utils.algorithms.Misc.averagedPolulationStandardDeviations;
+//import static utils.algorithms.Misc.fitnesStandardDeviation;
 import static utils.algorithms.Misc.centroid;
 
 
@@ -64,18 +64,17 @@ import utils.algorithms.Counter;
  * 
  */
 
-public class DE_TIOBRSDIS extends AlgorithmBias
+public class DE_TIOBRSDISOnlyEuclidean extends AlgorithmBias
 {
 	protected String mutationStrategy = null;
 	protected char crossoverStrategy = 'x';
 	protected boolean addBestDetails = true;
-	protected boolean euclideanDistance = true;
-	protected BufferedWriter diversityBW = null;
+//	protected BufferedWriter diversityBW = null;
 	protected BufferedWriter euclideanBW = null;
 	
-	public DE_TIOBRSDIS(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
+	public DE_TIOBRSDISOnlyEuclidean(String mut) {this.mutationStrategy = mut; this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);}
 	
-	public DE_TIOBRSDIS(String mut, char xover)
+	public DE_TIOBRSDISOnlyEuclidean(String mut, char xover)
 	{
 		this.mutationStrategy = mut;
 		
@@ -85,7 +84,7 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 		this.nonPositionColumns = getNumberOfNonPositionColumnsForDE(mut);
 	}
 	
-	public DE_TIOBRSDIS(String mut, char xover, boolean bestDetails)
+	public DE_TIOBRSDISOnlyEuclidean(String mut, char xover, boolean bestDetails)
 	{
 		this.mutationStrategy = mut;
 		
@@ -126,20 +125,20 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 		
 		int i = 0;
 		
-		int period = maxEvaluations/3;
+//		int period = maxEvaluations/3;
 		this.numberOfCorrections1 = this.numberOfCorrections2 = this.numberOfCorrections = 0;
 
-		String pois = "";
+//		String pois = "";
 		String FullName ="";
 		
 		if(getSDIS().isEmpty())
 		{
-			pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction;
+			//pois = "DE"+this.mutationStrategy+this.crossoverStrategy+this.correction;
 			FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+this.correction+"p"+populationSize,problem); 
 		}
 		else
 		{
-			pois = "DE"+this.mutationStrategy+this.crossoverStrategy+getSDIS();
+			//pois = "DE"+this.mutationStrategy+this.crossoverStrategy+getSDIS();
 			FullName = getFullName("DE"+this.mutationStrategy+this.crossoverStrategy+getSDIS()+"p"+populationSize,problem); 
 		}
 		
@@ -184,21 +183,19 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 		
 		
 		
-		createFile(FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
-		diversityBW = createFileBW("Diversity-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
+		//createFile(FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
+		//diversityBW = createFileBW("Diversity-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
+		euclideanBW = createFileBW("Euclidean-"+FullName+"_F"+Double.toString(F).replace(".", "")+"Cr"+Double.toString(CR).replace(".", ""));
 
 
 		//writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem);
-		writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem, diversityBW);
+		//writeHeader("popSize "+populationSize+" F "+F+" CR "+CR+" alpha "+alpha, problem, diversityBW);
 		
-		diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
+		//diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
 
 
-		String info = new String();
-		info+="";
-		
-		String ED = new String();
-		ED+="";
+		String value = new String();
+		value+="";
 		
 		// iterate
 		while (i < maxEvaluations)
@@ -208,8 +205,8 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 			double[] tempFit = new double[populationSize];
 			
 			
-			double [] targetToTrial  = new double[problemDimension];
-			double [] targetToCTrial  = new double[problemDimension];
+//			double [] targetToTrial  = new double[problemDimension];
+//			double [] targetToCTrial  = new double[problemDimension];
 			
 			int indexBest = MatLab.indexMin(fitnesses);
 
@@ -299,7 +296,7 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 				}	
 
 				
-				int mutatedDimensions = 0;
+//				int mutatedDimensions = 0;
 				
 				// crossover
 				if (!mutationStrategy.equals("ctro"))
@@ -314,7 +311,7 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 							if (RandUtilsISB.random(PRNGCounter) < CR || n == startIndex)
 							{
 								crossPt[n] = newPt[n];
-								mutatedDimensions++;
+//								mutatedDimensions++;
 							}
 						}
 					}
@@ -323,7 +320,7 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 						crossPt = MatLab.cloneArray(currPt);
 						          
 						crossPt[startIndex] = newPt[startIndex];
-						mutatedDimensions++;
+//						mutatedDimensions++;
 						int index = startIndex + 1;
 						
 						if (index >= problemDimension)
@@ -333,7 +330,7 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 						{
 							crossPt[index] = newPt[index];
 							index++;
-							mutatedDimensions++;
+//							mutatedDimensions++;
 							if (index >= problemDimension)
 								index = 0;
 						}
@@ -343,7 +340,7 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 
 	
 				
-				double[] beforeSDIS = MatLab.cloneArray(crossPt);
+				double[] BF = MatLab.cloneArray(crossPt);
 				
 				
 				
@@ -363,33 +360,31 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 				
 				
 				
-				storeNumberOfCorrectedSolutions(period,i);				
+				//storeNumberOfCorrectedSolutions(period,i);				
 				
-				targetToTrial = MatLab.subtract(beforeSDIS,population[j]);
+				//targetToTrial = MatLab.subtract(BF,population[j]);
 				
-				targetToCTrial = MatLab.subtract(crossPt,population[j]); 
+				//targetToCTrial = MatLab.subtract(crossPt,population[j]); 
 				
 
-				info+=MatLab.cosineSimilarity(targetToTrial, targetToCTrial);
+				//CSValue+=MatLab.cosineSimilarity(targetToTrial, targetToCTrial);
 
 				
-				info+=(" "+mutatedDimensions);
+				//CSValue+=(" "+mutatedDimensions);
 				
 				
-				int correctedDimensions = 0;
-				for(int d=0; d<problemDimension; d++)
-					if(beforeSDIS[d]!=crossPt[d])
-						correctedDimensions++;
+				//int correctedDimensions = 0;
+				//for(int d=0; d<problemDimension; d++)
+					//if(BF[d]!=crossPt[d])
+						//correctedDimensions++;
+				if(!Arrays.equals(BF, crossPt))
+					value+=MatLab.distance(BF, crossPt)+"\n";
 				
-				info+=(" "+correctedDimensions);
-				
-				if(euclideanDistance)
-					if(!Arrays.equals(beforeSDIS, crossPt))
-						ED+=MatLab.distance(beforeSDIS, crossPt)+"\n";
+				//CSValue+=(" "+correctedDimensions);
 			
-				beforeSDIS= null;
-				targetToTrial = null;
-				targetToCTrial = null;
+				BF= null;
+//				targetToTrial = null;
+//				targetToCTrial = null;
 				
 				
 				crossFit = problem.f(crossPt);
@@ -410,7 +405,7 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 				
 					
 				
-					info+=" 1";
+					///CSValue+=" 1";
 				
 					
 					// best update
@@ -428,48 +423,47 @@ public class DE_TIOBRSDIS extends AlgorithmBias
 						tempPop[j][n] = currPt[n];
 					fitnesses[j] = currFit;
 					
-					info+=" 0";
+					//CSValue+=" 0";
 					
 					tempFit[j] = currFit;
 				}
 				crossPt = null; newPt = null;
 				
-				info+="\n";
+//				value+="\n";
 				
 				
 				
-				bw.write(info);
-				info=null;
-				info = new String();
-				info="";
+				//bw.write(CSValue);
+//				CSValue=null;
+//				CSValue = new String();
+//				CSValue="";
 				
-				if(euclideanDistance) 
-				{
-					euclideanBW.write(ED);
-					ED=null;
-					ED = new String();
-					ED="";
-				}
+				euclideanBW.write(value);
+				value=null;
+				value = new String();
+				value="";
+				
 			}
 			
 			
 			population = cloneArray(tempPop);
 			tempPop=null;
 			fitnesses = cloneArray(tempFit);
-			diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
+			//diversityBW.write(averagedPolulationStandardDeviations(population)+" "+fitnesStandardDeviation(fitnesses)+"\n");
 			tempFit=null;
 				
 		}
 		
 
-		bw.flush();bw.close();
-		diversityBW.flush(); diversityBW.close();
-		euclideanBW.flush(); euclideanBW.close();
+		//bw.flush();bw.close();
+		//diversityBW.flush(); diversityBW.close();
+		//bw.flush();bw.close();
+				euclideanBW.flush(); euclideanBW.close();
 		
 		
-		String s = "";
-		if(addBestDetails) s = positionAndFitnessToString(best, fBest);
-		writeStats(FullName+" "+F+" "+CR,  (((double)this.numberOfCorrections1)/((double)period)),  (((double)this.numberOfCorrections2)/((double)period*2)), (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRNGCounter.getCounter(),s,pois);
+		//String s = "";
+		//if(addBestDetails) s = positionAndFitnessToString(best, fBest);
+		//writeStats(FullName+" "+F+" "+CR,  (((double)this.numberOfCorrections1)/((double)period)),  (((double)this.numberOfCorrections2)/((double)period*2)), (((double) this.numberOfCorrections)/((double) maxEvaluations)), PRNGCounter.getCounter(),s,pois);
 		
 		finalBest = best;
 		FT.add(i, fBest);

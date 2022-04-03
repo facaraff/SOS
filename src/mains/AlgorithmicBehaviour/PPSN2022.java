@@ -31,7 +31,8 @@ package mains.AlgorithmicBehaviour;
 
 import java.util.Vector;
 
-import algorithms.AlgorithmicBehaviour.DE_TIOBRSDIS;
+//import algorithms.AlgorithmicBehaviour.DE_TIOBRSDIS;
+import algorithms.AlgorithmicBehaviour.DE_TIOBRSDISOnlyEuclidean;
 import benchmarks.Noise;
 import utils.ExperimentHelper;
 import interfaces.AlgorithmBias;
@@ -103,9 +104,10 @@ public class PPSN2022 extends ISBMain
 								
 								for (double CR : CRSteps)
 								{
-									a = new DE_TIOBRSDIS(mutation,xover,false);
+									//a = new DE_TIOBRSDIS(mutation,xover,false);
+									a = new DE_TIOBRSDISOnlyEuclidean(mutation,xover,false);
 									a.setID("DE");
-									a.setDir("CosineSimilarity"+slash()+a.getNPC()+slash());
+									a.setDir("TIOBRPPSN22"+slash()+a.getNPC()+slash());
 									a.setSDIS(correction);
 									a.setParameter("p0", popSize); //Population size
 									a.setParameter("p1", F); //F - scale factor
