@@ -26,7 +26,8 @@ import static utils.MatLab.mean;
 public class RunAndStore
 {
 	private static String resultsFolder = ".";
-	private static DecimalFormat formatter = new DecimalFormat("0.000E00");
+	// DecimalFormat is not thread-safe and format() is called by all the worker threads when results are saved: one formatter per thread.
+	private static final ThreadLocal<DecimalFormat> formatter = ThreadLocal.withInitial(() -> new DecimalFormat("0.000E00"));
 	private static MannWhitneyUTest mannWhitneyUTest;
 		
 	//--------------------------------------------------------------------------------------------------------------------------//
@@ -683,7 +684,7 @@ public class RunAndStore
 
 	public static String format(double value)
 	{
-        String str = formatter.format(value).toLowerCase();
+        String str = formatter.get().format(value).toLowerCase();
         if (!str.contains("e-"))
             str = str.replace("e", "e+");
         return str;
