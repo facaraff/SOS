@@ -443,7 +443,7 @@ public abstract class Experiment
 					for (int i = minIndex; i < maxIndex; i++)
 					{
 						a = new AlgorithmRepetitionThread(algorithm, problem, i, budgetFactor, saveRowData, expFolder);
-						finalValues[algorithmIndex][i] = a.runAlgorithmRepetition(algorithm, problem,  i);
+						finalValues[algorithmIndex][i-minIndex] = a.runAlgorithmRepetition(algorithm, problem,  i);
 					}
 
 
