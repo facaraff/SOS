@@ -36,14 +36,17 @@ either expressed or implied, of the FreeBSD Project.
 */
 package interfaces;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
 import utils.algorithms.Corrections;
 
 import utils.RunAndStore.FTrend;
-public abstract class Algorithm
-{	
+public abstract class Algorithm implements Cloneable
+{
 	private Map<String, Double> parameters = new HashMap<String, Double>();
 	protected double[] initialSolution;
 	protected double[] finalBest;
@@ -136,7 +139,77 @@ public abstract class Algorithm
 			description+="("+name+" "+getParameter(name)+")";
 		return description;
 	}
-	
+
+	/**
+	 * This method returns an independent copy of this optimiser, ready to perform ONE run.
+	 *
+	 * Multi-thread experiments execute all the repetitions of an optimiser concurrently. Optimisers are stateful objects
+	 * (many keep the fitness trend, the evaluation counter, the best solution, etc. in instance fields) so the repetitions
+	 * must never share the same object: each of them works on its own copy, which is created by this method.
+	 * The copy has the same class, ID, parameter setting, correction strategy and initial solution/fitness as the original.
+	 * The following instance fields of the subclasses are duplicated, so that nothing is shared with the original:
+	 * arrays (deeply), number/date formatters (java.text.Format), fitness trends (FTrend) and other optimisers (Algorithm).
+	 * After a multi-thread experiment the optimiser that was added to it is left untouched (the runs were performed by copies),
+	 * so getFinalBest() does not return the solution of any of the runs. Any other object referenced by a field
+	 * (e.g. the problem) is shared with the original: if a subclass keeps a different kind of mutable object in a field, it must
+	 * override this method and duplicate that object (calling super.copy() first).
+	 *
+	 * @return a copy of this optimiser whose state is independent from the state of the original.
+	*/
+	public Algorithm copy()
+	{
+		try
+		{
+			Algorithm c = (Algorithm) super.clone();
+			c.parameters = new HashMap<String, Double>(this.parameters);
+			for(Class<?> k = c.getClass(); k != null && k != Object.class; k = k.getSuperclass())
+				for(Field field : k.getDeclaredFields())
+				{
+					if(Modifier.isStatic(field.getModifiers()) || field.getType().isPrimitive())
+						continue;
+					field.setAccessible(true);
+					Object value = field.get(c);
+					Object duplicate = duplicate(value);
+					if(duplicate != value)
+						field.set(c, duplicate);
+				}
+			return c;
+		}
+		catch(CloneNotSupportedException | IllegalAccessException e)
+		{
+			throw new IllegalStateException("Unable to copy the algorithm "+getClass().getName(), e);
+		}
+	}
+
+	/**
+	 * Duplicates the objects that an optimiser may modify during a run: arrays, fitness trends, optimisers.
+	 * Any other object is returned as it is.
+	*/
+	private static Object duplicate(Object o)
+	{
+		if(o == null)
+			return null;
+		if(o.getClass().isArray())
+		{
+			int n = Array.getLength(o);
+			Class<?> type = o.getClass().getComponentType();
+			Object copy = Array.newInstance(type, n);
+			if(type.isPrimitive())
+				System.arraycopy(o, 0, copy, 0, n);
+			else
+				for(int i = 0; i < n; i++)
+					Array.set(copy, i, duplicate(Array.get(o, i)));
+			return copy;
+		}
+		if(o instanceof java.text.Format) // e.g. DecimalFormat, which is not thread-safe: many optimisers keep one in a field
+			return ((java.text.Format) o).clone();
+		if(o instanceof FTrend)
+			return ((FTrend) o).copy();
+		if(o instanceof Algorithm)
+			return ((Algorithm) o).copy();
+		return o;
+	}
+
 	/**
 	 * Generic correction function 1
 	 * 

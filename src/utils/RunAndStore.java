@@ -26,7 +26,8 @@ import static utils.MatLab.mean;
 public class RunAndStore
 {
 	private static String resultsFolder = ".";
-	private static DecimalFormat formatter = new DecimalFormat("0.000E00");
+	// DecimalFormat is not thread-safe and format() is called by all the worker threads when results are saved: one formatter per thread.
+	private static final ThreadLocal<DecimalFormat> formatter = ThreadLocal.withInitial(() -> new DecimalFormat("0.000E00"));
 	private static MannWhitneyUTest mannWhitneyUTest;
 		
 	//--------------------------------------------------------------------------------------------------------------------------//
@@ -125,7 +126,11 @@ public class RunAndStore
 		}
 		/**
 	     * This method executes an optimiser.
-	     * 
+	     *
+	     * The run is performed by a private copy of the optimiser (see Algorithm.copy()), never by the optimiser passed as argument.
+	     * In multi-thread experiments all the repetitions of the same optimiser are executed concurrently: if they shared the
+	     * same object, they would overwrite each other's state (fitness trend, evaluation counter, best solution, ...).
+	     *
 	     * @param algorithm optimiser to be executed.
 	     * @param problem problem to be solved.
 	     * @param runIndex run identifier.
@@ -135,12 +140,13 @@ public class RunAndStore
 		{
 			long t0, t1;
 
+			Algorithm runner = algorithm.copy(); // the state of the optimiser must not be shared among repetitions/threads
 			t0 = System.currentTimeMillis();
-			FTrend FT = algorithm.execute(problem, budget);
+			FTrend FT = runner.execute(problem, budget);
 			t1 = System.currentTimeMillis();
 			String slash = slash();
 			if(saveRowData)
-				saveTrend(FT, algorithm.getFinalBest(), resultsFolder+slash+expFolder+slash+algorithm.getID()+slash+getFullName(problem)+problem.getFID()+"-"+problem.getDimension()+slash+runIndex, true);
+				saveTrend(FT, runner.getFinalBest(), resultsFolder+slash+expFolder+slash+runner.getID()+slash+getFullName(problem)+problem.getFID()+"-"+problem.getDimension()+slash+runIndex, true);
 			int n = FT.size();
 			if (showElapsedTime)
 			{
@@ -196,6 +202,21 @@ public class RunAndStore
 			 this.extraValues =  null;
 	}
 	
+	/**
+	* Returns an independent copy of this fitness trend (the vectors are duplicated, so that the copy and the original can be modified separately).
+	*/
+	public FTrend copy()
+	{
+		FTrend c = new FTrend();
+		c.fValue = new Vector<>(this.fValue);
+		c.index = new Vector<>(this.index);
+		c.extraInt = this.extraInt;
+		c.extraDouble = this.extraDouble;
+		c.extraValues = (this.extraValues == null) ? null : new Vector<>(this.extraValues);
+		c.together = this.together;
+		c.extraValuesColumns = this.extraValuesColumns;
+		return c;
+	}
 	/**
 	* Get the size of the FTrend object.
 	*/
@@ -663,7 +684,7 @@ public class RunAndStore
 
 	public static String format(double value)
 	{
-        String str = formatter.format(value).toLowerCase();
+        String str = formatter.get().format(value).toLowerCase();
         if (!str.contains("e-"))
             str = str.replace("e", "e+");
         return str;
