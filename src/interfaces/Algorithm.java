@@ -148,7 +148,9 @@ public abstract class Algorithm implements Cloneable
 	 * must never share the same object: each of them works on its own copy, which is created by this method.
 	 * The copy has the same class, ID, parameter setting, correction strategy and initial solution/fitness as the original.
 	 * The following instance fields of the subclasses are duplicated, so that nothing is shared with the original:
-	 * arrays (deeply), fitness trends (FTrend) and other optimisers (Algorithm). Any other object referenced by a field
+	 * arrays (deeply), number/date formatters (java.text.Format), fitness trends (FTrend) and other optimisers (Algorithm).
+	 * After a multi-thread experiment the optimiser that was added to it is left untouched (the runs were performed by copies),
+	 * so getFinalBest() does not return the solution of any of the runs. Any other object referenced by a field
 	 * (e.g. the problem) is shared with the original: if a subclass keeps a different kind of mutable object in a field, it must
 	 * override this method and duplicate that object (calling super.copy() first).
 	 *
@@ -199,6 +201,8 @@ public abstract class Algorithm implements Cloneable
 					Array.set(copy, i, duplicate(Array.get(o, i)));
 			return copy;
 		}
+		if(o instanceof java.text.Format) // e.g. DecimalFormat, which is not thread-safe: many optimisers keep one in a field
+			return ((java.text.Format) o).clone();
 		if(o instanceof FTrend)
 			return ((FTrend) o).copy();
 		if(o instanceof Algorithm)

@@ -92,6 +92,12 @@ public class TestMultiThreadRace
 		}
 	}
 
+	/** Optimiser with a DecimalFormat field, like 25 of the optimisers in the repository (DecimalFormat is not thread-safe). */
+	static class FormatterProbe extends StatefulProbe
+	{
+		java.text.DecimalFormat DF = new java.text.DecimalFormat("0.00000000E00");
+	}
+
 	//-------------------------------------------------------------------------------------------------//
 	/** Outcome of `runs` repetitions executed concurrently. */
 	static class MTOutcome
@@ -167,6 +173,16 @@ public class TestMultiThreadRace
 				wrong + "/" + RUNS + " wrong values, " + out.errors + " runs threw " + out.firstError + (out.timedOut ? ", TIMED OUT" : ""));
 	}
 
+	/** Check 1b: copy() must not share the formatter nor the arrays/trend with the original. */
+	static void checkCopyIsIndependent()
+	{
+		FormatterProbe original = new FormatterProbe();
+		FormatterProbe copy = (FormatterProbe) original.copy();
+		boolean ok = copy != original && copy.DF != original.DF && copy.FT != original.FT
+				&& copy.DF.toPattern().equals(original.DF.toPattern());
+		report("copy(): formatter and fitness trend are not shared with the original", ok, "");
+	}
+
 	/** Check 2: real optimisers. Every run must consume its own budget, whatever the other threads are doing. */
 	static void checkRealAlgorithm(String name, Algorithm algorithm, int dimension, int budgetFactor) throws Exception
 	{
@@ -222,6 +238,7 @@ public class TestMultiThreadRace
 	public static void main(String[] args) throws Exception
 	{
 		checkProbe();
+		checkCopyIsIndependent();
 
 		PMS pms = new PMS();
 		pms.setParameter("p0", 0.95); pms.setParameter("p1", 150.0); pms.setParameter("p2", 0.4);
