@@ -19,5 +19,10 @@ public class BBOB2018 extends Problem
 		setFID(".f"+problemNum);
 	}
 	
-	public double f(double[] x){return bbob18.evaluateFunction(x);}
+	// The static/native state behind this benchmark is not thread-safe: concurrent calls to f() return wrong values
+	// (or even crash the JVM, for native code). In multi-thread experiments evaluations are therefore serialised.
+	// See mains.test.TestMultiThreadProblems.
+	private static final Object LOCK = new Object();
+
+	public double f(double[] x){synchronized(LOCK){return bbob18.evaluateFunction(x);}}
 }

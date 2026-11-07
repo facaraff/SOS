@@ -11,7 +11,17 @@ public class CEC2010_C extends Problem
 	public CEC2010_C(int problem) {super(1000, BenchmarkCEC2010_C.getBounds(problem)); this.problem = problem; setFID(".f"+problem);}
 	public CEC2010_C(int problem, int dim) {this(problem); if (dim!=1000)System.out.println("The dimensionality of the problem was set up euqal to 1000");}
 
+	// The static/native state behind this benchmark is not thread-safe: concurrent calls to f() return wrong values
+	// (or even crash the JVM, for native code). In multi-thread experiments evaluations are therefore serialised.
+	// See mains.test.TestMultiThreadProblems.
+	private static final Object LOCK = new Object();
+
 	public double f(double[] x)
+	{
+		synchronized(LOCK){return evaluate(x);}
+	}
+
+	private double evaluate(double[] x)
 	{
 		switch (problem) {
 			case 1:

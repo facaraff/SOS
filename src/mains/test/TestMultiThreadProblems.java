@@ -9,6 +9,8 @@
  *  For each problem the test computes the fitness of a fixed set of points sequentially (reference), then evaluates the same
  *  points from several threads at once and counts the values that differ from the reference.
  *  Run it as a plain Java application: it prints PASS/FAIL per problem and exits with status 1 if any check fails.
+ *  Pass the argument `native` to include the benchmarks that use JNI libraries (see main()).
+ *  The project's src folder must be on the classpath (it is in Eclipse): CEC2005 data files and the native libraries are loaded as resources.
  */
 package mains.test;
 
@@ -18,7 +20,13 @@ import java.util.Random;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicLong;
 
+import benchmarks.BBOB2010;
+import benchmarks.BBOB2018;
+import benchmarks.CEC2005;
+import benchmarks.CEC2008;
 import benchmarks.CEC2010;
+import benchmarks.CEC2010_C;
+import benchmarks.CEC2013_LSGO;
 import interfaces.Problem;
 
 public class TestMultiThreadProblems
@@ -83,8 +91,25 @@ public class TestMultiThreadProblems
 		int[] rotated = {4, 5, 6, 9, 10, 11, 14, 15, 16};
 		for(int f : rotated)
 			check("CEC2010 f" + f, new CEC2010(f));
-		// plain (not rotated) functions, as a control
+		// plain (not rotated) function, as a control
 		check("CEC2010 f1 (control)", new CEC2010(1));
+
+		// pure Java benchmark with shared static state
+		for(int f : new int[]{10, 15, 20})
+			check("CEC2005 f" + f + " (dim 10)", new CEC2005(10, f));
+
+		// Benchmarks backed by native (JNI) libraries: they keep global state in C, so concurrent calls return wrong values and can
+		// even crash the JVM. They are tested only on request ("java mains.test.TestMultiThreadProblems native") because the native
+		// libraries must be on the classpath (the src folder in Eclipse), otherwise the loader waits forever, and because some of
+		// the wrappers bind to a single function for the whole life of the JVM.
+		if(args.length > 0 && args[0].equals("native"))
+		{
+			check("BBOB2010 f10 (dim 10)", new BBOB2010(10, 10));
+			check("BBOB2018 f10 (dim 10)", new BBOB2018(10, 10));
+			check("CEC2008 f7", new CEC2008(7));
+			check("CEC2010_C f2", new CEC2010_C(2));
+			check("CEC2013_LSGO f1", new CEC2013_LSGO(1));
+		}
 
 		System.out.println(failures == 0 ? "\nALL CHECKS PASSED" : "\n" + failures + " CHECK(S) FAILED");
 		System.exit(failures == 0 ? 0 : 1);

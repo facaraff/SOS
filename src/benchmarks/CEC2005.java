@@ -51,6 +51,11 @@ public class CEC2005 extends Problem
 	/**
 	 * This method returns the fitness function value.
 	 */
-	public double f(double[] x){return cec2005.f(x);}
+	// The static/native state behind this benchmark is not thread-safe: concurrent calls to f() return wrong values
+	// (or even crash the JVM, for native code). In multi-thread experiments evaluations are therefore serialised.
+	// See mains.test.TestMultiThreadProblems.
+	private static final Object LOCK = new Object();
+
+	public double f(double[] x){synchronized(LOCK){return cec2005.f(x);}}
 	
 }
